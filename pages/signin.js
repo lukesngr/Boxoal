@@ -1,4 +1,4 @@
 import UnSignedNav from "../components/UnSignedNav"
-export default function Home() {
+export default function SignIn() {
     return <UnSignedNav />
 }

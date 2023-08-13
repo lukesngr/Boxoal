@@ -1,0 +1,19 @@
+.boxNavbar {
+    background-color: #7FFFD4;
+    padding: 0;
+}
+
+.nav-link {
+    font-size: 23px;
+    font-family: 'Lato', sans-serif;
+}
+
+#signInButton {
+    border: 2px solid black;
+    border-radius: 20px;
+    margin-right: 5px;
+}
+
+.navbar-right {
+    margin-left: 85%;
+}
