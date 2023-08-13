@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Schedule {
+  id         Int    @id @default(autoincrement())
+  name       String
+  boxSize    String
+  endDate    String
+  wakeupTime Int
+  area       Area   @relation(fields: [areaID], references: [id])
+  areaID     Int
+}
+
+model Area {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String
+  timeBox     TimeBox    @relation(fields: [timeBoxID], references: [id])
+  timeBoxID   Int
+  Schedule    Schedule[]
+}
+
+model TimeBox {
+  id                Int             @id @default(autoincrement())
+  title             String
+  description       String
+  startTime         DateTime
+  endTime           DateTime
+  recordedTimeBox   RecordedTimeBox @relation(fields: [recordedTimeBoxID], references: [id])
+  recordedTimeBoxID Int
+  Area              Area[]
+}
+
+model RecordedTimeBox {
+  id                Int       @id @default(autoincrement())
+  recordedStartTime DateTime
+  recordedEndTime   DateTime
+  TimeBox           TimeBox[]
+}
