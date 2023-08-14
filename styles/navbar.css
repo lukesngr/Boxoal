@@ -6,12 +6,24 @@
 .nav-link {
     font-size: 23px;
     font-family: 'Lato', sans-serif;
+    color: black;
 }
 
 #signInButton {
     border: 2px solid black;
     border-radius: 20px;
     margin-right: 5px;
+}
+
+#userButton {
+    border: 2px solid black;
+    border-radius: 20px;
+    margin-right: 5px;
+    padding: 10px;
+}
+
+#userButton p {
+    display: inline;
 }
 
 .navbar-right {

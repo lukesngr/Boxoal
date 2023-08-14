@@ -1,11 +1,16 @@
 import UnSignedNav from "../components/UnSignedNav"
+import SignedInNav from "@/components/SignedInNav";
 import Image from "next/image"
 import "../styles/homecard.css";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
+
+    const {data: session} = useSession();
     return (
     <>
-        <UnSignedNav />
+        {!session && <UnSignedNav /> }
+        {session && <SignedInNav user={session.user}/>}
         <div className="card mx-auto w-25 mt-3" id="homeCard">
             <Image className="card-image-top mx-auto" src="/icon.png" width={300} height={290}></Image>
             <div className="card-body">
