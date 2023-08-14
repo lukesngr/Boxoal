@@ -1,9 +1,9 @@
 import UnSignedNav from "../components/UnSignedNav"
-import SignInWithGithub from "@/components/SignInWithGithub"
+import SignInCard from "../components/SignInCard"
 export default function SignIn() {
     return ( <>
             <UnSignedNav />
-            <SignInWithGithub />
+            <SignInCard />
             </>
     )
 }

@@ -11,12 +11,12 @@ export default function UnSignedNav() {
             <div className="collapse navbar-collapse" id="navbarCollapsibleContent">
                 <ul className="nav navbar-nav me-auto">
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Home</a>
+                        <a className="nav-link" href="/">Home</a>
                     </li>
                 </ul>
                 <ul className="nav navbar-nav pr-1">
                     <li className="nav-item" id="signInButton">
-                        <a className="nav-link" href="#">Sign In</a>
+                        <a className="nav-link" href="/signin">Sign In</a>
                     </li>
                 </ul>
             </div>
