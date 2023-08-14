@@ -8,7 +8,7 @@ export default function UnSignedNav() {
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapsibleContent" aria-controls="navbarCollapsibleContent" aria-expanded="false" aria-label="Collapse content">
                 <span className="navbar-toggler-icon"></span>
             </button>
-            <div className="collapse navbar-collapse" id="navbarCollapsibleContent">
+            <div className="collapse navbar-collapse" id="navbarCollapsibleContent" data-testid="collapsible-content">
                 <ul className="nav navbar-nav me-auto">
                     <li className="nav-item">
                         <a className="nav-link" href="/">Home</a>

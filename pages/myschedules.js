@@ -13,7 +13,7 @@ export default function MySchedules() {
         <>
             <RedirWhenNotAuth redirectSrc="/signin" status={status}>
                 <SignedInNav session={session}></SignedInNav>
-                {data && <NoSchedules />}
+                {data && <NoSchedules session={session}/>}
             </RedirWhenNotAuth>
         </>
     )

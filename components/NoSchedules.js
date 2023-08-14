@@ -1,7 +1,7 @@
 import '../styles/noschedules.css'
 import CreateScheduleModal from './CreateScheduleModal'
 
-export default function NoSchedules() {
+export default function NoSchedules(props) {
     return (
     <>
         <div className="text-center mt-3" id="noSchedulesCard">
@@ -10,6 +10,6 @@ export default function NoSchedules() {
                 Add new schedule
             </button>
         </div>
-        <CreateScheduleModal />
+        <CreateScheduleModal session={props.session}/>
     </>)
 }
