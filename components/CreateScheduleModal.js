@@ -1,3 +1,5 @@
+import CreateScheduleForm from "./CreateScheduleForm";
+
 export default function CreateScheduleModal() {
     return (
         <div className="modal fade" id="createFirstScheduleModal" tabIndex="-1" role="dialog" aria-labelledby="createFirstScheduleModal" aria-hidden="true">
@@ -10,10 +12,7 @@ export default function CreateScheduleModal() {
                         </button>
                     </div>
                     <div className="modal-body">
-                        ...
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-dark">Create</button>
+                        <CreateScheduleForm></CreateScheduleForm>
                     </div>
                 </div>
             </div>

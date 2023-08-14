@@ -1,24 +1,20 @@
 import SignedInNav from "@/components/SignedInNav";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import axios from "axios";
 import NoSchedules from "@/components/NoSchedules";
-import { useEffect } from "react";
+import RedirWhenNotAuth from "@/components/RedirWhenNotAuth";
 
 export default function MySchedules() {
     const {data: session} = useSession();
-    const router = useRouter();
+    const {isLoading, isError, data, error, refetch} = useQuery(["schedules"], () => axios.post("/api/getSchedules", {userEmail: session.user.email}))
 
-    if(!session) {
-        console.log("");
-    }else{
-        const {isLoading, isError, data, error, refetch} = useQuery(["schedules"], () => axios.post("/api/getSchedules", {userEmail: session.user.email}))
-        return (
-            <>
+    return (
+        <>
+            <RedirWhenNotAuth redirectSrc="/signin" session={session}>
                 <SignedInNav user={session.user}></SignedInNav>
                 {data && <NoSchedules />}
-            </>
-        )
-    }
+            </RedirWhenNotAuth>
+        </>
+    )
 }
