@@ -1,12 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
     const data = req.body;
     const prisma = new PrismaClient();
-    const schedules = prisma.schedule.findMany({
-        where: {
-            userEmail: data.userEmail
-        }
+    await prisma.schedule.create({
+        data: data
     })
-    res.status(200).json(schedules)
+    res.status(200)
 }
