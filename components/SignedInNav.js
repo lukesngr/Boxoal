@@ -22,8 +22,8 @@ export default function SignedInNav(props) {
                 </ul>
                 <ul className="nav navbar-nav pr-1">
                     <li className="nav-item" id="userButton">
-                        <img src={props.user.image} width={30} height={30}></img>
-                        <p>{props.user.email}</p>
+                        <img src={props.session.user.image} width={30} height={30}></img>
+                        <p>{props.session.user.email}</p>
                     </li>
                 </ul>
             </div>

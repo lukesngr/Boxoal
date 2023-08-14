@@ -13,7 +13,8 @@ datasource db {
 model Schedule {
   id         Int    @id @default(autoincrement())
   name       String
-  boxSize    String
+  boxSizeNumber Int
+  boxSizeUnit String
   endDate    String
   wakeupTime Int
   area       Area   @relation(fields: [areaID], references: [id])

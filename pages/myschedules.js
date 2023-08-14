@@ -6,13 +6,13 @@ import NoSchedules from "@/components/NoSchedules";
 import RedirWhenNotAuth from "@/components/RedirWhenNotAuth";
 
 export default function MySchedules() {
-    const {data: session} = useSession();
+    const {data: session, status} = useSession();
     const {isLoading, isError, data, error, refetch} = useQuery(["schedules"], () => axios.post("/api/getSchedules", {userEmail: session.user.email}))
 
     return (
         <>
-            <RedirWhenNotAuth redirectSrc="/signin" session={session}>
-                <SignedInNav user={session.user}></SignedInNav>
+            <RedirWhenNotAuth redirectSrc="/signin" status={status}>
+                <SignedInNav session={session}></SignedInNav>
                 {data && <NoSchedules />}
             </RedirWhenNotAuth>
         </>
