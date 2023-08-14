@@ -18,6 +18,7 @@ model Schedule {
   wakeupTime Int
   area       Area   @relation(fields: [areaID], references: [id])
   areaID     Int
+  userEmail  String
 }
 
 model Area {
