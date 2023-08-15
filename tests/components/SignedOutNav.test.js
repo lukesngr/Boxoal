@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import SignedOutNav from '../../components/SignedOutNav';
 import '@testing-library/jest-dom';
 
-describe('UnSignedNav', () => {
+describe('SignedOutNav', () => {
   it('renders logo and navigation links', () => {
     render(<SignedOutNav />);
 
