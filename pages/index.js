@@ -6,11 +6,16 @@ import { useSession } from "next-auth/react";
 
 export default function Home() {
 
-    const {data: session} = useSession();
+    const {data: session, status} = useSession();
+
+    if(status === "loading") {
+        return <p>Loading</p>
+    }
+
     return (
     <>
         {!session && <UnSignedNav /> }
-        {session && <SignedInNav user={session.user}/>}
+        {status === "authenticated" && <SignedInNav session={session}/>}
         <div className="card mx-auto w-25 mt-3" id="homeCard">
             <Image className="card-image-top mx-auto" src="/icon.png" width={300} height={290}></Image>
             <div className="card-body">
