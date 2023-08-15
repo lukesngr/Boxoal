@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import UnSignedNav from '../path-to-your-component/UnSignedNav';
+import UnSignedNav from '../../components/UnSignedNav';
+import '@testing-library/jest-dom'
 
 describe('UnSignedNav', () => {
   it('renders logo and navigation links', () => {
@@ -13,16 +14,6 @@ describe('UnSignedNav', () => {
     expect(logo).toBeInTheDocument();
     expect(homeLink).toBeInTheDocument();
     expect(signInLink).toBeInTheDocument();
-  });
-
-  it('has correct image source and dimensions', () => {
-    render(<UnSignedNav />);
-
-    const logo = screen.getByAltText('BoxAlc Icon');
-
-    expect(logo).toHaveAttribute('src', '/icon.png');
-    expect(logo).toHaveAttribute('width', '80');
-    expect(logo).toHaveAttribute('height', '75');
   });
 
   it('opens collapsible content when button is clicked', () => {

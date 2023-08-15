@@ -4,7 +4,7 @@ import '../styles/navbar.css';
 export default function UnSignedNav() {
     return (
         <nav className="navbar navbar-expand-lg boxNavbar">
-            <Image src="/icon.png" width={80} height={75} alt="BoxAlc Icon" priority></Image>
+            <Image src="/icon.png" width={80} height={75} alt="BoxAlc Icon"></Image>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapsibleContent" aria-controls="navbarCollapsibleContent" aria-expanded="false" aria-label="Collapse content">
                 <span className="navbar-toggler-icon"></span>
             </button>
