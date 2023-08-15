@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import '../styles/navbar.css';
 
-export default function UnSignedNav() {
+export default function SignedOutNav() {
     return (
         <nav className="navbar navbar-expand-lg boxNavbar">
             <Image src="/icon.png" width={80} height={75} alt="BoxAlc Icon"></Image>

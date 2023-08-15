@@ -1,4 +1,4 @@
-import UnSignedNav from "../components/UnSignedNav"
+import UnSignedNav from "../components/SignedOutNav"
 import SignedInNav from "@/components/SignedInNav";
 import Image from "next/image"
 import "../styles/homecard.css";

@@ -1,4 +1,4 @@
-import UnSignedNav from "../components/UnSignedNav"
+import UnSignedNav from "../components/SignedOutNav"
 import SignInCard from "../components/SignInCard"
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";

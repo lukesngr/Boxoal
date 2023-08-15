@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import UnSignedNav from '../../components/UnSignedNav';
-import '@testing-library/jest-dom'
+import SignedOutNav from '../../components/SignedOutNav';
+import '@testing-library/jest-dom';
 
 describe('UnSignedNav', () => {
   it('renders logo and navigation links', () => {
-    render(<UnSignedNav />);
+    render(<SignedOutNav />);
 
     const logo = screen.getByAltText('BoxAlc Icon');
     const homeLink = screen.getByText('Home');
@@ -17,7 +17,9 @@ describe('UnSignedNav', () => {
   });
 
   it('opens collapsible content when button is clicked', () => {
-    render(<UnSignedNav />);
+    render(<SignedOutNav />);
+    global.innerWidth = 800;
+    global.dispatchEvent(new Event('resize'));
 
     const button = screen.getByLabelText('Collapse content');
     const collapsibleContent = screen.getByTestId('collapsible-content');
