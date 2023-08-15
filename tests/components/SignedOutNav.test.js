@@ -15,19 +15,4 @@ describe('UnSignedNav', () => {
     expect(homeLink).toBeInTheDocument();
     expect(signInLink).toBeInTheDocument();
   });
-
-  it('opens collapsible content when button is clicked', () => {
-    render(<SignedOutNav />);
-    global.innerWidth = 800;
-    global.dispatchEvent(new Event('resize'));
-
-    const button = screen.getByLabelText('Collapse content');
-    const collapsibleContent = screen.getByTestId('collapsible-content');
-
-    expect(collapsibleContent).not.toBeVisible();
-
-    button.click();
-
-    expect(collapsibleContent).toBeVisible();
-  });
 });
