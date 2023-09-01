@@ -5,7 +5,8 @@ export default function CreateScheduleForm() {
     const [boxSizeNumber, setBoxSizeNumber] = useState(0);
     const [boxSizeUnit, setBoxSizeUnit] = useState("min");
     const [endDate, setEndDate] = useState("");
-    const [wakeupTime, setWakeupTime] = useState("7:30");
+    const [endDateType, setEndDateType] = useState("");
+    const [wakeupTime, setWakeupTime] = useState("07:30");
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -21,7 +22,12 @@ export default function CreateScheduleForm() {
                 <option value="hr">Hour</option>
             </select><br />
             <label>End Date: </label>
-            <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required></input><br />
+            <select value={endDateType} onChange={(e) => setEndDateType(e.target.value)}>
+                <option value={true}>None</option>
+                <option value={false}>Choose</option>
+            </select>
+            {endDateType && <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required></input>}
+            <br />
             <label>Average Wakeup Time: </label>
             <input type="time" value={wakeupTime} onChange={(e) => setWakeupTime(e.target.value)} required></input> <br />
             <button type="submit">Create</button>

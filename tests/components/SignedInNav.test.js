@@ -3,11 +3,13 @@ import { render, screen } from '@testing-library/react';
 import SignedInNav from '../../components/SignedInNav';
 import '@testing-library/jest-dom';
 
+jest.mock('next/image', React.createElement('img', props))
+
 describe('SignedInNav', () => {
   test('displays user image', () => {
     const userImageSrc = 'user-image-url.jpg'; // Replace with a sample image URL
-    const { getByRole } = render(<SignedInNav session={{ user: { image: userImageSrc } }} />);
-    const userImage = getByRole('img');
+    render(<SignedInNav session={{ user: { image: userImageSrc } }} />);
+    const userImage = screen.getByAltText('User Image');
     expect(userImage).toBeInTheDocument();
     expect(userImage).toHaveAttribute('src', userImageSrc);
     expect(userImage).toHaveAttribute('width', '30');
@@ -17,7 +19,7 @@ describe('SignedInNav', () => {
   test('displays user email', () => {
     const userEmail = 'test@example.com'; // Replace with a sample email
     const { getByText } = render(<SignedInNav session={{ user: { email: userEmail } }} />);
-    const emailElement = getByText(userEmail);
+    const emailElement = screen.getByText(userEmail);
     expect(emailElement).toBeInTheDocument();
   });
 });
