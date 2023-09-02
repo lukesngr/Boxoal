@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { SessionContext } from "@/pages/myschedules";
+import axios from "axios";
 
 
 export default function CreateScheduleForm() {
@@ -8,9 +10,20 @@ export default function CreateScheduleForm() {
     const [endDate, setEndDate] = useState("");
     const [endDateType, setEndDateType] = useState(false);
     const [wakeupTime, setWakeupTime] = useState("07:30");
+    const userEmail = useContext(SessionContext).user.email;
 
     function handleSubmit(event) {
         event.preventDefault();
+        axios.post('/api/createSchedule', {
+            name,
+            boxSizeNumber: parseInt(boxSizeNumber),
+            boxSizeUnit,
+            endDate,
+            wakeupTime,
+            userEmail, 
+        }).catch(function(error) {
+            console.log(error);
+        })
     }
     return (
         <form onSubmit={handleSubmit}>
@@ -27,7 +40,7 @@ export default function CreateScheduleForm() {
                 <option value={"none"}>None</option>
                 <option value={"initial"}>Choose</option>
             </select>
-            <input type="date" style={{display: endDateType} }value={endDate} onChange={(e) => setEndDate(e.target.value)} required></input>
+            <input type="date" style={{display: endDateType}} value={endDate} onChange={(e) => setEndDate(e.target.value)} required></input>
             <br />
             <label>Average Wakeup Time: </label>
             <input type="time" value={wakeupTime} onChange={(e) => setWakeupTime(e.target.value)} required></input> <br />

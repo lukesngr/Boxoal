@@ -4,16 +4,23 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import NoSchedules from "@/components/NoSchedules";
 import RedirWhenNotAuth from "@/components/RedirWhenNotAuth";
+import { createContext } from "react";
+
+export const SessionContext = createContext();
 
 function MySchedulesSeperatedForFunctionality(props) {
     
     const {isLoading, isError, data, error, refetch} = useQuery(["schedules"], () => axios.post("/api/getSchedules", {userEmail: props.session.user.email}))
+    
+    console.log(data);
 
     return (
         <>
             <RedirWhenNotAuth redirectSrc="/signin" status={props.status}>
                 <SignedInNav session={props.session}></SignedInNav>
-                {data && <NoSchedules session={props.session}/>}
+                <SessionContext.Provider value={props.session}>
+                    {data && !data.data && <NoSchedules session={props.session}/>}
+                </SessionContext.Provider>
             </RedirWhenNotAuth>
         </>
     )
