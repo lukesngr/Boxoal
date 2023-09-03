@@ -2,6 +2,7 @@ import '../styles/schedulessidebar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGear, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import CreateScheduleModal from './CreateScheduleModal';
+import CreateAreaModal from './CreateAreaModal';
 import { useState } from 'react';
 
 export default function SchedulesSidebar(props) {
@@ -20,10 +21,10 @@ export default function SchedulesSidebar(props) {
             {isAddAreaVisible && <FontAwesomeIcon onClick={toggleAddAreaButton} className='scheduleButton' icon={faChevronUp}/> }
             <FontAwesomeIcon className='scheduleButton' icon={faGear} />
             {isAddAreaVisible && <>
-                <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createFirstScheduleModal">
+                <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createAreaModal">
                     Add area 
                 </button>
-                <CreateScheduleModal/>
+                <CreateAreaModal id={schedule.id}/>
             </>}
         </p>))}
         <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createFirstScheduleModal">
