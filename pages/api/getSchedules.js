@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         select: {
             id: true,
             name: true,
-            area: {
+            areas: {
                 select: {
                     id: true,
                     name: true,

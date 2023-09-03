@@ -13,7 +13,7 @@
 
 .schedule {
     font-size: 17px;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Roboto', sans-serif;
     color: black;
     border-bottom: 1px black solid;
     padding: 5px 10px 5px 10px;
@@ -35,9 +35,17 @@
     color: black;
     background-color: #CAFBE8;
     font-size: 17px;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Roboto', sans-serif;
     text-align: left;
     width: 100%;
     border-radius: 0;
     border: 0;
+}
+
+.areaButton {
+    border-top: 1px black solid;
+    padding: 5px 10px 5px 10px;
+    width: calc(100% + 20px);
+    margin-left: -10px;
+    text-align: center;
 }

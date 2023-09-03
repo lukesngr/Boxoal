@@ -11,24 +11,24 @@ datasource db {
 }
 
 model Schedule {
-  id         Int    @id @default(autoincrement())
-  name       String
+  id            Int    @id @default(autoincrement())
+  name          String
   boxSizeNumber Int
-  boxSizeUnit String
-  endDate    String
-  wakeupTime String
-  area       Area?   @relation(fields: [areaID], references: [id])
-  areaID     Int?
-  userEmail  String
+  boxSizeUnit   String
+  endDate       String
+  wakeupTime    String
+  userEmail     String
+  areas          Area[]
 }
 
 model Area {
-  id          Int        @id @default(autoincrement())
-  title       String
+  id          Int      @id @default(autoincrement())
+  name        String
   description String
-  timeBox     TimeBox    @relation(fields: [timeBoxID], references: [id])
-  timeBoxID   Int
-  Schedule    Schedule[]
+  timeBox     TimeBox? @relation(fields: [timeBoxID], references: [id])
+  timeBoxID   Int?
+  schedule    Schedule @relation(fields: [scheduleID], references: [id])
+  scheduleID  Int
 }
 
 model TimeBox {

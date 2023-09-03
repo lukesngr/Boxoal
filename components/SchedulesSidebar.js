@@ -14,19 +14,20 @@ export default function SchedulesSidebar(props) {
 
     return (
     <div id="schedulesSidebar">
-        <h1 class="sidebarHeading">My Schedules</h1>
-        {props.data.data.map(schedule => (<p class="schedule">
+        <h1 className="sidebarHeading">My Schedules</h1>
+        {props.data.data.map(schedule => (<div key={schedule.id} className="schedule">
             {schedule.name} 
             {!isAddAreaVisible && <FontAwesomeIcon onClick={toggleAddAreaButton} className='scheduleButton' icon={faChevronDown}/> }
             {isAddAreaVisible && <FontAwesomeIcon onClick={toggleAddAreaButton} className='scheduleButton' icon={faChevronUp}/> }
             <FontAwesomeIcon className='scheduleButton' icon={faGear} />
+            {isAddAreaVisible && schedule.areas.map(area => (<div key={area.id} className="areaButton">{area.name}</div>))}
             {isAddAreaVisible && <>
                 <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createAreaModal">
                     Add area 
                 </button>
                 <CreateAreaModal id={schedule.id}/>
             </>}
-        </p>))}
+        </div>))}
         <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createFirstScheduleModal">
             Add schedule 
         </button>

@@ -11,7 +11,7 @@ export default function CreateAreaForm(props) {
         axios.post('/api/createArea', {
             name,
             description,
-            Schedule: {
+            schedule: {
                 connect: {id: props.id}
             } 
         }).catch(function(error) {
