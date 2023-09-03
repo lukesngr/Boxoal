@@ -16,9 +16,9 @@ model Schedule {
   boxSizeNumber Int
   boxSizeUnit String
   endDate    String
-  wakeupTime Int
-  area       Area   @relation(fields: [areaID], references: [id])
-  areaID     Int
+  wakeupTime String
+  area       Area?   @relation(fields: [areaID], references: [id])
+  areaID     Int?
   userEmail  String
 }
 

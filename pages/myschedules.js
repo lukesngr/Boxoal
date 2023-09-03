@@ -5,6 +5,7 @@ import axios from "axios";
 import NoSchedules from "@/components/NoSchedules";
 import RedirWhenNotAuth from "@/components/RedirWhenNotAuth";
 import { createContext } from "react";
+import SchedulesView from "@/components/SchedulesView";
 
 export const SessionContext = createContext();
 
@@ -20,6 +21,7 @@ function MySchedulesSeperatedForFunctionality(props) {
                 <SignedInNav session={props.session}></SignedInNav>
                 <SessionContext.Provider value={props.session}>
                     {data && !data.data && <NoSchedules session={props.session}/>}
+                    {data && data.data && <SchedulesView data={data}></SchedulesView>}
                 </SessionContext.Provider>
             </RedirWhenNotAuth>
         </>

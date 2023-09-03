@@ -1,0 +1,20 @@
+#schedulesSidebar {
+    background-color: #7FFFD4;
+    height: 100%;
+}
+
+.sidebarHeading {
+    font-size: 20px;
+    font-family: 'Lato', sans-serif;
+    color: black;
+    border-bottom: 1px black solid;
+    padding: 5px 10px 5px 10px;
+}
+
+.schedule {
+    font-size: 17px;
+    font-family: 'Lato', sans-serif;
+    color: black;
+    border-bottom: 1px black solid;
+    padding: 5px 10px 5px 10px;
+}
