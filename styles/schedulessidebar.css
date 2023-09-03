@@ -17,9 +17,27 @@
     color: black;
     border-bottom: 1px black solid;
     padding: 5px 10px 5px 10px;
+    margin-bottom: 0px;
+}
+
+.schedule .createButton {
+    margin: 0px -10px -5px -10px;
+    width: calc(100% + 20px);
+    border-top: 1px solid black;
 }
 
 .scheduleButton {
     height: 2vh;
     float: right;
+}
+
+.createButton {
+    color: black;
+    background-color: #CAFBE8;
+    font-size: 17px;
+    font-family: 'Lato', sans-serif;
+    text-align: left;
+    width: 100%;
+    border-radius: 0;
+    border: 0;
 }
