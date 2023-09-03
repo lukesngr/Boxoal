@@ -5,7 +5,18 @@ export default async function handler(req, res) {
     const prisma = new PrismaClient();
     const schedules = await prisma.schedule.findMany({
         where: {
-            userEmail: data.userEmail
+            userEmail: data.userEmail,
+        },
+        select: {
+            id: true,
+            name: true,
+            area: {
+                select: {
+                    id: true,
+                    name: true,
+                    description: true
+                }
+            }
         }
     })
     console.log(schedules)
