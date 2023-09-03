@@ -6,10 +6,11 @@ export default function SchedulesSidebar(props) {
     return (
     <div id="schedulesSidebar">
         <h1 class="sidebarHeading">My Schedules</h1>
-        {props.data.data.map(schedule => (<p class="schedule">
-            {schedule.name} 
-            <FontAwesomeIcon icon={faGear} height="2vh" />
-            <FontAwesomeIcon icon={faChevronDown} height="2vh" />
-        </p>))}
+            {props.data.data.map(schedule => (<p class="schedule">
+                {schedule.name} 
+                <FontAwesomeIcon className='scheduleButton' icon={faChevronDown}/>
+                <FontAwesomeIcon className='scheduleButton' icon={faGear} />
+            </p>))}
+        <
     </div>)
 }
