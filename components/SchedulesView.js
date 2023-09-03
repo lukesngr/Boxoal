@@ -1,5 +1,6 @@
 import SchedulesSidebar from "./SchedulesSidebar";
 import '../styles/viewschedules.css';
+import TimeBoxes from "./TimeBoxes";
 
 function SchedulesView(props) {
     return (
@@ -9,6 +10,7 @@ function SchedulesView(props) {
                     <SchedulesSidebar data={props.data}></SchedulesSidebar>
                 </div>
                 <div className="col-10">
+                    <TimeBoxes data={props.data}></TimeBoxes>
                 </div>
             </div>
         </div>
