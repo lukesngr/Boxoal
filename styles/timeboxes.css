@@ -3,3 +3,13 @@
     font-family: 'Lato', sans-serif;
     font-size: 28px;
 }
+
+.timeboxesGrid .col-1 {
+    border: 3px solid #7FFFD4;
+    font-family: 'Lato', sans-serif;
+    font-size: 19px;
+}
+
+.timeboxesGrid .col-1:nth-child(2) {
+    border: none;
+}
