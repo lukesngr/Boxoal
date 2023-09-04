@@ -1,6 +1,6 @@
 import '../styles/timeboxes.css';
 
-export default function TimeBoxes() {
+export default function TimeBoxes(props) {
     
     const dateObject = new Date();
     let month = dateObject.getMonth();
@@ -19,6 +19,48 @@ export default function TimeBoxes() {
         let currentDate = (currentDay - day)+date;
         dateToDay.set(currentDay, currentDate);
     }
+
+    console.log(props.data);
+
+    let listOfTimes = []
+    let wakeUpTimeSeperated = props.data.data[0].wakeupTime.split(":").map(function(num) { return parseInt(num); });
+    if(data[0].boxSizeUnit == "min") { 
+        let currentHour = wakeUpTimeSeperated[0];
+        let currentMinute = wakeUpTimeSeperated[1];
+        
+        while(currentHour < 25 && currentMinute < 60) {
+            if(currentMinute < 10) {
+                listOfTimes.push(currentHour+":0"+currentMinute);
+            }else{
+                listOfTimes.push(currentHour+":"+currentMinute);
+            }
+            
+            currentMinute += data[0].boxSizeNumber;
+            if(currentMinute >= 60) {
+                currentHour++;
+                currentMinute -= 60;
+            }
+        }
+
+        currentHour = 0;
+        currentMinute = 0;
+
+        while(currentHour < wakeUpTimeSeperated[0] | currentMinute < wakeUpTimeSeperated[1]) {
+            if(currentMinute < 10) {
+                listOfTimes.push(currentHour+":0"+currentMinute);
+            }else{
+                listOfTimes.push(currentHour+":"+currentMinute);
+            }
+            
+            currentMinute += data[0].boxSizeNumber;
+            if(currentMinute >= 60) {
+                currentHour++;
+                currentMinute -= 60;
+            }
+        }
+    }
+
+    console.log(listOfTimes)
 
     return (
     <>
@@ -51,6 +93,18 @@ export default function TimeBoxes() {
                     Sat {"("+dateToDay.get(6)+"/"+month+")"}
                 </div>
             </div>
+            {listOfTimes.map(time => (
+                <div className="row">
+                    <div className="col-2"></div>
+                    <div className="col-1">{time}</div>
+                    <div className="col-1"></div>
+                    <div className="col-1"></div>
+                    <div className="col-1"></div>
+                    <div className="col-1"></div>
+                    <div className="col-1"></div>
+                    <div className="col-1"></div>
+                    <div className="col-1"></div>
+                </div>))}
         </div>
     </>
     )

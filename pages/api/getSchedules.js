@@ -10,6 +10,9 @@ export default async function handler(req, res) {
         select: {
             id: true,
             name: true,
+            boxSizeNumber: true,
+            boxSizeUnit: true, 
+            wakeupTime: true,
             areas: {
                 select: {
                     id: true,
