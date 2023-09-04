@@ -24,7 +24,7 @@ export default function TimeBoxes(props) {
 
     let listOfTimes = []
     let wakeUpTimeSeperated = props.data.data[0].wakeupTime.split(":").map(function(num) { return parseInt(num); });
-    if(data[0].boxSizeUnit == "min") { 
+    if(props.data.data[0].boxSizeUnit == "min") { 
         let currentHour = wakeUpTimeSeperated[0];
         let currentMinute = wakeUpTimeSeperated[1];
         
@@ -35,7 +35,7 @@ export default function TimeBoxes(props) {
                 listOfTimes.push(currentHour+":"+currentMinute);
             }
             
-            currentMinute += data[0].boxSizeNumber;
+            currentMinute += props.data.data[0].boxSizeNumber;
             if(currentMinute >= 60) {
                 currentHour++;
                 currentMinute -= 60;
@@ -52,7 +52,7 @@ export default function TimeBoxes(props) {
                 listOfTimes.push(currentHour+":"+currentMinute);
             }
             
-            currentMinute += data[0].boxSizeNumber;
+            currentMinute += props.data.data[0].boxSizeNumber;
             if(currentMinute >= 60) {
                 currentHour++;
                 currentMinute -= 60;
