@@ -11,7 +11,7 @@ export default function SignedInNav(props) {
             <div className="collapse navbar-collapse" id="navbarCollapsibleContent">
                 <ul className="nav navbar-nav me-auto">
                     <li className="nav-item">
-                        <a className="nav-link" href="/myschedules">My Schedules</a>
+                        <a className="nav-link" href="/myschedules">Timeboxes</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="/view">View</a>

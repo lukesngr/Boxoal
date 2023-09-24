@@ -1,4 +1,5 @@
 import '../styles/timeboxes.css';
+import TimeBox from './Timebox';
 
 export default function TimeBoxes(props) {
     
@@ -19,8 +20,6 @@ export default function TimeBoxes(props) {
         let currentDate = (currentDay - day)+date;
         dateToDay.set(currentDay, currentDate);
     }
-
-    console.log(props.data);
 
     let listOfTimes = []
     let wakeUpTimeSeperated = props.data.data[0].wakeupTime.split(":").map(function(num) { return parseInt(num); });
@@ -60,8 +59,6 @@ export default function TimeBoxes(props) {
         }
     }
 
-    console.log(listOfTimes)
-
     return (
     <>
         <h1 class="viewHeading">This Week</h1>
@@ -97,13 +94,13 @@ export default function TimeBoxes(props) {
                 <div className="row">
                     <div className="col-2"></div>
                     <div className="col-1">{time}</div>
-                    <div className="col-1"></div>
-                    <div className="col-1"></div>
-                    <div className="col-1"></div>
-                    <div className="col-1"></div>
-                    <div className="col-1"></div>
-                    <div className="col-1"></div>
-                    <div className="col-1"></div>
+                    <TimeBox></TimeBox>
+                    <TimeBox></TimeBox>
+                    <TimeBox></TimeBox>
+                    <TimeBox></TimeBox>
+                    <TimeBox></TimeBox>
+                    <TimeBox></TimeBox>
+                    <TimeBox></TimeBox>
                 </div>))}
         </div>
     </>
