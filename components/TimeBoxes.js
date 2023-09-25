@@ -94,13 +94,13 @@ export default function TimeBoxes(props) {
                 <div className="row">
                     <div className="col-2"></div>
                     <div className="col-1">{time}</div>
-                    <TimeBox></TimeBox>
-                    <TimeBox></TimeBox>
-                    <TimeBox></TimeBox>
-                    <TimeBox></TimeBox>
-                    <TimeBox></TimeBox>
-                    <TimeBox></TimeBox>
-                    <TimeBox></TimeBox>
+                    <TimeBox time={time} day="mon"></TimeBox>
+                    <TimeBox time={time} day="tue"></TimeBox>
+                    <TimeBox time={time} day="wed"></TimeBox>
+                    <TimeBox time={time} day="thu"></TimeBox>
+                    <TimeBox time={time} day="fri"></TimeBox>
+                    <TimeBox time={time} day="sat"></TimeBox>
+                    <TimeBox time={time} day="sun"></TimeBox>
                 </div>))}
         </div>
     </>

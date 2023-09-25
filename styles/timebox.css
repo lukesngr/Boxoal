@@ -15,7 +15,7 @@
 
 .timeBox:hover .addBoxButton {
     display: block;
-    background-color: #00E3DD;
+    background-color: #7FFFD4;
     border: 0;
     border-radius: 0;
 }
