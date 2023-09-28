@@ -1,3 +1,5 @@
+@use 'theme';
+
 .viewHeading {
     text-align: center;
     font-family: 'Lato', sans-serif;
@@ -5,7 +7,7 @@
 }
 
 .timeboxesGrid .col-1 {
-    border: 3px solid #7FFFD4;
+    border: 3px solid #374B43;
     font-family: 'Lato', sans-serif;
     font-size: 19px;
 }

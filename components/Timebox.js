@@ -1,6 +1,6 @@
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import '../styles/timebox.css';
+import '../styles/timebox.scss';
 
 export default function TimeBox(props) {
 

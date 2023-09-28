@@ -1,5 +1,7 @@
+@use 'theme';
+
 .boxNavbar {
-    background-color: #7FFFD4;
+    background-color: theme.$base-color;
     padding: 0;
 }
 

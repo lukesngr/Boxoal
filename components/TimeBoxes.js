@@ -1,5 +1,5 @@
 import { getDayNumbers } from '@/modules/dateLogic';
-import '../styles/timeboxes.css';
+import '../styles/timeboxes.scss';
 import TimeBox from './Timebox';
 
 export default function TimeBoxes(props) {

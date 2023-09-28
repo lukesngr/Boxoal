@@ -1,5 +1,5 @@
 import SchedulesSidebar from "./SchedulesSidebar";
-import '../styles/viewschedules.css';
+import '../styles/viewschedules.scss';
 import TimeBoxes from "./TimeBoxes";
 
 function SchedulesView(props) {

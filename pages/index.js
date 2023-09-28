@@ -1,7 +1,7 @@
 import UnSignedNav from "../components/SignedOutNav"
 import SignedInNav from "@/components/SignedInNav";
 import Image from "next/image"
-import "../styles/homecard.css";
+import "../styles/homecard.scss";
 import { useSession } from "next-auth/react";
 
 export default function Home() {

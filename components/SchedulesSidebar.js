@@ -1,4 +1,4 @@
-import '../styles/schedulessidebar.css';
+import '../styles/schedulessidebar.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGear, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import CreateScheduleModal from './CreateScheduleModal';

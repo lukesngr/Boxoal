@@ -59,4 +59,6 @@ export function returnTimesSeperatedForSchedule(schedule) {
             }
         }
     }
+
+    return wakeUpTimeSeperated;
 }

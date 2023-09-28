@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import '../styles/navbar.css';
+import '../styles/navbar.scss';
 
 export default function SignedOutNav() {
     return (

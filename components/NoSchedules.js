@@ -1,4 +1,4 @@
-import '../styles/noschedules.css'
+import '../styles/noschedules.scss'
 import CreateScheduleModal from './CreateScheduleModal'
 
 export default function NoSchedules() {

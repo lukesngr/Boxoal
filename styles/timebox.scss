@@ -1,3 +1,5 @@
+@use 'theme';
+
 .timeBox .addBoxButton {
     display: none;
 }
@@ -15,7 +17,7 @@
 
 .timeBox:hover .addBoxButton {
     display: block;
-    background-color: #7FFFD4;
+    background-color: theme.$base-color;
     border: 0;
     border-radius: 0;
 }

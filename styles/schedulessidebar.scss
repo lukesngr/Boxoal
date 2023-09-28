@@ -1,5 +1,7 @@
+@use 'theme';
+
 #schedulesSidebar {
-    background-color: #7FFFD4;
+    background-color: theme.$base-color;
     height: 100%;
 }
 
