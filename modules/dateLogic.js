@@ -3,7 +3,8 @@ export function getDayNumbers() {
     let month = dateObject.getMonth();
     let day = dateObject.getDay();
     let date = dateObject.getDate();
-    let dateToDay = new Map();
+    let dateToDay = [0, 1, 2, 3, 4, 5, 6];
+    const listOfDays = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
     let simpleArray = [0, 1, 2, 3, 4, 5, 6];
 
     let everythingInFrontOfCurrentDay = simpleArray.splice(simpleArray.indexOf(day)+1, simpleArray.length-1);
@@ -13,7 +14,7 @@ export function getDayNumbers() {
     while(dayStack.length > 0) {
         currentDay = dayStack.pop();
         let currentDate = (currentDay - day)+date;
-        dateToDay.set(currentDay, currentDate);
+        dateToDay[currentDay] = currentDate;
     }
 
     return {month, dateToDay};
@@ -60,5 +61,5 @@ export function returnTimesSeperatedForSchedule(schedule) {
         }
     }
 
-    return wakeUpTimeSeperated;
+    return listOfTimes;
 }

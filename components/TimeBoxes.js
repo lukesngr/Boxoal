@@ -1,48 +1,16 @@
-import { getDayNumbers } from '@/modules/dateLogic';
+import { getDayNumbers, returnTimesSeperatedForSchedule } from '@/modules/dateLogic';
 import '../styles/timeboxes.scss';
 import TimeBox from './Timebox';
 
 export default function TimeBoxes(props) {
+
+    const dateObject = new Date();
+    let currentDay = dateObject.getDay();
     
     const {month, dateToDay} = getDayNumbers();
 
-    let listOfTimes = []
-    let wakeUpTimeSeperated = props.data.data[0].wakeupTime.split(":").map(function(num) { return parseInt(num); });
-    if(props.data.data[0].boxSizeUnit == "min") { 
-        let currentHour = wakeUpTimeSeperated[0];
-        let currentMinute = wakeUpTimeSeperated[1];
-        
-        while(currentHour < 25 && currentMinute < 60) {
-            if(currentMinute < 10) {
-                listOfTimes.push(currentHour+":0"+currentMinute);
-            }else{
-                listOfTimes.push(currentHour+":"+currentMinute);
-            }
-            
-            currentMinute += props.data.data[0].boxSizeNumber;
-            if(currentMinute >= 60) {
-                currentHour++;
-                currentMinute -= 60;
-            }
-        }
-
-        currentHour = 0;
-        currentMinute = 0;
-
-        while(currentHour < wakeUpTimeSeperated[0] | currentMinute < wakeUpTimeSeperated[1]) {
-            if(currentMinute < 10) {
-                listOfTimes.push(currentHour+":0"+currentMinute);
-            }else{
-                listOfTimes.push(currentHour+":"+currentMinute);
-            }
-            
-            currentMinute += props.data.data[0].boxSizeNumber;
-            if(currentMinute >= 60) {
-                currentHour++;
-                currentMinute -= 60;
-            }
-        }
-    }
+    const listOfTimes = returnTimesSeperatedForSchedule(props.data.data[0]);
+    
 
     return (
     <>
@@ -53,8 +21,11 @@ export default function TimeBoxes(props) {
                 </div>
                 <div className="col-1">
                 </div>
+                {dateToDay.map(time => (
+
+                ))}
                 <div className="col-1">
-                    Sun {"("+dateToDay.get(0)+"/"+month+")"}
+                    Sun {"("+dateToDay[0]+"/"+month+")"}
                 </div>
                 <div className="col-1">
                     Mon {"("+dateToDay.get(1)+"/"+month+")"}
