@@ -10,6 +10,6 @@ export default function TimeBox(props) {
 
     return (
     <div className="col-1 timeBox">
-        <button onClick={addTimeBox} className="btn btn-dark addBoxButton"><FontAwesomeIcon height={25} width={25} icon={faCirclePlus}/></button>
+        {props.active && <button onClick={addTimeBox} className="btn btn-dark addBoxButton"><FontAwesomeIcon height={25} width={25} icon={faCirclePlus}/></button>}
     </div>)
 }

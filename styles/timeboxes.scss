@@ -12,6 +12,12 @@
     font-size: 19px;
 }
 
+.currentDay {
+    border: 3px solid black !important;
+    background-color: black;
+    color: white;
+}
+
 .timeboxesGrid .row:first-child .col-1:nth-child(2) {
     border: none;
 }
