@@ -2,10 +2,18 @@ import { getDayNumbers, returnTimesSeperatedForSchedule } from '@/modules/dateLo
 import '../styles/timeboxes.scss';
 import TimeBox from './Timebox';
 
-export default function TimeBoxes(props) {
-
+function ifNumberIsCurrentDay(number, identifier) {
     const dateObject = new Date();
     let currentDay = dateObject.getDay();
+    if(number == currentDay) {
+        return identifier;
+    }
+    return "";
+}
+
+export default function TimeBoxes(props) {
+
+    
     
     const {month, dateToDay} = getDayNumbers();
 
@@ -21,30 +29,11 @@ export default function TimeBoxes(props) {
                 </div>
                 <div className="col-1">
                 </div>
-                {dateToDay.map(time => (
-
+                {dateToDay.map((date, index) => (
+                        <div className={'col-1 '+ifNumberIsCurrentDay(index, 'currentDay')}>
+                            {date.name+" ("+date.date+"/"+month+")"}
+                        </div>
                 ))}
-                <div className="col-1">
-                    Sun {"("+dateToDay[0]+"/"+month+")"}
-                </div>
-                <div className="col-1">
-                    Mon {"("+dateToDay.get(1)+"/"+month+")"}
-                </div>
-                <div className="col-1">
-                    Tue {"("+dateToDay.get(2)+"/"+month+")"}
-                </div>
-                <div className="col-1">
-                    Wed {"("+dateToDay.get(3)+"/"+month+")"}
-                </div>
-                <div className="col-1">
-                    Thur {"("+dateToDay.get(4)+"/"+month+")"}
-                </div>
-                <div className="col-1">
-                    Fri {"("+dateToDay.get(5)+"/"+month+")"}
-                </div>
-                <div className="col-1">
-                    Sat {"("+dateToDay.get(6)+"/"+month+")"}
-                </div>
             </div>
             {listOfTimes.map(time => (
                 <div className="row">

@@ -3,8 +3,7 @@ export function getDayNumbers() {
     let month = dateObject.getMonth();
     let day = dateObject.getDay();
     let date = dateObject.getDate();
-    let dateToDay = [0, 1, 2, 3, 4, 5, 6];
-    const listOfDays = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+    let dateToDay = [{date: 0, name: "Sun"}, {date: 1, name: "Mon"}, {date: 2, name: "Tue"}, {date: 3, name: "Wed"}, {date: 4, name: "Thur"},  {date: 5, name: "Fri"},  {date: 6, name: "Sat"}];
     let simpleArray = [0, 1, 2, 3, 4, 5, 6];
 
     let everythingInFrontOfCurrentDay = simpleArray.splice(simpleArray.indexOf(day)+1, simpleArray.length-1);
@@ -14,7 +13,7 @@ export function getDayNumbers() {
     while(dayStack.length > 0) {
         currentDay = dayStack.pop();
         let currentDate = (currentDay - day)+date;
-        dateToDay[currentDay] = currentDate;
+        dateToDay[currentDay].date = currentDate;
     }
 
     return {month, dateToDay};
