@@ -11,6 +11,15 @@ function ifNumberIsCurrentDay(number, returnIfTrue, returnIfFalse) {
     return returnIfFalse;
 }
 
+function ifNumberIsEqualOrBeyondCurrentDay(number, returnIfTrue, returnIfFalse) {
+    const dateObject = new Date();
+    let currentDay = dateObject.getDay();
+    if(number >= currentDay) {
+        return returnIfTrue;
+    }
+    return returnIfFalse;
+}
+
 export default function TimeBoxes(props) {
 
     const {month, dateToDay} = getDayNumbers();
@@ -36,7 +45,7 @@ export default function TimeBoxes(props) {
                     <div className="col-2"></div>
                     <div className="col-1">{time}</div>
                     {dateToDay.map((date, index) => (
-                        <TimeBox active={ifNumberIsCurrentDay(index, true, false)} time={time} day={date.name}></TimeBox>
+                        <TimeBox active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)} time={time} day={date.name}></TimeBox>
                     ))}
                 </div>))}
         </div>

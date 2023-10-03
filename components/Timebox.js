@@ -9,7 +9,7 @@ export default function TimeBox(props) {
     }
 
     return (
-    <div className="col-1 timeBox">
+    <div className={props.active ? 'col-1 timeBox' : 'col-1 inactiveTimebox'}>
         {props.active && <button onClick={addTimeBox} className="btn btn-dark addBoxButton"><FontAwesomeIcon height={25} width={25} icon={faCirclePlus}/></button>}
     </div>)
 }
