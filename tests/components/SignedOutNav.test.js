@@ -3,9 +3,15 @@ import { render, screen } from '@testing-library/react';
 import SignedOutNav from '../../components/SignedOutNav';
 import '@testing-library/jest-dom';
 
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: (props) => {
+    return <img {...props} />
+  },
+}))
+
 describe('SignedOutNav', () => {
   it('renders logo and navigation links', () => {
-    jest.mock('next/image', (props) => React.createElement('img', props))
     render(<SignedOutNav />);
 
     const logo = screen.getByAltText('BoxAlc Icon');

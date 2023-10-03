@@ -3,7 +3,12 @@ import { render, screen } from '@testing-library/react';
 import SignedInNav from '../../components/SignedInNav';
 import '@testing-library/jest-dom';
 
-jest.mock('next/image', React.createElement('img', props))
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: (props) => {
+    return <img {...props} />
+  },
+}))
 
 describe('SignedInNav', () => {
   test('displays user image', () => {
