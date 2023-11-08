@@ -1,3 +1,15 @@
 import { createContext, useState } from "react";
-const [selectedSchedule, setSelectedSchedule] = useState(null);
-let ScheduleContext = createContext();
+
+const ScheduleContext = createContext();
+
+function ScheduleContextProvider({ children }) {
+    const [selectedSchedule, setSelectedSchedule] = useState("0");
+    
+    return (
+      <ScheduleContext.Provider value={{ selectedSchedule, setSelectedSchedule }}>
+        {children}
+      </ScheduleContext.Provider>
+    );
+};
+
+export { ScheduleContext, ScheduleContextProvider };

@@ -1,5 +1,5 @@
 import { signIn } from "next-auth/react";
-import '../styles/signin.css'
+import '../styles/signin.scss';
 
 export default function SignInCard() {
     return (

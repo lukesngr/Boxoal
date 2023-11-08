@@ -27,7 +27,7 @@ export default function TimeBoxes(props) {
 
     return (
     <>
-        <h1 class="viewHeading">This Week</h1>
+        <h1 className="viewHeading">This Week</h1>
         <div className="container-fluid mt-2 h-100 timeboxesGrid">
             <div className="row">
                 <div className="col-2">
@@ -35,17 +35,17 @@ export default function TimeBoxes(props) {
                 <div className="col-1">
                 </div>
                 {dateToDay.map((date, index) => (
-                    <div className={'col-1 '+ifNumberIsCurrentDay(index, 'currentDay', '')}>
+                    <div key={index} className={'col-1 '+ifNumberIsCurrentDay(index, 'currentDay', '')}>
                         {date.name+" ("+date.date+"/"+month+")"}
                     </div>
                 ))}
             </div>
             {listOfTimes.map(time => (
-                <div className="row">
+                <div key={time} className="row">
                     <div className="col-2"></div>
                     <div className="col-1">{time}</div>
                     {dateToDay.map((date, index) => (
-                        <TimeBox active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)} time={time} day={date.name}></TimeBox>
+                        <TimeBox key={date.name+time} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)} time={time} day={date.name}></TimeBox>
                     ))}
                 </div>))}
         </div>

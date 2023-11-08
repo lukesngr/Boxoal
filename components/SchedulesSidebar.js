@@ -3,20 +3,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGear, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import CreateScheduleModal from './CreateScheduleModal';
 import CreateAreaModal from './CreateAreaModal';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { ScheduleContext } from './ScheduleContext';
 
 export default function SchedulesSidebar(props) {
     const [isAddAreaVisible, setIsAddAreaVisible] = useState(false);
+    const {selectedSchedule, setSelectedSchedule} = useContext(ScheduleContext);
+
+    let scheduleArray = new Array(props.data.data.length).fill("schedule");
+    scheduleArray[0] = 'selectedSchedule';
+    const [scheduleClasses, setScheduleClasses] = useState(scheduleArray);
+    console.log(scheduleClasses)
 
     function toggleAddAreaButton() {
         setIsAddAreaVisible(!isAddAreaVisible);
     }
 
+    function selectSchedule(id) {
+        setSelectedSchedule(id);
+        console.log(id);
+    }
+
     return (
     <div id="schedulesSidebar">
         <h1 className="sidebarHeading">My Schedules</h1>
-        {props.data.data.map(schedule => (<div key={schedule.id} className="schedule">
-            {schedule.name} 
+        {props.data.data.map((schedule, index) => (<div key={schedule.id} onClick={selectSchedule(schedule.id)} className={scheduleClasses[index]}>
+            {schedule.name}
             {!isAddAreaVisible && <FontAwesomeIcon onClick={toggleAddAreaButton} className='scheduleButton' icon={faChevronDown}/> }
             {isAddAreaVisible && <FontAwesomeIcon onClick={toggleAddAreaButton} className='scheduleButton' icon={faChevronUp}/> }
             <FontAwesomeIcon className='scheduleButton' icon={faGear} />
