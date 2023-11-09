@@ -1,6 +1,8 @@
 import { getDayNumbers, returnTimesSeperatedForSchedule } from '@/modules/dateLogic';
 import '../styles/timeboxes.scss';
 import TimeBox from './Timebox';
+import { useContext } from 'react';
+import { ScheduleContext } from './ScheduleContext';
 
 function ifNumberIsCurrentDay(number, returnIfTrue, returnIfFalse) {
     const dateObject = new Date();
@@ -24,6 +26,9 @@ export default function TimeBoxes(props) {
 
     const {month, dateToDay} = getDayNumbers();
     const listOfTimes = returnTimesSeperatedForSchedule(props.data.data[0]);
+    const {selectedSchedule, setSelectedSchedule} = useContext(ScheduleContext);
+
+    console.log(props.data.data[selectedSchedule].timeboxes);
 
     return (
     <>

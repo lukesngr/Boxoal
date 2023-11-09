@@ -11,40 +11,43 @@ datasource db {
 }
 
 model Schedule {
-  id            Int    @id @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   name          String
   boxSizeNumber Int
   boxSizeUnit   String
   endDate       String
   wakeupTime    String
   userEmail     String
-  areas          Area[]
+  areas         Area[]
+  timeboxes     TimeBox[]
 }
 
 model Area {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
   description String
-  timeBox     TimeBox? @relation(fields: [timeBoxID], references: [id])
-  timeBoxID   Int?
-  schedule    Schedule @relation(fields: [scheduleID], references: [id])
+  timeboxes   TimeBox[]
+  schedule    Schedule  @relation(fields: [scheduleID], references: [id])
   scheduleID  Int
 }
 
 model TimeBox {
-  id                Int             @id @default(autoincrement())
+  id                Int               @id @default(autoincrement())
   title             String
   description       String
   startTime         DateTime
   endTime           DateTime
-  recordedTimeBox   RecordedTimeBox @relation(fields: [recordedTimeBoxID], references: [id])
-  recordedTimeBoxID Int
-  Area              Area[]
+  recordedTimeBoxes RecordedTimeBox[]
+  area              Area?             @relation(fields: [areaID], references: [id])
+  areaID            Int?
+  schedule          Schedule?         @relation(fields: [scheduleID], references: [id])
+  scheduleID        Int?
 }
 
 model RecordedTimeBox {
-  id                Int       @id @default(autoincrement())
+  id                Int      @id @default(autoincrement())
   recordedStartTime DateTime
   recordedEndTime   DateTime
-  TimeBox           TimeBox[]
+  timeBox           TimeBox  @relation(fields: [timeBoxID], references: [id])
+  timeBoxID         Int
 }

@@ -16,7 +16,7 @@ export default function SchedulesSidebar(props) {
     return (
     <div id="schedulesSidebar">
         <h1 className="sidebarHeading">My Schedules</h1>
-        {props.data.data.map((schedule, index) => (<ScheduleSidebarButton index={index} selectedSchedule={selectedSchedule} schedule={schedule} selectSchedule={selectSchedule}></ScheduleSidebarButton>))}
+        {props.data.data.map((schedule, index) => (<ScheduleSidebarButton key={index} index={index} selectedSchedule={selectedSchedule} schedule={schedule} selectSchedule={selectSchedule}></ScheduleSidebarButton>))}
         <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createFirstScheduleModal">
             Add schedule 
         </button>

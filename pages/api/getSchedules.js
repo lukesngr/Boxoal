@@ -11,7 +11,7 @@ export default async function handler(req, res) {
             id: true,
             name: true,
             boxSizeNumber: true,
-            boxSizeUnit: true, 
+            boxSizeUnit: true,
             wakeupTime: true,
             areas: {
                 select: {
@@ -19,9 +19,16 @@ export default async function handler(req, res) {
                     name: true,
                     description: true
                 }
+            },
+            timeboxes: {
+                select: {
+                    title: true,
+                    description: true,
+                    startTime: true,
+                    endTime: true
+                }
             }
         }
     })
-    console.log(schedules)
     res.status(200).json(schedules)
 }
