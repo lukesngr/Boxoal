@@ -28,7 +28,25 @@ export default function TimeBoxes(props) {
     const listOfTimes = returnTimesSeperatedForSchedule(props.data.data[0]);
     const {selectedSchedule, setSelectedSchedule} = useContext(ScheduleContext);
 
-    console.log(props.data.data[selectedSchedule].timeboxes);
+    let timeBoxGrid = new Map();
+
+    props.data.data[selectedSchedule].timeboxes.forEach(function (element) {
+        const dateObject = new Date(element.startTime);
+        const day = dateObject.getDate();
+        const hour = dateObject.getHours();
+        const minutes = dateObject.getMinutes();
+      
+        const dateKey = day;
+        const timeKey = `${hour}:${minutes}`;
+      
+        if (!timeBoxGrid.has(dateKey)) {
+          timeBoxGrid.set(dateKey, new Map());
+        }
+      
+        timeBoxGrid.get(dateKey).set(timeKey, element);
+    });
+
+    console.log(dateToDay);
 
     return (
     <>
@@ -50,7 +68,7 @@ export default function TimeBoxes(props) {
                     <div className="col-2"></div>
                     <div className="col-1">{time}</div>
                     {dateToDay.map((date, index) => (
-                        <TimeBox key={date.name+time} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)} time={time} day={date.name}></TimeBox>
+                        <TimeBox key={date.name+time} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)} time={time} day={date.name} data={timeBoxGrid.get(time)?.get(date.date)}></TimeBox>
                     ))}
                 </div>))}
         </div>

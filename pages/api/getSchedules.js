@@ -21,6 +21,9 @@ export default async function handler(req, res) {
                 }
             },
             timeboxes: {
+                orderBy: {
+                    startTime: 'asc'
+                },
                 select: {
                     title: true,
                     description: true,
