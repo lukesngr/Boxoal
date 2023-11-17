@@ -84,3 +84,21 @@ export function calculateMaxNumberOfBoxes(schedule, time) {
         return maxNumberOfBoxes;
     }
 }
+
+export default function ifNumberIsCurrentDay(number, returnIfTrue, returnIfFalse) {
+    const dateObject = new Date();
+    let currentDay = dateObject.getDay();
+    if(number == currentDay) {
+        return returnIfTrue;
+    }
+    return returnIfFalse;
+}
+
+export default function ifNumberIsEqualOrBeyondCurrentDay(number, returnIfTrue, returnIfFalse) {
+    const dateObject = new Date();
+    let currentDay = dateObject.getDay();
+    if(number >= currentDay) {
+        return returnIfTrue;
+    }
+    return returnIfFalse;
+}
