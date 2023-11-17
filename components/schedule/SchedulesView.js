@@ -1,6 +1,6 @@
 import SchedulesSidebar from "./SchedulesSidebar";
 import '../styles/viewschedules.scss';
-import TimeBoxes from "./TimeBoxes";
+import TimeBoxes from "../timebox/TimeBoxes";
 import { ScheduleContextProvider } from "./ScheduleContext";
 
 function SchedulesView(props) {

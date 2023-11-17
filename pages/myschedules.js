@@ -1,11 +1,11 @@
-import SignedInNav from "@/components/SignedInNav";
+import SignedInNav from "@/components/nav/SignedInNav";
 import { useSession } from "next-auth/react";
 import { useQuery } from "react-query";
 import axios from "axios";
-import NoSchedules from "@/components/NoSchedules";
+import NoSchedules from "@/components/schedule/NoSchedules";
 import RedirWhenNotAuth from "@/components/RedirWhenNotAuth";
 import { createContext } from "react";
-import SchedulesView from "@/components/SchedulesView";
+import SchedulesView from "@/components/schedule/SchedulesView";
 
 export const SessionContext = createContext();
 

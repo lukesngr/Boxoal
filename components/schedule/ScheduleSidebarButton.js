@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGear, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
-import CreateAreaModal from './CreateAreaModal';
+import CreateAreaModal from '../area/CreateAreaModal';
 import { useState } from 'react';
 
 export default function ScheduleSidebarButton(props) {

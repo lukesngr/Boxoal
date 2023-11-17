@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import SignedOutNav from '../../components/SignedOutNav';
+import SignedOutNav from '../../components/nav/SignedOutNav';
 import '@testing-library/jest-dom';
 
 jest.mock('next/image', () => ({

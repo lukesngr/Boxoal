@@ -62,3 +62,25 @@ export function returnTimesSeperatedForSchedule(schedule) {
 
     return listOfTimes;
 }
+
+export function calculateMaxNumberOfBoxes(schedule, time) {
+    let wakeUpTimeSeparated = schedule.wakeupTime.split(":").map(function(num) { return parseInt(num); });
+    let timeSeparated = time.split(":").map(function(num) { return parseInt(num); });
+    
+    if(schedule.boxSizeUnit == "min") {
+        const minutesInOneDay = 25 * 60; //idk why but this works
+        let maxNumberOfBoxes = Math.floor(minutesInOneDay / schedule.boxSizeNumber);
+        
+        if(timeSeparated[0] > wakeUpTimeSeparated[0] || (timeSeparated[0] == wakeUpTimeSeparated[0] && timeSeparated[1] > wakeUpTimeSeparated[1])) {
+            maxNumberOfBoxes -= ((timeSeparated[0]-wakeUpTimeSeparated[0])*60) / schedule.boxSizeNumber;
+            maxNumberOfBoxes -= (timeSeparated[1]-wakeUpTimeSeparated[1]) / schedule.boxSizeNumber;
+        }else if(timeSeparated[0] < wakeUpTimeSeparated[0] || (timeSeparated[0] == wakeUpTimeSeparated[0] && timeSeparated[1] < wakeUpTimeSeparated[1])){
+            maxNumberOfBoxes -= ((timeSeparated[0]-wakeUpTimeSeparated[0])*60) / schedule.boxSizeNumber;
+            maxNumberOfBoxes -= (timeSeparated[1]-wakeUpTimeSeparated[1]) / schedule.boxSizeNumber;
+        }else{
+            console.log(wakeUpTimeSeparated);
+            console.log(timeSeparated);
+        }
+        return maxNumberOfBoxes;
+    }
+}

@@ -1,8 +1,8 @@
-import { getDayNumbers, returnTimesSeperatedForSchedule } from '@/modules/dateLogic';
+import { getDayNumbers, returnTimesSeperatedForSchedule, calculateMaxNumberOfBoxes } from '@/modules/dateLogic';
 import '../styles/timeboxes.scss';
 import TimeBox from './Timebox';
 import { useContext } from 'react';
-import { ScheduleContext } from './ScheduleContext';
+import { ScheduleContext } from '../schedule/ScheduleContext';
 
 function ifNumberIsCurrentDay(number, returnIfTrue, returnIfFalse) {
     const dateObject = new Date();
@@ -25,8 +25,8 @@ function ifNumberIsEqualOrBeyondCurrentDay(number, returnIfTrue, returnIfFalse) 
 export default function TimeBoxes(props) {
 
     const {month, dateToDay} = getDayNumbers();
-    const listOfTimes = returnTimesSeperatedForSchedule(props.data.data[0]);
     const {selectedSchedule, setSelectedSchedule} = useContext(ScheduleContext);
+    const listOfTimes = returnTimesSeperatedForSchedule(props.data.data[selectedSchedule]);
 
     let timeBoxGrid = new Map();
 
@@ -45,8 +45,6 @@ export default function TimeBoxes(props) {
       
         timeBoxGrid.get(dateKey).set(timeKey, element);
     });
-
-    console.log(dateToDay);
 
     return (
     <>
@@ -68,7 +66,7 @@ export default function TimeBoxes(props) {
                     <div className="col-2"></div>
                     <div className="col-1">{time}</div>
                     {dateToDay.map((date, index) => (
-                        <TimeBox key={date.name+time} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)} time={time} day={date.name} data={timeBoxGrid.get(time)?.get(date.date)}></TimeBox>
+                        <TimeBox key={date.name+time} maxNumberOfBoxes={calculateMaxNumberOfBoxes(props.data.data[selectedSchedule], time)} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)} time={time} month={month} date={date.date} data={timeBoxGrid.get(time)?.get(date.date)}></TimeBox>
                     ))}
                 </div>))}
         </div>

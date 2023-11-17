@@ -1,5 +1,5 @@
-import UnSignedNav from "../components/SignedOutNav"
-import SignedInNav from "@/components/SignedInNav";
+import UnSignedNav from "../components/nav/SignedOutNav"
+import SignedInNav from "@/components/nav/SignedInNav";
 import Image from "next/image"
 import "../styles/homecard.scss";
 import { useSession } from "next-auth/react";
