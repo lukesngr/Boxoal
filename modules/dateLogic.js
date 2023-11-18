@@ -16,6 +16,8 @@ export function getDayNumbers() {
         dateToDay[currentDay].date = currentDate;
     }
 
+    month += 1;
+
     return {month, dateToDay};
 }
 

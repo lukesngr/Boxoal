@@ -20,7 +20,7 @@ export default function TimeBoxes(props) {
         timeBoxGrid.get(date).set(time, element);
     });
 
-    console.log(timeBoxGrid);
+    console.log(timeBoxGrid)
 
     return (
     <>
