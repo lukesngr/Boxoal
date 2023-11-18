@@ -3,6 +3,7 @@ import '../../styles/timeboxes.scss';
 import TimeBox from './Timebox';
 import { useContext } from 'react';
 import { ScheduleContext } from '../schedule/ScheduleContext';
+import { TimeboxContextProvider } from "./TimeboxContext";
 
 export default function TimeBoxes(props) {
 
@@ -33,6 +34,7 @@ export default function TimeBoxes(props) {
                     </div>
                 ))}
             </div>
+            <TimeboxContextProvider>
             {listOfTimes.map(time => (
                 <div key={time} className="row">
                     <div className="col-2"></div>
@@ -41,6 +43,7 @@ export default function TimeBoxes(props) {
                         <TimeBox key={index} dayName={date.name} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)} schedule={schedule} time={time} date={date.date+"/"+month} data={timeBoxGrid.get(time)?.get(date.date)}></TimeBox>
                     ))}
                 </div>))}
+            </TimeboxContextProvider>
         </div>
     </>
     )

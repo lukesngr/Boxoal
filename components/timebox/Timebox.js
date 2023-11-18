@@ -2,9 +2,10 @@ import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {ifNumberIsEqualOrBeyondCurrentDay, calculateMaxNumberOfBoxes} from '@/modules/dateLogic';
 import '../../styles/timebox.scss';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import '../../styles/addtimebox.scss';
 import axios from 'axios';
+import { TimeboxContext } from './TimeboxContext';
 
 export default function TimeBox(props) {
 
@@ -13,10 +14,20 @@ export default function TimeBox(props) {
     const [description, setDescription] = useState("");
     const [numberOfBoxes, setNumberOfBoxes] = useState(1);
 
+    const {timeBoxInUse, setTimeBoxInUse} = useContext(TimeboxContext);
+
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(props.schedule, props.time);
 
     function addTimeBox() {
-        setTimeBoxFormVisible(true);
+        if(!timeBoxInUse) {
+            setTimeBoxFormVisible(true);
+            setTimeBoxInUse(true);
+        }
+    }
+
+    function closeTimeBox() {
+        setTimeBoxFormVisible(false);
+        setTimeBoxInUse(false);
     }
 
     function handleSubmit(event) {
@@ -29,7 +40,7 @@ export default function TimeBox(props) {
             endHours = parseInt(numberOfBoxes*props.schedule.boxSizeNumber) / 60 + parseInt(timeSeparated[0]);
             endMinutes = parseInt(numberOfBoxes*props.schedule.boxSizeNumber) % 60 + parseInt(timeSeparated[1]);
         }
-        
+
         axios.post('/api/createTimebox', {
             title,
             description,
@@ -53,7 +64,7 @@ export default function TimeBox(props) {
     <div className={props.active ? 'col-1 timeBox' : 'col-1 inactiveTimebox'}>
         {timeBoxFormVisible && <div id={props.dayName == 'Sat' ? 'addTimeBoxConstrained' : 'addTimeBox'}>
             <div id="timeBoxBubble"></div>
-            <button onClick={() => setTimeBoxFormVisible(false)} id="addTimeBoxExitButton">X</button>
+            <button onClick={closeTimeBox} id="addTimeBoxExitButton">X</button>
             <form onSubmit={handleSubmit}>
                 <h4>Add TimeBox</h4>
                 <label htmlFor="title">Title</label>
@@ -66,6 +77,7 @@ export default function TimeBox(props) {
             </form>
         </div>}
         {timeBoxFormVisible && <div style={{height: `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)`}} id="placeholderTimeBox">{title}</div>}
-        {props.active && !timeBoxFormVisible && <button data-testid="addTimeBoxButton" onClick={addTimeBox} className="btn btn-dark addBoxButton"><FontAwesomeIcon height={25} width={25} icon={faCirclePlus}/></button>}
+        {props.active && !timeBoxFormVisible && !timeBoxInUse &&
+        <button data-testid="addTimeBoxButton" onClick={addTimeBox} className="btn btn-dark addBoxButton"><FontAwesomeIcon height={25} width={25} icon={faCirclePlus}/></button>}
     </div>)
 }
