@@ -27,8 +27,9 @@ export default async function handler(req, res) {
                     title: true,
                     description: true,
                     startTime: true,
-                    endTime: true, 
-                    date: true
+                    endTime: true,
+                    date: true,
+                    numberOfBoxes: true
                 }
             }
         }

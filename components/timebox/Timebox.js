@@ -1,6 +1,6 @@
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {ifNumberIsEqualOrBeyondCurrentDay, calculateMaxNumberOfBoxes} from '@/modules/dateLogic';
+import {addBoxesToTime, calculateMaxNumberOfBoxes} from '@/modules/dateLogic';
 import '../../styles/timebox.scss';
 import { useState, useContext } from 'react';
 import '../../styles/addtimebox.scss';
@@ -32,26 +32,13 @@ export default function TimeBox(props) {
 
     function handleSubmit(event) {
         event.preventDefault();
-        let endHours = 0;
-        let endMinutes = 0;
-        let timeSeparated = props.time.split(":").map(function(num) { return parseInt(num); });
-
-        if(props.schedule.boxSizeUnit == "min") {
-            endHours = Math.round(numberOfBoxes*props.schedule.boxSizeNumber / 60);
-            endMinutes = Math.round(numberOfBoxes*props.schedule.boxSizeNumber % 60);
-            endHours += timeSeparated[0];
-            endMinutes += timeSeparated[1];
-            if(endMinutes / 60 >= 1) {
-                endHours += Math.round(endMinutes / 60);
-                endMinutes -= Math.round(endMinutes / 60) * 60;
-            }
-        }
+        let endTime = addBoxesToTime(props.schedule, props.time, numberOfBoxes);
 
         axios.post('/api/createTimebox', {
             title,
             description,
             startTime: props.time,
-            endTime: endHours+":"+endMinutes,
+            endTime,
             date: props.date,
             numberOfBoxes: parseInt(numberOfBoxes),
             schedule: {
@@ -86,6 +73,7 @@ export default function TimeBox(props) {
                 <button id="addTimeBoxButton">Add TimeBox</button>
             </form>
         </div>}
+        {props.data && <div style={{height: `calc(${(props.data.numberOfBoxes * 100)}% + ${(props.data.numberOfBoxes - 1) * 2}px)`}} id="placeholderTimeBox">{props.data.title}</div>}
         {timeBoxFormVisible && <div style={{height: `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)`}} id="placeholderTimeBox">{title}</div>}
         {props.active && !timeBoxFormVisible && !timeBoxInUse &&
         <button data-testid="addTimeBoxButton" onClick={addTimeBox} className="btn btn-dark addBoxButton"><FontAwesomeIcon height={25} width={25} icon={faCirclePlus}/></button>}

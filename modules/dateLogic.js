@@ -100,3 +100,39 @@ export function ifNumberIsEqualOrBeyondCurrentDay(number, returnIfTrue, returnIf
     }
     return returnIfFalse;
 }
+
+export function addBoxesToTime(schedule, time, numberOfBoxes) {
+    let timeSeparated = time.split(":").map(function(num) { return parseInt(num); });
+
+    if(schedule.boxSizeUnit == "min") {
+        endHours = Math.round(numberOfBoxes*schedule.boxSizeNumber / 60);
+        endMinutes = Math.round(numberOfBoxes*schedule.boxSizeNumber % 60);
+        endHours += timeSeparated[0];
+        endMinutes += timeSeparated[1];
+        if(endMinutes / 60 >= 1) {
+            endHours += Math.round(endMinutes / 60);
+            endMinutes -= Math.round(endMinutes / 60) * 60;
+        }
+        return endHours+":"+endMinutes;
+    }
+}
+
+export function convertToDateTime(time, date) {
+    let timeSeparated = time.split(":").map(function(num) { return parseInt(num); });
+    let dateSeparated = date.split("/").map(function(num) { return parseInt(num); });
+    let datetime = new Date();
+    datetime.setHours(timeSeparated[0]);
+    datetime.setMinutes(timeSeparated[1]);
+    datetime.setDate(dateSeparated[0]);
+    datetime.setMonth(dateSeparated[1]);
+    return datetime;
+}
+
+export function convertToTimeAndDate(datetime) {
+    let hours = datetime.getHours();
+    let minutes = datetime.getMinutes();
+    let date = datetime.getDate();
+    let month = datetime.getMonth();
+
+    return [hours+':'+minutes, date+'/'+month];
+}

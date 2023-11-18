@@ -19,7 +19,7 @@ export default function TimeBoxes(props) {
         timeBoxGrid.get(element.date).set(element.startTime, element);
     });
 
-    console.log(timeBoxGrid);
+    console.log(schedule.timeboxes);
 
     return (
     <>
@@ -42,7 +42,7 @@ export default function TimeBoxes(props) {
                     <div className="col-2"></div>
                     <div className="col-1">{time}</div>
                     {dateToDay.map((date, index) => (
-                        <TimeBox key={index} dayName={date.name} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)} schedule={schedule} time={time} date={date.date+"/"+month} data={timeBoxGrid.get(time)?.get(date.date)}></TimeBox>
+                        <TimeBox key={index} dayName={date.name} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)} schedule={schedule} time={time} date={date.date+"/"+month} data={timeBoxGrid.get(date.date+"/"+month)?.get(time)}></TimeBox>
                     ))}
                 </div>))}
             </TimeboxContextProvider>
