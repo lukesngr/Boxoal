@@ -139,5 +139,9 @@ export function convertToTimeAndDate(input) {
     let date = datetime.getDate();
     let month = datetime.getMonth();
 
+    if(minutes == 0) {
+        minutes = "00";
+    }
+
     return [hours+':'+minutes, date+'/'+month];
 }
