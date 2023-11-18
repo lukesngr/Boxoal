@@ -27,7 +27,8 @@ export default async function handler(req, res) {
                     title: true,
                     description: true,
                     startTime: true,
-                    endTime: true
+                    endTime: true, 
+                    date: true
                 }
             }
         }
