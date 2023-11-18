@@ -1,5 +1,5 @@
 import SchedulesSidebar from "./SchedulesSidebar";
-import '../styles/viewschedules.scss';
+import '../../styles/viewschedules.scss';
 import TimeBoxes from "../timebox/TimeBoxes";
 import { ScheduleContextProvider } from "./ScheduleContext";
 

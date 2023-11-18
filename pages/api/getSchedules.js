@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/modules/prismaClient";
 
 export default async function handler(req, res) {
     const data = req.body;
-    const prisma = new PrismaClient();
     const schedules = await prisma.schedule.findMany({
         where: {
             userEmail: data.userEmail,

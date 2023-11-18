@@ -1,8 +1,10 @@
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import '../styles/timebox.scss';
+import {ifNumberIsEqualOrBeyondCurrentDay, calculateMaxNumberOfBoxes} from '@/modules/dateLogic';
+import '../../styles/timebox.scss';
 import { useState } from 'react';
-import '../styles/addtimebox.scss';
+import '../../styles/addtimebox.scss';
+import axios from 'axios';
 
 export default function TimeBox(props) {
 
@@ -11,25 +13,33 @@ export default function TimeBox(props) {
     const [description, setDescription] = useState("");
     const [numberOfBoxes, setNumberOfBoxes] = useState(1);
 
+    let maxNumberOfBoxes = calculateMaxNumberOfBoxes(props.schedule, props.time);
+
     function addTimeBox() {
         setTimeBoxFormVisible(true);
     }
 
     function handleSubmit(event) {
         event.preventDefault();
-        let startTime = new Date();
-        startTime.setMonth(props.month);
-        startTime.setDate(props.date);
+        let endHours = "";
+        let endMinutes = "";
         let timeSeparated = props.time.split(":").map(function(num) { return parseInt(num); });
-        startTime.setHours(timeSeparated[0]);
-        startTime.setMinutes(timeSeparated[1]);
-        let endTime = startTime;
+
+        if(props.schedule.boxSizeUnit == "min") {
+            endHours = (numberOfBoxes*props.schedule.boxSizeNumber) / 60 + timeSeparated[0];
+            endMinutes = (numberOfBoxes*props.schedule.boxSizeNumber) % 60 + timeSeparated[1];
+        }
         axios.post('/api/createTimebox', {
             title,
-            description
+            description,
+            startTime: props.time,
+            endTime: endHours+":"+endMinutes,
+            date: props.date
         }).catch(function(error) {
             console.log(error);
         })
+
+        setTimeBoxFormVisible(false);
     }
 
     return (
@@ -44,7 +54,7 @@ export default function TimeBox(props) {
                 <label for="description">Description</label>
                 <input type="text" name="description" id="description" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)}></input><br />
                 <label for="boxes">Boxes</label>
-                <input min="1" max={props.maxNumberOfBoxes} type="number" name="boxes" id="boxes" placeholder="Boxes" value={numberOfBoxes} onChange={(e) => setNumberOfBoxes(e.target.value)}></input><br />
+                <input min="1" max={maxNumberOfBoxes} type="number" name="boxes" id="boxes" placeholder="Boxes" value={numberOfBoxes} onChange={(e) => setNumberOfBoxes(e.target.value)}></input><br />
                 <button id="addTimeBoxButton">Add TimeBox</button>
             </form>
         </div>}

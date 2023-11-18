@@ -1,4 +1,4 @@
-import '../styles/schedulessidebar.scss';
+import '../../styles/schedulessidebar.scss';
 
 import CreateScheduleModal from './CreateScheduleModal';
 import { useContext, useState } from 'react';
