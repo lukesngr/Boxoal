@@ -26,9 +26,10 @@ export default function TimeBox(props) {
         let timeSeparated = props.time.split(":").map(function(num) { return parseInt(num); });
 
         if(props.schedule.boxSizeUnit == "min") {
-            endHours = (numberOfBoxes*props.schedule.boxSizeNumber) / 60 + timeSeparated[0];
-            endMinutes = (numberOfBoxes*props.schedule.boxSizeNumber) % 60 + timeSeparated[1];
+            endHours = parseInt(numberOfBoxes*props.schedule.boxSizeNumber) / 60 + parseInt(timeSeparated[0]);
+            endMinutes = parseInt(numberOfBoxes*props.schedule.boxSizeNumber) % 60 + parseInt(timeSeparated[1]);
         }
+        
         axios.post('/api/createTimebox', {
             title,
             description,
