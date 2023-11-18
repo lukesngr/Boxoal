@@ -16,10 +16,10 @@ export default function TimeBoxes(props) {
 
     schedule.timeboxes.forEach(function (element) {
         if (!timeBoxGrid.has(element.date)) { timeBoxGrid.set(element.date, new Map()); }
-        timeBoxGrid.get(element.date).set(element.time, element);
+        timeBoxGrid.get(element.date).set(element.startTime, element);
     });
 
-    console.log(schedule.timeboxes);
+    console.log(timeBoxGrid);
 
     return (
     <>
