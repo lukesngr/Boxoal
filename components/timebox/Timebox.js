@@ -47,18 +47,22 @@ export default function TimeBox(props) {
             startTime: props.time,
             endTime: endHours+":"+endMinutes,
             date: props.date,
-            numberOfBoxes: parseInt(numberOfBoxes)
+            numberOfBoxes: parseInt(numberOfBoxes),
+            schedule: {
+                connect: {id: props.schedule.id}
+            }
         }).catch(function(error) {
             console.log(error);
         })
 
         setTimeBoxFormVisible(false);
+        setTimeBoxInUse(false);
         setDescription("");
         setNumberOfBoxes(1);
         setTitle("");
     }
 
-    console.log(props.dayName)
+    console.log(props.data)
 
     return (
     <div className={props.active ? 'col-1 timeBox' : 'col-1 inactiveTimebox'}>

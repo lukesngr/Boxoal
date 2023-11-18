@@ -9,7 +9,7 @@ export default function TimeBoxes(props) {
 
     const {month, dateToDay} = getDayNumbers();
     const {selectedSchedule, setSelectedSchedule} = useContext(ScheduleContext);
-    const schedule = props.data.data[selectedSchedule];
+    let schedule = props.data.data[selectedSchedule];
     const listOfTimes = returnTimesSeperatedForSchedule(schedule);
 
     let timeBoxGrid = new Map();
@@ -18,6 +18,8 @@ export default function TimeBoxes(props) {
         if (!timeBoxGrid.has(element.date)) { timeBoxGrid.set(element.date, new Map()); }
         timeBoxGrid.get(element.date).set(element.time, element);
     });
+
+    console.log(schedule.timeboxes);
 
     return (
     <>
