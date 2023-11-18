@@ -35,9 +35,8 @@ model TimeBox {
   id                Int               @id @default(autoincrement())
   title             String
   description       String
-  date              String
-  startTime         String
-  endTime           String
+  startTime         DateTime
+  endTime           DateTime
   numberOfBoxes     Int
   recordedTimeBoxes RecordedTimeBox[]
   area              Area?             @relation(fields: [areaID], references: [id])

@@ -1,4 +1,4 @@
-import { getDayNumbers, returnTimesSeperatedForSchedule, ifNumberIsCurrentDay, ifNumberIsEqualOrBeyondCurrentDay} from '@/modules/dateLogic';
+import { getDayNumbers, returnTimesSeperatedForSchedule, ifNumberIsCurrentDay, ifNumberIsEqualOrBeyondCurrentDay, convertToTimeAndDate} from '@/modules/dateLogic';
 import '../../styles/timeboxes.scss';
 import TimeBox from './Timebox';
 import { useContext } from 'react';
@@ -15,11 +15,10 @@ export default function TimeBoxes(props) {
     let timeBoxGrid = new Map();
 
     schedule.timeboxes.forEach(function (element) {
-        if (!timeBoxGrid.has(element.date)) { timeBoxGrid.set(element.date, new Map()); }
-        timeBoxGrid.get(element.date).set(element.startTime, element);
+        const [time, date] = convertToTimeAndDate(time);
+        if (!timeBoxGrid.has(date)) { timeBoxGrid.set(date, new Map()); }
+        timeBoxGrid.get(date).set(time, element);
     });
-
-    console.log(schedule.timeboxes);
 
     return (
     <>

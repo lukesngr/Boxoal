@@ -1,6 +1,6 @@
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {addBoxesToTime, calculateMaxNumberOfBoxes} from '@/modules/dateLogic';
+import {addBoxesToTime, calculateMaxNumberOfBoxes, convertToDateTime} from '@/modules/dateLogic';
 import '../../styles/timebox.scss';
 import { useState, useContext } from 'react';
 import '../../styles/addtimebox.scss';
@@ -37,9 +37,8 @@ export default function TimeBox(props) {
         axios.post('/api/createTimebox', {
             title,
             description,
-            startTime: props.time,
-            endTime,
-            date: props.date,
+            startTime: convertToDateTime(props.time, props.date),
+            endTime: convertToDateTime(props.time, props.date),
             numberOfBoxes: parseInt(numberOfBoxes),
             schedule: {
                 connect: {id: props.schedule.id}
