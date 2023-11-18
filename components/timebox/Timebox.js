@@ -49,11 +49,11 @@ export default function TimeBox(props) {
             <button onClick={() => setTimeBoxFormVisible(false)} id="addTimeBoxExitButton">X</button>
             <form onSubmit={handleSubmit}>
                 <h4>Add TimeBox</h4>
-                <label for="title">Title</label>
+                <label htmlFor="title">Title</label>
                 <input type="text" name="title" id="title" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)}></input><br />
-                <label for="description">Description</label>
+                <label htmlFor="description">Description</label>
                 <input type="text" name="description" id="description" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)}></input><br />
-                <label for="boxes">Boxes</label>
+                <label htmlFor="boxes">Boxes</label>
                 <input min="1" max={maxNumberOfBoxes} type="number" name="boxes" id="boxes" placeholder="Boxes" value={numberOfBoxes} onChange={(e) => setNumberOfBoxes(e.target.value)}></input><br />
                 <button id="addTimeBoxButton">Add TimeBox</button>
             </form>
