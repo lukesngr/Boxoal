@@ -103,6 +103,8 @@ export function ifNumberIsEqualOrBeyondCurrentDay(number, returnIfTrue, returnIf
 
 export function addBoxesToTime(schedule, time, numberOfBoxes) {
     let timeSeparated = time.split(":").map(function(num) { return parseInt(num); });
+    let endHours = 0;
+    let endMinutes = 0;
 
     if(schedule.boxSizeUnit == "min") {
         endHours = Math.round(numberOfBoxes*schedule.boxSizeNumber / 60);
@@ -128,7 +130,8 @@ export function convertToDateTime(time, date) {
     return datetime;
 }
 
-export function convertToTimeAndDate(datetime) {
+export function convertToTimeAndDate(input) {
+    let datetime = new Date(input);
     let hours = datetime.getHours();
     let minutes = datetime.getMinutes();
     let date = datetime.getDate();

@@ -38,7 +38,7 @@ export default function TimeBox(props) {
             title,
             description,
             startTime: convertToDateTime(props.time, props.date),
-            endTime: convertToDateTime(props.time, props.date),
+            endTime: convertToDateTime(endTime, props.date),
             numberOfBoxes: parseInt(numberOfBoxes),
             schedule: {
                 connect: {id: props.schedule.id}

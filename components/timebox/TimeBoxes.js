@@ -15,10 +15,12 @@ export default function TimeBoxes(props) {
     let timeBoxGrid = new Map();
 
     schedule.timeboxes.forEach(function (element) {
-        const [time, date] = convertToTimeAndDate(time);
+        const [time, date] = convertToTimeAndDate(element.startTime);
         if (!timeBoxGrid.has(date)) { timeBoxGrid.set(date, new Map()); }
         timeBoxGrid.get(date).set(time, element);
     });
+
+    console.log(timeBoxGrid);
 
     return (
     <>

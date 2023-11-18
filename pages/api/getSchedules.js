@@ -28,7 +28,6 @@ export default async function handler(req, res) {
                     description: true,
                     startTime: true,
                     endTime: true,
-                    date: true,
                     numberOfBoxes: true
                 }
             }
