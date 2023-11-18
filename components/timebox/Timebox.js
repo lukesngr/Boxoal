@@ -34,17 +34,23 @@ export default function TimeBox(props) {
             description,
             startTime: props.time,
             endTime: endHours+":"+endMinutes,
-            date: props.date
+            date: props.date,
+            numberOfBoxes: parseInt(numberOfBoxes)
         }).catch(function(error) {
             console.log(error);
         })
 
         setTimeBoxFormVisible(false);
+        setDescription("");
+        setNumberOfBoxes(1);
+        setTitle("");
     }
+
+    console.log(props.dayName)
 
     return (
     <div className={props.active ? 'col-1 timeBox' : 'col-1 inactiveTimebox'}>
-        {timeBoxFormVisible && <div id="addTimeBox">
+        {timeBoxFormVisible && <div id={props.dayName == 'Sat' ? 'addTimeBoxConstrained' : 'addTimeBox'}>
             <div id="timeBoxBubble"></div>
             <button onClick={() => setTimeBoxFormVisible(false)} id="addTimeBoxExitButton">X</button>
             <form onSubmit={handleSubmit}>

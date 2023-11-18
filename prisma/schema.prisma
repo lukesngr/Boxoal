@@ -38,6 +38,7 @@ model TimeBox {
   date              String
   startTime         String
   endTime           String
+  numberOfBoxes     Int
   recordedTimeBoxes RecordedTimeBox[]
   area              Area?             @relation(fields: [areaID], references: [id])
   areaID            Int?
