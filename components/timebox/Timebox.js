@@ -14,7 +14,7 @@ export default function TimeBox(props) {
     const [description, setDescription] = useState("");
     const [numberOfBoxes, setNumberOfBoxes] = useState(1);
 
-    const {timeBoxInUse, setTimeBoxInUse} = useContext(TimeboxContext);
+    const {timeBoxInUse, setTimeBoxInUse, listOfColors} = useContext(TimeboxContext);
 
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(props.schedule, props.time, props.date);
 
@@ -40,6 +40,7 @@ export default function TimeBox(props) {
             startTime: convertToDateTime(props.time, props.date),
             endTime: convertToDateTime(endTime, props.date),
             numberOfBoxes: parseInt(numberOfBoxes),
+            color: listOfColors[Math.floor(Math.random() * listOfColors.length)],
             schedule: {
                 connect: {id: props.schedule.id}
             }
