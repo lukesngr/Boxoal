@@ -20,8 +20,6 @@ export default function TimeBoxes(props) {
         timeBoxGrid.get(date).set(time, element);
     });
 
-    console.log(timeBoxGrid)
-
     return (
     <>
         <h1 className="viewHeading">This Week</h1>

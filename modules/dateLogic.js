@@ -65,9 +65,7 @@ export function returnTimesSeperatedForSchedule(schedule) {
     return listOfTimes;
 }
 
-export function calculateMaxNumberOfBoxes(schedule, time) {
-    let wakeUpTimeSeparated = schedule.wakeupTime.split(":").map(function(num) { return parseInt(num); });
-    let timeSeparated = time.split(":").map(function(num) { return parseInt(num); });
+function calculateMaxNumberOfBoxesIfScheduleEmpty(schedule, timeSeparated, wakeUpTimeSeparated) {
     
     if(schedule.boxSizeUnit == "min") {
         const minutesInOneDay = 25 * 60; //idk why but this works
@@ -83,6 +81,65 @@ export function calculateMaxNumberOfBoxes(schedule, time) {
         }
         return maxNumberOfBoxes;
     }
+}
+
+export function convertToDateTime(time, date) {
+    let timeSeparated = time.split(":").map(function(num) { return parseInt(num); });
+    let dateSeparated = date.split("/").map(function(num) { return parseInt(num); });
+    let datetime = new Date();
+    datetime.setHours(timeSeparated[0]);
+    datetime.setMinutes(timeSeparated[1]);
+    datetime.setDate(dateSeparated[0]);
+    datetime.setMonth(dateSeparated[1]);
+    return datetime;
+}
+
+export function convertToTimeAndDate(input) {
+    let datetime = new Date(input);
+    let hours = datetime.getHours();
+    let minutes = datetime.getMinutes();
+    let date = datetime.getDate();
+    let month = datetime.getMonth();
+
+    if(minutes == 0) {
+        minutes = "00";
+    }
+
+    return [hours+':'+minutes, date+'/'+month];
+}
+
+function calculateBoxesBetweenTwoDateTimes(dateTime1, dateTime2, schedule) {
+    let numberOfBoxes = 0;
+    if(schedule.boxSizeUnit == "min") {
+        numberOfBoxes += Math.round(((dateTime2.getHours() - dateTime1.getHours())*60) / schedule.boxSizeNumber);
+        numberOfBoxes += Math.round((dateTime2.getMinutes() - dateTime1.getMinutes()) / schedule.boxSizeNumber);
+    }
+    
+    console.log(numberOfBoxes);
+    return numberOfBoxes;
+}
+
+export function calculateMaxNumberOfBoxes(schedule, time, date) {
+    let wakeUpTimeSeparated = schedule.wakeupTime.split(":").map(function(num) { return parseInt(num); });
+    let timeSeparated = time.split(":").map(function(num) { return parseInt(num); });
+    let currentDateTime = convertToDateTime(time, date);
+    let maxNumberOfBoxes = 0;
+
+    for(let i = 0; i < schedule.timeboxes.length; i++) {
+        if(currentDateTime < new Date(schedule.timeboxes[i].startTime)) {
+            maxNumberOfBoxes = calculateBoxesBetweenTwoDateTimes(currentDateTime, new Date(schedule.timeboxes[i].startTime), schedule);
+            i = schedule.timeboxes.length;
+        }else{
+            console.log(new Date(schedule.timeboxes[i].startTime));
+            i++;
+        }
+    }
+
+    if(maxNumberOfBoxes == 0) {
+        maxNumberOfBoxes = calculateMaxNumberOfBoxesIfScheduleEmpty(schedule, timeSeparated, wakeUpTimeSeparated);
+    }
+
+    return maxNumberOfBoxes;
 }
 
 export function ifNumberIsCurrentDay(number, returnIfTrue, returnIfFalse) {
@@ -121,27 +178,3 @@ export function addBoxesToTime(schedule, time, numberOfBoxes) {
     }
 }
 
-export function convertToDateTime(time, date) {
-    let timeSeparated = time.split(":").map(function(num) { return parseInt(num); });
-    let dateSeparated = date.split("/").map(function(num) { return parseInt(num); });
-    let datetime = new Date();
-    datetime.setHours(timeSeparated[0]);
-    datetime.setMinutes(timeSeparated[1]);
-    datetime.setDate(dateSeparated[0]);
-    datetime.setMonth(dateSeparated[1]);
-    return datetime;
-}
-
-export function convertToTimeAndDate(input) {
-    let datetime = new Date(input);
-    let hours = datetime.getHours();
-    let minutes = datetime.getMinutes();
-    let date = datetime.getDate();
-    let month = datetime.getMonth();
-
-    if(minutes == 0) {
-        minutes = "00";
-    }
-
-    return [hours+':'+minutes, date+'/'+month];
-}

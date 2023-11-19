@@ -16,7 +16,7 @@ export default function TimeBox(props) {
 
     const {timeBoxInUse, setTimeBoxInUse} = useContext(TimeboxContext);
 
-    let maxNumberOfBoxes = calculateMaxNumberOfBoxes(props.schedule, props.time);
+    let maxNumberOfBoxes = calculateMaxNumberOfBoxes(props.schedule, props.time, props.date);
 
     function addTimeBox() {
         if(!timeBoxInUse) {
@@ -54,8 +54,6 @@ export default function TimeBox(props) {
         setTitle("");
     }
 
-    console.log(props.data)
-
     return (
     <div className={props.active ? 'col-1 timeBox' : 'col-1 inactiveTimebox'}>
         {timeBoxFormVisible && <div id={props.dayName == 'Sat' ? 'addTimeBoxConstrained' : 'addTimeBox'}>
@@ -74,7 +72,7 @@ export default function TimeBox(props) {
         </div>}
         {props.data && <div style={{height: `calc(${(props.data.numberOfBoxes * 100)}% + ${(props.data.numberOfBoxes - 1) * 2}px)`}} id="placeholderTimeBox">{props.data.title}</div>}
         {timeBoxFormVisible && <div style={{height: `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)`}} id="placeholderTimeBox">{title}</div>}
-        {props.active && !timeBoxFormVisible && !timeBoxInUse &&
+        {props.active && !timeBoxFormVisible && !timeBoxInUse && !props.data &&
         <button data-testid="addTimeBoxButton" onClick={addTimeBox} className="btn btn-dark addBoxButton"><FontAwesomeIcon height={25} width={25} icon={faCirclePlus}/></button>}
     </div>)
 }
