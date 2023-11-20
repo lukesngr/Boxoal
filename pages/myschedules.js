@@ -12,14 +12,12 @@ export const SessionContext = createContext();
 function MySchedulesSeperatedForFunctionality(props) {
     
     const {isLoading, isError, data, error, refetch} = useQuery(["schedules"], () => axios.post("/api/getSchedules", {userEmail: props.session.user.email}))
-
     return (
         <>
             <RedirWhenNotAuth redirectSrc="/signin" status={props.status}>
                 <SignedInNav session={props.session}></SignedInNav>
                 <SessionContext.Provider value={props.session}>
-                    {data && !data.data && <NoSchedules session={props.session}/>}
-                    {data && data.data && <SchedulesView data={data}></SchedulesView>}
+                    {data && data.data.length > 0 ? (<SchedulesView data={data}></SchedulesView>) : (<NoSchedules session={props.session}/>) }
                 </SessionContext.Provider>
             </RedirWhenNotAuth>
         </>

@@ -25,3 +25,15 @@
 .inactiveTimebox {
     background-color: #D9D9D9;
 }
+
+#timeBox {
+    color: black;
+    position: relative;
+}
+
+.timeboxText {
+    position: absolute;
+    font-size: medium;
+    left: 0;
+    top: 0;
+}

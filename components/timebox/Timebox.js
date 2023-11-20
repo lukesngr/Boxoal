@@ -56,7 +56,7 @@ export default function TimeBox(props) {
     }
 
     return (
-    <div className={props.active ? 'col-1 timeBox' : 'col-1 inactiveTimebox'}>
+    <div className={'col-1 timeBox'}>
         {timeBoxFormVisible && <div id={props.dayName == 'Sat' ? 'addTimeBoxConstrained' : 'addTimeBox'}>
             <div id="timeBoxBubble"></div>
             <button onClick={closeTimeBox} id="addTimeBoxExitButton">X</button>
@@ -71,7 +71,9 @@ export default function TimeBox(props) {
                 <button id="addTimeBoxButton">Add TimeBox</button>
             </form>
         </div>}
-        {props.data && <div style={{height: `calc(${(props.data.numberOfBoxes * 100)}% + ${(props.data.numberOfBoxes - 1) * 2}px)`}} id="placeholderTimeBox">{props.data.title}</div>}
+        {props.data && <div style={{height: `calc(${(props.data.numberOfBoxes * 100)}% + ${(props.data.numberOfBoxes - 1) * 2}px)`, backgroundColor: props.data.color}} id="timeBox">
+            <span class="timeboxText">{props.data.title}</span>
+        </div>}
         {timeBoxFormVisible && <div style={{height: `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)`}} id="placeholderTimeBox">{title}</div>}
         {props.active && !timeBoxFormVisible && !timeBoxInUse && !props.data &&
         <button data-testid="addTimeBoxButton" onClick={addTimeBox} className="btn btn-dark addBoxButton"><FontAwesomeIcon height={25} width={25} icon={faCirclePlus}/></button>}
