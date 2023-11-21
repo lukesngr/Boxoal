@@ -1,12 +1,14 @@
 import { getDayNumbers, returnTimesSeperatedForSchedule, ifNumberIsCurrentDay, ifNumberIsEqualOrBeyondCurrentDay, convertToTimeAndDate} from '@/modules/dateLogic';
 import '../../styles/timeboxes.scss';
 import TimeBox from './Timebox';
-import { useContext } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { ScheduleContext } from '../schedule/ScheduleContext';
 import { TimeboxContextProvider } from "./TimeboxContext";
+import Overlay from './Overlay';
 
 export default function TimeBoxes(props) {
 
+    const gridRef = useRef(null);
     const {month, dateToDay} = getDayNumbers();
     const {selectedSchedule, setSelectedSchedule} = useContext(ScheduleContext);
     let schedule = props.data.data[selectedSchedule];
@@ -20,6 +22,8 @@ export default function TimeBoxes(props) {
         timeBoxGrid.get(date).set(time, element);
     });
 
+    //useEffect(() => {})
+
     return (
     <>
         <h1 className="viewHeading">This Week</h1>
@@ -32,6 +36,7 @@ export default function TimeBoxes(props) {
                 {dateToDay.map((date, index) => (
                     <div key={index} className={'col-1 '+ifNumberIsCurrentDay(index, 'currentDay', '')}>
                         <span className='timeboxHeadingText'>{date.name+" ("+date.date+"/"+month+")"}</span>
+                        <Overlay active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)}></Overlay>
                     </div>
                 ))}
             </div>

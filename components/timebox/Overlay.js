@@ -1,3 +1,3 @@
 export default function Overlay() {
-    return <></>;
+    return <div class="overlay"></div>;
 }

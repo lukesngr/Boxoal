@@ -114,8 +114,7 @@ function calculateBoxesBetweenTwoDateTimes(dateTime1, dateTime2, schedule) {
         numberOfBoxes += Math.round(((dateTime2.getHours() - dateTime1.getHours())*60) / schedule.boxSizeNumber);
         numberOfBoxes += Math.round((dateTime2.getMinutes() - dateTime1.getMinutes()) / schedule.boxSizeNumber);
     }
-    
-    console.log(numberOfBoxes);
+
     return numberOfBoxes;
 }
 
@@ -130,7 +129,6 @@ export function calculateMaxNumberOfBoxes(schedule, time, date) {
             maxNumberOfBoxes = calculateBoxesBetweenTwoDateTimes(currentDateTime, new Date(schedule.timeboxes[i].startTime), schedule);
             i = schedule.timeboxes.length;
         }else{
-            console.log(new Date(schedule.timeboxes[i].startTime));
             i++;
         }
     }
