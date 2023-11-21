@@ -31,7 +31,7 @@ export default function TimeBoxes(props) {
                 </div>
                 {dateToDay.map((date, index) => (
                     <div key={index} className={'col-1 '+ifNumberIsCurrentDay(index, 'currentDay', '')}>
-                        {date.name+" ("+date.date+"/"+month+")"}
+                        <span className='timeboxHeadingText'>{date.name+" ("+date.date+"/"+month+")"}</span>
                     </div>
                 ))}
             </div>
