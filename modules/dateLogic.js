@@ -31,11 +31,7 @@ export function returnTimesSeperatedForSchedule(schedule) {
         let currentMinute = wakeUpTimeSeperated[1];
         
         while(currentHour < 25 && currentMinute < 60) {
-            if(currentMinute < 10) {
-                listOfTimes.push(currentHour+":0"+currentMinute);
-            }else{
-                listOfTimes.push(currentHour+":"+currentMinute);
-            }
+            listOfTimes.push(`${currentHour}:${currentMinute < 10 ? '0' : ''}${currentMinute}`);
             
             currentMinute += schedule.boxSizeNumber;
             if(currentMinute >= 60) {
@@ -47,12 +43,8 @@ export function returnTimesSeperatedForSchedule(schedule) {
         currentHour = 0;
         currentMinute = 0;
 
-        while(currentHour < wakeUpTimeSeperated[0] | currentMinute < wakeUpTimeSeperated[1]) {
-            if(currentMinute < 10) {
-                listOfTimes.push(currentHour+":0"+currentMinute);
-            }else{
-                listOfTimes.push(currentHour+":"+currentMinute);
-            }
+        while(currentHour < wakeUpTimeSeperated[0] || currentMinute < wakeUpTimeSeperated[1]) {
+            listOfTimes.push(`${currentHour}:${currentMinute < 10 ? '0' : ''}${currentMinute}`);
             
             currentMinute += schedule.boxSizeNumber;
             if(currentMinute >= 60) {
