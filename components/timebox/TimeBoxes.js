@@ -31,7 +31,7 @@ export default function TimeBoxes(props) {
                 const headerHeight = headerRef.current.offsetHeight;
                 const headerWidth = headerRef.current.offsetWidth;
                 const overlayHeight = gridHeight - headerHeight;
-                setOverlayDimensions({headerWidth, overlayHeight});
+                setOverlayDimensions([headerWidth, overlayHeight]);
             }
         };
     
@@ -43,7 +43,7 @@ export default function TimeBoxes(props) {
         };
     }, []);
 
-    console.log(overlayHeight);
+    console.log(overlayDimensions);
 
     return (
     <>
