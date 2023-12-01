@@ -178,13 +178,17 @@ export function addBoxesToTime(schedule, time, numberOfBoxes) {
 }
 
 export function calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions) {
-    const dateObject = new Date();
-    let minutes = dateObject.getMinutes();
-    let date = dateObject.getDate();
-    let year = dateObject.getFullYear();
+    const currentDate = new Date();
 
-    convertToDateTime(schedule.wa)
+    let wakeupTime = convertToDateTime(schedule.wakeupTime, currentDate.getDate()+"/"+currentDate.getMonth());
 
-    return 
+    const timeDifference = Math.abs(currentDate - wakeupTime);
+    const minutesDifference = timeDifference / (1000 * 60);
+    
+    const percentageOfTime = (minutesDifference / (24*60));
+
+    const overlaySize = percentageOfTime * overlayDimensions[1];
+
+    return overlaySize;
 }
 

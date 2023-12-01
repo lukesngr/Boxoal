@@ -1,4 +1,4 @@
-import { getDayNumbers, returnTimesSeperatedForSchedule, ifNumberIsCurrentDay, ifNumberIsEqualOrBeyondCurrentDay, convertToTimeAndDate} from '@/modules/dateLogic';
+import { getDayNumbers, returnTimesSeperatedForSchedule, ifNumberIsCurrentDay, ifNumberIsEqualOrBeyondCurrentDay, convertToTimeAndDate, calculateSizeOfOverlayBasedOnCurrentTime} from '@/modules/dateLogic';
 import '../../styles/timeboxes.scss';
 import TimeBox from './Timebox';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -33,6 +33,7 @@ export default function TimeBoxes(props) {
                 const headerWidth = headerRef.current.offsetWidth;
                 const overlayHeight = gridHeight - headerHeight;
                 setOverlayDimensions([headerWidth, overlayHeight]);
+                console.log(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
             }
         };
     
