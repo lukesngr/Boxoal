@@ -5,6 +5,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { ScheduleContext } from '../schedule/ScheduleContext';
 import { TimeboxContextProvider } from "./TimeboxContext";
 import Overlay from './Overlay';
+import ActiveOverlay from './ActiveOverlay';
 
 export default function TimeBoxes(props) {
 
@@ -43,8 +44,6 @@ export default function TimeBoxes(props) {
         };
     }, []);
 
-    console.log(overlayDimensions);
-
     return (
     <>
         <h1 className="viewHeading">This Week</h1>
@@ -56,8 +55,9 @@ export default function TimeBoxes(props) {
                 </div>
                 {dayToName.map((day, index) => (
                     <div ref={headerRef} key={index} style={{padding: '0'}} className={'col-1 '+ifNumberIsCurrentDay(index, 'currentDay', '')}>
-                        <span className='timeboxHeadingText'>{day.day+" ("+day.day+"/"+month+")"}</span>
-                        <Overlay dimensions={overlayDimensions} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)}></Overlay>
+                        <span className='timeboxHeadingText'>{day.name+" ("+day.date+"/"+month+")"}</span>
+                        {ifNumberIsCurrentDay(index, true, false) && <ActiveOverlay dimensions={overlayDimensions}></ActiveOverlay>}
+                        {!ifNumberIsCurrentDay(index, true, false) && <Overlay dimensions={overlayDimensions} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)}></Overlay>}
                     </div>
                 ))}
             </div>
@@ -65,7 +65,7 @@ export default function TimeBoxes(props) {
             {listOfTimes.map(time => (
                 <div key={time} className="row">
                     <div className="col-2"></div>
-                    <div className="col-1">{time}</div>
+                    <div className="col-1 timeCol">{time}</div>
                     {dayToName.map((day, index) => (
                         <TimeBox key={index} dayName={day.name} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)} schedule={schedule} time={time} date={day.date+"/"+month} data={timeBoxGrid.get(day.date+"/"+month)?.get(time)}></TimeBox>
                     ))}

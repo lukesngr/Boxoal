@@ -1,22 +1,31 @@
 export function getDayNumbers() {
     const dateObject = new Date();
-    let month = dateObject.getMonth();
+    let month = dateObject.getMonth() + 1;
     let day = dateObject.getDay();
     let date = dateObject.getDate();
+    let year = dateObject.getFullYear();
     let dayToName = [{day: 0, name: "Sun"}, {day: 1, name: "Mon"}, {day: 2, name: "Tue"}, {day: 3, name: "Wed"}, {day: 4, name: "Thur"},  {day: 5, name: "Fri"},  {day: 6, name: "Sat"}];
     let simpleArray = [0, 1, 2, 3, 4, 5, 6];
 
-    let everythingInFrontOfCurrentDay = simpleArray.splice(simpleArray.indexOf(day)+1, simpleArray.length-1);
-    let dayStack = everythingInFrontOfCurrentDay.concat(simpleArray)
+    let everythingInFrontOfCurrentDay = simpleArray.splice(simpleArray.indexOf(day)+1, simpleArray.length-1); //array of everything ahead of day 
+    let dayStack = everythingInFrontOfCurrentDay.concat(simpleArray) //stack to perform calcs, concat of everything ahead of day and everything after it
     let currentDay = 0;
 
     while(dayStack.length > 0) {
         currentDay = dayStack.pop();
         let currentDate = date + (currentDay - day);
-        dayToName[currentDay].day = currentDate;
+        
+        if(currentDate < 1) {
+            let numberOfDaysInLastMonth = (new Date(year, month-1, 0)).getDate();
+            currentDate = date + (currentDay - day) + numberOfDaysInLastMonth;
+            console.log(numberOfDaysInLastMonth);
+            dayToName[currentDay].month = month-1;
+        }else{
+            dayToName[currentDay].month = month;
+        }
+        
+        dayToName[currentDay].date = currentDate;
     }
-
-    month += 1;
 
     return {month, dayToName};
 }
@@ -166,5 +175,16 @@ export function addBoxesToTime(schedule, time, numberOfBoxes) {
         }
         return endHours+":"+endMinutes;
     }
+}
+
+export function calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions) {
+    const dateObject = new Date();
+    let minutes = dateObject.getMinutes();
+    let date = dateObject.getDate();
+    let year = dateObject.getFullYear();
+
+    convertToDateTime(schedule.wa)
+
+    return 
 }
 
