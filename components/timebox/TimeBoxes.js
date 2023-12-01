@@ -11,7 +11,7 @@ export default function TimeBoxes(props) {
     const gridRef = useRef(null);
     const headerRef = useRef(null);
     const [overlayDimensions, setOverlayDimensions] = useState(0);
-    const {month, dateToDay} = getDayNumbers();
+    const {month, dayToName} = getDayNumbers();
     const {selectedSchedule, setSelectedSchedule} = useContext(ScheduleContext);
     let schedule = props.data.data[selectedSchedule];
     const listOfTimes = returnTimesSeperatedForSchedule(schedule);
@@ -54,9 +54,9 @@ export default function TimeBoxes(props) {
                 </div>
                 <div className="col-1">
                 </div>
-                {dateToDay.map((date, index) => (
+                {dayToName.map((day, index) => (
                     <div ref={headerRef} key={index} style={{padding: '0'}} className={'col-1 '+ifNumberIsCurrentDay(index, 'currentDay', '')}>
-                        <span className='timeboxHeadingText'>{date.name+" ("+date.date+"/"+month+")"}</span>
+                        <span className='timeboxHeadingText'>{day.day+" ("+day.day+"/"+month+")"}</span>
                         <Overlay dimensions={overlayDimensions} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)}></Overlay>
                     </div>
                 ))}
@@ -66,8 +66,8 @@ export default function TimeBoxes(props) {
                 <div key={time} className="row">
                     <div className="col-2"></div>
                     <div className="col-1">{time}</div>
-                    {dateToDay.map((date, index) => (
-                        <TimeBox key={index} dayName={date.name} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)} schedule={schedule} time={time} date={date.date+"/"+month} data={timeBoxGrid.get(date.date+"/"+month)?.get(time)}></TimeBox>
+                    {dayToName.map((day, index) => (
+                        <TimeBox key={index} dayName={day.name} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)} schedule={schedule} time={time} date={day.date+"/"+month} data={timeBoxGrid.get(day.date+"/"+month)?.get(time)}></TimeBox>
                     ))}
                 </div>))}
             </TimeboxContextProvider>

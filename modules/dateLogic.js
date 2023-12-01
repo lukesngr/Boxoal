@@ -3,7 +3,7 @@ export function getDayNumbers() {
     let month = dateObject.getMonth();
     let day = dateObject.getDay();
     let date = dateObject.getDate();
-    let dateToDay = [{date: 0, name: "Sun"}, {date: 1, name: "Mon"}, {date: 2, name: "Tue"}, {date: 3, name: "Wed"}, {date: 4, name: "Thur"},  {date: 5, name: "Fri"},  {date: 6, name: "Sat"}];
+    let dayToName = [{day: 0, name: "Sun"}, {day: 1, name: "Mon"}, {day: 2, name: "Tue"}, {day: 3, name: "Wed"}, {day: 4, name: "Thur"},  {day: 5, name: "Fri"},  {day: 6, name: "Sat"}];
     let simpleArray = [0, 1, 2, 3, 4, 5, 6];
 
     let everythingInFrontOfCurrentDay = simpleArray.splice(simpleArray.indexOf(day)+1, simpleArray.length-1);
@@ -12,13 +12,13 @@ export function getDayNumbers() {
 
     while(dayStack.length > 0) {
         currentDay = dayStack.pop();
-        let currentDate = (currentDay - day)+date;
-        dateToDay[currentDay].date = currentDate;
+        let currentDate = date + (currentDay - day);
+        dayToName[currentDay].day = currentDate;
     }
 
     month += 1;
 
-    return {month, dateToDay};
+    return {month, dayToName};
 }
 
 export function returnTimesSeperatedForSchedule(schedule) {
