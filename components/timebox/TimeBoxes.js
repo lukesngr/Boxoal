@@ -12,6 +12,7 @@ export default function TimeBoxes(props) {
     const gridRef = useRef(null);
     const headerRef = useRef(null);
     const [overlayDimensions, setOverlayDimensions] = useState(0);
+    const [activeOverlayHeight, setActiveOverlayHeight] = useState(0);
     const {month, dayToName} = getDayNumbers();
     const {selectedSchedule, setSelectedSchedule} = useContext(ScheduleContext);
     let schedule = props.data.data[selectedSchedule];
@@ -32,15 +33,21 @@ export default function TimeBoxes(props) {
                 const headerHeight = headerRef.current.offsetHeight;
                 const headerWidth = headerRef.current.offsetWidth;
                 const overlayHeight = gridHeight - headerHeight;
-                setOverlayDimensions([headerWidth, overlayHeight]);
-                console.log(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
+                setOverlayDimensions([headerWidth, overlayHeight]);calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions)
             }
         };
+
+        setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
+
+        const activeOverlayInterval = setInterval(() => {
+            setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
+          }, 5000);
     
         calculateOverlayDimensions();
         window.addEventListener('resize', calculateOverlayDimensions);
     
         return () => {
+            clearInterval(activeOverlayInterval);
             window.removeEventListener('resize', calculateOverlayDimensions);
         };
     }, []);
@@ -57,7 +64,7 @@ export default function TimeBoxes(props) {
                 {dayToName.map((day, index) => (
                     <div ref={headerRef} key={index} style={{padding: '0'}} className={'col-1 '+ifNumberIsCurrentDay(index, 'currentDay', '')}>
                         <span className='timeboxHeadingText'>{day.name+" ("+day.date+"/"+month+")"}</span>
-                        {ifNumberIsCurrentDay(index, true, false) && <ActiveOverlay dimensions={overlayDimensions}></ActiveOverlay>}
+                        {ifNumberIsCurrentDay(index, true, false) && <ActiveOverlay width={overlayDimensions[0]} overlayHeight={activeOverlayHeight}></ActiveOverlay>}
                         {!ifNumberIsCurrentDay(index, true, false) && <Overlay dimensions={overlayDimensions} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)}></Overlay>}
                     </div>
                 ))}
