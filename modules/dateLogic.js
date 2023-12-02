@@ -18,7 +18,6 @@ export function getDayNumbers() {
         if(currentDate < 1) {
             let numberOfDaysInLastMonth = (new Date(year, month-1, 0)).getDate();
             currentDate = date + (currentDay - day) + numberOfDaysInLastMonth;
-            console.log(numberOfDaysInLastMonth);
             dayToName[currentDay].month = month-1;
         }else{
             dayToName[currentDay].month = month;
@@ -182,12 +181,17 @@ export function calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimens
 
     let wakeupTime = convertToDateTime(schedule.wakeupTime, currentDate.getDate()+"/"+currentDate.getMonth());
 
+    currentDate.setDate(3);
+    currentDate.setHours(7);
+    currentDate.setMinutes(30);
+
     const timeDifference = Math.abs(currentDate - wakeupTime);
     const minutesDifference = timeDifference / (1000 * 60);
     
     const percentageOfTime = (minutesDifference / (24*60));
 
     const overlaySize = percentageOfTime * overlayDimensions[1];
+    console.log(overlayDimensions[1], overlaySize, percentageOfTime, minutesDifference, wakeupTime, currentDate);
 
     return overlaySize;
 }

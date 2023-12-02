@@ -26,24 +26,23 @@ export default function TimeBoxes(props) {
         timeBoxGrid.get(date).set(time, element);
     });
 
+    function calculateOverlayDimensions() {
+        if (gridRef.current && headerRef.current) {
+            const gridHeight = gridRef.current.offsetHeight;
+            const headerHeight = headerRef.current.offsetHeight;
+            const headerWidth = headerRef.current.offsetWidth;
+            const overlayHeight = gridHeight - headerHeight;
+            setOverlayDimensions([headerWidth, overlayHeight]);
+        }
+    };
+
     useEffect(() => {
-        const calculateOverlayDimensions = () => {
-            if (gridRef.current && headerRef.current) {
-                const gridHeight = gridRef.current.offsetHeight;
-                const headerHeight = headerRef.current.offsetHeight;
-                const headerWidth = headerRef.current.offsetWidth;
-                const overlayHeight = gridHeight - headerHeight;
-                setOverlayDimensions([headerWidth, overlayHeight]);calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions)
-            }
-        };
-
-        setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
-
         const activeOverlayInterval = setInterval(() => {
             setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
           }, 5000);
     
         calculateOverlayDimensions();
+        setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
         window.addEventListener('resize', calculateOverlayDimensions);
     
         return () => {
@@ -51,6 +50,10 @@ export default function TimeBoxes(props) {
             window.removeEventListener('resize', calculateOverlayDimensions);
         };
     }, []);
+
+    useEffect(() => {
+        calculateOverlayDimensions();
+    }, [selectedSchedule]);
 
     return (
     <>
