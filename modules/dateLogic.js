@@ -181,18 +181,15 @@ export function calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimens
 
     let wakeupTime = convertToDateTime(schedule.wakeupTime, currentDate.getDate()+"/"+currentDate.getMonth());
 
-    currentDate.setDate(3);
-    currentDate.setHours(7);
-    currentDate.setMinutes(30);
+    const maxNumberOfBoxes = (24*60) / schedule.boxSizeNumber;
+    const boxesBetween =  calculateBoxesBetweenTwoDateTimes(wakeupTime, currentDate, schedule);
+    const pixelsPerBox = overlayDimensions[2];
+    const justBoxesHeight = pixelsPerBox * boxesBetween;
 
-    const timeDifference = Math.abs(currentDate - wakeupTime);
-    const minutesDifference = timeDifference / (1000 * 60);
-    
-    const percentageOfTime = (minutesDifference / (24*60));
+    const inBetweenHeight = (pixelsPerBox / schedule.boxSizeNumber) * currentDate.getMinutes();
 
-    const overlaySize = percentageOfTime * overlayDimensions[1];
-    console.log(overlayDimensions[1], overlaySize, percentageOfTime, minutesDifference, wakeupTime, currentDate);
+   console.log(maxNumberOfBoxes, boxesBetween, overlayDimensions, pixelsPerBox, inBetweenHeight);
 
-    return overlaySize;
+    return justBoxesHeight+inBetweenHeight;
 }
 
