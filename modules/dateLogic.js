@@ -26,7 +26,7 @@ export function getDayNumbers() {
         dayToName[currentDay].date = currentDate;
     }
 
-    return {month, dayToName};
+    return dayToName;
 }
 
 export function returnTimesSeperatedForSchedule(schedule) {
@@ -181,14 +181,11 @@ export function calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimens
 
     let wakeupTime = convertToDateTime(schedule.wakeupTime, currentDate.getDate()+"/"+currentDate.getMonth());
 
-    const maxNumberOfBoxes = (24*60) / schedule.boxSizeNumber;
     const boxesBetween =  calculateBoxesBetweenTwoDateTimes(wakeupTime, currentDate, schedule);
     const pixelsPerBox = overlayDimensions[2];
     const justBoxesHeight = pixelsPerBox * boxesBetween;
 
     const inBetweenHeight = (pixelsPerBox / schedule.boxSizeNumber) * currentDate.getMinutes();
-
-   console.log(maxNumberOfBoxes, boxesBetween, overlayDimensions, pixelsPerBox, inBetweenHeight);
 
     return justBoxesHeight+inBetweenHeight;
 }

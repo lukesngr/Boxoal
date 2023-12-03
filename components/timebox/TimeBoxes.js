@@ -1,7 +1,7 @@
-import { getDayNumbers, returnTimesSeperatedForSchedule, ifNumberIsCurrentDay, ifNumberIsEqualOrBeyondCurrentDay, convertToTimeAndDate, calculateSizeOfOverlayBasedOnCurrentTime} from '@/modules/dateLogic';
+import React, { useRef, useState, useContext, useEffect } from 'react';
+import { getDayNumbers, returnTimesSeperatedForSchedule, ifNumberIsCurrentDay, ifNumberIsEqualOrBeyondCurrentDay, convertToTimeAndDate, calculateSizeOfOverlayBasedOnCurrentTime } from '@/modules/dateLogic';
 import '../../styles/timeboxes.scss';
 import TimeBox from './Timebox';
-import { useContext, useEffect, useRef, useState } from 'react';
 import { ScheduleContext } from '../schedule/ScheduleContext';
 import { TimeboxContextProvider } from "./TimeboxContext";
 import Overlay from './Overlay';
@@ -9,12 +9,12 @@ import ActiveOverlay from './ActiveOverlay';
 
 export default function TimeBoxes(props) {
 
-    const gridRef = useRef(null);
-    const headerRef = useRef(null);
-    const boxRef = useRef(null);
+    const gridContainerRef = useRef(null);
+    const headerContainerRef = useRef(null);
+    const timeboxColumnRef = useRef(null);
     const [overlayDimensions, setOverlayDimensions] = useState(0);
     const [activeOverlayHeight, setActiveOverlayHeight] = useState(0);
-    const {month, dayToName} = getDayNumbers();
+    const dayToName = getDayNumbers();
     const {selectedSchedule, setSelectedSchedule} = useContext(ScheduleContext);
     let schedule = props.data.data[selectedSchedule];
     const listOfTimes = returnTimesSeperatedForSchedule(schedule);
@@ -28,15 +28,13 @@ export default function TimeBoxes(props) {
     });
 
     function calculateOverlayDimensions() {
-        if (gridRef.current && headerRef.current && boxRef.current) {
-            const gridHeight = gridRef.current.offsetHeight;
-            const headerHeight = headerRef.current.offsetHeight;
-            const headerWidth = headerRef.current.offsetWidth;
+        if (gridContainerRef.current && headerContainerRef.current && timeboxColumnRef.current) {
+            const gridHeight = gridContainerRef.current.offsetHeight;
+            const headerHeight = headerContainerRef.current.offsetHeight;
+            const headerWidth = headerContainerRef.current.offsetWidth;
             const overlayHeight = gridHeight - headerHeight;
-            const timeboxHeight = boxRef.current.offsetHeight;
+            const timeboxHeight = timeboxColumnRef.current.offsetHeight;
             setOverlayDimensions([headerWidth, overlayHeight, timeboxHeight]);
-        }else{
-            console.log("oh no")
         }
     };
 
@@ -64,14 +62,14 @@ export default function TimeBoxes(props) {
     return (
     <>
         <h1 className="viewHeading">This Week</h1>
-        <div ref={gridRef} className="container-fluid mt-2 timeboxesGrid">
+        <div ref={gridContainerRef} className="container-fluid mt-2 timeboxesGrid">
             <div className="row">
                 <div className="col-2">
                 </div>
                 <div className="col-1">
                 </div>
                 {dayToName.map((day, index) => (
-                    <div ref={headerRef} key={index} style={{padding: '0'}} className={'col-1 '+ifNumberIsCurrentDay(index, 'currentDay', '')}>
+                    <div ref={headerContainerRef} key={index} style={{padding: '0'}} className={'col-1 '+ifNumberIsCurrentDay(index, 'currentDay', '')}>
                         <span className='timeboxHeadingText'>{day.name+" ("+day.date+"/"+month+")"}</span>
                         {ifNumberIsCurrentDay(index, true, false) && <ActiveOverlay width={overlayDimensions[0]} overlayHeight={activeOverlayHeight}></ActiveOverlay>}
                         {!ifNumberIsCurrentDay(index, true, false) && <Overlay dimensions={overlayDimensions} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)}></Overlay>}
@@ -82,7 +80,7 @@ export default function TimeBoxes(props) {
             {listOfTimes.map(time => (
                 <div key={time} className="row">
                     <div className="col-2"></div>
-                    <div ref={boxRef} className="col-1 timeCol">{time}</div>
+                    <div ref={timeboxColumnRef} className="col-1 timeCol">{time}</div>
                     {dayToName.map((day, index) => (
                         <TimeBox key={index} dayName={day.name} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)} schedule={schedule} time={time} date={day.date+"/"+month} data={timeBoxGrid.get(day.date+"/"+month)?.get(time)}></TimeBox>
                     ))}
