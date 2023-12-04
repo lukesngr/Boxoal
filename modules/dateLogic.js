@@ -35,14 +35,14 @@ export function getDayNumbers() {
 export function returnTimesSeperatedForSchedule(schedule) {
 
     let listOfTimes = []
-    let wakeUpTimeSeperated = schedule.wakeupTime.split(":").map(function(num) { return parseInt(num); });
+    let wakeUpTimeSeperatedIntoHoursAndMins = schedule.wakeupTime.split(":").map(function(num) { return parseInt(num); });
 
     if(schedule.boxSizeUnit == "min") { 
-        let currentHour = wakeUpTimeSeperated[0];
-        let currentMinute = wakeUpTimeSeperated[1];
+        let currentHour = wakeUpTimeSeperatedIntoHoursAndMins[0]; //hours and minutes start off at wakeup time
+        let currentMinute = wakeUpTimeSeperatedIntoHoursAndMins[1];
         
-        while(currentHour < 25 && currentMinute < 60) {
-            listOfTimes.push(`${currentHour}:${currentMinute < 10 ? '0' : ''}${currentMinute}`);
+        while(currentHour < 24 && currentMinute < 60) {
+            listOfTimes.push(`${currentHour}:${currentMinute < 10 ? '0' : ''}${currentMinute}`);  //push to list of times in format hh:mm 
             
             currentMinute += schedule.boxSizeNumber;
             if(currentMinute >= 60) {
@@ -54,7 +54,7 @@ export function returnTimesSeperatedForSchedule(schedule) {
         currentHour = 0;
         currentMinute = 0;
 
-        while(currentHour < wakeUpTimeSeperated[0] || currentMinute < wakeUpTimeSeperated[1]) {
+        while(currentHour < wakeUpTimeSeperatedIntoHoursAndMins[0] || currentMinute < wakeUpTimeSeperatedIntoHoursAndMins[1]) {
             listOfTimes.push(`${currentHour}:${currentMinute < 10 ? '0' : ''}${currentMinute}`);
             
             currentMinute += schedule.boxSizeNumber;
@@ -64,6 +64,8 @@ export function returnTimesSeperatedForSchedule(schedule) {
             }
         }
     }
+
+    console.log(listOfTimes);
 
     return listOfTimes;
 }
