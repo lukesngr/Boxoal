@@ -13,16 +13,19 @@ export function getDayNumbers() {
 
     while(dayStack.length > 0) {
         currentDay = dayStack.pop();
-        let currentDate = date + (currentDay - day);
-        
-        if(currentDate < 1) {
-            let numberOfDaysInLastMonth = (new Date(year, month-1, 0)).getDate();
+        let currentDate = date + (currentDay - day); //currentDate = date for today plus the distance day grabed from the stack is from today 
+
+        if(currentDate < 1) { //this code deals with the use case that the calculation above goes into the negative
+            let numberOfDaysInLastMonth = (new Date(year, month-2, 0)).getDate();
             currentDate = date + (currentDay - day) + numberOfDaysInLastMonth;
             dayToName[currentDay].month = month-1;
-        }else{
+        }else if(currentDate > (new Date(year, month, 0)).getDate()) { //deals with the case that the current date overlaps what is possible in the month
+            currentDate -= (new Date(year, month, 0)).getDate();
+            dayToName[currentDay].month = month + 1;
+        }else {
             dayToName[currentDay].month = month;
         }
-        
+
         dayToName[currentDay].date = currentDate;
     }
 

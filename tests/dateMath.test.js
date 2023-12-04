@@ -2,17 +2,15 @@ import { getDayNumbers } from '../modules/dateLogic';
 
 describe('getDayNumbers', () => {
   // Mock the current date to June 21, 2023
-  const mockDate = new Date('2023-06-21');
-  beforeAll(() => {
-    jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
-  });
-
   afterAll(() => {
     // Restore the original Date implementation after all tests
     jest.restoreAllMocks();
   });
 
   test('returns the correct day numbers and month for the current day (e.g., Wednesday)', () => {
+    let mockDate = new Date('2023-06-21')
+    jest.useFakeTimers("modern");
+    jest.setSystemTime(mockDate);
     const result = getDayNumbers();
     expect(result).toEqual([
       { day: 0, name: 'Sun', date: 18, month: 6 },
@@ -27,7 +25,9 @@ describe('getDayNumbers', () => {
 
   test('returns the correct day numbers and month for the current day where month changes', () => {
     // Change the mock date to May 25, 2023
-    mockDate.setFullYear(2023, 4, 28);
+    let mockDate = new Date(2023, 4, 28);
+    jest.useFakeTimers("modern");
+    jest.setSystemTime(mockDate);
 
     const result = getDayNumbers();
     expect(result).toEqual([
