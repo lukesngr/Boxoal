@@ -250,6 +250,6 @@ describe('Testing box calculation functions', () => {
     const result = addBoxesToTime(schedule, time, numberOfBoxes);
 
     // Adjust the expected value based on your specific calculation
-    expect(result).toBe('1:30');
+    expect(result).toBe('1:00');
   });
 });

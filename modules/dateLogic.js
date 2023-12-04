@@ -215,15 +215,23 @@ export function addBoxesToTime(schedule, time, numberOfBoxes) {
             endMinutes += schedule.boxSizeNumber;
 
             if(endMinutes >= 60) {
-                endHours += 1;
+                if(endHours == 23) {
+                    endHours = 0;
+                }else{
+                    endHours += 1;
+                }
                 endMinutes -= 60;
             }
         }
     }else if(schedule.boxSizeUnit == "hr") {
         endHours += numberOfBoxes * schedule.boxSizeNumber;
+        console.log(endHours)
+        if(endHours > 24) {
+            endHours = endHours - 24;
+        }
     }
 
-    return `${endHours}:${endMinutes}`;
+    return `${endHours}:${endMinutes < 10 ? '0' : ''}${endMinutes}`;
 }
 
 export function calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions) {
