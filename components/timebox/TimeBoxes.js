@@ -34,18 +34,18 @@ export default function TimeBoxes(props) {
             const headerWidth = headerContainerRef.current.offsetWidth;
             const overlayHeight = gridHeight - headerHeight;
             const timeboxHeight = timeboxColumnRef.current.offsetHeight;
-            setOverlayDimensions([headerWidth, overlayHeight, timeboxHeight]);
+            let overlayDimensions = [headerWidth, overlayHeight, timeboxHeight];
+            setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions))
+            setOverlayDimensions(overlayDimensions);
         }
     };
 
     useEffect(() => {
         calculateOverlayDimensions();
+        
         const activeOverlayInterval = setInterval(() => {
             setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
           }, 5000);
-    
-        
-        setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
         window.addEventListener('resize', calculateOverlayDimensions);
     
         return () => {
@@ -56,7 +56,6 @@ export default function TimeBoxes(props) {
 
     useEffect(() => {
         calculateOverlayDimensions();
-        setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
     }, [selectedSchedule]);
 
     return (

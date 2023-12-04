@@ -235,14 +235,16 @@ export function addBoxesToTime(schedule, time, numberOfBoxes) {
 
 export function calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions) {
     const currentDate = new Date();
-
     let wakeupTime = convertToDateTime(schedule.wakeupTime, currentDate.getDate()+"/"+currentDate.getMonth());
 
     const boxesBetween =  calculateBoxesBetweenTwoDateTimes(wakeupTime, currentDate, schedule);
+    console.log(overlayDimensions);
     const pixelsPerBox = overlayDimensions[2];
     const justBoxesHeight = pixelsPerBox * boxesBetween;
 
     const inBetweenHeight = (pixelsPerBox / schedule.boxSizeNumber) * currentDate.getMinutes();
+
+    console.log(inBetweenHeight, justBoxesHeight);
 
     return justBoxesHeight+inBetweenHeight;
 }
