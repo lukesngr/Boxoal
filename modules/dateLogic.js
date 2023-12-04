@@ -219,6 +219,8 @@ export function addBoxesToTime(schedule, time, numberOfBoxes) {
                 endMinutes -= 60;
             }
         }
+    }else if(schedule.boxSizeUnit == "hr") {
+        endHours += numberOfBoxes * schedule.boxSizeNumber;
     }
 
     return `${endHours}:${endMinutes}`;

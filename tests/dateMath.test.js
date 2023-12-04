@@ -224,4 +224,32 @@ describe('Testing box calculation functions', () => {
     // Adjust the expected value based on your specific calculation
     expect(result).toBe('11:30');
   });
+
+  it('testing if 24 hour time works in minutes', () => {
+    const schedule = {
+      boxSizeUnit: 'min',
+      boxSizeNumber: 15,
+    };
+    const time = '23:30'; // replace with your actual time
+    const numberOfBoxes = 3; // replace with your actual number of boxes
+
+    const result = addBoxesToTime(schedule, time, numberOfBoxes);
+
+    // Adjust the expected value based on your specific calculation
+    expect(result).toBe('0:15');
+  });
+
+  it('testing if 24 hour time works in in hours', () => {
+    const schedule = {
+      boxSizeUnit: 'hr',
+      boxSizeNumber: 1,
+    };
+    const time = '22:00'; // replace with your actual time
+    const numberOfBoxes = 3; // replace with your actual number of boxes
+
+    const result = addBoxesToTime(schedule, time, numberOfBoxes);
+
+    // Adjust the expected value based on your specific calculation
+    expect(result).toBe('1:30');
+  });
 });
