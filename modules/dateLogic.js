@@ -87,7 +87,7 @@ export function returnTimesSeperatedForSchedule(schedule) {
 function calculateMaxNumberOfBoxesIfScheduleEmpty(schedule, timeSeparated, wakeUpTimeSeparated) {
     
     if(schedule.boxSizeUnit == "min") {
-        const minutesInOneDay = 25 * 60; //idk why but this works
+        const minutesInOneDay = 24 * 60; //idk why but this works //update this works cause I stuffed up 24 hour time
         let maxNumberOfBoxes = Math.floor(minutesInOneDay / schedule.boxSizeNumber);
         
         if(timeSeparated[0] > wakeUpTimeSeparated[0] || (timeSeparated[0] == wakeUpTimeSeparated[0] && timeSeparated[1] > wakeUpTimeSeparated[1])) {
