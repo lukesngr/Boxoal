@@ -91,7 +91,7 @@ export function convertToDateTime(time, date) {
     datetime.setHours(timeSeparated[0]);
     datetime.setMinutes(timeSeparated[1]);
     datetime.setDate(dateSeparated[0]);
-    datetime.setMonth(dateSeparated[1]);
+    datetime.setMonth(dateSeparated[1]-1);
     return datetime;
 }
 
@@ -134,14 +134,30 @@ export function calculateMaxNumberOfBoxesAfterTimeIfEmpty(schedule, timeSeparate
             maxNumberOfBoxes -= boxesMadeUpOfMinutes;
         }
         return maxNumberOfBoxes;
+    }else if(schedule.boxSizeUnit == "hr") {
+        let maxNumberOfBoxes = Math.floor(24 / schedule.boxSizeNumber);
+        let [timeHours, timeMinutes] = timeSeparated;
+        let [wakeupTimeHours, wakeupTimeMinutes] = wakeUpTimeSeparated;
+
+        if(timeHours > wakeupTimeHours) {  
+            let boxesMadeUpOfHours = (timeHours-wakeupTimeHours) / schedule.boxSizeNumber;
+            maxNumberOfBoxes -= boxesMadeUpOfHours;
+        }else if(timeHours < wakeupTimeHours){
+            let boxesMadeUpOfHours = timeHours / schedule.boxSizeNumber; //from 00:00 to time hours
+            boxesMadeUpOfHours += (24-wakeupTimeHours) / schedule.boxSizeNumber; //from wakeup time hours to 24:00
+            maxNumberOfBoxes -= boxesMadeUpOfHours;
+        }
+        return maxNumberOfBoxes;
     }
 }
 
-function calculateBoxesBetweenTwoDateTimes(dateTime1, dateTime2, schedule) {
+export function calculateBoxesBetweenTwoDateTimes(dateTime1, dateTime2, schedule) {
     let numberOfBoxes = 0;
     if(schedule.boxSizeUnit == "min") {
         numberOfBoxes += Math.round(((dateTime2.getHours() - dateTime1.getHours())*60) / schedule.boxSizeNumber);
         numberOfBoxes += Math.round((dateTime2.getMinutes() - dateTime1.getMinutes()) / schedule.boxSizeNumber);
+    }else if(schedule.boxSizeUnit == "hr") {
+        numberOfBoxes += Math.round((dateTime2.getHours() - dateTime1.getHours()) / schedule.boxSizeNumber);
     }
 
     return numberOfBoxes;
@@ -153,9 +169,13 @@ export function calculateMaxNumberOfBoxes(schedule, time, date) {
     let currentDateTime = convertToDateTime(time, date);
     let maxNumberOfBoxes = 0;
 
-    for(let i = 0; i < schedule.timeboxes.length; i++) {
-        if(currentDateTime < new Date(schedule.timeboxes[i].startTime)) {
-            maxNumberOfBoxes = calculateBoxesBetweenTwoDateTimes(currentDateTime, new Date(schedule.timeboxes[i].startTime), schedule);
+    for(let i = 0; i < schedule.timeboxes.length; i++) { //for each time box
+        let timeboxStartTimeInDateTime = new Date(schedule.timeboxes[i].startTime);
+
+        console.log(currentDateTime, timeboxStartTimeInDateTime);
+        if(currentDateTime < timeboxStartTimeInDateTime) { //if timebox occurs after the time of a timebox
+            maxNumberOfBoxes = calculateBoxesBetweenTwoDateTimes(currentDateTime, timeboxStartTimeInDateTime, schedule);
+            console.log(maxNumberOfBoxes);
             i = schedule.timeboxes.length;
         }else{
             i++;

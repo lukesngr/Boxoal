@@ -1,5 +1,7 @@
-import { getDayNumbers, returnTimesSeperatedForSchedule, calculateMaxNumberOfBoxesAfterTimeIfEmpty } from '../modules/dateLogic';
+import { getDayNumbers, returnTimesSeperatedForSchedule, calculateMaxNumberOfBoxesAfterTimeIfEmpty, calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoDateTimes, addBoxesToTime } from '../modules/dateLogic';
 
+
+//mainly testing most important functions in this code
 describe('getDayNumbers', () => {
   // Mock the current date to June 21, 2023
   afterAll(() => {
@@ -123,5 +125,89 @@ describe('Testing box calculation functions', () => {
     expect(result).toBe(2);
   });
 
-  // Add more test cases for different scenarios if needed
+  it('should calculate the max number of boxes when schedule is empty for hours when wakeup time before', () => {
+    const schedule = {
+      boxSizeUnit: 'hr',
+      boxSizeNumber: 1,
+    };
+
+    const wakeUpTimeSeparated = [8, 30]; 
+    const timeSeparated = [16, 30];
+
+    const result = calculateMaxNumberOfBoxesAfterTimeIfEmpty(schedule, timeSeparated, wakeUpTimeSeparated);
+
+    expect(result).toBe(16);
+  });
+
+  it('should calculate the max number of boxes when schedule is empty for hours when wakeup time after', () => {
+    const schedule = {
+      boxSizeUnit: 'hr',
+      boxSizeNumber: 1,
+    };
+
+    const wakeUpTimeSeparated = [10, 0]; 
+    const timeSeparated = [8, 0];
+
+    const result = calculateMaxNumberOfBoxesAfterTimeIfEmpty(schedule, timeSeparated, wakeUpTimeSeparated);
+
+    expect(result).toBe(2);
+  });
+
+  it('should calculate the number of boxes between two date times in minutes', () => {
+    const dateTime1 = new Date('2023-01-01T08:30:00');
+    const dateTime2 = new Date('2023-01-01T10:45:00');
+    const schedule = {
+      boxSizeUnit: 'min',
+      boxSizeNumber: 15,
+    };
+
+    const result = calculateBoxesBetweenTwoDateTimes(dateTime1, dateTime2, schedule);
+
+    expect(result).toBe(9);
+  });
+
+  it('should calculate the number of boxes between two date times in hours', () => {
+    const dateTime1 = new Date('2023-01-01T08:30:00');
+    const dateTime2 = new Date('2023-01-01T10:30:00');
+    const schedule = {
+      boxSizeUnit: 'hr',
+      boxSizeNumber: 1,
+    };
+
+    const result = calculateBoxesBetweenTwoDateTimes(dateTime1, dateTime2, schedule);
+
+    expect(result).toBe(2);
+  });
+  
+  it('should calculate the max number of boxes based on the schedule, time, and date', () => {
+    const schedule = {
+      wakeupTime: '08:30',
+      timeboxes: [
+        { startTime: '2023-01-01T13:00:00', numberOfBoxes: 1 },
+        { startTime: '2023-01-01T15:30:00', numberOfBoxes: 1 },
+      ],
+      boxSizeUnit: 'min',
+      boxSizeNumber: 15,
+    };
+    const time = '12:45';
+    const date = '1/1';
+
+    const result = calculateMaxNumberOfBoxes(schedule, time, date);
+
+    expect(result).toBe(1);
+  });
+
+  it('should add boxes to the given time and return the updated time', () => {
+    const schedule = {
+      boxSizeUnit: 'min',
+      boxSizeNumber: 15,
+    };
+    const time = '08:30'; // replace with your actual time
+    const numberOfBoxes = 3; // replace with your actual number of boxes
+
+    const result = addBoxesToTime(schedule, time, numberOfBoxes);
+
+    // Adjust the expected value based on your specific calculation
+    expect(result).toBe('9:15');
+  });
 });
