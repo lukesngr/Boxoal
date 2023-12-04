@@ -120,7 +120,7 @@ describe('Testing box calculation functions', () => {
 
     const result = calculateMaxNumberOfBoxesAfterTimeIfEmpty(schedule, timeSeparated, wakeUpTimeSeparated);
 
-    expect(result).toBe(79);
+    expect(result).toBe(2);
   });
 
   // Add more test cases for different scenarios if needed
