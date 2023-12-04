@@ -1,4 +1,4 @@
-import { getDayNumbers, returnTimesSeperatedForSchedule } from '../modules/dateLogic';
+import { getDayNumbers, returnTimesSeperatedForSchedule, calculateMaxNumberOfBoxesAfterTimeIfEmpty } from '../modules/dateLogic';
 
 describe('getDayNumbers', () => {
   // Mock the current date to June 21, 2023
@@ -92,4 +92,22 @@ describe('returnTimesSeperatedForSchedule', () => {
 
     expect(result).toEqual(expectedTimes);
   });
+});
+
+describe('Testing box calculation functions', () => {
+  it('should calculate the max number of boxes when schedule is empty for minutes when wakeup time before', () => {
+    const schedule = {
+      boxSizeUnit: 'min',
+      boxSizeNumber: 15,
+    };
+
+    const wakeUpTimeSeparated = [8, 30]; 
+    const timeSeparated = [12, 45];
+
+    const result = calculateMaxNumberOfBoxesAfterTimeIfEmpty(schedule, timeSeparated, wakeUpTimeSeparated);
+
+    expect(result).toBe(79);
+  });
+
+  // Add more test cases for different scenarios if needed
 });
