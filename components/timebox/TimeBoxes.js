@@ -70,7 +70,7 @@ export default function TimeBoxes(props) {
                 </div>
                 {dayToName.map((day, index) => (
                     <div ref={headerContainerRef} key={index} style={{padding: '0'}} className={'col-1 '+ifNumberIsCurrentDay(index, 'currentDay', '')}>
-                        <span className='timeboxHeadingText'>{day.name+" ("+day.date+"/"+month+")"}</span>
+                        <span className='timeboxHeadingText'>{day.name+" ("+day.date+"/"+day.month+")"}</span>
                         {ifNumberIsCurrentDay(index, true, false) && <ActiveOverlay width={overlayDimensions[0]} overlayHeight={activeOverlayHeight}></ActiveOverlay>}
                         {!ifNumberIsCurrentDay(index, true, false) && <Overlay dimensions={overlayDimensions} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)}></Overlay>}
                     </div>
@@ -82,7 +82,7 @@ export default function TimeBoxes(props) {
                     <div className="col-2"></div>
                     <div ref={timeboxColumnRef} className="col-1 timeCol">{time}</div>
                     {dayToName.map((day, index) => (
-                        <TimeBox key={index} dayName={day.name} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)} schedule={schedule} time={time} date={day.date+"/"+month} data={timeBoxGrid.get(day.date+"/"+month)?.get(time)}></TimeBox>
+                        <TimeBox key={index} dayName={day.name} active={ifNumberIsEqualOrBeyondCurrentDay(index, true, false)} schedule={schedule} time={time} date={day.date+"/"+day.month} data={timeBoxGrid.get(day.date+"/"+day.month)?.get(time)}></TimeBox>
                     ))}
                 </div>))}
             </TimeboxContextProvider>
