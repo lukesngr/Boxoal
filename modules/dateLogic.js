@@ -225,7 +225,6 @@ export function addBoxesToTime(schedule, time, numberOfBoxes) {
         }
     }else if(schedule.boxSizeUnit == "hr") {
         endHours += numberOfBoxes * schedule.boxSizeNumber;
-        console.log(endHours)
         if(endHours > 24) {
             endHours = endHours - 24;
         }
