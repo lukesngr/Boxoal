@@ -154,10 +154,10 @@ export function calculateMaxNumberOfBoxesAfterTimeIfEmpty(schedule, timeSeparate
 export function calculateBoxesBetweenTwoDateTimes(dateTime1, dateTime2, schedule) {
     let numberOfBoxes = 0;
     if(schedule.boxSizeUnit == "min") {
-        numberOfBoxes += Math.round(((dateTime2.getHours() - dateTime1.getHours())*60) / schedule.boxSizeNumber);
-        numberOfBoxes += Math.round((dateTime2.getMinutes() - dateTime1.getMinutes()) / schedule.boxSizeNumber);
+        numberOfBoxes += Math.floor(((dateTime2.getHours() - dateTime1.getHours())*60) / schedule.boxSizeNumber);
+        numberOfBoxes += Math.floor((dateTime2.getMinutes() - dateTime1.getMinutes()) / schedule.boxSizeNumber);
     }else if(schedule.boxSizeUnit == "hr") {
-        numberOfBoxes += Math.round((dateTime2.getHours() - dateTime1.getHours()) / schedule.boxSizeNumber);
+        numberOfBoxes += Math.floor((dateTime2.getHours() - dateTime1.getHours()) / schedule.boxSizeNumber);
     }
 
     return numberOfBoxes;
@@ -235,16 +235,17 @@ export function addBoxesToTime(schedule, time, numberOfBoxes) {
 
 export function calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions) {
     const currentDate = new Date();
+    currentDate.setHours(21);
+    currentDate.setMinutes(20);
+
     let wakeupTime = convertToDateTime(schedule.wakeupTime, currentDate.getDate()+"/"+currentDate.getMonth());
 
     const boxesBetween =  calculateBoxesBetweenTwoDateTimes(wakeupTime, currentDate, schedule);
-    console.log(overlayDimensions);
     const pixelsPerBox = overlayDimensions[2];
     const justBoxesHeight = pixelsPerBox * boxesBetween;
+    const inBetweenHeight = (pixelsPerBox / schedule.boxSizeNumber) * currentDate.getMinutes(); //
 
-    const inBetweenHeight = (pixelsPerBox / schedule.boxSizeNumber) * currentDate.getMinutes();
-
-    console.log(inBetweenHeight, justBoxesHeight);
+    console.log(inBetweenHeight, justBoxesHeight, pixelsPerBox, boxesBetween);
 
     return justBoxesHeight+inBetweenHeight;
 }
