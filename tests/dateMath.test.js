@@ -109,5 +109,19 @@ describe('Testing box calculation functions', () => {
     expect(result).toBe(79);
   });
 
+  it('should calculate the max number of boxes when schedule is empty for minutes when wakeup time after', () => {
+    const schedule = {
+      boxSizeUnit: 'min',
+      boxSizeNumber: 15,
+    };
+
+    const wakeUpTimeSeparated = [10, 30]; 
+    const timeSeparated = [10, 0];
+
+    const result = calculateMaxNumberOfBoxesAfterTimeIfEmpty(schedule, timeSeparated, wakeUpTimeSeparated);
+
+    expect(result).toBe(79);
+  });
+
   // Add more test cases for different scenarios if needed
 });

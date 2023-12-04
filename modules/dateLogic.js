@@ -124,6 +124,12 @@ export function calculateMaxNumberOfBoxesAfterTimeIfEmpty(schedule, timeSeparate
             let boxesMadeUpOfMinutes = (timeMinutes-wakeupTimeMinutes) / schedule.boxSizeNumber;
             maxNumberOfBoxes -= boxesMadeUpOfHours;
             maxNumberOfBoxes -= boxesMadeUpOfMinutes;
+        //if time hours smaller than wakeup hour or time hours equals wakeup hours and time minutes smaller. basically if time behind of wakeup
+        }else if(timeHours < wakeupTimeHours || (timeHours == wakeupTimeHours && timeMinutes < wakeupTimeMinutes)){
+            let boxesMadeUpOfHours = ((timeHours-wakeupTimeHours)*60) / schedule.boxSizeNumber;
+            let boxesMadeUpOfMinutes = (timeMinutes-wakeupTimeMinutes) / schedule.boxSizeNumber;
+            maxNumberOfBoxes -= boxesMadeUpOfHours;
+            maxNumberOfBoxes -= boxesMadeUpOfMinutes;
         }
         return maxNumberOfBoxes;
     }
