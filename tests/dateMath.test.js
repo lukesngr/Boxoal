@@ -74,5 +74,22 @@ describe('returnTimesSeperatedForSchedule', () => {
     expect(result).toEqual(expectedTimes);
   });
 
-  // Add more test cases for different scenarios if needed
+  it('should return an array of times based on the given schedule in hours', () => {
+    const schedule = {
+      wakeupTime: '08:30',
+      boxSizeUnit: 'hr',
+      boxSizeNumber: 1,
+    };
+
+    const expectedTimes = [
+      '8:30', '9:30', '10:30', '11:30', '12:30', '13:30',
+      '14:30', '15:30', '16:30', '17:30', '18:30', '19:30',
+      '20:30', '21:30', '22:30', '23:30', '0:30', '1:30', 
+      '2:30', '3:30', '4:30', '5:30', '6:30', '7:30'
+    ];
+
+    const result = returnTimesSeperatedForSchedule(schedule);
+
+    expect(result).toEqual(expectedTimes);
+  });
 });
