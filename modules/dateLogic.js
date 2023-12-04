@@ -63,9 +63,23 @@ export function returnTimesSeperatedForSchedule(schedule) {
                 currentMinute -= 60;
             }
         }
-    }
+    }else if(schedule.boxSizeUnit == "hr") {
+        let currentHour = wakeUpTimeSeperatedIntoHoursAndMins[0]; //hours  start off at wakeup time
+        const minuteThatRemainsUnchanged = wakeUpTimeSeperatedIntoHoursAndMins[1]; //minute doesn't change due to unit being hours
+        
+        while(currentHour < 24) {
+            listOfTimes.push(`${currentHour}:${minuteThatRemainsUnchanged < 10 ? '0' : ''}${minuteThatRemainsUnchanged}`);  //push to list of times in format hh:mm 
+            currentHour += schedule.boxSizeNumber;
+        }
 
-    console.log(listOfTimes);
+        currentHour = 0;
+
+        while(currentHour < wakeUpTimeSeperatedIntoHoursAndMins[0]) {
+            listOfTimes.push(`${currentHour}:${minuteThatRemainsUnchanged < 10 ? '0' : ''}${minuteThatRemainsUnchanged}`);
+            
+            currentHour += schedule.boxSizeNumber;
+        }
+    }
 
     return listOfTimes;
 }
