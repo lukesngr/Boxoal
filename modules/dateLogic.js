@@ -172,10 +172,8 @@ export function calculateMaxNumberOfBoxes(schedule, time, date) {
     for(let i = 0; i < schedule.timeboxes.length; i++) { //for each time box
         let timeboxStartTimeInDateTime = new Date(schedule.timeboxes[i].startTime);
 
-        console.log(currentDateTime, timeboxStartTimeInDateTime);
         if(currentDateTime < timeboxStartTimeInDateTime) { //if timebox occurs after the time of a timebox
             maxNumberOfBoxes = calculateBoxesBetweenTwoDateTimes(currentDateTime, timeboxStartTimeInDateTime, schedule);
-            console.log(maxNumberOfBoxes);
             i = schedule.timeboxes.length;
         }else{
             i++;
@@ -208,21 +206,22 @@ export function ifNumberIsEqualOrBeyondCurrentDay(number, returnIfTrue, returnIf
 }
 
 export function addBoxesToTime(schedule, time, numberOfBoxes) {
-    let timeSeparated = time.split(":").map(function(num) { return parseInt(num); });
-    let endHours = 0;
-    let endMinutes = 0;
+    let [timeHours, timeMinutes] = time.split(":").map(function(num) { return parseInt(num); });
+    let endHours = timeHours;
+    let endMinutes = timeMinutes;
 
     if(schedule.boxSizeUnit == "min") {
-        endHours = Math.round(numberOfBoxes*schedule.boxSizeNumber / 60);
-        endMinutes = Math.round(numberOfBoxes*schedule.boxSizeNumber % 60);
-        endHours += timeSeparated[0];
-        endMinutes += timeSeparated[1];
-        if(endMinutes / 60 >= 1) {
-            endHours += Math.round(endMinutes / 60);
-            endMinutes -= Math.round(endMinutes / 60) * 60;
+        for(let i = 0; i < numberOfBoxes; i++) {
+            endMinutes += schedule.boxSizeNumber;
+
+            if(endMinutes >= 60) {
+                endHours += 1;
+                endMinutes -= 60;
+            }
         }
-        return endHours+":"+endMinutes;
     }
+
+    return `${endHours}:${endMinutes}`;
 }
 
 export function calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions) {

@@ -197,7 +197,7 @@ describe('Testing box calculation functions', () => {
     expect(result).toBe(1);
   });
 
-  it('should add boxes to the given time and return the updated time', () => {
+  it('should add boxes to the given time and return the updated time in minutes', () => {
     const schedule = {
       boxSizeUnit: 'min',
       boxSizeNumber: 15,
@@ -209,5 +209,19 @@ describe('Testing box calculation functions', () => {
 
     // Adjust the expected value based on your specific calculation
     expect(result).toBe('9:15');
+  });
+
+  it('should add boxes to the given time and return the updated time in hours', () => {
+    const schedule = {
+      boxSizeUnit: 'hr',
+      boxSizeNumber: 1,
+    };
+    const time = '08:30'; // replace with your actual time
+    const numberOfBoxes = 3; // replace with your actual number of boxes
+
+    const result = addBoxesToTime(schedule, time, numberOfBoxes);
+
+    // Adjust the expected value based on your specific calculation
+    expect(result).toBe('11:30');
   });
 });
