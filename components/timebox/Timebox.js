@@ -9,16 +9,11 @@ import { TimeboxContext } from './TimeboxContext';
 
 export default function TimeBox(props) {
 
-    const [timeBoxProps, setTimeBoxProps] = useState({
-        formVisible: false,
-        title: "",
-        description: "",
-        numberOfBoxes: 1,
-      });
-
+    const {schedule, time, date, active, dayName} = props;
+    const [timeBoxProps, setTimeBoxProps] = useState({ formVisible: false, title: "", description: "", numberOfBoxes: 1});
     const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen, listOfColors, timeboxRecording, setTimeBoxRecording} = useContext(TimeboxContext);
 
-    let maxNumberOfBoxes = calculateMaxNumberOfBoxes(props.schedule, props.time, props.date);
+    let maxNumberOfBoxes = calculateMaxNumberOfBoxes(schedule, time, date);
 
     function addTimeBox() {
         if(!addTimeBoxDialogOpen) {
@@ -36,27 +31,25 @@ export default function TimeBox(props) {
 
     function handleSubmit(event) {
         event.preventDefault();
-        let endTime = addBoxesToTime(props.schedule, props.time, numberOfBoxes);
+        let endTime = addBoxesToTime(schedule, time, numberOfBoxes);
 
         axios.post('/api/createTimebox', {
             title,
             description,
-            startTime: convertToDateTime(props.time, props.date),
-            endTime: convertToDateTime(endTime, props.date),
+            startTime: convertToDateTime(time, date),
+            endTime: convertToDateTime(endTime, date),
             numberOfBoxes: parseInt(numberOfBoxes),
             color: listOfColors[Math.floor(Math.random() * listOfColors.length)],
             schedule: {
-                connect: {id: props.schedule.id}
+                connect: {id: schedule.id}
             }
         }).catch(function(error) {
             console.log(error);
         })
 
-        setTimeBoxFormVisible(false);
+        //reset the form
         setTimeBoxInUse(false);
-        setDescription("");
-        setNumberOfBoxes(1);
-        setTitle("");
+        setTimeBoxProps({formVisible: false, title: "", description: "", numberOfBoxes: 1});
     }
 
     return (
