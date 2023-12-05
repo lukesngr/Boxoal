@@ -55,3 +55,12 @@
     width: 100%;
     transform: translate(-3px, 3px);
 }
+
+.recordingOverlay {
+    background-color: red;
+    opacity: 0.7;
+    z-index: 997;
+    position: absolute;
+    width: 100%;
+    transform: translate(-3px, 3px);
+}

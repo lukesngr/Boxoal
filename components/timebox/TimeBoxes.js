@@ -1,5 +1,6 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
-import { getDayNumbers, returnTimesSeperatedForSchedule, ifCurrentDay, ifEqualOrBeyondCurrentDay, convertToTimeAndDate, calculateSizeOfOverlayBasedOnCurrentTime } from '@/modules/dateLogic';
+import { getDayNumbers, returnTimesSeperatedForSchedule, ifCurrentDay, ifEqualOrBeyondCurrentDay,
+     convertToTimeAndDate, calculateSizeOfOverlayBasedOnCurrentTime, calculateSizeOfRecordingOverlay } from '@/modules/dateLogic';
 import '../../styles/timeboxes.scss';
 import TimeBox from './Timebox';
 import { ScheduleContext } from '../schedule/ScheduleContext';
@@ -13,6 +14,7 @@ export default function TimeBoxes(props) {
     const gridContainerRef = useRef(null);
     const headerContainerRef = useRef(null);
     const timeboxColumnRef = useRef(null);
+    let activeOverlayInterval;
 
     const [overlayDimensions, setOverlayDimensions] = useState(0);
     const [activeOverlayHeight, setActiveOverlayHeight] = useState(0);
@@ -36,6 +38,8 @@ export default function TimeBoxes(props) {
 
     console.log(timeBoxGrid);
 
+    
+
     function calculateOverlayDimensions() {
         if (gridContainerRef.current && headerContainerRef.current && timeboxColumnRef.current) { //if ref working
             const gridHeight = gridContainerRef.current.offsetHeight; //get height of grid
@@ -52,11 +56,21 @@ export default function TimeBoxes(props) {
         }
     };
 
+    function pauseActiveOverlay() {
+        clearInterval(activeOverlayInterval);
+    }
+
+    function resumeActiveOverlay() {
+        activeOverlayInterval = setInterval(() => {
+            setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
+          }, 5000);
+    }
+
     //when page first loads calculate overlay dimensions and set timer for every 5 seconds to recalculate active overlay height
     useEffect(() => {
         calculateOverlayDimensions();
         
-        const activeOverlayInterval = setInterval(() => {
+        activeOverlayInterval = setInterval(() => {
             setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
           }, 5000);
 
@@ -86,7 +100,7 @@ export default function TimeBoxes(props) {
                     {dayToName.map((day, index) => (
                         <div ref={headerContainerRef} key={index} style={{padding: '0'}} className={'col-1 '+ifCurrentDay(index, 'currentDay', '')}>
                             <span className='timeboxHeadingText'>{day.name+" ("+day.date+"/"+day.month+")"}</span>
-                            <RecordingOverlay></RecordingOverlay>
+                            <RecordingOverlay width={overlayDimensions[0]} overlayHeight={calculateSizeOfRecordingOverlay(schedule, overlayDimensions, activeOverlayHeight)}></RecordingOverlay>
                             {ifCurrentDay(index, true, false) && <ActiveOverlay width={overlayDimensions[0]} overlayHeight={activeOverlayHeight}></ActiveOverlay>}
                             {!ifCurrentDay(index, true, false) && <Overlay dimensions={overlayDimensions} active={ifEqualOrBeyondCurrentDay(index, true, false)}></Overlay>}
                         </div>
@@ -99,7 +113,9 @@ export default function TimeBoxes(props) {
                         <div className="col-2"></div>
                         <div ref={timeboxColumnRef} className="col-1 timeCol">{time}</div>
                         {dayToName.map((day, index) => (
-                            <TimeBox key={index} dayName={day.name} active={ifEqualOrBeyondCurrentDay(index, true, false)} schedule={schedule} time={time} date={day.date+"/"+day.month} data={timeBoxGrid.get(day.date+"/"+day.month)?.get(time)}></TimeBox>
+                            <TimeBox key={index} dayName={day.name} active={ifEqualOrBeyondCurrentDay(index, true, false)}
+                             schedule={schedule} time={time} date={day.date+"/"+day.month} data={timeBoxGrid.get(day.date+"/"+day.month)?.get(time)}
+                             overlayFuncs={[pauseActiveOverlay, resumeActiveOverlay]}></TimeBox>
                         ))}
                     </div>))}
             </TimeboxContextProvider>
