@@ -6,7 +6,8 @@ export default function RecordingOverlay(props) {
 
     return (
         <>
-            {timeboxRecording == -1 && <div className="recordingOverlay" style={{width: props.width+"px", height: props.overlayHeight+"px"}}></div>}
+            {timeboxRecording != -1 && <div className="recordingOverlay"
+             style={{width: props.width+"px", height: props.overlayHeight+"px", transform: `translate('-3px', ${props.activeOverlayHeight}px)`}}></div>}
         </>
     )
 }

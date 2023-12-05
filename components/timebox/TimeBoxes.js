@@ -100,9 +100,10 @@ export default function TimeBoxes(props) {
                     {dayToName.map((day, index) => (
                         <div ref={headerContainerRef} key={index} style={{padding: '0'}} className={'col-1 '+ifCurrentDay(index, 'currentDay', '')}>
                             <span className='timeboxHeadingText'>{day.name+" ("+day.date+"/"+day.month+")"}</span>
-                            <RecordingOverlay width={overlayDimensions[0]} overlayHeight={calculateSizeOfRecordingOverlay(schedule, overlayDimensions, activeOverlayHeight)}></RecordingOverlay>
                             {ifCurrentDay(index, true, false) && <ActiveOverlay width={overlayDimensions[0]} overlayHeight={activeOverlayHeight}></ActiveOverlay>}
                             {!ifCurrentDay(index, true, false) && <Overlay dimensions={overlayDimensions} active={ifEqualOrBeyondCurrentDay(index, true, false)}></Overlay>}
+                            <RecordingOverlay width={overlayDimensions[0]} overlayHeight={calculateSizeOfRecordingOverlay(schedule, overlayDimensions, activeOverlayHeight)}
+                             activeOverlayHeight={activeOverlayHeight}></RecordingOverlay>
                         </div>
                     ))}
                 </div>
