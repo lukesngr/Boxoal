@@ -9,30 +9,30 @@ import { TimeboxContext } from './TimeboxContext';
 
 export default function TimeBox(props) {
 
-    const [timeBoxFormVisible, setTimeBoxFormVisible] = useState(false);
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [numberOfBoxes, setNumberOfBoxes] = useState(1);
+    const [timeBoxProps, setTimeBoxProps] = useState({
+        formVisible: false,
+        title: "",
+        description: "",
+        numberOfBoxes: 1,
+      });
 
-    const {timeBoxInUse, setTimeBoxInUse, listOfColors, timeboxRecording, setTimeBoxRecording} = useContext(TimeboxContext);
+    const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen, listOfColors, timeboxRecording, setTimeBoxRecording} = useContext(TimeboxContext);
 
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(props.schedule, props.time, props.date);
 
     function addTimeBox() {
-        if(!timeBoxInUse) {
-            setTimeBoxFormVisible(true);
-            setTimeBoxInUse(true);
+        if(!addTimeBoxDialogOpen) {
+            setTimeBoxProps((prevProps => ({...prevProps, formVisible: true})));
+            setAddTimeBoxDialogOpen(true);
         }
     }
 
     function closeTimeBox() {
-        setTimeBoxFormVisible(false);
-        setTimeBoxInUse(false);
+        setTimeBoxProps((prevProps => ({...prevProps, formVisible: false})));
+        setAddTimeBoxDialogOpen(false);
     }
 
-    function startRecording() {
-
-    }
+    function startRecording() {}
 
     function handleSubmit(event) {
         event.preventDefault();

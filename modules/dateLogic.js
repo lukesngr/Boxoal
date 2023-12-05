@@ -180,7 +180,7 @@ export function calculateMaxNumberOfBoxes(schedule, time, date) {
         }
     }
 
-    if(maxNumberOfBoxes == 0) {
+    if(maxNumberOfBoxes <= 0) {
         maxNumberOfBoxes = calculateMaxNumberOfBoxesAfterTimeIfEmpty(schedule, timeSeparated, wakeUpTimeSeparated);
     }
 
@@ -242,9 +242,6 @@ export function calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimens
     const pixelsPerBox = overlayDimensions[2];
     const justBoxesHeight = pixelsPerBox * boxesBetween;
     const inBetweenHeight = (pixelsPerBox / schedule.boxSizeNumber) * currentDate.getMinutes(); //
-
-    console.log(inBetweenHeight, justBoxesHeight, pixelsPerBox, boxesBetween);
-    console.log(overlayDimensions);
 
     return justBoxesHeight+inBetweenHeight;
 }
