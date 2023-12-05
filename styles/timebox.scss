@@ -63,4 +63,8 @@
 .stopRecordTimeButton svg {
     background-color: green;
     border-radius: 50px;
+} 
+
+.inactiveRecord {
+    z-index: 1;
 }
