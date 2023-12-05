@@ -100,7 +100,7 @@ export function convertToTimeAndDate(input) {
     let hours = datetime.getHours();
     let minutes = datetime.getMinutes();
     let date = datetime.getDate();
-    let month = datetime.getMonth();
+    let month = datetime.getMonth()+1;
 
     if(minutes == 0) {
         minutes = "00";

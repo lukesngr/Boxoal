@@ -33,6 +33,8 @@ export default function TimeBoxes(props) {
         timeBoxGrid.get(date).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
     });
 
+    console.log(timeBoxGrid);
+
     function calculateOverlayDimensions() {
         if (gridContainerRef.current && headerContainerRef.current && timeboxColumnRef.current) { //if ref working
             const gridHeight = gridContainerRef.current.offsetHeight; //get height of grid

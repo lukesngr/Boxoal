@@ -40,6 +40,8 @@ export default function TimeBox(props) {
         let startTime = convertToDateTime(time, date);
         let endTime = convertToDateTime(addBoxesToTime(schedule, time, numberOfBoxes), date); //add boxes to start time to get end time
         let color = listOfColors[Math.floor(Math.random() * listOfColors.length)]; //randomly pick a box color
+        console.log(title, description, startTime, endTime,
+            numberOfBoxes, color, schedule.id);
 
         //post to api
         axios.post('/api/createTimebox', 
