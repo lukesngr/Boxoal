@@ -6,6 +6,7 @@ import { useState, useContext } from 'react';
 import '../../styles/addtimebox.scss';
 import axios from 'axios';
 import { TimeboxContext } from './TimeboxContext';
+import {toast} from "react-toastify";
 
 export default function TimeBox(props) {
 
@@ -43,15 +44,25 @@ export default function TimeBox(props) {
         //post to api
         axios.post('/api/createTimebox', 
             {title, description, startTime, endTime,
-            numberOfBoxes, color, schedule: {connect: {id: schedule.id}}
-        }).catch(function(error) {console.log(error); })
+                numberOfBoxes, color, schedule: {connect: {id: schedule.id}}
+        }).then(() => {
+            //reset the form
+            setAddTimeBoxDialogOpen(false);
+            setTimeBoxFormVisible(false);
+            setTitle("");
+            setDescription("");
+            setNumberOfBoxes(1);
+            toast.success("Added timebox!", {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }).catch(function(error) {
+            toast.error("Error: "+error, {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+            console.log(error); 
+        })
 
-        //reset the form
-        setAddTimeBoxDialogOpen(false);
-        setTimeBoxFormVisible(false);
-        setTitle("");
-        setDescription("");
-        setNumberOfBoxes(1);
+        
     }
 
     return (
