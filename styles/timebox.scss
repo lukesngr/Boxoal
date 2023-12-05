@@ -34,6 +34,20 @@
 .timeboxText {
     position: absolute;
     font-size: medium;
-    left: 0;
-    top: 0;
+    left: 2px;
+    top: 2px;
+    z-index: 999;
+}
+
+.recordTimeButton {
+    position: relative;
+    z-index: 999;
+    float: right;
+    border: none;
+    background-color: transparent;
+}
+
+.recordTimeButton svg {
+    background-color: red;
+    border-radius: 50px;
 }
