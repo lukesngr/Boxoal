@@ -6,6 +6,7 @@ import { ScheduleContext } from '../schedule/ScheduleContext';
 import { TimeboxContextProvider } from "./TimeboxContext";
 import Overlay from './Overlay';
 import ActiveOverlay from './ActiveOverlay';
+import RecordingOverlay from './RecordingOverlay';
 
 export default function TimeBoxes(props) {
 
