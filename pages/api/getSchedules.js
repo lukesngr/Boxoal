@@ -29,7 +29,8 @@ export default async function handler(req, res) {
                     startTime: true,
                     endTime: true,
                     numberOfBoxes: true,
-                    color: true
+                    color: true,
+                    id: true
                 }
             }
         }

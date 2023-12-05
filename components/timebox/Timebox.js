@@ -33,7 +33,13 @@ export default function TimeBox(props) {
 
     function getHeightForBoxes(numberOfBoxes) { return `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)` }
 
-    function startRecording() {}
+    function startRecording() {
+        setTimeBoxRecording(data.id);
+    }
+
+    function stopRecording() {
+        setTimeBoxRecording(-1);
+    }
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -89,7 +95,7 @@ export default function TimeBox(props) {
         {data && <div style={{height: getHeightForBoxes(data.numberOfBoxes), backgroundColor: data.color}} id="timeBox">
             <span className="timeboxText">{data.title}</span>
             {timeboxRecording == -1 ? <button className="recordTimeButton" onClick={startRecording} ><FontAwesomeIcon height={20} width={20} icon={faCircleDot} /></button> : 
-            <FontAwesomeIcon height={20} width={20} icon={faCircleStop} />}
+            <button className="stopRecordTimeButton" onClick={stopRecording} ><FontAwesomeIcon height={20} width={20} icon={faCircleStop} /></button>}
         </div>}
 
         {/* Placeholder */}

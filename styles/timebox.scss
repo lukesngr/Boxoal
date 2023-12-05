@@ -51,3 +51,16 @@
     background-color: red;
     border-radius: 50px;
 }
+
+.stopRecordTimeButton {
+    position: relative;
+    z-index: 999;
+    float: right;
+    border: none;
+    background-color: transparent;
+}
+
+.stopRecordTimeButton svg {
+    background-color: green;
+    border-radius: 50px;
+}
