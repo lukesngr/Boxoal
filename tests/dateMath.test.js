@@ -1,4 +1,5 @@
-import { getDayNumbers, returnTimesSeperatedForSchedule, calculateMaxNumberOfBoxesAfterTimeIfEmpty, calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoDateTimes, addBoxesToTime, calculateSizeOfOverlayBasedOnCurrentTime } from '../modules/dateLogic';
+import { getDayNumbers, returnTimesSeperatedForSchedule, calculateMaxNumberOfBoxesAfterTimeIfEmpty,
+   calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoDateTimes, addBoxesToTime, calculateSizeOfOverlayBasedOnCurrentTime, calculateSizeOfRecordingOverlay } from '../modules/dateLogic';
 
 
 //mainly testing most important functions in this code
@@ -274,5 +275,30 @@ describe('Testing overlay height calculation functions', () => {
     let result = calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions);
 
     expect(result).toBe(990.3802083333334);
+  });
+
+  it('calculating recording overlay height', () => {
+    const schedule = {
+      boxSizeUnit: 'min',
+      boxSizeNumber: 30,
+      wakeupTime: '7:30'
+    };
+
+    const overlayDimensions = [96, 1718, 35.796875];
+
+    let recordingStartTime = new Date();
+    recordingStartTime.setHours(21);
+    recordingStartTime.setMinutes(0);
+
+    let mockDate = new Date();
+    mockDate.setHours(21);
+    mockDate.setMinutes(20);
+
+    jest.useFakeTimers("modern");
+    jest.setSystemTime(mockDate);
+
+    let result = calculateSizeOfRecordingOverlay(schedule, overlayDimensions, recordingStartTime);
+
+    expect(result).toBe(23.8645833333);
   });
 })
