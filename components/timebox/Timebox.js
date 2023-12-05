@@ -1,4 +1,4 @@
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faCirclePlus, faCircleDot, faCircleStop } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {addBoxesToTime, calculateMaxNumberOfBoxes, convertToDateTime} from '@/modules/dateLogic';
 import '../../styles/timebox.scss';
@@ -14,7 +14,7 @@ export default function TimeBox(props) {
     const [description, setDescription] = useState("");
     const [numberOfBoxes, setNumberOfBoxes] = useState(1);
 
-    const {timeBoxInUse, setTimeBoxInUse, listOfColors} = useContext(TimeboxContext);
+    const {timeBoxInUse, setTimeBoxInUse, listOfColors, timeboxRecording, setTimeBoxRecording} = useContext(TimeboxContext);
 
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(props.schedule, props.time, props.date);
 
@@ -28,6 +28,10 @@ export default function TimeBox(props) {
     function closeTimeBox() {
         setTimeBoxFormVisible(false);
         setTimeBoxInUse(false);
+    }
+
+    function startRecording() {
+
     }
 
     function handleSubmit(event) {
@@ -73,6 +77,8 @@ export default function TimeBox(props) {
         </div>}
         {props.data && <div style={{height: `calc(${(props.data.numberOfBoxes * 100)}% + ${(props.data.numberOfBoxes - 1) * 2}px)`, backgroundColor: props.data.color}} id="timeBox">
             <span class="timeboxText">{props.data.title}</span>
+            {timeboxRecording != -1 ? <button onClick={startRecording} ><FontAwesomeIcon height={25} width={25} icon={faCircleDot} /></button> : 
+            <FontAwesomeIcon height={25} width={25} icon={faCircleStop} />}
         </div>}
         {timeBoxFormVisible && <div style={{height: `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)`}} id="placeholderTimeBox">{title}</div>}
         {props.active && !timeBoxFormVisible && !timeBoxInUse && !props.data &&
