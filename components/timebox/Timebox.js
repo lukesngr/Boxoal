@@ -9,52 +9,55 @@ import { TimeboxContext } from './TimeboxContext';
 
 export default function TimeBox(props) {
 
-    const {schedule, time, date, active, dayName} = props;
-    const [timeBoxProps, setTimeBoxProps] = useState({ formVisible: false, title: "", description: "", numberOfBoxes: 1});
+    const {schedule, time, date, active, dayName, data} = props;
+    const [timeBoxFormVisible, setTimeBoxFormVisible] = useState(false);
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [numberOfBoxes, setNumberOfBoxes] = useState(1);
     const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen, listOfColors, timeboxRecording, setTimeBoxRecording} = useContext(TimeboxContext);
 
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(schedule, time, date);
 
     function addTimeBox() {
         if(!addTimeBoxDialogOpen) {
-            setTimeBoxProps((prevProps => ({...prevProps, formVisible: true})));
+            setTimeBoxFormVisible(true);
             setAddTimeBoxDialogOpen(true);
         }
     }
 
     function closeTimeBox() {
-        setTimeBoxProps((prevProps => ({...prevProps, formVisible: false})));
+        setTimeBoxFormVisible(false);
         setAddTimeBoxDialogOpen(false);
     }
+
+    function getHeightForBoxes(numberOfBoxes) { return `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)` }
 
     function startRecording() {}
 
     function handleSubmit(event) {
         event.preventDefault();
-        let endTime = addBoxesToTime(schedule, time, numberOfBoxes);
+        let startTime = convertToDateTime(time, date);
+        let endTime = convertToDateTime(addBoxesToTime(schedule, time, numberOfBoxes), date); //add boxes to start time to get end time
+        let color = listOfColors[Math.floor(Math.random() * listOfColors.length)]; //randomly pick a box color
 
-        axios.post('/api/createTimebox', {
-            title,
-            description,
-            startTime: convertToDateTime(time, date),
-            endTime: convertToDateTime(endTime, date),
-            numberOfBoxes: parseInt(numberOfBoxes),
-            color: listOfColors[Math.floor(Math.random() * listOfColors.length)],
-            schedule: {
-                connect: {id: schedule.id}
-            }
-        }).catch(function(error) {
-            console.log(error);
-        })
+        //post to api
+        axios.post('/api/createTimebox', 
+            {title, description, startTime, endTime,
+            numberOfBoxes, color, schedule: {connect: {id: schedule.id}}
+        }).catch(function(error) {console.log(error); })
 
         //reset the form
-        setTimeBoxInUse(false);
-        setTimeBoxProps({formVisible: false, title: "", description: "", numberOfBoxes: 1});
+        setAddTimeBoxDialogOpen(false);
+        setTimeBoxFormVisible(false);
+        setTitle("");
+        setDescription("");
+        setNumberOfBoxes(1);
     }
 
     return (
     <div className={'col-1 timeBox'}>
-        {timeBoxFormVisible && <div id={props.dayName == 'Sat' ? 'addTimeBoxConstrained' : 'addTimeBox'}>
+        {/* Form section of this TimeBox component */}
+        {timeBoxFormVisible && <div id={dayName == 'Sat' ? 'addTimeBoxConstrained' : 'addTimeBox'}> 
             <div id="timeBoxBubble"></div>
             <button onClick={closeTimeBox} id="addTimeBoxExitButton">X</button>
             <form onSubmit={handleSubmit}>
@@ -68,13 +71,21 @@ export default function TimeBox(props) {
                 <button id="addTimeBoxButton">Add TimeBox</button>
             </form>
         </div>}
-        {props.data && <div style={{height: `calc(${(props.data.numberOfBoxes * 100)}% + ${(props.data.numberOfBoxes - 1) * 2}px)`, backgroundColor: props.data.color}} id="timeBox">
-            <span class="timeboxText">{props.data.title}</span>
+
+        {/* Normal time box */}
+        {data && <div style={{height: getHeightForBoxes(data.numberOfBoxes), backgroundColor: data.color}} id="timeBox">
+            <span class="timeboxText">{data.title}</span>
             {timeboxRecording != -1 ? <button onClick={startRecording} ><FontAwesomeIcon height={25} width={25} icon={faCircleDot} /></button> : 
             <FontAwesomeIcon height={25} width={25} icon={faCircleStop} />}
         </div>}
-        {timeBoxFormVisible && <div style={{height: `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)`}} id="placeholderTimeBox">{title}</div>}
-        {props.active && !timeBoxFormVisible && !timeBoxInUse && !props.data &&
-        <button data-testid="addTimeBoxButton" onClick={addTimeBox} className="btn btn-dark addBoxButton"><FontAwesomeIcon height={25} width={25} icon={faCirclePlus}/></button>}
+
+        {/* Placeholder */}
+        {timeBoxFormVisible && <div style={{height: getHeightForBoxes(numberOfBoxes)}} id="placeholderTimeBox">{title}</div>}
+
+        {/* Add timebox button */}
+        {active && !timeBoxFormVisible && !addTimeBoxDialogOpen && !props.data &&
+        <button data-testid="addTimeBoxButton" onClick={addTimeBox} className="btn btn-dark addBoxButton">
+            <FontAwesomeIcon height={25} width={25} icon={faCirclePlus}/>
+        </button>}
     </div>)
 }
