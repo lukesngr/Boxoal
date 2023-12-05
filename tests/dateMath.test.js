@@ -297,6 +297,6 @@ describe('Testing overlay height calculation functions', () => {
 
     let result = calculateSizeOfRecordingOverlay(schedule, overlayDimensions, overlayHeight);
 
-    expect(result).toBe(23.8645833333);
+    expect(result).toBe(23.86458333333337);
   });
 })

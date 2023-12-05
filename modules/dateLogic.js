@@ -246,7 +246,10 @@ export function calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimens
     return justBoxesHeight+inBetweenHeight;
 }
 
-export function calculateSizeOfRecordingOverlay(schedule, overlayDimensions, recordingStartTime) {
+export function calculateSizeOfRecordingOverlay(schedule, overlayDimensions, originalOverlayHeight) {
     //could do much more math but choosing easy route
-    return 5;
+    let overlaysTotalHeight = calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions);
+    let recordingOverlayHeight = overlaysTotalHeight - originalOverlayHeight;
+    
+    return recordingOverlayHeight;
 }
