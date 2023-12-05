@@ -74,7 +74,7 @@ export default function TimeBox(props) {
 
         {/* Normal time box */}
         {data && <div style={{height: getHeightForBoxes(data.numberOfBoxes), backgroundColor: data.color}} id="timeBox">
-            <span class="timeboxText">{data.title}</span>
+            <span className="timeboxText">{data.title}</span>
             {timeboxRecording != -1 ? <button onClick={startRecording} ><FontAwesomeIcon height={25} width={25} icon={faCircleDot} /></button> : 
             <FontAwesomeIcon height={25} width={25} icon={faCircleStop} />}
         </div>}
