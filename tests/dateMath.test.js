@@ -286,9 +286,7 @@ describe('Testing overlay height calculation functions', () => {
 
     const overlayDimensions = [96, 1718, 35.796875];
 
-    let recordingStartTime = new Date();
-    recordingStartTime.setHours(21);
-    recordingStartTime.setMinutes(0);
+    let overlayHeight = 966.515625;
 
     let mockDate = new Date();
     mockDate.setHours(21);
@@ -297,7 +295,7 @@ describe('Testing overlay height calculation functions', () => {
     jest.useFakeTimers("modern");
     jest.setSystemTime(mockDate);
 
-    let result = calculateSizeOfRecordingOverlay(schedule, overlayDimensions, recordingStartTime);
+    let result = calculateSizeOfRecordingOverlay(schedule, overlayDimensions, overlayHeight);
 
     expect(result).toBe(23.8645833333);
   });
