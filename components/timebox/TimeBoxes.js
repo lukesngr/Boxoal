@@ -58,6 +58,7 @@ export default function TimeBoxes(props) {
 
     function pauseActiveOverlay() {
         clearInterval(activeOverlayInterval);
+        console.log(activeOverlayHeight);
     }
 
     function resumeActiveOverlay() {
