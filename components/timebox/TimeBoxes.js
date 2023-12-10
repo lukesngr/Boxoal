@@ -36,7 +36,7 @@ export default function TimeBoxes(props) {
         timeBoxGrid.get(date).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
     });
 
-    console.log(timeBoxGrid);
+    //console.log(timeBoxGrid);
 
     
 
@@ -102,7 +102,7 @@ export default function TimeBoxes(props) {
                             <span className='timeboxHeadingText'>{day.name+" ("+day.date+"/"+day.month+")"}</span>
                             {ifCurrentDay(index, true, false) && <ActiveOverlay width={overlayDimensions[0]} overlayHeight={activeOverlayHeight}></ActiveOverlay>}
                             {!ifCurrentDay(index, true, false) && <Overlay dimensions={overlayDimensions} active={ifEqualOrBeyondCurrentDay(index, true, false)}></Overlay>}
-                            <RecordingOverlay width={overlayDimensions[0]} overlayHeight={calculateSizeOfRecordingOverlay(schedule, overlayDimensions, activeOverlayHeight)}
+                            <RecordingOverlay overlayDimensions={overlayDimensions} schedule={schedule} 
                              activeOverlayHeight={activeOverlayHeight}></RecordingOverlay>
                         </div>
                     ))}
