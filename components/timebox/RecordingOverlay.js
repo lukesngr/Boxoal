@@ -17,6 +17,8 @@ export default function RecordingOverlay(props) {
             return () => {
                 clearInterval(recordingOverlayInterval);
             };
+        }else{
+            setRecordingOverlayHeight("0px");
         }
     }, [])
 
