@@ -118,7 +118,7 @@ export default function TimeBoxes(props) {
                         <div ref={timeboxColumnRef} className="col-1 timeCol">{time}</div>
                         {dayToName.map((day, index) => (
                             <TimeBox key={index} dayName={day.name} active={ifEqualOrBeyondCurrentDay(index, true, false)}
-                             schedule={schedule} time={time} date={day.date+"/"+day.month} data={timeBoxGrid.get(day.date+"/"+day.month)?.get(time)}
+                             schedule={schedule} time={time} date={day.date+"/"+day.month} refetch={props.data.refetch} data={timeBoxGrid.get(day.date+"/"+day.month)?.get(time)}
                              overlayFuncs={[pauseActiveOverlay, resumeActiveOverlay]}></TimeBox>
                         ))}
                     </div>))}
