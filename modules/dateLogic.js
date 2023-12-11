@@ -242,7 +242,9 @@ export function calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimens
     const pixelsPerBox = overlayDimensions[2];
     const justBoxesHeight = pixelsPerBox * boxesBetween;
     const inBetweenHeight = (pixelsPerBox / schedule.boxSizeNumber) * currentDate.getMinutes(); //
-    console.log(justBoxesHeight, inBetweenHeight);
+    if(justBoxesHeight == NaN || inBetweenHeight == NaN) {
+        console.log(boxesBetween, pixelsPerBox, justBoxesHeight, inBetweenHeight, schedule.boxSizeNumber, wakeupTime);
+    }
 
     return justBoxesHeight+inBetweenHeight;
 }
@@ -251,6 +253,5 @@ export function calculateSizeOfRecordingOverlay(schedule, overlayDimensions, ori
     //could do much more math but choosing easy route
     let overlaysTotalHeight = calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions);
     let recordingOverlayHeight = overlaysTotalHeight - originalOverlayHeight;
-    
     return recordingOverlayHeight;
 }
