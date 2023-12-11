@@ -20,7 +20,7 @@ export default function RecordingOverlay(props) {
         }else{
             setRecordingOverlayHeight("0px");
         }
-    }, [])
+    }, [timeboxRecording])
 
     return (
         <>
