@@ -11,8 +11,12 @@ export const SessionContext = createContext();
 
 function MySchedulesSeperatedForFunctionality(props) {
     
-    const {isLoading, isError, data, error, refetch} = useQuery(["schedules"], () => axios.post("/api/getSchedules", {userEmail: props.session.user.email}))
-    data.refetch = refetch;
+    const {status, data, error, refetch} = useQuery(["schedules"], () => axios.post("/api/getSchedules", {userEmail: props.session.user.email}))
+    
+    if(status === 'success') {
+        data.refetch = refetch;
+    }
+
     return (
         <>
             <RedirWhenNotAuth redirectSrc="/signin" status={props.status}>

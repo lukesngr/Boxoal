@@ -49,10 +49,8 @@ export default function TimeBoxes(props) {
             const overlayHeight = gridHeight - headerHeight; //overlay is under headers but goes till end of grid
             const timeboxHeight = timeboxColumnRef.current.getBoundingClientRect().height; //decimal for a bit more accuracy as this for active overlay
 
-            let overlayDimensions = [headerWidth, overlayHeight, timeboxHeight];
-
             setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions))
-            setOverlayDimensions(overlayDimensions);
+            setOverlayDimensions([headerWidth, overlayHeight, timeboxHeight]);
         }
     };
 
