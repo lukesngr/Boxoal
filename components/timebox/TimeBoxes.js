@@ -14,7 +14,7 @@ export default function TimeBoxes(props) {
     const gridContainerRef = useRef(null);
     const headerContainerRef = useRef(null);
     const timeboxColumnRef = useRef(null);
-    let activeOverlayInterval;
+    const intervalRef = useRef(null);
 
     const [overlayDimensions, setOverlayDimensions] = useState(0);
     const [activeOverlayHeight, setActiveOverlayHeight] = useState(0);
@@ -55,12 +55,12 @@ export default function TimeBoxes(props) {
     };
 
     function pauseActiveOverlay() {
-        clearInterval(activeOverlayInterval);
+        clearInterval(intervalRef.current);
         console.log(activeOverlayHeight);
     }
 
     function resumeActiveOverlay() {
-        activeOverlayInterval = setInterval(() => {
+        intervalRef.current = setInterval(() => {
             setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
           }, 5000);
     }
@@ -69,14 +69,14 @@ export default function TimeBoxes(props) {
     useEffect(() => {
         calculateOverlayDimensions();
         
-        activeOverlayInterval = setInterval(() => {
+        intervalRef.current = setInterval(() => {
             setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
           }, 5000);
 
         window.addEventListener('resize', calculateOverlayDimensions);
     
         return () => {
-            clearInterval(activeOverlayInterval);
+            clearInterval(intervalRef.current);
             window.removeEventListener('resize', calculateOverlayDimensions);
         };
     }, []);

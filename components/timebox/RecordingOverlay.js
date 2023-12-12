@@ -27,7 +27,7 @@ export default function RecordingOverlay(props) {
             {timeboxRecording != -1 && <div className="recordingOverlay"
              style={{width: props.overlayDimensions[0]+"px", 
              height: recordingOverlayHeight,
-            transform: `translate(-3px, ${props.activeOverlayHeight}px)`}}></div>}
+            transform: `translate(-3px, ${props.activeOverlayHeight+3}px)`}}></div>}
         </>
     )
 }
