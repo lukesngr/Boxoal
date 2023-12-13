@@ -11,6 +11,7 @@ import {toast} from "react-toastify";
 export default function TimeBox(props) {
 
     const {schedule, time, date, active, dayName, data, overlayFuncs} = props;
+    const [pauseActiveOverlay, resumeActiveOverlay] = overlayFuncs;
     const [timeBoxFormVisible, setTimeBoxFormVisible] = useState(false);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -35,12 +36,12 @@ export default function TimeBox(props) {
 
     function startRecording() {
         setTimeBoxRecording(data.id);
-        overlayFuncs[0]();
+        pauseActiveOverlay();
     }
 
     function stopRecording() {
         setTimeBoxRecording(-1);
-        overlayFuncs[1]();
+        resumeActiveOverlay();
     }
 
     function handleSubmit(event) {

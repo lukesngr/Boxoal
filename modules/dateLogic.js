@@ -241,8 +241,7 @@ export function calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimens
     const boxesBetween =  calculateBoxesBetweenTwoDateTimes(wakeupTime, currentDate, schedule);
     const pixelsPerBox = overlayDimensions[2];
     const justBoxesHeight = pixelsPerBox * boxesBetween;
-    const inBetweenHeight = (pixelsPerBox / schedule.boxSizeNumber) * currentDate.getMinutes(); //
-    console.log("89");
+    const inBetweenHeight = (pixelsPerBox / schedule.boxSizeNumber) * currentDate.getMinutes();
 
     return justBoxesHeight+inBetweenHeight;
 }

@@ -14,7 +14,7 @@ export default function TimeBoxes(props) {
     const gridContainerRef = useRef(null);
     const headerContainerRef = useRef(null);
     const timeboxColumnRef = useRef(null);
-    const intervalRef = useRef(null);
+    const activeOverlayInterval = useRef(null);
 
     const [overlayDimensions, setOverlayDimensions] = useState(0);
     const [activeOverlayHeight, setActiveOverlayHeight] = useState(0);
@@ -55,28 +55,35 @@ export default function TimeBoxes(props) {
     };
 
     function pauseActiveOverlay() {
-        clearInterval(intervalRef.current);
-        console.log(activeOverlayHeight);
+        console.log(activeOverlayInterval.current);
+        clearInterval(activeOverlayInterval.current);
+        console.log(activeOverlayInterval.current);
     }
 
     function resumeActiveOverlay() {
-        intervalRef.current = setInterval(() => {
-            setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
+        activeOverlayInterval.current = setInterval(() => {
+            console.log("isthisfiring");
+            setActiveOverlayHeight(prevHeight => calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions, prevHeight));
           }, 5000);
+        console.log(activeOverlayInterval.current);
+        clearInterval(activeOverlayInterval.current);
     }
 
     //when page first loads calculate overlay dimensions and set timer for every 5 seconds to recalculate active overlay height
     useEffect(() => {
         calculateOverlayDimensions();
         
-        intervalRef.current = setInterval(() => {
+        activeOverlayInterval.current = setInterval(() => {
+
+            console.log("isthisfiring");
             setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
           }, 5000);
+        console.log(activeOverlayInterval.current);
 
         window.addEventListener('resize', calculateOverlayDimensions);
     
         return () => {
-            clearInterval(intervalRef.current);
+            clearInterval(activeOverlayInterval.current);
             window.removeEventListener('resize', calculateOverlayDimensions);
         };
     }, []);

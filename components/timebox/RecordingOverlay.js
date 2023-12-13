@@ -9,8 +9,6 @@ export default function RecordingOverlay(props) {
     useEffect(() => {
         if(timeboxRecording != -1) {
             let recordingOverlayInterval = setInterval(() => {
-                console.log(props.activeOverlayHeight);
-                console.log(calculateSizeOfRecordingOverlay(props.schedule, props.overlayDimensions, props.activeOverlayHeight)+"px")
                 setRecordingOverlayHeight(calculateSizeOfRecordingOverlay(props.schedule, props.overlayDimensions, props.activeOverlayHeight));
             }, 5000);
         
