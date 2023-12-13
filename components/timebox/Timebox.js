@@ -45,7 +45,7 @@ export default function TimeBox(props) {
         setTimeBoxRecording(-1);
         resumeActiveOverlay();
         axios.post('/api/createRecordedTimebox', 
-            {recordedStartTime, recordedEndTime: new Date(), timebox: {connect: {id: data.id}}
+            {recordedStartTime, recordedEndTime: new Date(), timeBox: {connect: {id: data.id}}
         }).then(() => {
             toast.success("Added recorded timebox!", {
                 position: toast.POSITION.TOP_RIGHT,

@@ -8,7 +8,7 @@ export default async function handler(req, res) {
       });
       res.status(200).json({ message: 'Recorded TimeBox created successfully' });
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ error: error });
     } finally {
       await prisma.$disconnect();
     }
