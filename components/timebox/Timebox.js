@@ -16,6 +16,7 @@ export default function TimeBox(props) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [numberOfBoxes, setNumberOfBoxes] = useState(1);
+    const [recordedStartTime, setRecordedStartTime] = useState(0);
     const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen, listOfColors, timeboxRecording, setTimeBoxRecording} = useContext(TimeboxContext);
 
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(schedule, time, date);
@@ -37,11 +38,24 @@ export default function TimeBox(props) {
     function startRecording() {
         setTimeBoxRecording(data.id);
         pauseActiveOverlay();
+        setRecordingStartTime(new Date());
     }
 
     function stopRecording() {
         setTimeBoxRecording(-1);
         resumeActiveOverlay();
+        axios.post('/api/createRecordedTimebox', 
+            {recordedStartTime, recordedEndTime: new Date(), timebox: {connect: {id: data.id}}
+        }).then(() => {
+            toast.success("Added recorded timebox!", {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }).catch(function(error) {
+            toast.error("Error: "+error, {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+            console.log(error); 
+        })  
     }
 
     function handleSubmit(event) {

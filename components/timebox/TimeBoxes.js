@@ -60,7 +60,7 @@ export default function TimeBoxes(props) {
     function resumeActiveOverlay() {
         activeOverlayInterval.current = setInterval(() => {
             setActiveOverlayHeight(prevHeight => calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions, prevHeight));
-          }, 5000);
+        }, 5000);
     }
 
     //when page first loads calculate overlay dimensions and set timer for every 5 seconds to recalculate active overlay height
