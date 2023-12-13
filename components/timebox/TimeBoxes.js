@@ -49,7 +49,6 @@ export default function TimeBoxes(props) {
             const overlayHeight = gridHeight - headerHeight; //overlay is under headers but goes till end of grid
             const timeboxHeight = timeboxColumnRef.current.getBoundingClientRect().height; //decimal for a bit more accuracy as this for active overlay
 
-            setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions))
             setOverlayDimensions([headerWidth, overlayHeight, timeboxHeight]);
         }
     };
@@ -75,7 +74,7 @@ export default function TimeBoxes(props) {
         
         activeOverlayInterval.current = setInterval(() => {
 
-            console.log("isthisfiring");
+            //console.log("isthisfiring");
             setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
           }, 5000);
         console.log(activeOverlayInterval.current);
@@ -92,6 +91,13 @@ export default function TimeBoxes(props) {
     useEffect(() => {
         calculateOverlayDimensions();
     }, [selectedSchedule]);
+
+    //how many useeffects do I need I hate react sometimes
+    useEffect(() => {
+        setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
+    }, [overlayDimensions])
+
+    
 
     return (
     <>
