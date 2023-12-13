@@ -54,14 +54,11 @@ export default function TimeBoxes(props) {
     };
 
     function pauseActiveOverlay() {
-        console.log(activeOverlayInterval.current);
         clearInterval(activeOverlayInterval.current);
-        console.log(activeOverlayInterval.current);
     }
 
     function resumeActiveOverlay() {
         activeOverlayInterval.current = setInterval(() => {
-            console.log("isthisfiring");
             setActiveOverlayHeight(prevHeight => calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions, prevHeight));
           }, 5000);
     }
@@ -69,14 +66,6 @@ export default function TimeBoxes(props) {
     //when page first loads calculate overlay dimensions and set timer for every 5 seconds to recalculate active overlay height
     useEffect(() => {
         calculateOverlayDimensions();
-        
-        activeOverlayInterval.current = setInterval(() => {
-
-            console.log("isthisfiring");
-            setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
-          }, 5000);
-        console.log(activeOverlayInterval.current);
-
         window.addEventListener('resize', calculateOverlayDimensions);
     
         return () => {
@@ -93,6 +82,9 @@ export default function TimeBoxes(props) {
     //how many useeffects do I need I hate react sometimes
     useEffect(() => {
         setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
+        activeOverlayInterval.current = setInterval(() => {
+            setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
+        }, 5000); //don't why but this fixed bug
     }, [overlayDimensions])
 
     
