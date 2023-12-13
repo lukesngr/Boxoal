@@ -233,17 +233,22 @@ export function addBoxesToTime(schedule, time, numberOfBoxes) {
     return `${endHours}:${endMinutes < 10 ? '0' : ''}${endMinutes}`;
 }
 
+export function calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensions, time) {
+
+    let wakeupTime = convertToDateTime(schedule.wakeupTime, time.getDate()+"/"+time.getMonth());
+
+    const boxesBetween =  calculateBoxesBetweenTwoDateTimes(wakeupTime, time, schedule);
+    const pixelsPerBox = overlayDimensions[2];
+    const justBoxesHeight = pixelsPerBox * boxesBetween;
+    const inBetweenHeight = (pixelsPerBox / schedule.boxSizeNumber) * time.getMinutes();
+
+    return justBoxesHeight+inBetweenHeight;
+}
+
 export function calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions) {
     const currentDate = new Date();
 
-    let wakeupTime = convertToDateTime(schedule.wakeupTime, currentDate.getDate()+"/"+currentDate.getMonth());
-
-    const boxesBetween =  calculateBoxesBetweenTwoDateTimes(wakeupTime, currentDate, schedule);
-    const pixelsPerBox = overlayDimensions[2];
-    const justBoxesHeight = pixelsPerBox * boxesBetween;
-    const inBetweenHeight = (pixelsPerBox / schedule.boxSizeNumber) * currentDate.getMinutes();
-
-    return justBoxesHeight+inBetweenHeight;
+    return calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensions, currentDate);
 }
 
 export function calculateSizeOfRecordingOverlay(schedule, overlayDimensions, originalOverlayHeight) {
