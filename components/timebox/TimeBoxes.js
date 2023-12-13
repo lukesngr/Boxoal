@@ -37,7 +37,7 @@ export default function TimeBoxes(props) {
         timeBoxGrid.get(date).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
     });
 
-    //console.log(timeBoxGrid);
+    console.log(schedule);
 
     
 
@@ -111,7 +111,7 @@ export default function TimeBoxes(props) {
                             {!ifCurrentDay(index, true, false) && <Overlay dimensions={overlayDimensions} active={ifEqualOrBeyondCurrentDay(index, true, false)}></Overlay>}
                             <RecordedTimeBoxOverlay data={schedule.recordedTimeboxes.filter(function(obj){
                                 let recordedStartTime = new Date(obj.recordedStartTime);
-                                return recordedStartTime.getMonth() == day.month && recordedStartTime.getDate() == day.date;
+                                return (recordedStartTime.getMonth()-1) == day.month && (recordedStartTime.getDate()-1) == day.date;
                             })}></RecordedTimeBoxOverlay>
                         </div>
                     ))}
