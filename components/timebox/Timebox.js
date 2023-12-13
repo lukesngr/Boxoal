@@ -38,7 +38,7 @@ export default function TimeBox(props) {
     function startRecording() {
         setTimeBoxRecording(data.id);
         pauseActiveOverlay();
-        setRecordingStartTime(new Date());
+        setRecordedStartTime(new Date());
     }
 
     function stopRecording() {
