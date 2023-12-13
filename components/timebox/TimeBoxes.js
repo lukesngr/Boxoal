@@ -64,8 +64,6 @@ export default function TimeBoxes(props) {
             console.log("isthisfiring");
             setActiveOverlayHeight(prevHeight => calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions, prevHeight));
           }, 5000);
-        console.log(activeOverlayInterval.current);
-        clearInterval(activeOverlayInterval.current);
     }
 
     //when page first loads calculate overlay dimensions and set timer for every 5 seconds to recalculate active overlay height
@@ -74,7 +72,7 @@ export default function TimeBoxes(props) {
         
         activeOverlayInterval.current = setInterval(() => {
 
-            //console.log("isthisfiring");
+            console.log("isthisfiring");
             setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
           }, 5000);
         console.log(activeOverlayInterval.current);
