@@ -111,7 +111,7 @@ export default function TimeBoxes(props) {
                             {!ifCurrentDay(index, true, false) && <Overlay dimensions={overlayDimensions} active={ifEqualOrBeyondCurrentDay(index, true, false)}></Overlay>}
                             <RecordedTimeBoxOverlay data={schedule.recordedTimeboxes.filter(function(obj){
                                 let recordedStartTime = new Date(obj.recordedStartTime);
-                                return (recordedStartTime.getMonth()-1) == day.month && (recordedStartTime.getDate()-1) == day.date;
+                                return (recordedStartTime.getMonth()+1) == day.month && (recordedStartTime.getDate()) == day.date;
                             })}></RecordedTimeBoxOverlay>
                         </div>
                     ))}
