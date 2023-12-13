@@ -8,6 +8,7 @@ import { TimeboxContextProvider } from "./TimeboxContext";
 import Overlay from './Overlay';
 import ActiveOverlay from './ActiveOverlay';
 import RecordingOverlay from './RecordingOverlay';
+import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
 
 export default function TimeBoxes(props) {
 
@@ -108,6 +109,7 @@ export default function TimeBoxes(props) {
                                 activeOverlayHeight={activeOverlayHeight}></RecordingOverlay>
                             </>}
                             {!ifCurrentDay(index, true, false) && <Overlay dimensions={overlayDimensions} active={ifEqualOrBeyondCurrentDay(index, true, false)}></Overlay>}
+                            <RecordedTimeBoxOverlay data={timeBoxGrid.get(day.date+"/"+day.month)}></RecordedTimeBoxOverlay>
                         </div>
                     ))}
                 </div>

@@ -30,17 +30,17 @@ export default async function handler(req, res) {
                     endTime: true,
                     numberOfBoxes: true,
                     color: true,
-                    id: true
-                }
-            },
-            recordedTimeboxes: {
-                orderBy: {
-                    recordedStartTime: 'asc'
-                },
-                select: {
-                    recordedStartTime: true,
-                    recordedEndTime: true,
-                    schedule: true
+                    id: true,
+                    recordedTimeBoxes: {
+                        orderBy: {
+                            recordedStartTime: 'asc'
+                        },
+                        select: {
+                            recordedStartTime: true,
+                            recordedEndTime: true,
+                            schedule: true
+                        }
+                    }
                 }
             }
         }
