@@ -20,9 +20,9 @@ export default function RecordingOverlay(props) {
         }
     }, [timeboxRecording])
 
-    if(isNaN(props.activeOverlayHeight)) {
+    /*if(isNaN(props.activeOverlayHeight)) {
         console.log(props.activeOverlayHeight+' is NaN');
-    }
+    }*/
 
     return (
         <>
