@@ -37,10 +37,6 @@ export default function TimeBoxes(props) {
         timeBoxGrid.get(date).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
     });
 
-    console.log(schedule);
-
-    
-
     function calculateOverlayDimensions() {
         if (gridContainerRef.current && headerContainerRef.current && timeboxColumnRef.current) { //if ref working
             const gridHeight = gridContainerRef.current.offsetHeight; //get height of grid
@@ -60,7 +56,7 @@ export default function TimeBoxes(props) {
 
     function resumeActiveOverlay() {
         activeOverlayInterval.current = setInterval(() => {
-            setActiveOverlayHeight(prevHeight => calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions, prevHeight));
+            setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
         }, 5000);
     }
 
@@ -112,7 +108,7 @@ export default function TimeBoxes(props) {
                             <RecordedTimeBoxOverlay data={schedule.recordedTimeboxes.filter(function(obj){
                                 let recordedStartTime = new Date(obj.recordedStartTime);
                                 return (recordedStartTime.getMonth()+1) == day.month && (recordedStartTime.getDate()) == day.date;
-                            })}></RecordedTimeBoxOverlay>
+                            })} overlayDimensions={overlayDimensions} schedule={schedule}></RecordedTimeBoxOverlay>
                         </div>
                     ))}
                 </div>

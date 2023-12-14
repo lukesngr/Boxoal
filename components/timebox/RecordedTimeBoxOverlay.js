@@ -1,4 +1,25 @@
+import { useEffect } from "react";
+import { calculatePixelsFromTopOfGridBasedOnTime } from "@/modules/dateLogic";
+
 export default function RecordedTimeBoxOverlay(props) {
-    console.log(props.data);
+    let {data, schedule, overlayDimensions} = props;
+
+    useEffect(() => {
+        let recordedBoxes = [];
+        let marginFromTop;
+
+        if(data.length > 0) {
+            data.forEach(element => {
+                marginFromTop = calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensions, new Date(element.recordedStartTime));
+                let heightForBox = calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensions, new Date(element.recordedEndTime)) - marginFromTop;
+                console.log(heightForBox);
+                recordedBoxes.push({heightForBox, marginFromTop, title: element.timeBox.title});
+            });
+        }
+        console.log(recordedBoxes);
+    }, [data]);
+
+
+    
     return <></>
 }
