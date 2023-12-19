@@ -38,6 +38,7 @@ export default async function handler(req, res) {
                     recordedStartTime: 'asc'
                 },
                 select: {
+                    id: true,
                     recordedStartTime: true,
                     recordedEndTime: true,
                     timeBox: {

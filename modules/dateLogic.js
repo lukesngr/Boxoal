@@ -242,6 +242,9 @@ export function calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensi
     const justBoxesHeight = pixelsPerBox * boxesBetween;
     const inBetweenHeight = (pixelsPerBox / schedule.boxSizeNumber) * time.getMinutes();
 
+    if(overlayDimensions == 0 ) { //hasn't been set yet
+        return 0;
+    }
     return justBoxesHeight+inBetweenHeight;
 }
 

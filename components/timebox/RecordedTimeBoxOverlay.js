@@ -11,9 +11,9 @@ export default function RecordedTimeBoxOverlay(props) {
             data.forEach(element => {
                 let marginFromTop = calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensions, new Date(element.recordedStartTime));
                 let heightForBox = calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensions, new Date(element.recordedEndTime)) - marginFromTop;
-                if(!normalArrayFromState.some(item => item.marginFromTop === marginFromTop &&
-                    item.heightForBox === heightForBox && item.title === element.timeBox.title)) {
-                    normalArrayFromState.push({heightForBox, marginFromTop, title: element.timeBox.title});
+
+                if(!normalArrayFromState.some(item => item.id === element.id)) {
+                    normalArrayFromState.push({id: element.id, heightForBox, marginFromTop, title: element.timeBox.title});
                 }
             });
             setRecordedBoxes(normalArrayFromState);
