@@ -63,3 +63,9 @@
     position: absolute;
     width: 100%;
 }
+
+.recordedTimeBox {
+    position: absolute;
+    transform: translate(-3px, 3px);
+    z-index: 999;
+}

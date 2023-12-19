@@ -7,12 +7,12 @@ export default function RecordedTimeBoxOverlay(props) {
 
     useEffect(() => {
         if(data.length > 0) {
-            let normalArrayFromState = recordedBoxes;
+            let normalArrayFromState = [...recordedBoxes];
             data.forEach(element => {
                 let marginFromTop = calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensions, new Date(element.recordedStartTime));
                 let heightForBox = calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensions, new Date(element.recordedEndTime)) - marginFromTop;
-                if(data.some(item => item.marginFromTop != marginFromTop &&
-                    item.heightForBox != heightForBox && item.title != element.timeBox.title)) {
+                if(!normalArrayFromState.some(item => item.marginFromTop === marginFromTop &&
+                    item.heightForBox === heightForBox && item.title === element.timeBox.title)) {
                     normalArrayFromState.push({heightForBox, marginFromTop, title: element.timeBox.title});
                 }
             });
@@ -24,6 +24,6 @@ export default function RecordedTimeBoxOverlay(props) {
     
     return <>{recordedBoxes.map((recordedBoxes) => (
         <div className="recordedTimeBox" style={{width: props.overlayDimensions[0]+"px", 
-        height: recordedBoxes.heightForBox, top: recordedBoxes.marginFromTop}}></div>
+        height: recordedBoxes.heightForBox, top: recordedBoxes.marginFromTop}}>{recordedBoxes.title}</div>
     ))}</>
 }
