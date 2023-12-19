@@ -20,10 +20,6 @@ export default function RecordingOverlay(props) {
         }
     }, [timeboxRecording])
 
-    /*if(isNaN(props.activeOverlayHeight)) {
-        console.log(props.activeOverlayHeight+' is NaN');
-    }*/
-
     return (
         <>
             {timeboxRecording != -1 && <div className="recordingOverlay"

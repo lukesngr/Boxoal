@@ -251,6 +251,8 @@ export function calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensi
 export function calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions) {
     const currentDate = new Date();
 
+    console.log(calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensions, currentDate));
+
     return calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensions, currentDate);
 }
 

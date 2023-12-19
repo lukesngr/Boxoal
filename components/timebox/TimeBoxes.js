@@ -82,6 +82,10 @@ export default function TimeBoxes(props) {
         activeOverlayInterval.current = setInterval(() => {
             setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
         }, 5000); //don't why but this fixed bug
+        
+        return () => {
+            clearInterval(activeOverlayInterval.current);
+        };
     }, [overlayDimensions])
 
     

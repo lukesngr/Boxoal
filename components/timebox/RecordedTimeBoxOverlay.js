@@ -20,8 +20,6 @@ export default function RecordedTimeBoxOverlay(props) {
             setRecordedBoxes(normalArrayFromState);
         }
     }, [data]);
-
-    console.log(recordedBoxes);
     
     return <>{recordedBoxes.map((recordedBoxes) => (
         <div className="recordedTimeBox" style={{width: props.overlayDimensions[0]+"px", 
