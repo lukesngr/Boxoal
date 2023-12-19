@@ -22,7 +22,7 @@ export default function RecordedTimeBoxOverlay(props) {
     }, [data]);
     
     return <>{recordedBoxes.map((recordedBoxes) => (
-        <div className="recordedTimeBox" style={{width: props.overlayDimensions[0]+"px", 
+        <div key={recordedBoxes} className="recordedTimeBox" style={{width: props.overlayDimensions[0]+"px", 
         height: recordedBoxes.heightForBox, top: recordedBoxes.marginFromTop}}>{recordedBoxes.title}</div>
     ))}</>
 }
