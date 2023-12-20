@@ -1,6 +1,6 @@
 import SignedInNav from "@/components/nav/SignedInNav";
 import { useSession } from "next-auth/react";
-import { useQuery, QueryClient } from "react-query";
+import { useQuery, QueryCache } from "react-query";
 import axios from "axios";
 import NoSchedules from "@/components/schedule/NoSchedules";
 import RedirWhenNotAuth from "@/components/RedirWhenNotAuth";
@@ -12,16 +12,21 @@ export const RefetchContext = createContext();
 
 function MySchedulesSeperatedForFunctionality(props) {
     
-    const queryClient = new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: Infinity,
-          },
+    const queryCache = new QueryCache({
+        onError: (error) => {
+          console.log(error)
         },
-      })
-    queryClient.removeQueries();
-    //const {status, data, error, refetch} = useQuery(["schedules"], () => axios.post("/api/getSchedules", {userEmail: props.session.user.email}))
-    let data = {data: {}};
+        onSuccess: (data) => {
+          console.log(data)
+        },
+        onSettled: (data, error) => {
+          console.log(data, error)
+        },
+      });
+    queryCache.clear();
+    const {status, data, error, refetch} = useQuery(["schedules"], () => axios.post("/api/getSchedules", {userEmail: props.session.user.email}))
+    
+    //let data = {data: {}};
 
     return (
         <>
