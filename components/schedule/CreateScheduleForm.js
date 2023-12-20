@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { SessionContext } from "@/pages/myschedules";
+import { SessionContext, RefetchContext } from "@/pages/myschedules";
 import axios from "axios";
 
 
@@ -23,7 +23,7 @@ export default function CreateScheduleForm() {
             userEmail, 
         }).catch(function(error) {
             console.log(error);
-        })
+        });
     }
     return (
         <form onSubmit={handleSubmit}>
