@@ -10,9 +10,12 @@ export default function RecordedTimeBoxOverlay(props) {
             let normalArrayFromState = [...recordedBoxes];
             data.forEach(element => {
                 let marginFromTop = calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensions, new Date(element.recordedStartTime));
-                let heightForBox = calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensions, new Date(element.recordedEndTime)) - marginFromTop;
+                let heightForBox = calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensions, new Date(element.recordedEndTime)) - calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensions, new Date(element.recordedEndTime));
+                if(heightForBox < 30) {
+                    heightForBox = 30;
+                }//reasonable value which alllows it is visible
                 let notEitherZero = !(marginFromTop == 0 || heightForBox == 0); //due to overlay dimensions not being set at right time
-
+                console.log(heightForBox)
                 if(notEitherZero && !normalArrayFromState.some(item => item.id === element.id)) {
                     normalArrayFromState.push({id: element.id, heightForBox, marginFromTop, title: element.timeBox.title});
                 }
