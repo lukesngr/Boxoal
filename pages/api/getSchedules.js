@@ -12,11 +12,10 @@ export default async function handler(req, res) {
             boxSizeNumber: true,
             boxSizeUnit: true,
             wakeupTime: true,
-            areas: {
+            goals: {
                 select: {
                     id: true,
                     name: true,
-                    description: true
                 }
             },
             timeboxes: {

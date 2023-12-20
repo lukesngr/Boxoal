@@ -1,0 +1,20 @@
+@use 'theme';
+
+#createFirstScheduleModal {
+    .modal-header, .modal-header button, .modal-body  {
+        background-color: theme.$base-color;
+    }
+
+    .modal-header, label {
+        border-bottom: none;
+        font-family: 'Lato', sans-serif;
+    }
+
+    label {
+        margin-right: 3px;
+    }
+
+    .modal-header {
+        font-weight: bold;
+    }
+}
