@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { SessionContext, RefetchContext } from "@/pages/myschedules";
 import axios from "axios";
+import {queryClient} from '../../modules/queryClient';
 
 
 export default function CreateScheduleForm() {
@@ -23,6 +24,8 @@ export default function CreateScheduleForm() {
             userEmail, 
         }).catch(function(error) {
             console.log(error);
+        }).then(() => {
+            queryClient.refetchQueries();
         });
     }
     return (
@@ -40,7 +43,7 @@ export default function CreateScheduleForm() {
                 <option value={"none"}>None</option>
                 <option value={"initial"}>Choose</option>
             </select>
-            <input type="date" style={{display: endDateNeeded}} value={endDate} onChange={(e) => setEndDate(e.target.value)} required></input>
+            <input type="date" style={{display: endDateNeeded}} value={endDate} onChange={(e) => setEndDate(e.target.value)}></input>
             <br />
             <label>Average Wakeup Time: </label>
             <input type="time" value={wakeupTime} onChange={(e) => setWakeupTime(e.target.value)} required></input> <br />
