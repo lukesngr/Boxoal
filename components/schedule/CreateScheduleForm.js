@@ -40,7 +40,7 @@ export default function CreateScheduleForm() {
                 <option value={"none"}>None</option>
                 <option value={"initial"}>Choose</option>
             </select>
-            <input type="date" style={{display: endDateNeeded}} value={endDate} onChange={(e) => setEndDate(e.target.value)}></input>
+            <input type="date" style={{display: endDateNeeded}} value={endDate} onChange={(e) => setEndDate(e.target.value)} required></input>
             <br />
             <label>Average Wakeup Time: </label>
             <input type="time" value={wakeupTime} onChange={(e) => setWakeupTime(e.target.value)} required></input> <br />
