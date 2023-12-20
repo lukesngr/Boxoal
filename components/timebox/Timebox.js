@@ -87,8 +87,6 @@ export default function TimeBox(props) {
             });
             console.log(error); 
         })
-
-        props.refetch();
     }
 
     return (
