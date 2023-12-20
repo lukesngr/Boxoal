@@ -12,7 +12,12 @@ export const RefetchContext = createContext();
 
 function MySchedulesSeperatedForFunctionality(props) {
     
-    const {status, data, error, refetch} = useQuery({queryKey: ["scedules"], queryFn: () => {axios.post("/api/getSchedules", {userEmail: props.session.user.email})}, enabled: true})
+    const {status, data, error, refetch} = useQuery({
+        queryKey: ["schedules"], 
+        queryFn: async () => {
+            const data = await axios.post("/api/getSchedules", {userEmail: props.session.user.email});
+            return data}, 
+        enabled: false})
     
     return (
         <>
