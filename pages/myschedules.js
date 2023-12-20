@@ -12,21 +12,13 @@ export const RefetchContext = createContext();
 
 function MySchedulesSeperatedForFunctionality(props) {
     
-    const queryCache = new QueryCache({
-        onError: (error) => {
-          console.log(error)
-        },
-        onSuccess: (data) => {
-          console.log(data)
-        },
-        onSettled: (data, error) => {
-          console.log(data, error)
-        },
-      });
-    queryCache.clear();
     const {status, data, error, refetch} = useQuery(["schedules"], () => axios.post("/api/getSchedules", {userEmail: props.session.user.email}))
     
     //let data = {data: {}};
+    
+    if(status === 'success') {
+        data.refetch = refetch;
+    }
 
     return (
         <>
