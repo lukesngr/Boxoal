@@ -12,9 +12,17 @@
 
     label {
         margin-right: 3px;
+        margin-bottom: 3px;
     }
 
     .modal-header {
         font-weight: bold;
+    }
+
+    .modal-body button {
+        background-color: black;
+        color: white;
+        font-size: larger;
+        width: 50%;
     }
 }
