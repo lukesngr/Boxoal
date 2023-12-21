@@ -14,9 +14,9 @@ export default function ScheduleSidebarButton(props) {
             {!isAddGoalVisible && <FontAwesomeIcon onClick={toggleAddGoalButton} className='scheduleButton' icon={faChevronDown}/> }
             {isAddGoalVisible && <FontAwesomeIcon onClick={toggleAddGoalButton} className='scheduleButton' icon={faChevronUp}/> }
             <FontAwesomeIcon className='scheduleButton' icon={faGear} />
-            {isAddGoalVisible && props.schedule.goals.map(goal => (<div key={goal.id} className="areaButton">{goal.name}</div>))}
+            {isAddGoalVisible && props.schedule.goals.map(goal => (<div key={goal.id} className="goalButton">{goal.name}</div>))}
             {isAddGoalVisible && <>
-                <button type="button" className="btn btn-dark createGoal createButton" data-bs-toggle="modal" data-bs-target="#createAreaModal">
+                <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createAreaModal">
                     Add goal 
                 </button>
                 <CreateAreaModal id={props.schedule.id}/>
