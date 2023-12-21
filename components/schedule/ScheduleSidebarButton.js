@@ -18,7 +18,7 @@ export default function ScheduleSidebarButton(props) {
             <FontAwesomeIcon className='scheduleButton' icon={faGear} />
             {isAddAreaVisible && props.schedule.goals.map(goal => (<div key={goal.id} className="areaButton">{goal.name}</div>))}
             {isAddAreaVisible && <>
-                <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createAreaModal">
+                <button type="button" className="btn btn-dark createArea createButton" data-bs-toggle="modal" data-bs-target="#createAreaModal">
                     Add area 
                 </button>
                 <CreateAreaModal id={props.schedule.id}/>
