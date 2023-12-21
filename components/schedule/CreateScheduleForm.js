@@ -6,7 +6,7 @@ import {queryClient} from '../../modules/queryClient';
 
 export default function CreateScheduleForm() {
     const [name, setName] = useState("");
-    const [boxSizeNumber, setBoxSizeNumber] = useState(0);
+    const [boxSizeNumber, setBoxSizeNumber] = useState(1);
     const [boxSizeUnit, setBoxSizeUnit] = useState("min");
     const [endDate, setEndDate] = useState("");
     const [endDateNeeded, setEndDateNeeded] = useState("none");

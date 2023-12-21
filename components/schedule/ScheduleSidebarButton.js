@@ -16,7 +16,7 @@ export default function ScheduleSidebarButton(props) {
             {!isAddAreaVisible && <FontAwesomeIcon onClick={toggleAddAreaButton} className='scheduleButton' icon={faChevronDown}/> }
             {isAddAreaVisible && <FontAwesomeIcon onClick={toggleAddAreaButton} className='scheduleButton' icon={faChevronUp}/> }
             <FontAwesomeIcon className='scheduleButton' icon={faGear} />
-            {isAddAreaVisible && props.schedule.areas.map(area => (<div key={area.id} className="areaButton">{area.name}</div>))}
+            {isAddAreaVisible && props.schedule.goals.map(goal => (<div key={goal.id} className="areaButton">{goal.name}</div>))}
             {isAddAreaVisible && <>
                 <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createAreaModal">
                     Add area 

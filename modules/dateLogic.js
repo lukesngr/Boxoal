@@ -49,7 +49,7 @@ export function returnTimesSeperatedForSchedule(schedule) {
                 currentHour++;
                 currentMinute -= 60;
             }
-            console.log("stuck");
+
         }
 
         currentHour = 0;
@@ -63,7 +63,7 @@ export function returnTimesSeperatedForSchedule(schedule) {
                 currentHour++;
                 currentMinute -= 60;
             }
-            console.log("stuck");
+
         }
     }else if(schedule.boxSizeUnit == "hr") {
         let currentHour = wakeUpTimeSeperatedIntoHoursAndMins[0]; //hours  start off at wakeup time

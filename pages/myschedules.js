@@ -18,9 +18,7 @@ function MySchedulesSeperatedForFunctionality(props) {
             const response = await axios.post("/api/getSchedules", { userEmail: props.session.user.email });
         
             return response;},
-        enabled: false})
-    
-    if(status === "success") {
+        enabled: true})
     
     return (
         <>
@@ -32,9 +30,6 @@ function MySchedulesSeperatedForFunctionality(props) {
             </RedirWhenNotAuth>
         </>
     )
-    }else{
-        return <>{status}</>
-    }
 }
 
 export default function MySchedules() {
