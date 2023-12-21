@@ -31,7 +31,7 @@
     border: none;
 }
 
-.timeboxesGrid .row:not(:first-child) .col-1:nth-child(n+2) {
+.timeboxesGrid .timeBox {
     border-bottom: 2px solid #374B43;
     border-right: 2px solid #374B43;
     border-left: none;
