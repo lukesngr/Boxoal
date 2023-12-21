@@ -14,9 +14,17 @@ export default function SchedulesSidebar(props) {
         setSelectedSchedule(id);
     }
 
+    function getCorrectClass() {
+        if(expanded) {
+            return 'expandedSideBar'
+        }else{
+            return 'closedSideBar'
+        }
+    }
+
     return (
-        <div className="col-2 schedulesSidebarContainer">
-            <div className="schedulesSidebar" style={{'display': expanded ? ('initial') : ('block')}}>
+        <div className={"col-2 schedulesSidebarContainer "+getCorrectClass()}>
+            <div className="schedulesSidebar">
                 <h1 className="sidebarHeading">My Schedules</h1>
                 {props.data.data.map((schedule, index) => (<ScheduleSidebarButton key={index} index={index} selectedSchedule={selectedSchedule} schedule={schedule} selectSchedule={selectSchedule}></ScheduleSidebarButton>))}
                 <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createFirstScheduleModal">
