@@ -10,7 +10,7 @@
     height: fit-content;
 }
 
-.timeboxesGrid .col-1 {
+.timeboxesGrid .col {
     border: 3px solid #374B43;
     font-family: 'Lato', sans-serif;
     font-size: 1.2em;
@@ -27,7 +27,7 @@
     color: white;
 }
 
-.timeboxesGrid .row:first-child .col-1:first-child {
+.timeboxesGrid .row:first-child .col:first-child {
     border: none;
 }
 

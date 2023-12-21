@@ -90,7 +90,7 @@ export default function TimeBox(props) {
     }
 
     return (
-    <div className={'col-1 timeBox'}>
+    <div className={'col timeBox'}>
         {/* Form section of this TimeBox component */}
         {timeBoxFormVisible && <div id={dayName == 'Sat' ? 'addTimeBoxConstrained' : 'addTimeBox'}> 
             <div id="timeBoxBubble"></div>

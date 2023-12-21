@@ -7,11 +7,11 @@ function SchedulesView(props) {
     return (
         <div className="container-fluid mt-2 h-100" id="schedulesViewContainer">
             <ScheduleContextProvider>
-                <div className="row justify-contet-center">
+                <div className="row ">
                     <div className="col-2">
                         <SchedulesSidebar data={props.data}></SchedulesSidebar>
                     </div>
-                    <div className="col-10 mx-auto">
+                    <div className="col mx-auto d-flex-inline justify-content-center align-items-center">
                         <TimeBoxes data={props.data}></TimeBoxes>
                     </div>
                 </div>

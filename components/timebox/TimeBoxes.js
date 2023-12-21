@@ -98,10 +98,10 @@ export default function TimeBoxes(props) {
 
                 {/*Headers */}
                 <div className="row">
-                    <div className="col-1"></div>
+                    <div className="col"></div>
                     
                     {dayToName.map((day, index) => (
-                        <div ref={headerContainerRef} key={index} style={{padding: '0'}} className={'col-1 '+ifCurrentDay(index, 'currentDay', '')}>
+                        <div ref={headerContainerRef} key={index} style={{padding: '0'}} className={'col '+ifCurrentDay(index, 'currentDay', '')}>
                             <span className='timeboxHeadingText'>{day.name+" ("+day.date+"/"+day.month+")"}</span>
                             {ifCurrentDay(index, true, false) && <>
                                 <ActiveOverlay width={overlayDimensions[0]} overlayHeight={activeOverlayHeight}></ActiveOverlay>
@@ -120,7 +120,7 @@ export default function TimeBoxes(props) {
                 {/* Timeboxes */}
                 {listOfTimes.map(time => (
                     <div key={time} className="row">
-                        <div ref={timeboxColumnRef} className="col-1 timeCol">{time}</div>
+                        <div ref={timeboxColumnRef} className="col timeCol">{time}</div>
                         {dayToName.map((day, index) => (
                             <TimeBox key={index} dayName={day.name} active={ifEqualOrBeyondCurrentDay(index, true, false)}
                              schedule={schedule} time={time} date={day.date+"/"+day.month} data={timeBoxGrid.get(day.date+"/"+day.month)?.get(time)}
