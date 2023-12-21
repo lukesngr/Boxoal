@@ -15,9 +15,12 @@ function MySchedulesSeperatedForFunctionality(props) {
     const {status, data, error, refetch} = useQuery({
         queryKey: ["schedules"], 
         queryFn: async () => {
-            const data = await axios.post("/api/getSchedules", {userEmail: props.session.user.email});
-            return data}, 
+            const response = await axios.post("/api/getSchedules", { userEmail: props.session.user.email });
+        
+            return response;},
         enabled: false})
+    
+    if(status === "success") {
     
     return (
         <>
@@ -29,6 +32,9 @@ function MySchedulesSeperatedForFunctionality(props) {
             </RedirWhenNotAuth>
         </>
     )
+    }else{
+        return <>{status}</>
+    }
 }
 
 export default function MySchedules() {
