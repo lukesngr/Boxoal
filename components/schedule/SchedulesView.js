@@ -8,9 +8,7 @@ function SchedulesView(props) {
         <div className="container-fluid mt-2 h-100" id="schedulesViewContainer">
             <ScheduleContextProvider>
                 <div className="row ">
-                    <div className="col-2">
-                        <SchedulesSidebar data={props.data}></SchedulesSidebar>
-                    </div>
+                    <SchedulesSidebar data={props.data}></SchedulesSidebar>
                     <div className="col mx-auto d-flex-inline justify-content-center align-items-center">
                         <TimeBoxes data={props.data}></TimeBoxes>
                     </div>

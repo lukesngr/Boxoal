@@ -7,6 +7,7 @@ import ScheduleSidebarButton from './ScheduleSidebarButton';
 
 export default function SchedulesSidebar(props) {
     const {selectedSchedule, setSelectedSchedule} = useContext(ScheduleContext);
+    const [expanded, setExpanded] = useState(true);
     
 
     function selectSchedule(id) {
@@ -14,12 +15,14 @@ export default function SchedulesSidebar(props) {
     }
 
     return (
-    <div id="schedulesSidebar">
-        <h1 className="sidebarHeading">My Schedules</h1>
-        {props.data.data.map((schedule, index) => (<ScheduleSidebarButton key={index} index={index} selectedSchedule={selectedSchedule} schedule={schedule} selectSchedule={selectSchedule}></ScheduleSidebarButton>))}
-        <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createFirstScheduleModal">
-            Add schedule 
-        </button>
-        <CreateScheduleModal/>
-    </div>)
+        <div className="col-2 schedulesSidebarContainer">
+            <div className="schedulesSidebar" style={{'display': expanded ? ('initial') : ('block')}}>
+                <h1 className="sidebarHeading">My Schedules</h1>
+                {props.data.data.map((schedule, index) => (<ScheduleSidebarButton key={index} index={index} selectedSchedule={selectedSchedule} schedule={schedule} selectSchedule={selectSchedule}></ScheduleSidebarButton>))}
+                <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createFirstScheduleModal">
+                    Add schedule 
+                </button>
+                <CreateScheduleModal/>
+            </div>
+        </div>)
 }

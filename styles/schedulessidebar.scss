@@ -1,6 +1,6 @@
 @use 'theme';
 
-#schedulesSidebar {
+.schedulesSidebar {
     background-color: theme.$base-color;
     height: 100%;
 }
@@ -70,3 +70,9 @@
     background-color: theme.$base-color;
     margin-left: -10px;
 }
+
+@media screen and (max-width: 992px) {
+    .schedulesSidebarContainer {
+      display: none !important;
+    }
+  }
