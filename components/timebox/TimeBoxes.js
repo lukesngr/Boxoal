@@ -102,7 +102,7 @@ export default function TimeBoxes(props) {
                     
                     {dayToName.map((day, index) => (
                         <div ref={headerContainerRef} key={index} style={{padding: '0'}} className={'col '+ifCurrentDay(index, 'currentDay', '')}>
-                            <span className='timeboxHeadingText'>{day.name+" ("+day.date+"/"+day.month+")"}</span>
+                            <span className='timeboxHeadingText'>{day.name}<br />{" ("+day.date+"/"+day.month+")"}</span>
                             {ifCurrentDay(index, true, false) && <>
                                 <ActiveOverlay width={overlayDimensions[0]} overlayHeight={activeOverlayHeight}></ActiveOverlay>
                                 <RecordingOverlay overlayDimensions={overlayDimensions} schedule={schedule} 
