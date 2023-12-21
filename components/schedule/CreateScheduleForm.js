@@ -33,7 +33,7 @@ export default function CreateScheduleForm() {
             <label>Name: </label>
             <input type="text" value={name} onChange={(e) => setName(e.target.value)} required></input><br />
             <label>Box Size: </label>
-            <input type="number" min={0} max={59} value={boxSizeNumber} onChange={(e) => setBoxSizeNumber(e.target.value)} required></input>
+            <input type="number" min={1} max={59} value={boxSizeNumber} onChange={(e) => setBoxSizeNumber(e.target.value)} required></input>
             <select value={boxSizeUnit} onChange={(e) => setBoxSizeUnit(e.target.value)} required>
                 <option value="min">Min</option>
                 <option value="hr">Hour</option>

@@ -19,14 +19,14 @@ export default function TimeBoxes(props) {
 
     const [overlayDimensions, setOverlayDimensions] = useState(0);
     const [activeOverlayHeight, setActiveOverlayHeight] = useState(0);
-
+ 
     //get schedule that is selected in sidebar and assign it to schedule variable
     const {selectedSchedule, setSelectedSchedule} = useContext(ScheduleContext);
     let schedule = props.data.data[selectedSchedule];
 
     const dayToName = getDayNumbers(); //get all info to make headers look nice
     const listOfTimes = returnTimesSeperatedForSchedule(schedule); //get times that go down each row
-
+    
     //make a map for the timeboxes with a map inside it
     //this allows fast lookup based on date than time first
     //potential for further optimization by narrowing down to only the timeboxes this week
@@ -36,7 +36,7 @@ export default function TimeBoxes(props) {
         if (!timeBoxGrid.has(date)) { timeBoxGrid.set(date, new Map()); } //if date key not in map than set empty map to date key
         timeBoxGrid.get(date).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
     });
-
+   
     function calculateOverlayDimensions() {
         if (gridContainerRef.current && headerContainerRef.current && timeboxColumnRef.current) { //if ref working
             const gridHeight = gridContainerRef.current.offsetHeight; //get height of grid
@@ -88,7 +88,7 @@ export default function TimeBoxes(props) {
         };
     }, [overlayDimensions])
 
-    
+   
 
     return (
     <>
@@ -124,13 +124,13 @@ export default function TimeBoxes(props) {
                         <div ref={timeboxColumnRef} className="col-1 timeCol">{time}</div>
                         {dayToName.map((day, index) => (
                             <TimeBox key={index} dayName={day.name} active={ifEqualOrBeyondCurrentDay(index, true, false)}
-                             schedule={schedule} time={time} date={day.date+"/"+day.month} refetch={props.data.refetch} data={timeBoxGrid.get(day.date+"/"+day.month)?.get(time)}
+                             schedule={schedule} time={time} date={day.date+"/"+day.month} data={timeBoxGrid.get(day.date+"/"+day.month)?.get(time)}
                              overlayFuncs={[pauseActiveOverlay, resumeActiveOverlay]}></TimeBox>
                         ))}
                     </div>))}
             </TimeboxContextProvider>
         </div>
-        
     </>
     )
+    
 }
