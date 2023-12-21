@@ -98,8 +98,8 @@ export default function TimeBoxes(props) {
 
                 {/*Headers */}
                 <div className="row">
-                    <div className="col-2"></div>
                     <div className="col-1"></div>
+                    
                     {dayToName.map((day, index) => (
                         <div ref={headerContainerRef} key={index} style={{padding: '0'}} className={'col-1 '+ifCurrentDay(index, 'currentDay', '')}>
                             <span className='timeboxHeadingText'>{day.name+" ("+day.date+"/"+day.month+")"}</span>
@@ -120,7 +120,6 @@ export default function TimeBoxes(props) {
                 {/* Timeboxes */}
                 {listOfTimes.map(time => (
                     <div key={time} className="row">
-                        <div className="col-2"></div>
                         <div ref={timeboxColumnRef} className="col-1 timeCol">{time}</div>
                         {dayToName.map((day, index) => (
                             <TimeBox key={index} dayName={day.name} active={ifEqualOrBeyondCurrentDay(index, true, false)}
