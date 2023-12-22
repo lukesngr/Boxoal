@@ -98,3 +98,13 @@
         width: 97%;
     }
 }
+
+@media only screen and (max-width: 360px) { //max width this application supports is 320px
+    .timeboxesGrid .col-1, .timeboxesGrid .col {
+        font-size: 0.5em;
+    }
+
+    .timeboxesGrid {
+        width: 99%;
+    }
+}

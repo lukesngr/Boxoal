@@ -1,8 +1,13 @@
-#schedulesViewContainer {
+.schedulesViewContainer {
     margin-left: 0 !important;
     padding: 0;
 }
 
-#schedulesViewContainer .row{
+.schedulesViewContainer .row{
     margin-right: 0;
+}
+
+.schedulesViewContainer {
+    padding-left: 0;
+    padding-right: 0;
 }
