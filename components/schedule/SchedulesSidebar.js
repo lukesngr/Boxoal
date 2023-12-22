@@ -25,7 +25,7 @@ export default function SchedulesSidebar(props) {
         setSelectedSchedule(id);
     }
 
-    return (
+    return (<>
         <div className={"col-2 schedulesSidebarContainer"} style={{'display': expanded ? ('block') : ('none')}}>
             <div className="schedulesSidebar">
                 <h1 className="sidebarHeading">My Schedules <FontAwesomeIcon onClick={() => setExpanded(false)} className='minimizeButton' icon={faArrowLeft}></FontAwesomeIcon></h1>
@@ -35,5 +35,9 @@ export default function SchedulesSidebar(props) {
                 </button>
                 <CreateScheduleModal/>
             </div>
-        </div>)
+        </div>
+        <div style={{'display': expanded ? ('none') : ('block')}}>
+            <FontAwesomeIcon icon={faArrowRight} onClick={() => setExpanded(true)} className='expandButton'></FontAwesomeIcon>
+        </div>
+        </>)
 }

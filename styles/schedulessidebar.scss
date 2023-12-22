@@ -6,7 +6,7 @@
 }
 
 .sidebarHeading {
-    font-size: 20px;
+    font-size: 1.65vw;
     font-family: 'Lato', sans-serif;
     color: black;
     border-bottom: 1px black solid;
@@ -72,7 +72,12 @@
 }
 
 .minimizeButton {
-    height: 2vw;
+    height: 1.8vw;
     width: auto;
     float: right
+}
+
+.expandButton {
+    height: 1.8vw;
+    width: auto;
 }
