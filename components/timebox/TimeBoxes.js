@@ -9,6 +9,8 @@ import Overlay from './Overlay';
 import ActiveOverlay from './ActiveOverlay';
 import RecordingOverlay from './RecordingOverlay';
 import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCog } from '@fortawesome/free-solid-svg-icons';
 
 export default function TimeBoxes(props) {
 
@@ -21,7 +23,7 @@ export default function TimeBoxes(props) {
     const [activeOverlayHeight, setActiveOverlayHeight] = useState(0);
  
     //get schedule that is selected in sidebar and assign it to schedule variable
-    const {selectedSchedule, setSelectedSchedule} = useContext(ScheduleContext);
+    const {selectedSchedule, setSelectedSchedule, expanded, setExpanded} = useContext(ScheduleContext);
     let schedule = props.data.data[selectedSchedule];
 
     const dayToName = getDayNumbers(); //get all info to make headers look nice
@@ -74,7 +76,7 @@ export default function TimeBoxes(props) {
     //if schedule changes recalculate overlay dimensions
     useEffect(() => {
         calculateOverlayDimensions();
-    }, [selectedSchedule]);
+    }, [selectedSchedule, expanded]);
 
     //how many useeffects do I need I hate react sometimes
     useEffect(() => {
@@ -92,7 +94,7 @@ export default function TimeBoxes(props) {
 
     return (
     <>
-        <h1 className="viewHeading">This Week</h1>
+        <h1 className="viewHeading">This Week <FontAwesomeIcon className="sideBarExpandBtn" icon={faCog} onClick={() => setExpanded(true)}></FontAwesomeIcon></h1>
         <div ref={gridContainerRef} className="container-fluid mt-2 timeboxesGrid">
             <TimeboxContextProvider>
 
