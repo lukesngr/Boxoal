@@ -36,8 +36,5 @@ export default function SchedulesSidebar(props) {
                 <CreateScheduleModal/>
             </div>
         </div>
-        <div style={{'display': expanded ? ('none') : ('block')}}>
-            <FontAwesomeIcon icon={faArrowRight} onClick={() => setExpanded(true)} className='expandButton'></FontAwesomeIcon>
-        </div>
         </>)
 }
