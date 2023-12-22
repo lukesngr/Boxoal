@@ -20,13 +20,7 @@ export default function SchedulesSidebar(props) {
         console.log(expanded);
     }, [smallerThanLargeBreakpoint])
 
-    function getRightClass() {
-        if(mobileSideBar) {
-            return 'mobileSideBar';
-        }else{
-            return 'col-2';
-        }
-    }
+    
     
     
 
@@ -35,7 +29,8 @@ export default function SchedulesSidebar(props) {
     }
 
     return (<>
-        <div className={"schedulesSidebarContainer "+getRightClass()} style={{'display': expanded ? ('block') : ('none')}}>
+        <div className={"col-2"} 
+        style={{'display': expanded ? ('block') : ('none')}}>
             <div className="schedulesSidebar">
                 <h1 className="sidebarHeading">My Schedules <FontAwesomeIcon onClick={() => setExpanded(false)} className='minimizeButton' icon={faArrowLeft}></FontAwesomeIcon></h1>
                 {props.data.data.map((schedule, index) => (<ScheduleSidebarButton key={index} index={index} selectedSchedule={selectedSchedule} schedule={schedule} selectSchedule={selectSchedule}></ScheduleSidebarButton>))}
