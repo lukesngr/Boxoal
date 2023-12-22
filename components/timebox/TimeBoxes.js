@@ -94,7 +94,9 @@ export default function TimeBoxes(props) {
 
     return (
     <>
-        <h1 className="viewHeading">This Week <FontAwesomeIcon className="sideBarExpandBtn" icon={faCog} onClick={() => setExpanded(true)}></FontAwesomeIcon></h1>
+        <h1 className="viewHeading">This Week 
+            {!expanded && <FontAwesomeIcon className="sideBarExpandBtn ml-1" icon={faCog} onClick={() => setExpanded(true)}></FontAwesomeIcon>}
+        </h1>
         <div ref={gridContainerRef} className="container-fluid mt-2 timeboxesGrid">
             <TimeboxContextProvider>
 

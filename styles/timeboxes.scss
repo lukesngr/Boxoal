@@ -78,3 +78,23 @@
     height: 25px;
     width: auto;
 }
+
+@media only screen and (max-width: 992px) {
+    .timeboxesGrid .col-1, .timeboxesGrid .col {
+        font-size: 1em;
+    }
+
+    .timeboxesGrid {
+        width: 95%;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .timeboxesGrid .col-1, .timeboxesGrid .col {
+        font-size: 0.7em;
+    }
+
+    .timeboxesGrid {
+        width: 97%;
+    }
+}
