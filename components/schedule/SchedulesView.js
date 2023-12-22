@@ -5,7 +5,7 @@ import { ScheduleContextProvider } from "./ScheduleContext";
 
 function SchedulesView(props) {
     return (
-        <div className="container-fluid mt-2 h-100" id="schedulesViewContainer">
+        <div className="container-fluid mt-2 h-100 schedulesViewContainer">
             <ScheduleContextProvider>
                 <div className="row ">
                     <SchedulesSidebar data={props.data}></SchedulesSidebar>

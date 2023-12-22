@@ -10,13 +10,23 @@ import { faArrowLeft, faArrowRight, faWindowMinimize } from '@fortawesome/free-s
 
 export default function SchedulesSidebar(props) {
     const {selectedSchedule, setSelectedSchedule, expanded, setExpanded} = useContext(ScheduleContext);
+    const [mobileSideBar, setMobileSideBar] = useState(true);
 
     let smallerThanLargeBreakpoint = useMediaQuery({query: '(max-width: 992px)'});
 
     useEffect(() => {
         setExpanded(!smallerThanLargeBreakpoint);
+        setMobileSideBar(smallerThanLargeBreakpoint);
         console.log(expanded);
     }, [smallerThanLargeBreakpoint])
+
+    function getRightClass() {
+        if(mobileSideBar) {
+            return 'mobileSideBar';
+        }else{
+            return 'col-2';
+        }
+    }
     
     
 
@@ -25,7 +35,7 @@ export default function SchedulesSidebar(props) {
     }
 
     return (<>
-        <div className={"col-2 schedulesSidebarContainer"} style={{'display': expanded ? ('block') : ('none')}}>
+        <div className={"schedulesSidebarContainer "+getRightClass()} style={{'display': expanded ? ('block') : ('none')}}>
             <div className="schedulesSidebar">
                 <h1 className="sidebarHeading">My Schedules <FontAwesomeIcon onClick={() => setExpanded(false)} className='minimizeButton' icon={faArrowLeft}></FontAwesomeIcon></h1>
                 {props.data.data.map((schedule, index) => (<ScheduleSidebarButton key={index} index={index} selectedSchedule={selectedSchedule} schedule={schedule} selectSchedule={selectSchedule}></ScheduleSidebarButton>))}
