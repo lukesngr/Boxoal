@@ -18,6 +18,7 @@ export default function TimeBox(props) {
     const [description, setDescription] = useState("");
     const [numberOfBoxes, setNumberOfBoxes] = useState(1);
     const [recordedStartTime, setRecordedStartTime] = useState(0);
+    const [goalSelected, setGoalSelected] = useState("");
     const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen, listOfColors, timeboxRecording, setTimeBoxRecording} = useContext(TimeboxContext);
 
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(schedule, time, date);
@@ -103,6 +104,12 @@ export default function TimeBox(props) {
                 <input type="text" name="description" id="description" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)}></input><br />
                 <label htmlFor="boxes">Boxes</label>
                 <input min="1" max={maxNumberOfBoxes} type="number" name="boxes" id="boxes" placeholder="Boxes" value={numberOfBoxes} onChange={(e) => setNumberOfBoxes(e.target.value)}></input><br />
+                <label>Goal: </label>
+                <select value={goalSelected} onChange={(e) => {setGoalSelected(e.target.value)}}>
+                    {schedule.goals.map((goal) => (
+                        <option value={goal.id}>{goal.name}</option>
+                    ))}
+                </select>
                 <button id="addTimeBoxButton">Add TimeBox</button>
             </form>
         </div>}
