@@ -7,6 +7,7 @@ import '../../styles/addtimebox.scss';
 import axios from 'axios';
 import { TimeboxContext } from './TimeboxContext';
 import {toast} from "react-toastify";
+import {queryClient} from '../../modules/queryClient';
 
 export default function TimeBox(props) {
 
@@ -73,6 +74,7 @@ export default function TimeBox(props) {
                 numberOfBoxes, color, schedule: {connect: {id: schedule.id}}
         }).then(() => {
             //reset the form
+            queryClient.refetchQueries();
             setAddTimeBoxDialogOpen(false);
             setTimeBoxFormVisible(false);
             setTitle("");
@@ -82,9 +84,7 @@ export default function TimeBox(props) {
                 position: toast.POSITION.TOP_RIGHT,
             });
         }).catch(function(error) {
-            toast.error("Error: "+error, {
-                position: toast.POSITION.TOP_RIGHT,
-            });
+            toast.error("Error occurred please try again or contact developer");
             console.log(error); 
         })
     }

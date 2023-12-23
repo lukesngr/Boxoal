@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-
+import {queryClient} from '../../modules/queryClient';
 
 export default function CreateGoalForm(props) {
     const [name, setName] = useState("");
@@ -9,15 +9,21 @@ export default function CreateGoalForm(props) {
 
     function handleSubmit(event) {
         event.preventDefault();
-        axios.post('/api/createArea', {
+        axios.post('/api/createGoal', {
             name,
             priority,
             targetDate,
             schedule: {
                 connect: {id: props.id}
             } 
+        }).then(function() {
+            queryClient.refetchQueries();
+            toast.success("Added goal!", {
+                position: toast.POSITION.TOP_RIGHT,
+            });
         }).catch(function(error) {
-            console.log(error);
+            toast.error("Error occurred please try again or contact developer");
+            console.log(error); 
         })
     }
     return (

@@ -26,6 +26,7 @@ export default function CreateScheduleForm() {
             console.log(error);
         }).then(() => {
             queryClient.refetchQueries();
+            toast.error("Error occurred please try again or contact developer");
         });
     }
     return (
