@@ -10,13 +10,13 @@ import { faArrowLeft, faArrowRight, faWindowMinimize } from '@fortawesome/free-s
 
 export default function SchedulesSidebar(props) {
     const {selectedSchedule, setSelectedSchedule, expanded, setExpanded} = useContext(ScheduleContext);
-    const [mobileSideBar, setMobileSideBar] = useState(true);
+    const [isSideBarMobile, setIsSideBarMobile] = useState(true);
 
     let smallerThanLargeBreakpoint = useMediaQuery({query: '(max-width: 992px)'});
 
     useEffect(() => {
         setExpanded(!smallerThanLargeBreakpoint);
-        setMobileSideBar(smallerThanLargeBreakpoint);
+        setIsSideBarMobile(smallerThanLargeBreakpoint);
         console.log(expanded);
     }, [smallerThanLargeBreakpoint])
 
@@ -29,7 +29,7 @@ export default function SchedulesSidebar(props) {
     }
 
     return (<>
-        <div className={"col-2"} 
+        <div className={isSideBarMobile ? ("mobileSideBar") : ("col-2")} 
         style={{'display': expanded ? ('block') : ('none')}}>
             <div className="schedulesSidebar">
                 <h1 className="sidebarHeading">My Schedules <FontAwesomeIcon onClick={() => setExpanded(false)} className='minimizeButton' icon={faArrowLeft}></FontAwesomeIcon></h1>
