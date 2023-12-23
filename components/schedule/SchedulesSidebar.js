@@ -34,7 +34,7 @@ export default function SchedulesSidebar(props) {
             <div className="schedulesSidebar">
                 <h1 className="sidebarHeading">My Schedules <FontAwesomeIcon onClick={() => setExpanded(false)} className='minimizeButton' icon={faArrowLeft}></FontAwesomeIcon></h1>
                 {props.data.data.map((schedule, index) => (<ScheduleSidebarButton key={index} index={index} selectedSchedule={selectedSchedule} schedule={schedule} selectSchedule={selectSchedule}></ScheduleSidebarButton>))}
-                <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createFirstScheduleModal">
+                <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createScheduleModal">
                     Add schedule 
                 </button>
                 <CreateScheduleModal/>

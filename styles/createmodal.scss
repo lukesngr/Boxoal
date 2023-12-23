@@ -1,6 +1,6 @@
 @use 'theme';
 
-#createFirstScheduleModal {
+.createScheduleModal {
     .modal-header, .modal-header button, .modal-body  {
         background-color: theme.$base-color;
     }
