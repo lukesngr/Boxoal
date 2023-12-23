@@ -76,7 +76,11 @@ export default function TimeBoxes(props) {
     //if schedule changes recalculate overlay dimensions
     useEffect(() => {
         calculateOverlayDimensions();
-    }, [selectedSchedule, expanded]);
+    }, [selectedSchedule]);
+
+    useEffect(() => {
+        setTimeout(calculateOverlayDimensions, 500);
+    }, [expanded]);
 
     //how many useeffects do I need I hate react sometimes
     useEffect(() => {
