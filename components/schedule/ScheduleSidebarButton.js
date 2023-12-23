@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGear, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
-import CreateAreaModal from '../goal/CreateGoalModal';
+import CreateGoalModal from '../goal/CreateGoalModal';
 import { useState } from 'react';
 
 export default function ScheduleSidebarButton(props) {
