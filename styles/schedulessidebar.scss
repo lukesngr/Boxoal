@@ -96,3 +96,24 @@
         height: 2.8vw;
     }
 }
+
+@keyframes disappear {
+    100% {transform: translateX(-100%);}
+}
+
+@keyframes appear {
+    0% {transform: translateX(-100%);}
+    100% {transform: translateX(0);}
+}
+
+#animateToDisappear {
+    animation-name: disappear;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+#animateToAppear {
+    animation-name: appear;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}

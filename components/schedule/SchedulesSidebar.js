@@ -30,7 +30,7 @@ export default function SchedulesSidebar(props) {
 
     return (<>
         <div className={isSideBarMobile ? ("mobileSideBar") : ("col-2")} 
-        style={{'display': expanded ? ('block') : ('none')}}>
+        id={expanded ? ('animateToAppear') : ('animateToDisappear')}>
             <div className="schedulesSidebar">
                 <h1 className="sidebarHeading">My Schedules <FontAwesomeIcon onClick={() => setExpanded(false)} className='minimizeButton' icon={faArrowLeft}></FontAwesomeIcon></h1>
                 {props.data.data.map((schedule, index) => (<ScheduleSidebarButton key={index} index={index} selectedSchedule={selectedSchedule} schedule={schedule} selectSchedule={selectSchedule}></ScheduleSidebarButton>))}
