@@ -27,7 +27,7 @@ model Goal {
   id          Int       @id @default(autoincrement())
   priority    Int
   name        String
-  finishDate  DateTime
+  targetDate  DateTime
   timeboxes   TimeBox[]
   schedule    Schedule  @relation(fields: [scheduleID], references: [id])
   scheduleID  Int
