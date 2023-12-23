@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 
-export default function CreateAreaForm(props) {
+export default function CreateGoalForm(props) {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
 

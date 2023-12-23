@@ -1,8 +1,8 @@
-import CreateAreaForm from "./CreateAreaForm";
+import CreateGoalForm from "./CreateGoalForm";
 import BootstrapModal from "../base/BootstrapModal";
 
 export default function CreateGoalModal(props) {
     return <BootstrapModal id="createGoalModal" title="New Goal">
-            <CreateAreaForm id={props.id}></CreateAreaForm>
+            <CreateGoalForm id={props.id}></CreateGoalForm>
     </BootstrapModal>
 }
