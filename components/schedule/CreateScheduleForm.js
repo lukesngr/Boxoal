@@ -23,10 +23,14 @@ export default function CreateScheduleForm() {
             endDate,
             wakeupTime,
             userEmail, 
-        }).catch(function(error) {
-            console.log(error);
         }).then(() => {
             queryClient.refetchQueries();
+            toast.success("Added schedule!", {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+            
+        }).catch(function(error) {
+            console.log(error);
             toast.error("Error occurred please try again or contact developer");
         });
     }
