@@ -4,13 +4,15 @@ import axios from "axios";
 
 export default function CreateGoalForm(props) {
     const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
+    const [priority, setPriority] = useState("");
+    const [targetDate, setTargetDate] = useState(new Date());
 
     function handleSubmit(event) {
         event.preventDefault();
         axios.post('/api/createArea', {
             name,
-            description,
+            priority,
+            targetDate,
             schedule: {
                 connect: {id: props.id}
             } 
@@ -22,9 +24,11 @@ export default function CreateGoalForm(props) {
         <form onSubmit={handleSubmit}>
             <label>Name: </label>
             <input type="text" value={name} onChange={(e) => setName(e.target.value)} required></input><br />
-            <label>Description: </label>
-            <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} required></input><br />
-            <button type="submit">Create</button>
+            <label>Priority: </label>
+            <input type="number" min={1} value={priority} onChange={(e) => setPriority(e.target.value)} required></input><br />
+            <label>Target Date: </label>
+            <input type="datetime-local" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} required></input><br />
+            <button type="submit">Create Goal</button>
         </form>
     )
 }
