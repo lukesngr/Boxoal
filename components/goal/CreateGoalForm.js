@@ -5,15 +5,15 @@ import {toast} from "react-toastify";
 
 export default function CreateGoalForm(props) {
     const [name, setName] = useState("");
-    const [priority, setPriority] = useState("");
-    const [targetDate, setTargetDate] = useState(new Date());
+    const [priority, setPriority] = useState(0);
+    const [targetDate, setTargetDate] = useState(new Date().toISOString());
 
     function handleSubmit(event) {
         event.preventDefault();
         axios.post('/api/createGoal', {
             name,
-            priority,
-            targetDate,
+            priority: parseInt(priority), //damn thing won't convert auto even with number input
+            targetDate: new Date(targetDate).toISOString(),
             schedule: {
                 connect: {id: props.id}
             } 
