@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGear, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import CreateGoalModal from '../goal/CreateGoalModal';
 import { useState } from 'react';
+import PortalComponent from '../base/PortalComponent';
 
 export default function ScheduleSidebarButton(props) {
     const [isAddGoalVisible, setIsAddGoalVisible] = useState(false);
@@ -19,7 +20,9 @@ export default function ScheduleSidebarButton(props) {
                 <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createGoalModal">
                     Add goal 
                 </button>
-                <CreateGoalModal id={props.schedule.id}/>
+                <PortalComponent>
+                    <CreateGoalModal id={props.schedule.id}/>
+                </PortalComponent>
             </>}
         </div>)
 }

@@ -30,6 +30,7 @@ export default function SchedulesSidebar(props) {
 
     return (<>
         <CreateScheduleModal/>
+        <div id='portalRoot'></div>
         <div className={isSideBarMobile ? ("mobileSideBar") : ("col-2")} 
         id={expanded ? ('animateToAppear') : ('animateToDisappear')}>
             <div className="schedulesSidebar">
