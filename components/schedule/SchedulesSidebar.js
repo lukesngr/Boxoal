@@ -29,6 +29,7 @@ export default function SchedulesSidebar(props) {
     }
 
     return (<>
+        <CreateScheduleModal/>
         <div className={isSideBarMobile ? ("mobileSideBar") : ("col-2")} 
         id={expanded ? ('animateToAppear') : ('animateToDisappear')}>
             <div className="schedulesSidebar">
@@ -37,7 +38,7 @@ export default function SchedulesSidebar(props) {
                 <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createScheduleModal">
                     Add schedule 
                 </button>
-                <CreateScheduleModal/>
+                
             </div>
         </div>
         </>)
