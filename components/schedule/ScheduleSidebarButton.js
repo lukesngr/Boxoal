@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGear, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
-import CreateAreaModal from '../area/CreateAreaModal';
+import CreateAreaModal from '../goal/CreateGoalModal';
 import { useState } from 'react';
 
 export default function ScheduleSidebarButton(props) {
@@ -16,10 +16,10 @@ export default function ScheduleSidebarButton(props) {
             <FontAwesomeIcon className='scheduleButton' icon={faGear} />
             {isAddGoalVisible && props.schedule.goals.map(goal => (<div key={goal.id} className="goalButton">{goal.name}</div>))}
             {isAddGoalVisible && <>
-                <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createAreaModal">
+                <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createGoalModal">
                     Add goal 
                 </button>
-                <CreateAreaModal id={props.schedule.id}/>
+                <CreateGoalModal id={props.schedule.id}/>
             </>}
         </div>)
 }
