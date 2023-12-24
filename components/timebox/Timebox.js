@@ -18,7 +18,7 @@ export default function TimeBox(props) {
     const [description, setDescription] = useState("");
     const [numberOfBoxes, setNumberOfBoxes] = useState(1);
     const [recordedStartTime, setRecordedStartTime] = useState(0);
-    const [goalSelected, setGoalSelected] = useState("");
+    const [goalSelected, setGoalSelected] = useState(null);
     const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen, listOfColors, timeboxRecording, setTimeBoxRecording} = useContext(TimeboxContext);
 
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(schedule, time, date);
@@ -67,13 +67,13 @@ export default function TimeBox(props) {
         let endTime = convertToDateTime(addBoxesToTime(schedule, time, numberOfBoxes), date); //add boxes to start time to get end time
         let color = listOfColors[Math.floor(Math.random() * listOfColors.length)]; //randomly pick a box color
         console.log(title, description, startTime, endTime,
-            numberOfBoxes, color, schedule.id);
+            numberOfBoxes, color, schedule.id, goalSelected);
 
         //post to api
         axios.post('/api/createTimebox', 
             {title, description, startTime, endTime,
-                numberOfBoxes, color, schedule: {connect: {id: schedule.id}, goal: {connect: {id: goalSelected}}}
-        }).then(() => {
+                numberOfBoxes, color, schedule: {connect: {id: schedule.id}}, goal: {connect: {id: goalSelected}}}
+        ).then(() => {
             //reset the form
             queryClient.refetchQueries();
             setAddTimeBoxDialogOpen(false);
