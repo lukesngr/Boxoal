@@ -17,20 +17,20 @@ export default async function handler(req, res) {
                     select: {
                         id: true,
                         name: true,
-                    },
-                    timeboxes: {
-                        orderBy: {
-                            startTime: 'asc'
+                        timeboxes: {
+                            orderBy: {
+                                startTime: 'asc'
+                            },
+                            select: {
+                                title: true,
+                                description: true,
+                                startTime: true,
+                                endTime: true,
+                                numberOfBoxes: true,
+                                color: true,
+                                id: true,
+                            }
                         },
-                        select: {
-                            title: true,
-                            description: true,
-                            startTime: true,
-                            endTime: true,
-                            numberOfBoxes: true,
-                            color: true,
-                            id: true,
-                        }
                     },
                 },
                 timeboxes: {
