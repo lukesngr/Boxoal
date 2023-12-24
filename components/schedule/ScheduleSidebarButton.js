@@ -3,6 +3,7 @@ import { faGear, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-
 import CreateGoalModal from '../goal/CreateGoalModal';
 import { useState } from 'react';
 import PortalComponent from '../base/PortalComponent';
+import GoalSidebarButton from './GoalSidebarButton';
 
 export default function ScheduleSidebarButton(props) {
     const [isAddGoalVisible, setIsAddGoalVisible] = useState(false);
@@ -15,7 +16,7 @@ export default function ScheduleSidebarButton(props) {
             {!isAddGoalVisible && <FontAwesomeIcon onClick={toggleAddGoalButton} className='scheduleButton' icon={faChevronDown}/> }
             {isAddGoalVisible && <FontAwesomeIcon onClick={toggleAddGoalButton} className='scheduleButton' icon={faChevronUp}/> }
             <FontAwesomeIcon className='scheduleButton' icon={faGear} />
-            {isAddGoalVisible && props.schedule.goals.map(goal => (<div key={goal.id} className="goalButton">{goal.name}</div>))}
+            {isAddGoalVisible && props.schedule.goals.map(goal => (<GoalSidebarButton goal={goal}></GoalSidebarButton>))}
             {isAddGoalVisible && <>
                 <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createGoalModal">
                     Add goal 
