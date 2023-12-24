@@ -17,9 +17,18 @@ export default function TimeBox(props) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [numberOfBoxes, setNumberOfBoxes] = useState(1);
-    const [recordedStartTime, setRecordedStartTime] = useState(0);
-    const [goalSelected, setGoalSelected] = useState(null);
+    const [recordedStartTime, setRecordedStartTime] = useState();
     const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen, listOfColors, timeboxRecording, setTimeBoxRecording} = useContext(TimeboxContext);
+
+    let initialSelectedGoal;
+
+    if(schedule.goals.length > 0) {
+        initialSelectedGoal = schedule.goals[0].id;
+    }else{
+        initialSelectedGoal = null;
+    }
+
+    const [goalSelected, setGoalSelected] = useState(initialSelectedGoal);
 
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(schedule, time, date);
 
@@ -69,6 +78,10 @@ export default function TimeBox(props) {
         console.log(title, description, startTime, endTime,
             numberOfBoxes, color, schedule.id, goalSelected);
 
+        if(goalSelected === null) {
+            toast.error("No goal selected, please select or make one");
+        }
+
         //post to api
         axios.post('/api/createTimebox', 
             {title, description, startTime, endTime,
@@ -105,9 +118,9 @@ export default function TimeBox(props) {
                 <label htmlFor="boxes">Boxes</label>
                 <input min="1" max={maxNumberOfBoxes} type="number" name="boxes" id="boxes" placeholder="Boxes" value={numberOfBoxes} onChange={(e) => setNumberOfBoxes(e.target.value)}></input><br />
                 <label>Goal: </label>
-                <select value={goalSelected} onChange={(e) => {setGoalSelected(e.target.value)}}>
+                <select value={goalSelected} onChange={(e) => {console.log(e.target.value); setGoalSelected(e.target.value)}}>
                     {schedule.goals.map((goal) => (
-                        <option value={goal.id}>{goal.name}</option>
+                        <option value={String(goal.id)}>{goal.name}</option>
                     ))}
                 </select>
                 <button id="addTimeBoxButton">Add TimeBox</button>
