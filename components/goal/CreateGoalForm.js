@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import {queryClient} from '../../modules/queryClient';
+import { queryClient } from './../../pages/_app';
 import {toast} from "react-toastify";
 
 export default function CreateGoalForm(props) {

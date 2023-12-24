@@ -7,7 +7,7 @@ import '../../styles/addtimebox.scss';
 import axios from 'axios';
 import { TimeboxContext } from './TimeboxContext';
 import {toast} from "react-toastify";
-import {queryClient} from '../../modules/queryClient';
+import { queryClient } from './../../pages/_app';
 
 export default function TimeBox(props) {
 

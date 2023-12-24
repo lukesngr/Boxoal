@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 function BoxAlc({ Component, pageProps: { session, ...pageProps} }) {
   useEffect(() => {

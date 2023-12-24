@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { SessionContext, RefetchContext } from "@/pages/myschedules";
 import axios from "axios";
-import {queryClient} from '../../modules/queryClient';
+import { queryClient } from './../../pages/_app';
 import {toast} from "react-toastify";
 
 
