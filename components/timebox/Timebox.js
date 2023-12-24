@@ -55,10 +55,10 @@ export default function TimeBox(props) {
     function stopRecording() {
         setTimeBoxRecording(-1);
         resumeActiveOverlay();
-        console.log(schedule);
         axios.post('/api/createRecordedTimebox', 
             {recordedStartTime, recordedEndTime: new Date(), timeBox: {connect: {id: data.id}}, schedule: {connect: {id: schedule.id}}
         }).then(() => {
+            queryClient.refetchQueries();
             toast.success("Added recorded timebox!", {
                 position: toast.POSITION.TOP_RIGHT,
             });
@@ -75,8 +75,6 @@ export default function TimeBox(props) {
         let startTime = convertToDateTime(time, date);
         let endTime = convertToDateTime(addBoxesToTime(schedule, time, numberOfBoxes), date); //add boxes to start time to get end time
         let color = listOfColors[Math.floor(Math.random() * listOfColors.length)]; //randomly pick a box color
-        console.log(title, description, startTime, endTime,
-            numberOfBoxes, color, schedule.id, goalSelected);
 
         if(goalSelected === null) {
             toast.error("No goal selected, please select or make one");
