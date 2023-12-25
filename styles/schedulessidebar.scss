@@ -60,7 +60,7 @@
 
 .goalButton {
     border-top: 1px black solid;
-    padding: 5px 10px 5px 20px;
+    padding: 5px 10px 0px 20px;
     width: calc(100% + 20px);
     background-color: theme.$base-color;
     margin-left: -10px;
@@ -126,4 +126,16 @@
 
 .sidebarExpandableButtons {
     display: inline;
+}
+
+.sidebarTimeBox {
+    border-top: 1px black solid;
+    padding: 5px 10px 5px 40px;
+    width: calc(100% + 30px);
+    background-color: theme.$main-selection-color;
+    margin-left: -20px;
+}
+
+.goalButton .sidebarExpandableTitle {
+    padding-left: 5%;
 }
