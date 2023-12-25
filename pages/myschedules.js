@@ -14,11 +14,20 @@ export const RefetchContext = createContext();
 function MySchedulesSeperatedForFunctionality(props) {
 
     let dayNumbers = getDayNumbers();
+    let startOfWeek = new Date();
+    startOfWeek.setDate(dayNumbers[0].date);
+    startOfWeek.setHours(0);
+    startOfWeek.setMinutes(0);
+
+    let endOfWeek = new Date()
+    endOfWeek.setDate(dayNumbers[6].date);
+    endOfWeek.setHours(23);
+    endOfWeek.setHours(59);
     
     const {status, data, error, refetch} = useQuery({
         queryKey: ["schedules"], 
         queryFn: async () => {
-            const response = await axios.post("/api/getSchedules", { userEmail: props.session.user.email, startOfWeek: dayNumbers[0].date, endOfWeek: dayNumbers[6].date });
+            const response = await axios.post("/api/getSchedules", { userEmail: props.session.user.email, startOfWeek, endOfWeek });
         
             return response;},
         enabled: true})

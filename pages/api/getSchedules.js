@@ -21,6 +21,12 @@ export default async function handler(req, res) {
                             orderBy: {
                                 startTime: 'asc'
                             },
+                            where: {
+                                startTime: {
+                                    gte: data.startOfWeek,
+                                    lte: data.endOfWeek
+                                }
+                            },
                             select: {
                                 title: true,
                                 description: true,
@@ -37,6 +43,12 @@ export default async function handler(req, res) {
                     orderBy: {
                         startTime: 'asc'
                     },
+                    where: {
+                        startTime: {
+                            gte: data.startOfWeek,
+                            lte: data.endOfWeek
+                        }
+                    },
                     select: {
                         title: true,
                         description: true,
@@ -50,6 +62,12 @@ export default async function handler(req, res) {
                 recordedTimeboxes: {
                     orderBy: {
                         recordedStartTime: 'asc'
+                    },
+                    where: {
+                        startTime: {
+                            gte: data.startOfWeek,
+                            lte: data.endOfWeek
+                        }
                     },
                     select: {
                         id: true,
@@ -66,7 +84,8 @@ export default async function handler(req, res) {
         })
         res.status(200).json(schedules);
     }catch(error) {
-        res.status(500).json({ error });
+        res.status(500).json('Internal Server Error');
+        console.log(error);
     }finally {
         await prisma.$disconnect();
     }
