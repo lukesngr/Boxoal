@@ -20,7 +20,7 @@ function MySchedulesSeperatedForFunctionality(props) {
     startOfWeek.setMinutes(0);
 
     let endOfWeek = new Date()
-    endOfWeek.setDate(dayNumbers[6].date);
+    endOfWeek.setDate(dayNumbers[6].date+1); //another day as sometimes timeboxes will go into next week
     endOfWeek.setHours(23);
     endOfWeek.setHours(59);
     
