@@ -6,16 +6,19 @@ import NoSchedules from "@/components/schedule/NoSchedules";
 import RedirWhenNotAuth from "@/components/RedirWhenNotAuth";
 import { createContext } from "react";
 import SchedulesView from "@/components/schedule/SchedulesView";
+import { getDayNumbers } from "@/modules/dateLogic";
 
 export const SessionContext = createContext();
 export const RefetchContext = createContext();
 
 function MySchedulesSeperatedForFunctionality(props) {
+
+    let dayNumbers = getDayNumbers();
     
     const {status, data, error, refetch} = useQuery({
         queryKey: ["schedules"], 
         queryFn: async () => {
-            const response = await axios.post("/api/getSchedules", { userEmail: props.session.user.email });
+            const response = await axios.post("/api/getSchedules", { userEmail: props.session.user.email, startOfWeek: dayNumbers[0].date, endOfWeek: dayNumbers[6].date });
         
             return response;},
         enabled: true})
