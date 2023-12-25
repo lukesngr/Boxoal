@@ -47,11 +47,6 @@
     padding-left: 20px;
 }
 
-.scheduleButton {
-    height: 2vh;
-    float: right;
-}
-
 .createButton {
     color: white;
     background-color: black;
@@ -118,8 +113,13 @@
     animation-fill-mode: forwards;
 }
 
+.sidebarExpandableButton {
+    height: 2vh;
+    float: right;
+}
+
 .sidebarExpandableTitle {
-    width: 90%;
+    width: 80%;
     display: inline-block;
     word-wrap: break-word;
 }

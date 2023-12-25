@@ -12,10 +12,12 @@ export default function ScheduleSidebarButton(props) {
 
     return (
         <div onClick={() => props.selectSchedule(props.index)} className={props.selectedSchedule == props.index ? 'selectedSchedule' : 'schedule'}>
-            {props.schedule.name}
-            {!isAddGoalVisible && <FontAwesomeIcon onClick={toggleAddGoalButton} className='scheduleButton' icon={faChevronDown}/> }
-            {isAddGoalVisible && <FontAwesomeIcon onClick={toggleAddGoalButton} className='scheduleButton' icon={faChevronUp}/> }
-            <FontAwesomeIcon className='scheduleButton' icon={faGear} />
+            <span className='sidebarExpandableTitle'>{props.schedule.name}</span>
+            <div className='sidebarExpandableButtons'>
+                {!isAddGoalVisible && <FontAwesomeIcon onClick={toggleAddGoalButton} className='sidebarExpandableButton' icon={faChevronDown}/> }
+                {isAddGoalVisible && <FontAwesomeIcon onClick={toggleAddGoalButton} className='sidebarExpandableButton' icon={faChevronUp}/> }
+                <FontAwesomeIcon className='sidebarExpandableButton' icon={faGear} />
+            </div>
             {isAddGoalVisible && props.schedule.goals.map(goal => (<GoalSidebarButton goal={goal}></GoalSidebarButton>))}
             {isAddGoalVisible && <>
                 <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createGoalModal">

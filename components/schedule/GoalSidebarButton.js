@@ -11,11 +11,11 @@ export default function GoalSidebarButton(props) {
 
     return (
         <div className='goalButton'>
-            <span className={'goalTitle'}>{props.goal.name}</span>
-            <div className='goalButtons'>
-                {!timeBoxExpanded && <FontAwesomeIcon onClick={toggleTimeBoxExpanded} className='scheduleButton' icon={faChevronDown}/> }
-                {timeBoxExpanded && <FontAwesomeIcon onClick={toggleTimeBoxExpanded} className='scheduleButton' icon={faChevronUp}/> }
-                <FontAwesomeIcon className='scheduleButton' icon={faGear} />
+            <span className='sidebarExpandableTitle'>{props.goal.name}</span>
+            <div className='sidebarExpandableButtons'>
+                {!timeBoxExpanded && <FontAwesomeIcon onClick={toggleTimeBoxExpanded} className='sidebarExpandableButton' icon={faChevronDown}/> }
+                {timeBoxExpanded && <FontAwesomeIcon onClick={toggleTimeBoxExpanded} className='sidebarExpandableButton' icon={faChevronUp}/> }
+                <FontAwesomeIcon className='sidebarExpandableButton' icon={faGear} />
             </div>
             {timeBoxExpanded && props.goal.timeboxes.map(timebox => (<div key={timebox.id} className="goalButton">{timebox.title}</div>))}
         </div>)
