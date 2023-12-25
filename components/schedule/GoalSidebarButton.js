@@ -17,6 +17,8 @@ export default function GoalSidebarButton(props) {
                 {timeBoxExpanded && <FontAwesomeIcon onClick={toggleTimeBoxExpanded} className='sidebarExpandableButton' icon={faChevronUp}/> }
                 <FontAwesomeIcon className='sidebarExpandableButton' icon={faGear} />
             </div>
-            {timeBoxExpanded && props.goal.timeboxes.map(timebox => (<div key={timebox.id} className="sidebarTimeBox">{timebox.title}</div>))}
+            {timeBoxExpanded && props.goal.timeboxes.map(timebox => (<div key={timebox.id} className="sidebarTimeBox">
+                {timebox.title}<FontAwesomeIcon className='sidebarExpandableButton' icon={faGear} />
+            </div>))}
         </div>)
 }
