@@ -64,7 +64,7 @@ export default async function handler(req, res) {
                         recordedStartTime: 'asc'
                     },
                     where: {
-                        startTime: {
+                        recordedStartTime: {
                             gte: data.startOfWeek,
                             lte: data.endOfWeek
                         }
