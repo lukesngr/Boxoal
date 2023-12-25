@@ -117,3 +117,13 @@
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
 }
+
+.sidebarExpandableTitle {
+    width: 90%;
+    display: inline-block;
+    word-wrap: break-word;
+}
+
+.sidebarExpandableButtons {
+    display: inline;
+}
