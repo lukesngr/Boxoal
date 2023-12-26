@@ -70,7 +70,7 @@
     transform: translate(-3px, 3px);
     z-index: 999;
     color: white;
-    font-size: medium;
+    font-size: 1em;
     background-color: black;
 }
 
@@ -99,7 +99,7 @@
     }
 }
 
-@media only screen and (max-width: 360px) { //max width this application supports is 320px
+@media only screen and (max-width: 380px) { //max width this application supports is 320px
     .timeboxesGrid .col-1, .timeboxesGrid .col {
         font-size: 0.5em;
     }
