@@ -3,11 +3,14 @@ import prisma from "@/modules/prismaClient";
 export default async function handler(req, res) {
     try {
       const data = req.body;
-      await prisma.schedule.create({
+      await prisma.schedule.update({
+        where: {
+          id: data.id
+        },
         data: data,
       });
 
-      res.status(200).json({ message: 'Schedule created successfully' });
+      res.status(200).json({ message: 'Schedule update successfully' });
     } catch (error) {
       console.error('Error creating schedule:', error);
   

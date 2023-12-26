@@ -12,25 +12,23 @@ export default function UpdateScheduleForm(props) {
     const [endDate, setEndDate] = useState(props.schedule.endDate);
     const [endDateNeeded, setEndDateNeeded] = useState(props.schedule.endDate === undefined ? ('none') : ('initial'));
     const [wakeupTime, setWakeupTime] = useState(props.schedule.wakeupTime);
-    const userEmail = useContext(SessionContext).user.email;
 
     function handleSubmit(event) {
         event.preventDefault();
-        axios.post('/api/createSchedule', {
+        axios.post('/api/updateSchedule', {
             name,
             boxSizeNumber: parseInt(boxSizeNumber),
             boxSizeUnit,
             endDate,
             wakeupTime,
-            userEmail, 
+            id: props.schedule.id, 
         }).then(() => {
             queryClient.refetchQueries();
-            toast.success("Added schedule!", {
+            toast.success("Updated schedule!", {
                 position: toast.POSITION.TOP_RIGHT,
             });
             
         }).catch(function(error) {
-            console.log(error);
             toast.error("Error occurred please try again or contact developer");
         });
     }
@@ -53,7 +51,7 @@ export default function UpdateScheduleForm(props) {
             <br />
             <label>Average Wakeup Time: </label>
             <input type="time" value={wakeupTime} onChange={(e) => setWakeupTime(e.target.value)} required></input> <br />
-            <button type="submit">Create</button>
+            <button type="submit">Update</button>
         </form>
     )
 }
