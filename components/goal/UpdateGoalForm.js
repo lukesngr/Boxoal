@@ -16,7 +16,7 @@ export default function UpdateGoalForm(props) {
             targetDate: new Date(targetDate).toISOString(),
         }).then(function() {
             queryClient.refetchQueries();
-            toast.success("Added goal!", {
+            toast.success("Updated goal!", {
                 position: toast.POSITION.TOP_RIGHT,
             });
         }).catch(function(error) {
@@ -32,7 +32,7 @@ export default function UpdateGoalForm(props) {
             <input type="number" min={1} value={priority} onChange={(e) => setPriority(e.target.value)} required></input><br />
             <label>Target Date: </label>
             <input type="datetime-local" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} required></input><br />
-            <button type="submit">Create Goal</button>
+            <button type="submit">Update Goal</button>
         </form>
     )
 }
