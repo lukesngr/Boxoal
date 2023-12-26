@@ -34,9 +34,17 @@ export default function UpdateScheduleForm(props) {
     }
 
     function deleteSchedule() {
+
+        
+
         axios.post('/api/deleteSchedule', {
             id: props.schedule.id, 
         }).then(() => {
+            const closeButton = document.querySelector(`#updateScheduleModal .close`);
+            if (closeButton) {
+                closeButton.click();
+            }
+            
             queryClient.refetchQueries();
             toast.success("Deleted schedule!", {
                 position: toast.POSITION.TOP_RIGHT,

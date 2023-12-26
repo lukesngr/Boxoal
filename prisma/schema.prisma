@@ -29,8 +29,8 @@ model Goal {
   name        String
   targetDate  DateTime
   timeboxes   TimeBox[]
-  schedule    Schedule  @relation(fields: [scheduleID], references: [id])
-  scheduleID  Int
+  schedule    Schedule?  @relation(fields: [scheduleID], references: [id])
+  scheduleID  Int?
 }
 
 model TimeBox {
@@ -52,8 +52,8 @@ model RecordedTimeBox {
   id                Int      @id @default(autoincrement())
   recordedStartTime DateTime
   recordedEndTime   DateTime
-  timeBox           TimeBox  @relation(fields: [timeBoxID], references: [id])
-  timeBoxID         Int
-  schedule          Schedule @relation(fields: [scheduleID], references: [id])
-  scheduleID        Int
+  timeBox           TimeBox?  @relation(fields: [timeBoxID], references: [id])
+  timeBoxID         Int?
+  schedule          Schedule? @relation(fields: [scheduleID], references: [id])
+  scheduleID        Int?
 }
