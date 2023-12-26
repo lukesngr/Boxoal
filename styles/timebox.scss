@@ -33,7 +33,7 @@
 
 .timeboxText {
     position: absolute;
-    font-size: 1em;
+    font-size: medium;
     left: 2px;
     top: 2px;
     z-index: 998;
@@ -67,4 +67,14 @@
 
 .inactiveRecord {
     z-index: 1;
+}
+
+@media only screen and (max-width: 576px) {
+    .timeboxText {
+        position: absolute;
+        font-size: 1em;
+        left: 2px;
+        top: 2px;
+        z-index: 998;
+    }
 }
