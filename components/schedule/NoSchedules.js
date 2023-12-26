@@ -10,6 +10,6 @@ export default function NoSchedules() {
                 Add new schedule
             </button>
         </div>
-        <CreateScheduleModal/>
+        
     </>)
 }

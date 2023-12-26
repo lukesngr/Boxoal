@@ -7,6 +7,7 @@ import RedirWhenNotAuth from "@/components/RedirWhenNotAuth";
 import { createContext } from "react";
 import SchedulesView from "@/components/schedule/SchedulesView";
 import { getDayNumbers } from "@/modules/dateLogic";
+import CreateScheduleModal from '@/components/schedule/CreateScheduleModal'
 
 export const SessionContext = createContext();
 export const RefetchContext = createContext();
@@ -35,9 +36,11 @@ function MySchedulesSeperatedForFunctionality(props) {
     return (
         <>
             <RedirWhenNotAuth redirectSrc="/signin" status={props.status}>
-            <div id='portalRoot'></div>
+                <div id='portalRoot'></div>
+                
                 <SignedInNav session={props.session}></SignedInNav>
                 <SessionContext.Provider value={props.session}>
+                    <CreateScheduleModal/>
                     {data && data.data.length > 0 ? (<SchedulesView data={data}></SchedulesView>) : (<NoSchedules session={props.session}/>) }
                 </SessionContext.Provider>
             </RedirWhenNotAuth>
