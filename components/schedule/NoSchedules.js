@@ -6,7 +6,7 @@ export default function NoSchedules() {
     <>
         <div className="text-center mt-3" id="noSchedulesCard">
             <h1>No schedules made yet...</h1>
-            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createFirstScheduleModal">
+            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createScheduleModal">
                 Add new schedule
             </button>
         </div>

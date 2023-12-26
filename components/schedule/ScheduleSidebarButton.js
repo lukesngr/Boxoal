@@ -12,7 +12,7 @@ export default function ScheduleSidebarButton(props) {
     function toggleAddGoalButton() { setIsAddGoalVisible(!isAddGoalVisible); } //flips visibility of add goal button
 
     return (
-        <div onClick={() => props.selectSchedule(props.index)} className={props.selectedSchedule == props.index ? 'selectedSchedule' : 'schedule'}>
+        <div key={props.schedule.id} onClick={() => props.selectSchedule(props.index)} className={props.selectedSchedule == props.index ? 'selectedSchedule' : 'schedule'}>
             <span className='sidebarExpandableTitle'>{props.schedule.name}</span>
             <div className='sidebarExpandableButtons'>
                 {!isAddGoalVisible && <FontAwesomeIcon onClick={toggleAddGoalButton} className='sidebarExpandableButton' icon={faChevronDown}/> }
