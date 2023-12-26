@@ -35,8 +35,6 @@ export default function UpdateScheduleForm(props) {
 
     function deleteSchedule() {
 
-        
-
         axios.post('/api/deleteSchedule', {
             id: props.schedule.id, 
         }).then(() => {
