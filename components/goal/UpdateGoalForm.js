@@ -5,8 +5,9 @@ import {toast} from "react-toastify";
 
 export default function UpdateGoalForm(props) {
     const [name, setName] = useState(props.goal.name);
+    console.log(props.goal);
     const [priority, setPriority] = useState(props.goal.priority);
-    const [targetDate, setTargetDate] = useState(props.goal.priority);
+    const [targetDate, setTargetDate] = useState(props.goal.targetDate);
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -14,6 +15,7 @@ export default function UpdateGoalForm(props) {
             name,
             priority: parseInt(priority), //damn thing won't convert auto even with number input
             targetDate: new Date(targetDate).toISOString(),
+            id: props.goal.id
         }).then(function() {
             queryClient.refetchQueries();
             toast.success("Updated goal!", {

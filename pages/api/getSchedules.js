@@ -17,6 +17,8 @@ export default async function handler(req, res) {
                     select: {
                         id: true,
                         name: true,
+                        priority: true,
+                        targetDate: true,
                         timeboxes: {
                             orderBy: {
                                 startTime: 'asc'
