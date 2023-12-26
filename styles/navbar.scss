@@ -29,3 +29,17 @@
 .navbar-right {
     margin-left: 85%;
 }
+
+.accountImageAlt {
+    display: none;
+}
+
+@media only screen and (max-width: 992px) {
+    .accountImageAlt {
+        display: block;
+    }
+
+    #userButton img { 
+        display: none; 
+    }
+}

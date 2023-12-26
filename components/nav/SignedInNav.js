@@ -5,7 +5,7 @@ export default function SignedInNav(props) {
     return (
         <nav className="navbar navbar-expand-lg boxNavbar">
             <Image src="/icon.png" width={80} height={75} alt="BoxAlc Icon" priority></Image>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapsibleContent" aria-controls="navbarCollapsibleContent" aria-expanded="false" aria-label="Collapse content">
+            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapsibleContent" aria-controls="navbarCollapsibleContent" aria-expanded="false" aria-label="Collapse content">
                 <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarCollapsibleContent">
@@ -13,16 +13,11 @@ export default function SignedInNav(props) {
                     <li className="nav-item">
                         <a className="nav-link" href="/myschedules">Timeboxes</a>
                     </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="/view">View</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="/export">Export</a>
-                    </li>
                 </ul>
                 <ul className="nav navbar-nav pr-1">
                     <li className="nav-item" id="userButton">
                         <img src={props.session.user.image} alt="User Image" width={45} height={45}></img>
+                        <a className='nav-link accountImageAlt'>Account</a>
                     </li>
                 </ul>
             </div>
