@@ -4,6 +4,7 @@ import CreateGoalModal from '../goal/CreateGoalModal';
 import { useState } from 'react';
 import PortalComponent from '../base/PortalComponent';
 import GoalSidebarButton from './GoalSidebarButton';
+import UpdateScheduleModal from './UpdateScheduleModal';
 
 export default function ScheduleSidebarButton(props) {
     const [isAddGoalVisible, setIsAddGoalVisible] = useState(false);
@@ -16,7 +17,10 @@ export default function ScheduleSidebarButton(props) {
             <div className='sidebarExpandableButtons'>
                 {!isAddGoalVisible && <FontAwesomeIcon onClick={toggleAddGoalButton} className='sidebarExpandableButton' icon={faChevronDown}/> }
                 {isAddGoalVisible && <FontAwesomeIcon onClick={toggleAddGoalButton} className='sidebarExpandableButton' icon={faChevronUp}/> }
-                <FontAwesomeIcon className='sidebarExpandableButton' icon={faGear} />
+                <FontAwesomeIcon data-bs-toggle="modal" data-bs-target="#updateScheduleModal" className='sidebarExpandableButton' icon={faGear} />
+                <PortalComponent>
+                    <UpdateScheduleModal schedule={props.schedule}></UpdateScheduleModal>
+                </PortalComponent>
             </div>
             {isAddGoalVisible && props.schedule.goals.map(goal => (<GoalSidebarButton goal={goal}></GoalSidebarButton>))}
             {isAddGoalVisible && <>
