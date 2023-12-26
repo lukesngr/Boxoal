@@ -17,7 +17,6 @@ export default function SchedulesSidebar(props) {
     useEffect(() => {
         setExpanded(!smallerThanLargeBreakpoint);
         setIsSideBarMobile(smallerThanLargeBreakpoint);
-        console.log(expanded);
     }, [smallerThanLargeBreakpoint])
 
     
@@ -30,7 +29,6 @@ export default function SchedulesSidebar(props) {
 
     return (<>
         <CreateScheduleModal/>
-        <div id='portalRoot'></div>
         <div className={isSideBarMobile ? ("mobileSideBar") : ("col-2")} 
         id={expanded ? ('animateToAppear') : ('animateToDisappear')}>
             <div className="schedulesSidebar">

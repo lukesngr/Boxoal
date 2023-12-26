@@ -32,6 +32,22 @@ export default function UpdateScheduleForm(props) {
             toast.error("Error occurred please try again or contact developer");
         });
     }
+
+    function deleteSchedule() {
+        axios.post('/api/deleteSchedule', {
+            id: props.schedule.id, 
+        }).then(() => {
+            queryClient.refetchQueries();
+            toast.success("Deleted schedule!", {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+            
+        }).catch(function(error) {
+            toast.error("Error occurred please try again or contact developer");
+        });
+    }
+
+
     return (
         <form onSubmit={handleSubmit}>
             <label>Name: </label>
@@ -52,6 +68,7 @@ export default function UpdateScheduleForm(props) {
             <label>Average Wakeup Time: </label>
             <input type="time" value={wakeupTime} onChange={(e) => setWakeupTime(e.target.value)} required></input> <br />
             <button type="submit">Update</button>
+            <button type="button" className="btn btn-danger" onClick={deleteSchedule}>Delete</button>
         </form>
     )
 }
