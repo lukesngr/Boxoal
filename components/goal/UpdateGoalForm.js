@@ -5,9 +5,8 @@ import {toast} from "react-toastify";
 
 export default function UpdateGoalForm(props) {
     const [name, setName] = useState(props.goal.name);
-    console.log(props.goal);
-    const [priority, setPriority] = useState(props.goal.priority);
-    const [targetDate, setTargetDate] = useState(props.goal.targetDate);
+    const [priority, setPriority] = useState(""+props.goal.priority);
+    const [targetDate, setTargetDate] = useState(new Date(props.goal.targetDate).toISOString().slice(0, 19));
 
     function handleSubmit(event) {
         event.preventDefault();
