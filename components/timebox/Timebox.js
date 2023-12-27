@@ -73,7 +73,7 @@ export default function TimeBox(props) {
     function handleSubmit(event) {
         event.preventDefault();
         let startTime = convertToDateTime(time, date);
-        let endTime = convertToDateTime(addBoxesToTime(schedule, time, numberOfBoxes), date); //add boxes to start time to get end time
+        let endTime = convertToDateTime(addBoxesToTime(schedule.boxSizeUnit, schedule.boxSizeNumber, time, numberOfBoxes), date); //add boxes to start time to get end time
         let color = listOfColors[Math.floor(Math.random() * listOfColors.length)]; //randomly pick a box color
 
         if(goalSelected === null) {

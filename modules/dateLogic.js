@@ -111,42 +111,42 @@ export function convertToTimeAndDate(input) {
     return [hours+':'+minutes, date+'/'+month];
 }
 
-export function calculateMaxNumberOfBoxesAfterTimeIfEmpty(schedule, timeSeparated, wakeUpTimeSeparated) {
+export function calculateMaxNumberOfBoxesAfterTimeIfEmpty(boxSizeUnit, boxSizeNumber, timeSeparated, wakeUpTimeSeparated) {
     
-    if(schedule.boxSizeUnit == "min") {
+    if(boxSizeUnit == "min") {
         const minutesInOneDay = 24 * 60; //idk why but this works //update this works cause I stuffed up 24 hour time
-        let maxNumberOfBoxes = Math.floor(minutesInOneDay / schedule.boxSizeNumber);
+        let maxNumberOfBoxes = Math.floor(minutesInOneDay / boxSizeNumber);
         let [timeHours, timeMinutes] = timeSeparated;
         let [wakeupTimeHours, wakeupTimeMinutes] = wakeUpTimeSeparated;
 
 
         //if time hours bigger than wakeup hour or time hours equals wakeup hours and time minutes bigger. basically if time ahead of wakeup
         if(timeHours > wakeupTimeHours || (timeHours == wakeupTimeHours && timeMinutes > wakeupTimeMinutes)) {  
-            let boxesMadeUpOfHours = ((timeHours-wakeupTimeHours)*60) / schedule.boxSizeNumber;
-            let boxesMadeUpOfMinutes = (timeMinutes-wakeupTimeMinutes) / schedule.boxSizeNumber;
+            let boxesMadeUpOfHours = ((timeHours-wakeupTimeHours)*60) / boxSizeNumber;
+            let boxesMadeUpOfMinutes = (timeMinutes-wakeupTimeMinutes) / boxSizeNumber;
             maxNumberOfBoxes -= boxesMadeUpOfHours;
             maxNumberOfBoxes -= boxesMadeUpOfMinutes;
         //if time hours smaller than wakeup hour or time hours equals wakeup hours and time minutes smaller. basically if time behind of wakeup
         }else if(timeHours < wakeupTimeHours || (timeHours == wakeupTimeHours && timeMinutes < wakeupTimeMinutes)){
-            let boxesMadeUpOfHours = (timeHours*60) / schedule.boxSizeNumber; //from 00:00 to time hours
-            let boxesMadeUpOfMinutes = timeMinutes / schedule.boxSizeNumber; //from 00:00 to time minutes
-            boxesMadeUpOfHours += ((23-wakeupTimeHours)*60) / schedule.boxSizeNumber; //from wakeup time hours to 24:00
-            boxesMadeUpOfHours += (wakeupTimeMinutes / schedule.boxSizeNumber);
+            let boxesMadeUpOfHours = (timeHours*60) / boxSizeNumber; //from 00:00 to time hours
+            let boxesMadeUpOfMinutes = timeMinutes / boxSizeNumber; //from 00:00 to time minutes
+            boxesMadeUpOfHours += ((23-wakeupTimeHours)*60) / boxSizeNumber; //from wakeup time hours to 24:00
+            boxesMadeUpOfHours += (wakeupTimeMinutes / boxSizeNumber);
             maxNumberOfBoxes -= boxesMadeUpOfHours;
             maxNumberOfBoxes -= boxesMadeUpOfMinutes;
         }
         return maxNumberOfBoxes;
-    }else if(schedule.boxSizeUnit == "hr") {
-        let maxNumberOfBoxes = Math.floor(24 / schedule.boxSizeNumber);
+    }else if(boxSizeUnit == "hr") {
+        let maxNumberOfBoxes = Math.floor(24 / boxSizeNumber);
         let [timeHours, timeMinutes] = timeSeparated;
         let [wakeupTimeHours, wakeupTimeMinutes] = wakeUpTimeSeparated;
 
         if(timeHours > wakeupTimeHours) {  
-            let boxesMadeUpOfHours = (timeHours-wakeupTimeHours) / schedule.boxSizeNumber;
+            let boxesMadeUpOfHours = (timeHours-wakeupTimeHours) / boxSizeNumber;
             maxNumberOfBoxes -= boxesMadeUpOfHours;
         }else if(timeHours < wakeupTimeHours){
-            let boxesMadeUpOfHours = timeHours / schedule.boxSizeNumber; //from 00:00 to time hours
-            boxesMadeUpOfHours += (24-wakeupTimeHours) / schedule.boxSizeNumber; //from wakeup time hours to 24:00
+            let boxesMadeUpOfHours = timeHours / boxSizeNumber; //from 00:00 to time hours
+            boxesMadeUpOfHours += (24-wakeupTimeHours) / boxSizeNumber; //from wakeup time hours to 24:00
             maxNumberOfBoxes -= boxesMadeUpOfHours;
         }
         return maxNumberOfBoxes;
@@ -183,7 +183,7 @@ export function calculateMaxNumberOfBoxes(schedule, time, date) {
     }
 
     if(maxNumberOfBoxes <= 0) {
-        maxNumberOfBoxes = calculateMaxNumberOfBoxesAfterTimeIfEmpty(schedule, timeSeparated, wakeUpTimeSeparated);
+        maxNumberOfBoxes = calculateMaxNumberOfBoxesAfterTimeIfEmpty(schedule.boxSizeUnit, schedule.boxSizeNumber, timeSeparated, wakeUpTimeSeparated);
     }
 
     return maxNumberOfBoxes;
@@ -207,14 +207,14 @@ export function ifEqualOrBeyondCurrentDay(number, returnIfTrue, returnIfFalse) {
     return returnIfFalse;
 }
 
-export function addBoxesToTime(schedule, time, numberOfBoxes) {
+export function addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes) {
     let [timeHours, timeMinutes] = time.split(":").map(function(num) { return parseInt(num); });
     let endHours = timeHours;
     let endMinutes = timeMinutes;
 
-    if(schedule.boxSizeUnit == "min") {
+    if(boxSizeUnit == "min") {
         for(let i = 0; i < numberOfBoxes; i++) {
-            endMinutes += schedule.boxSizeNumber;
+            endMinutes += boxSizeNumber;
 
             if(endMinutes >= 60) {
                 if(endHours == 23) {
@@ -225,8 +225,8 @@ export function addBoxesToTime(schedule, time, numberOfBoxes) {
                 endMinutes -= 60;
             }
         }
-    }else if(schedule.boxSizeUnit == "hr") {
-        endHours += numberOfBoxes * schedule.boxSizeNumber;
+    }else if(boxSizeUnit == "hr") {
+        endHours += numberOfBoxes * boxSizeNumber;
         if(endHours > 24) {
             endHours = endHours - 24;
         }
