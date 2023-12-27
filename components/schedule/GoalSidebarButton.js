@@ -4,6 +4,7 @@ import CreateGoalModal from '../goal/CreateGoalModal';
 import { useState } from 'react';
 import PortalComponent from '../base/PortalComponent';
 import UpdateGoalModal from '../goal/UpdateGoalModal';
+import UpdateTimeBoxModal from '../timebox/UpdateTimeBoxModal';
 
 export default function GoalSidebarButton(props) {
     const [timeBoxExpanded, setTimeBoxExpanded] = useState(false);
@@ -22,7 +23,11 @@ export default function GoalSidebarButton(props) {
                 </PortalComponent>
             </div>
             {timeBoxExpanded && props.goal.timeboxes.map(timebox => (<div key={timebox.id} className="sidebarTimeBox">
-                {timebox.title}<FontAwesomeIcon className='sidebarExpandableButton' icon={faGear} />
+                {timebox.title}
+                <FontAwesomeIcon className='sidebarExpandableButton' icon={faGear} />
+                <PortalComponent>
+                    <UpdateTimeBoxModal data-bs-toggle="modal" data-bs-target="#updateTimeBoxModal" timebox={timebox}></UpdateTimeBoxModal>
+                </PortalComponent>
             </div>))}
         </div>)
 }
