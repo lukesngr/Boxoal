@@ -83,7 +83,7 @@ export default function TimeBox(props) {
         //post to api
         axios.post('/api/createTimebox', 
             {title, description, startTime, endTime,
-                numberOfBoxes, color, schedule: {connect: {id: schedule.id}}, goal: {connect: {id: goalSelected}}}
+                numberOfBoxes: parseInt(numberOfBoxes), color, schedule: {connect: {id: schedule.id}}, goal: {connect: {id: goalSelected}}}
         ).then(() => {
             //reset the form
             queryClient.refetchQueries();
