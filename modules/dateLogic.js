@@ -256,9 +256,9 @@ export function calculateSizeOfOverlayBasedOnCurrentTime(wakeupTime, boxSizeUnit
     return calculatePixelsFromTopOfGridBasedOnTime(wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions, currentDate);
 }
 
-export function calculateSizeOfRecordingOverlay(schedule, overlayDimensions, originalOverlayHeight) {
+export function calculateSizeOfRecordingOverlay(wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions, originalOverlayHeight) {
     //could do much more math but choosing easy route
-    let overlaysTotalHeight = calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions);
+    let overlaysTotalHeight = calculateSizeOfOverlayBasedOnCurrentTime(wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions);
     let recordingOverlayHeight = overlaysTotalHeight - originalOverlayHeight;
     return recordingOverlayHeight;
 }
