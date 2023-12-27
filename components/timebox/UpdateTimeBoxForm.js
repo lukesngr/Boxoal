@@ -2,11 +2,15 @@ import { useState } from "react";
 import axios from "axios";
 import { queryClient } from '../../pages/_app';
 import {toast} from "react-toastify";
+import { calculateMaxNumberOfBoxes } from "@/modules/dateLogic";
 
 export default function UpdateTimeBoxForm(props) {
-    const [name, setName] = useState(props.goal.name);
-    const [priority, setPriority] = useState(""+props.goal.priority);
+    const [title, setTitle] = useState(props.timebox.title);
+    const [description, setDescription] = useState(props.timebox.description);
     const [targetDate, setTargetDate] = useState(new Date(props.goal.targetDate).toISOString().slice(0, 19));
+    const [numberOfBoxes, setNumberOfBoxes] = useState(props.timebox.numberOfBoxes);
+
+    let maxNumberOfBoxes = calculateMaxNumberOfBoxes(schedule, time, date);
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -48,12 +52,14 @@ export default function UpdateTimeBoxForm(props) {
 
     return (
         <form onSubmit={handleSubmit}>
-            <label>Name: </label>
+            <label>Title: </label>
             <input type="text" value={name} onChange={(e) => setName(e.target.value)} required></input><br />
-            <label>Priority: </label>
-            <input type="number" min={1} value={priority} onChange={(e) => setPriority(e.target.value)} required></input><br />
-            <label>Target Date: </label>
+            <label>Description: </label>
+            <input type="text" value={priority} onChange={(e) => setPriority(e.target.value)} required></input><br />
+            <label>Start Time: </label>
             <input type="datetime-local" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} required></input><br />
+            <label>Number Of Boxes: </label>
+            <input type="number" min={1} value={priority} onChange={(e) => setPriority(e.target.value)} required></input><br />
             <button type="submit">Update</button>
             <button type="button" className="btn btn-danger" onClick={deleteGoal}>Delete</button>
         </form>
