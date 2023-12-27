@@ -58,7 +58,7 @@ export default function TimeBoxes(props) {
 
     function resumeActiveOverlay() {
         activeOverlayInterval.current = setInterval(() => {
-            setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
+            setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions));
         }, 5000);
     }
 
@@ -84,9 +84,9 @@ export default function TimeBoxes(props) {
 
     //how many useeffects do I need I hate react sometimes
     useEffect(() => {
-        setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
+        setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions));
         activeOverlayInterval.current = setInterval(() => {
-            setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
+            setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions));
         }, 5000); //don't why but this fixed bug
         
         return () => {
