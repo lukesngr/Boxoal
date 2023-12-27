@@ -25,6 +25,27 @@ export default function UpdateGoalForm(props) {
             console.log(error); 
         })
     }
+
+    function deleteGoal() {
+
+        axios.post('/api/deleteGoal', {
+            id: props.goal.id, 
+        }).then(() => {
+            const closeButton = document.querySelector(`#updateGoalModal .close`);
+            if (closeButton) {
+                closeButton.click();
+            }
+            
+            queryClient.refetchQueries();
+            toast.success("Deleted goal!", {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+            
+        }).catch(function(error) {
+            toast.error("Error occurred please try again or contact developer");
+        });
+    }
+
     return (
         <form onSubmit={handleSubmit}>
             <label>Name: </label>
@@ -33,7 +54,8 @@ export default function UpdateGoalForm(props) {
             <input type="number" min={1} value={priority} onChange={(e) => setPriority(e.target.value)} required></input><br />
             <label>Target Date: </label>
             <input type="datetime-local" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} required></input><br />
-            <button type="submit">Update Goal</button>
+            <button type="submit">Update</button>
+            <button type="button" className="btn btn-danger" onClick={deleteGoal}>Delete</button>
         </form>
     )
 }
