@@ -9,8 +9,9 @@ export default function RecordedTimeBoxOverlay(props) {
         if(data.length > 0) {
             let normalArrayFromState = [...recordedBoxes];
             data.forEach(element => {
-                let marginFromTop = calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensions, new Date(element.recordedStartTime));
-                let heightForBox = calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensions, new Date(element.recordedEndTime)) - calculatePixelsFromTopOfGridBasedOnTime(schedule, overlayDimensions, new Date(element.recordedEndTime));
+                let fieldsForCalculation = [schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions];
+                let marginFromTop = calculatePixelsFromTopOfGridBasedOnTime(...fieldsForCalculation, new Date(element.recordedStartTime));
+                let heightForBox = calculatePixelsFromTopOfGridBasedOnTime(...fieldsForCalculation, new Date(element.recordedEndTime)) - marginFromTop;
                 if(heightForBox < 30) {
                     heightForBox = 30;
                 }//reasonable value which alllows it is visible
