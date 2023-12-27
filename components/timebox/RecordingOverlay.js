@@ -5,11 +5,12 @@ import { calculateSizeOfRecordingOverlay } from '@/modules/dateLogic';
 export default function RecordingOverlay(props) {
     const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen, listOfColors, timeboxRecording, setTimeBoxRecording} = useContext(TimeboxContext);
     const [recordingOverlayHeight, setRecordingOverlayHeight] = useState(0);
+    const {schedule, activeOverlayHeight, overlayDimensions} = props;
 
     useEffect(() => {
         if(timeboxRecording != -1) {
             let recordingOverlayInterval = setInterval(() => {
-                setRecordingOverlayHeight(calculateSizeOfRecordingOverlay(props.schedule.wakeupTime, props.schedule.boxSizeUnit, props.schedule.boxSizeNumber, props.overlayDimensions, props.activeOverlayHeight));
+                setRecordingOverlayHeight(calculateSizeOfRecordingOverlay(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions, activeOverlayHeight));
             }, 5000);
         
             return () => {
@@ -23,9 +24,9 @@ export default function RecordingOverlay(props) {
     return (
         <>
             {timeboxRecording != -1 && <div className="recordingOverlay"
-             style={{width: props.overlayDimensions[0]+"px", 
+             style={{width: overlayDimensions[0]+"px", 
              height: recordingOverlayHeight,
-            transform: `translate(-3px, ${props.activeOverlayHeight+3}px)`}}></div>}
+            transform: `translate(-3px, ${activeOverlayHeight+3}px)`}}></div>}
         </>
     )
 }
