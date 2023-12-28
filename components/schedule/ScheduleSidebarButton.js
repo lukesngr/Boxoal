@@ -9,7 +9,6 @@ import ChevronExpandable from '../base/ChevronExpandable';
 
 export default function ScheduleSidebarButton(props) {
     
-
     return (
         <div key={props.schedule.id} onClick={() => props.selectSchedule(props.index)} className={props.selectedSchedule == props.index ? 'selectedSchedule' : 'schedule'}>
             <span className='sidebarExpandableTitle'>{props.schedule.name}</span>

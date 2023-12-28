@@ -1,3 +1,5 @@
+import PortalComponent from "./PortalComponent";
+
 export default function BootstrapModal(props) {
     //added portal component here as most times it is in a portal component anyway
     return (
