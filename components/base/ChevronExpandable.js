@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function ChevronExpandable(props) {
     const [isChildrenVisible, setIsChildrenVisible] = useState(false);
@@ -8,9 +9,9 @@ export default function ChevronExpandable(props) {
     function toggleChildrenVisibleButton() { 
         setIsChildrenVisible(!isChildrenVisible);
 
-        if(isChildrenVisible) {
+        if(!isChildrenVisible) {
             setIcon(faChevronUp);
-        }else if(!isChildrenVisible) {
+        }else {
             setIcon(faChevronDown);
         }
     } //flips visibility of children
