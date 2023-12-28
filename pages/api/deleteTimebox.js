@@ -4,6 +4,14 @@ export default async function handler(req, res) {
     try {
       const data = req.body;
 
+      for(const recordedTimeBox of data.recordedTimeBoxes) {
+        await prisma.recordedTimeBox.delete({
+          where: {
+            id: recordedTimeBox.id
+          }
+        })
+      }
+
       await prisma.timeBox.delete({
         where: {
           id: data.id

@@ -12,8 +12,7 @@ export default function UpdateTimeBoxForm(props) {
         axios.post('/api/updateTimeBox', {
             title,
             description, 
-            id: props.timebox.id,
-            recordedTimeBoxes: props.timebox.recordedTimeBoxes
+            id: props.timebox.id
         }).then(function() {
             queryClient.refetchQueries();
             toast.success("Updated timebox!", {
@@ -29,6 +28,7 @@ export default function UpdateTimeBoxForm(props) {
 
         axios.post('/api/deleteTimebox', {
             id: props.timebox.id, 
+            recordedTimeBoxes: props.timebox.recordedTimeBoxes
         }).then(() => {
             const closeButton = document.querySelector(`#updateTimeBoxModal .close`);
             if (closeButton) {
