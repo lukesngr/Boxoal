@@ -12,7 +12,8 @@ export default function UpdateTimeBoxForm(props) {
         axios.post('/api/updateTimeBox', {
             title,
             description, 
-            id: props.timebox.id
+            id: props.timebox.id,
+            recordedTimeBoxes: props.timebox.recordedTimeBoxes
         }).then(function() {
             queryClient.refetchQueries();
             toast.success("Updated timebox!", {

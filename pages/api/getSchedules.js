@@ -37,7 +37,12 @@ export default async function handler(req, res) {
                                 numberOfBoxes: true,
                                 color: true,
                                 id: true,
-                            }
+                                recordedTimeBoxes: {
+                                    select: {
+                                        id: true
+                                    }
+                                }
+                            },
                         },
                     },
                 },
