@@ -24,9 +24,9 @@ export default function GoalSidebarButton(props) {
             </div>
             {timeBoxExpanded && props.goal.timeboxes.map(timebox => (<div key={timebox.id} className="sidebarTimeBox">
                 {timebox.title}
-                <FontAwesomeIcon className='sidebarExpandableButton' icon={faGear} />
+                <FontAwesomeIcon data-bs-toggle="modal" data-bs-target="#updateTimeBoxModal" className='sidebarExpandableButton' icon={faGear} />
                 <PortalComponent>
-                    <UpdateTimeBoxModal data-bs-toggle="modal" data-bs-target="#updateTimeBoxModal" timebox={timebox}></UpdateTimeBoxModal>
+                    <UpdateTimeBoxModal timebox={timebox}></UpdateTimeBoxModal>
                 </PortalComponent>
             </div>))}
         </div>)
