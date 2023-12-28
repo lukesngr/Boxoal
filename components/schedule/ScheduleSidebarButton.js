@@ -23,9 +23,7 @@ export default function ScheduleSidebarButton(props) {
                 </div>
             )}>
                 {props.schedule.goals.map(goal => (<GoalSidebarButton goal={goal}></GoalSidebarButton>))}
-                <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createGoalModal">
-                    Add goal 
-                </button>
+                <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createGoalModal">Add goal</button>
                 <PortalComponent>
                     <CreateGoalModal id={props.schedule.id}/>
                 </PortalComponent>
