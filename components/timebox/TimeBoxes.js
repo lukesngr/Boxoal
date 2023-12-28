@@ -31,7 +31,6 @@ export default function TimeBoxes(props) {
     
     //make a map for the timeboxes with a map inside it
     //this allows fast lookup based on date than time first
-    //potential for further optimization by narrowing down to only the timeboxes this week
     let timeBoxGrid = new Map();
     schedule.timeboxes.forEach(function (element) { //for each timebox
         const [time, date] = convertToTimeAndDate(element.startTime); //convert the datetime to a time and date e.g. format hh:mm dd/mm
