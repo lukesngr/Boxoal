@@ -17,16 +17,12 @@ export default function ScheduleSidebarButton(props) {
                 <div className='sidebarExpandableButtons'>
                     {button}
                     <FontAwesomeIcon data-bs-toggle="modal" data-bs-target="#updateScheduleModal" className='sidebarExpandableButton' icon={faGear} />
-                    <PortalComponent>
-                        <UpdateScheduleModal schedule={props.schedule}></UpdateScheduleModal>
-                    </PortalComponent>
+                    <UpdateScheduleModal schedule={props.schedule}></UpdateScheduleModal>
                 </div>
             )}>
                 {props.schedule.goals.map(goal => (<GoalSidebarButton goal={goal}></GoalSidebarButton>))}
                 <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createGoalModal">Add goal</button>
-                <PortalComponent>
-                    <CreateGoalModal id={props.schedule.id}/>
-                </PortalComponent>
+                <CreateGoalModal id={props.schedule.id}/>
             </ChevronExpandable>
         </div>)
 }
