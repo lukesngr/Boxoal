@@ -4,7 +4,7 @@ import CreateGoalModal from '../goal/CreateGoalModal';
 import { useState } from 'react';
 import PortalComponent from '../base/PortalComponent';
 import GoalSidebarButton from './GoalSidebarButton';
-import UpdateScheduleModal from './UpdateScheduleModal';
+import UpdateScheduleModal from '../schedule/UpdateScheduleModal';
 import ChevronExpandable from '../base/ChevronExpandable';
 
 export default function ScheduleSidebarButton(props) {
