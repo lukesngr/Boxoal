@@ -60,7 +60,7 @@ export default function TimeBox(props) {
     <div className={'col timeBox'}>
         {/* Form section of this TimeBox component */}
         <CreateTimeboxForm schedule={schedule} time={time} date={date} numberOfBoxes={[numberOfBoxes, setNumberOfBoxes]}
-        closeTimeBox={closeTimeBox} listOfColors={listOfColors} dayName={dayName}></CreateTimeboxForm>
+        closeTimeBox={closeTimeBox} listOfColors={listOfColors} dayName={dayName} timeBoxFormVisible={timeBoxFormVisible}></CreateTimeboxForm>
 
         {/* Normal time box */}
         {data && <div style={{height: getHeightForBoxes(data.numberOfBoxes), backgroundColor: data.color}} id="timeBox">

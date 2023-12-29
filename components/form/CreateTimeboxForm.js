@@ -3,7 +3,7 @@ import { calculateMaxNumberOfBoxes, convertToDateTime, addBoxesToTime } from "@/
 import { queryClient } from './../../pages/_app';
 
 export default function CreateTimeboxForm(props) {
-    let {schedule, time, date, closeTimeBox, listOfColors, dayName, ...theRest} = props;
+    let {schedule, time, date, closeTimeBox, listOfColors, dayName, timeBoxFormVisible, ...theRest} = props;
     let [numberOfBoxes, setNumberOfBoxes] = props.numberOfBoxes;
     let initialSelectedGoal;
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(schedule, time, date);

@@ -2,7 +2,9 @@ import PortalComponent from "./PortalComponent";
 
 export default function BootstrapModal(props) {
     //added portal component here as most times it is in a portal component anyway
-    let buttonTags = `data-bs-toggle="modal" data-bs-target="#${props.id}"`;
+    let buttonTags = {
+        'data-bs-toggle': 'modal',
+        'data-bs-target': `#${props.id}`};
 
     return (
         <>
