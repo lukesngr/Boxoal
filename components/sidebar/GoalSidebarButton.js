@@ -15,15 +15,13 @@ export default function GoalSidebarButton(props) {
             <ChevronExpandable render={button => (
                 <div className='sidebarExpandableButtons'>
                     {button}
-                    <FontAwesomeIcon data-bs-toggle="modal" data-bs-target="#updateGoalModal" className='sidebarExpandableButton' icon={faGear} />
-                    <UpdateGoalModal goal={props.goal}></UpdateGoalModal>
+                    <UpdateGoalModal render={tags => ( <FontAwesomeIcon {...tags} className='sidebarExpandableButton' icon={faGear} />)} goal={props.goal}></UpdateGoalModal>
                 </div>
             )}>
                 {props.goal.timeboxes.map(timebox => (
                 <div key={timebox.id} className="sidebarTimeBox">
                     {timebox.title}
-                    <FontAwesomeIcon data-bs-toggle="modal" data-bs-target="#updateTimeBoxModal" className='sidebarExpandableButton' icon={faGear} />
-                    <UpdateTimeBoxModal timebox={timebox}></UpdateTimeBoxModal>
+                    <UpdateTimeBoxModal render={tags => ( <FontAwesomeIcon {...tags} className='sidebarExpandableButton' icon={faGear} />)} timebox={timebox}></UpdateTimeBoxModal>
                 </div>))}
             </ChevronExpandable>
         </div>)
