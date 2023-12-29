@@ -16,7 +16,7 @@ export default function ScheduleSidebarButton(props) {
                 {button}
                 <UpdateScheduleModal render={tags => ( <FontAwesomeIcon {...tags} className='sidebarExpandableButton' icon={faGear} />)} schedule={props.schedule}></UpdateScheduleModal>
             </>)}>
-                {props.schedule.goals.map(goal => (<GoalSidebarButton goal={goal}></GoalSidebarButton>))}
+                {props.schedule.goals.map((goal, index) => (<GoalSidebarButton key={index} goal={goal}></GoalSidebarButton>))}
                 <CreateGoalModal render={tags => ( <button {...tags} type="button" className="btn btn-dark createButton">Add goal</button>)} id={props.schedule.id}/>
             </ChevronExpandable>
         </div>)

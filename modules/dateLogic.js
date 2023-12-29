@@ -165,6 +165,18 @@ export function calculateBoxesBetweenTwoDateTimes(dateTime1, dateTime2, boxSizeU
     return numberOfBoxes;
 }
 
+export function calculateRemainderTimeBetweenTwoDateTimes(dateTime1, dateTime2, boxSizeUnit, boxSizeNumber) {
+    let remainderTime = 0;
+    if(boxSizeUnit == "min") {
+        remainderTime += ((dateTime2.getHours() - dateTime1.getHours())*60) % boxSizeNumber;
+        remainderTime += (dateTime2.getMinutes() - dateTime1.getMinutes()) % boxSizeNumber;
+    }else if(boxSizeUnit == "hr") {
+        remainderTime += (dateTime2.getHours() - dateTime1.getHours()) / boxSizeNumber;
+    }
+
+    return remainderTime;
+}
+
 export function calculateMaxNumberOfBoxes(schedule, time, date) {
     let wakeUpTimeSeparated = schedule.wakeupTime.split(":").map(function(num) { return parseInt(num); });
     let timeSeparated = time.split(":").map(function(num) { return parseInt(num); });
@@ -239,10 +251,16 @@ export function calculatePixelsFromTopOfGridBasedOnTime(wakeupTime, boxSizeUnit,
 
     let wakeupDateTime = convertToDateTime(wakeupTime, time.getDate()+"/"+time.getMonth());
 
-    const boxesBetween =  calculateBoxesBetweenTwoDateTimes(wakeupDateTime, time, boxSizeUnit, boxSizeNumber);
+    let boxesBetween = calculateBoxesBetweenTwoDateTimes(wakeupDateTime, time, boxSizeUnit, boxSizeNumber);
+    let remainderTime = calculateRemainderTimeBetweenTwoDateTimes(wakeupDateTime, time, boxSizeUnit, boxSizeNumber);
+
+    if(remainderTime < 0) {
+        remainderTime = boxSizeNumber + remainderTime; 
+    }
+
     const pixelsPerBox = overlayDimensions[2];
     const justBoxesHeight = pixelsPerBox * boxesBetween;
-    const inBetweenHeight = (pixelsPerBox / boxSizeNumber) * time.getMinutes();
+    const inBetweenHeight = (pixelsPerBox / boxSizeNumber) * remainderTime;
 
     if(overlayDimensions == 0 ) { //hasn't been set yet
         return 0;
@@ -252,6 +270,8 @@ export function calculatePixelsFromTopOfGridBasedOnTime(wakeupTime, boxSizeUnit,
 
 export function calculateSizeOfOverlayBasedOnCurrentTime(wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions) {
     const currentDate = new Date();
+    currentDate.setHours(8);
+    currentDate.setMinutes(25);
 
     return calculatePixelsFromTopOfGridBasedOnTime(wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions, currentDate);
 }
