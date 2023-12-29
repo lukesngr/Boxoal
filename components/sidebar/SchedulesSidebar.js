@@ -19,10 +19,6 @@ export default function SchedulesSidebar(props) {
         setIsSideBarMobile(smallerThanLargeBreakpoint);
     }, [smallerThanLargeBreakpoint])
 
-    
-    
-    
-
     function selectSchedule(id) {
         setSelectedSchedule(id);
     }

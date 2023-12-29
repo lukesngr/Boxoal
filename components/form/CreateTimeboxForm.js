@@ -48,7 +48,7 @@ export default function CreateTimeboxForm(props) {
     }
 
     return <>
-        {timeBoxFormVisible && <div id={dayName == 'Sat' ? 'addTimeBoxConstrained' : 'addTimeBox'}> 
+        {timeBoxFormVisible && <div id={(dayName == 'Sat' || dayName == 'Fri') ? 'addTimeBoxConstrained' : 'addTimeBox'}> 
             <div id="timeBoxBubble"></div>
             <button onClick={closeTimeBox} id="addTimeBoxExitButton">X</button>
             <form onSubmit={handleSubmit}>
