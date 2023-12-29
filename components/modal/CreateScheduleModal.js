@@ -1,5 +1,5 @@
-import CreateScheduleForm from "./CreateScheduleForm";
-import BootstrapModal from "../modal/BootstrapModal";
+import CreateScheduleForm from "../form/CreateScheduleForm";
+import BootstrapModal from "./BootstrapModal";
 import '../../styles/createmodal.scss';
 
 export default function CreateScheduleModal() {

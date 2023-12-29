@@ -7,7 +7,7 @@ import RedirWhenNotAuth from "@/components/RedirWhenNotAuth";
 import { createContext } from "react";
 import SchedulesView from "@/components/schedule/SchedulesView";
 import { getDayNumbers } from "@/modules/dateLogic";
-import CreateScheduleModal from '@/components/schedule/CreateScheduleModal'
+import CreateScheduleModal from '@/components/modal/CreateScheduleModal'
 
 export const SessionContext = createContext();
 export const RefetchContext = createContext();

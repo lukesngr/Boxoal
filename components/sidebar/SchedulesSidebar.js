@@ -1,6 +1,6 @@
 import '../../styles/schedulessidebar.scss';
 
-import CreateScheduleModal from '../schedule/CreateScheduleModal';
+import CreateScheduleModal from '../modal/CreateScheduleModal';
 import { useContext, useEffect, useState } from 'react';
 import { ScheduleContext } from '../schedule/ScheduleContext';
 import ScheduleSidebarButton from './ScheduleSidebarButton';

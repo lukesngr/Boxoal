@@ -1,4 +1,4 @@
-import UpdateTimeBoxForm from "../timebox/UpdateTimeBoxForm";
+import UpdateTimeBoxForm from "../form/UpdateTimeBoxForm";
 import BootstrapModal from "./BootstrapModal";
 import '../../styles/createmodal.scss';
 

@@ -1,4 +1,4 @@
-import UpdateScheduleForm from "../schedule/UpdateScheduleForm";
+import UpdateScheduleForm from "../form/UpdateScheduleForm";
 import BootstrapModal from "./BootstrapModal";
 import '../../styles/createmodal.scss';
 

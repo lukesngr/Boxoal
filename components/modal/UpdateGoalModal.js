@@ -1,4 +1,4 @@
-import UpdateGoalForm from "../goal/UpdateGoalForm";
+import UpdateGoalForm from "../form/UpdateGoalForm";
 import BootstrapModal from "./BootstrapModal";
 import '../../styles/createmodal.scss';
 
