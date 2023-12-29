@@ -1,5 +1,5 @@
-import CreateGoalForm from "./CreateGoalForm";
-import BootstrapModal from "../base/BootstrapModal";
+import CreateGoalForm from "../goal/CreateGoalForm";
+import BootstrapModal from "./BootstrapModal";
 import '../../styles/createmodal.scss';
 
 export default function CreateGoalModal(props) {

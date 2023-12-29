@@ -1,5 +1,5 @@
-import UpdateGoalForm from "./UpdateGoalForm";
-import BootstrapModal from "../base/BootstrapModal";
+import UpdateGoalForm from "../goal/UpdateGoalForm";
+import BootstrapModal from "./BootstrapModal";
 import '../../styles/createmodal.scss';
 
 export default function UpdateGoalModal(props) {

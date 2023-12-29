@@ -1,5 +1,5 @@
-import UpdateScheduleForm from "./UpdateScheduleForm";
-import BootstrapModal from "../base/BootstrapModal";
+import UpdateScheduleForm from "../schedule/UpdateScheduleForm";
+import BootstrapModal from "./BootstrapModal";
 import '../../styles/createmodal.scss';
 
 export default function UpdateScheduleModal(props) {

@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGear, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
-import CreateGoalModal from '../goal/CreateGoalModal';
+import CreateGoalModal from '../modal/CreateGoalModal';
 import { useState } from 'react';
-import PortalComponent from '../base/PortalComponent';
+import PortalComponent from '../modal/PortalComponent';
 import GoalSidebarButton from './GoalSidebarButton';
-import UpdateScheduleModal from '../schedule/UpdateScheduleModal';
+import UpdateScheduleModal from '../modal/UpdateScheduleModal';
 import ChevronExpandable from '../base/ChevronExpandable';
 
 export default function ScheduleSidebarButton(props) {

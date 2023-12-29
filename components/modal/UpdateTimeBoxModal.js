@@ -1,5 +1,5 @@
-import UpdateTimeBoxForm from "./UpdateTimeBoxForm";
-import BootstrapModal from "../base/BootstrapModal";
+import UpdateTimeBoxForm from "../timebox/UpdateTimeBoxForm";
+import BootstrapModal from "./BootstrapModal";
 import '../../styles/createmodal.scss';
 
 export default function UpdateTimeBoxModal(props) {
