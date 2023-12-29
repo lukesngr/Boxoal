@@ -18,7 +18,9 @@ export default function ChevronExpandable(props) {
 
     return (
         <>
-            {props.render(<FontAwesomeIcon onClick={toggleChildrenVisibleButton} className='sidebarExpandableButton' icon={icon}/> )}
+            <div className='sidebarExpandableButtons'>
+                {props.render(<FontAwesomeIcon onClick={toggleChildrenVisibleButton} className='sidebarExpandableButton' icon={icon}/> )}
+            </div>
             {isChildrenVisible && props.children}
         </>
     )

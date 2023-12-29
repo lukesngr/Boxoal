@@ -12,12 +12,10 @@ export default function GoalSidebarButton(props) {
     return (
         <div className='goalButton'>
             <span className='sidebarExpandableTitle'>{props.goal.name}</span>
-            <ChevronExpandable render={button => (
-                <div className='sidebarExpandableButtons'>
-                    {button}
-                    <UpdateGoalModal render={tags => ( <FontAwesomeIcon {...tags} className='sidebarExpandableButton' icon={faGear} />)} goal={props.goal}></UpdateGoalModal>
-                </div>
-            )}>
+            <ChevronExpandable render={button => (<>
+                {button}
+                <UpdateGoalModal render={tags => ( <FontAwesomeIcon {...tags} className='sidebarExpandableButton' icon={faGear} />)} goal={props.goal}></UpdateGoalModal>
+            </>)}>
                 {props.goal.timeboxes.map(timebox => (
                 <div key={timebox.id} className="sidebarTimeBox">
                     {timebox.title}
