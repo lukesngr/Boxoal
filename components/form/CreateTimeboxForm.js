@@ -3,6 +3,7 @@ import { calculateMaxNumberOfBoxes, convertToDateTime, addBoxesToTime } from "@/
 import { queryClient } from './../../pages/_app';
 
 export default function CreateTimeboxForm(props) {
+    let {schedule, time, date, closeTimeBox, listOfColors, dayName, ...theRest} = props;
     let [numberOfBoxes, setNumberOfBoxes] = props.numberOfBoxes;
     let initialSelectedGoal;
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(schedule, time, date);
@@ -14,14 +15,8 @@ export default function CreateTimeboxForm(props) {
     }
 
     const [goalSelected, setGoalSelected] = useState(initialSelectedGoal);
-    const [timeBoxFormVisible, setTimeBoxFormVisible] = useState(false);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-
-    function closeTimeBox() {
-        setTimeBoxFormVisible(false);
-        setAddTimeBoxDialogOpen(false);
-    }
     
     function handleSubmit(event) {
         event.preventDefault();

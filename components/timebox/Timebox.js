@@ -15,6 +15,7 @@ export default function TimeBox(props) {
     const [pauseActiveOverlay, resumeActiveOverlay] = overlayFuncs;
     const [recordedStartTime, setRecordedStartTime] = useState();
     const [numberOfBoxes, setNumberOfBoxes] = useState(1);
+    const [timeBoxFormVisible, setTimeBoxFormVisible] = useState(false);
     const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen, listOfColors, timeboxRecording, setTimeBoxRecording} = useContext(TimeboxContext);
 
     function getHeightForBoxes(numberOfBoxes) { return `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)` }
@@ -24,6 +25,11 @@ export default function TimeBox(props) {
             setTimeBoxFormVisible(true);
             setAddTimeBoxDialogOpen(true);
         }
+    }
+
+    function closeTimeBox() {
+        setTimeBoxFormVisible(false);
+        setAddTimeBoxDialogOpen(false);
     }
 
     function startRecording() {
@@ -53,7 +59,8 @@ export default function TimeBox(props) {
     return (
     <div className={'col timeBox'}>
         {/* Form section of this TimeBox component */}
-        <CreateTimeboxForm schedule={schedule} time={time} date={date} numberOfBoxes={[numberOfBoxes, setNumberOfBoxes]}></CreateTimeboxForm>
+        <CreateTimeboxForm schedule={schedule} time={time} date={date} numberOfBoxes={[numberOfBoxes, setNumberOfBoxes]}
+        closeTimeBox={closeTimeBox} listOfColors={listOfColors} dayName={dayName}></CreateTimeboxForm>
 
         {/* Normal time box */}
         {data && <div style={{height: getHeightForBoxes(data.numberOfBoxes), backgroundColor: data.color}} id="timeBox">
