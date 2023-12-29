@@ -51,11 +51,9 @@ export default function TimeBoxes(props) {
         }
     };
 
-    function pauseActiveOverlay() {
-        clearInterval(activeOverlayInterval.current);
-    }
+    function pauseActiveOverlay() { clearInterval(activeOverlayInterval.current); }
 
-    function resumeActiveOverlay() {
+    function resumeActiveOverlay() { 
         activeOverlayInterval.current = setInterval(() => {
             setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions));
         }, 5000);
