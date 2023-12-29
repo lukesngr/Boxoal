@@ -1,6 +1,5 @@
 import { faCirclePlus, faCircleDot, faCircleStop } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {addBoxesToTime, calculateMaxNumberOfBoxes, convertToDateTime} from '@/modules/dateLogic';
 import '../../styles/timebox.scss';
 import { useState, useContext } from 'react';
 import '../../styles/addtimebox.scss';
@@ -18,14 +17,14 @@ export default function TimeBox(props) {
     const [numberOfBoxes, setNumberOfBoxes] = useState(1);
     const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen, listOfColors, timeboxRecording, setTimeBoxRecording} = useContext(TimeboxContext);
 
+    function getHeightForBoxes(numberOfBoxes) { return `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)` }
+
     function addTimeBox() {
         if(!addTimeBoxDialogOpen) {
             setTimeBoxFormVisible(true);
             setAddTimeBoxDialogOpen(true);
         }
     }
-
-    function getHeightForBoxes(numberOfBoxes) { return `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)` }
 
     function startRecording() {
         setTimeBoxRecording(data.id);

@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { calculateMaxNumberOfBoxes, convertToDateTime, addBoxesToTime } from "@/modules/dateLogic";
+import { queryClient } from './../../pages/_app';
 
 export default function CreateTimeboxForm(props) {
     let [numberOfBoxes, setNumberOfBoxes] = props.numberOfBoxes;
     let initialSelectedGoal;
+    let maxNumberOfBoxes = calculateMaxNumberOfBoxes(schedule, time, date);
 
     if(schedule.goals.length > 0) {
         initialSelectedGoal = schedule.goals[0].id;
@@ -20,9 +23,6 @@ export default function CreateTimeboxForm(props) {
         setAddTimeBoxDialogOpen(false);
     }
     
-
-    let maxNumberOfBoxes = calculateMaxNumberOfBoxes(schedule, time, date);
-
     function handleSubmit(event) {
         event.preventDefault();
         let startTime = convertToDateTime(time, date);
@@ -64,7 +64,7 @@ export default function CreateTimeboxForm(props) {
                 <label htmlFor="boxes">Boxes</label>
                 <input min="1" max={maxNumberOfBoxes} type="number" name="boxes" id="boxes" placeholder="Boxes" value={numberOfBoxes} onChange={(e) => setNumberOfBoxes(e.target.value)}></input><br />
                 <label>Goal: </label>
-                <select value={goalSelected} onChange={(e) => {console.log(e.target.value); setGoalSelected(e.target.value)}}>
+                <select value={goalSelected} onChange={(e) => {setGoalSelected(e.target.value)}}>
                     {schedule.goals.map((goal) => (
                         <option value={String(goal.id)}>{goal.name}</option>
                     ))}
