@@ -28,16 +28,12 @@ export default function SchedulesSidebar(props) {
     }
 
     return (<>
-        <CreateScheduleModal/>
         <div className={isSideBarMobile ? ("mobileSideBar") : ("col-2")} 
         id={expanded ? ('animateToAppear') : ('animateToDisappear')}>
             <div className="schedulesSidebar">
                 <h1 className="sidebarHeading">My Schedules <FontAwesomeIcon onClick={() => setExpanded(false)} className='minimizeButton' icon={faArrowLeft}></FontAwesomeIcon></h1>
-                {props.data.data.map((schedule, index) => (<ScheduleSidebarButton key={index} index={index} selectedSchedule={selectedSchedule} schedule={schedule} selectSchedule={selectSchedule}></ScheduleSidebarButton>))}
-                <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createScheduleModal">
-                    Add schedule 
-                </button>
-                
+                {props.data.data.map((schedule, index) => (<ScheduleSidebarButton key={index} index={index} selectedSchedule={selectedSchedule} schedule={schedule} selectSchedule={selectSchedule}></ScheduleSidebarButton>))}                   
+                <CreateScheduleModal render={tags => ( <button type="button" {...tags} className="btn btn-dark createButton">Add schedule</button>)}></CreateScheduleModal>
             </div>
         </div>
         </>)

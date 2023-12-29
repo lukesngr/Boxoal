@@ -15,13 +15,11 @@ export default function ScheduleSidebarButton(props) {
             <ChevronExpandable render={button => (
                 <div className='sidebarExpandableButtons'>
                     {button}
-                    <FontAwesomeIcon data-bs-toggle="modal" data-bs-target="#updateScheduleModal" className='sidebarExpandableButton' icon={faGear} />
-                    <UpdateScheduleModal schedule={props.schedule}></UpdateScheduleModal>
+                    <UpdateScheduleModal render={tags => ( <FontAwesomeIcon {...tags} className='sidebarExpandableButton' icon={faGear} />)} schedule={props.schedule}></UpdateScheduleModal>
                 </div>
             )}>
                 {props.schedule.goals.map(goal => (<GoalSidebarButton goal={goal}></GoalSidebarButton>))}
-                <button type="button" className="btn btn-dark createButton" data-bs-toggle="modal" data-bs-target="#createGoalModal">Add goal</button>
-                <CreateGoalModal id={props.schedule.id}/>
+                <CreateGoalModal render={tags => ( <button {...tags} type="button" className="btn btn-dark createButton">Add goal</button>)} id={props.schedule.id}/>
             </ChevronExpandable>
         </div>)
 }
