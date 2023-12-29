@@ -6,6 +6,7 @@ export default function RecordedTimeBoxOverlay(props) {
     const [recordedBoxes, setRecordedBoxes] = useState([]);
 
     useEffect(() => {
+        setRecordedBoxes([]) //so deleted recordings don't get stuck
         if(data.length > 0) {
             let normalArrayFromState = [...recordedBoxes];
             data.forEach(element => {
