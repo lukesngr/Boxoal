@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { calculateMaxNumberOfBoxes, convertToDateTime, addBoxesToTime } from "@/modules/dateLogic";
 import { queryClient } from './../../pages/_app';
+import axios from 'axios';
+import {toast} from "react-toastify";
 
 export default function CreateTimeboxForm(props) {
-    let {schedule, time, date, closeTimeBox, listOfColors, dayName, timeBoxFormVisible, ...theRest} = props;
+    let {schedule, time, date, closeTimeBox, dayName, timeBoxFormVisible, titleFunc, listOfColors, ...theRest} = props;
     let [numberOfBoxes, setNumberOfBoxes] = props.numberOfBoxes;
+    let [title, setTitle] = props.titleFunc;
     let initialSelectedGoal;
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(schedule, time, date);
 
@@ -15,7 +18,6 @@ export default function CreateTimeboxForm(props) {
     }
 
     const [goalSelected, setGoalSelected] = useState(initialSelectedGoal);
-    const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     
     function handleSubmit(event) {
@@ -32,8 +34,7 @@ export default function CreateTimeboxForm(props) {
         ).then(() => {
             //reset the form
             queryClient.refetchQueries();
-            setAddTimeBoxDialogOpen(false);
-            setTimeBoxFormVisible(false);
+            closeTimeBox();
             setTitle("");
             setDescription("");
             setNumberOfBoxes(1);
