@@ -50,8 +50,8 @@ model TimeBox {
 
 model RecordedTimeBox {
   id                Int      @id @default(autoincrement())
-  recordedStartTime DateTime
-  recordedEndTime   DateTime
+  recordedStartTime DateTime         @db.Timestamptz
+  recordedEndTime   DateTime         @db.Timestamptz
   timeBox           TimeBox?  @relation(fields: [timeBoxID], references: [id])
   timeBoxID         Int?
   schedule          Schedule? @relation(fields: [scheduleID], references: [id])
