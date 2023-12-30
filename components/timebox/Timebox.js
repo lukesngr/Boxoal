@@ -69,8 +69,8 @@ export default function TimeBox(props) {
         {data && <div style={{height: getHeightForBoxes(data.numberOfBoxes), backgroundColor: data.color}} id="timeBox">
             <span className="timeboxText">{data.title}</span>
 
-            {timeboxRecording == -1 && <button className="recordTimeButton" onClick={startRecording} ><FontAwesomeIcon height={20} width={20} icon={faCircleDot} /></button>}
-            {timeboxRecording == data.id && <button className="stopRecordTimeButton" onClick={stopRecording} ><FontAwesomeIcon height={20} width={20} icon={faCircleStop} /></button>}
+            {data.recordedTimeBoxes.length == 0 && timeboxRecording == -1 && <button className="recordTimeButton" onClick={startRecording} ><FontAwesomeIcon height={20} width={20} icon={faCircleDot} /></button>}
+            {data.recordedTimeBoxes.length == 0 && timeboxRecording == data.id && <button className="stopRecordTimeButton" onClick={stopRecording} ><FontAwesomeIcon height={20} width={20} icon={faCircleStop} /></button>}
 
         </div>}
 
