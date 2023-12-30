@@ -134,6 +134,10 @@
     width: calc(100% + 30px);
     background-color: theme.$main-selection-color;
     margin-left: -20px;
+
+    input[type="checkbox"] {
+        margin-right: 2px;
+    }
 }
 
 .goalButton .sidebarExpandableTitle {
