@@ -18,6 +18,7 @@ export default function GoalSidebarButton(props) {
             </>)}>
                 {props.goal.timeboxes.map(timebox => (
                 <div key={timebox.id} className="sidebarTimeBox">
+                    <input type="checkbox" checked={timebox.recordedTimeBoxes.length != 0} onChange={() => {}}/>
                     {timebox.title}
                     <UpdateTimeBoxModal render={tags => ( <FontAwesomeIcon {...tags} className='sidebarExpandableButton' icon={faGear} />)} timebox={timebox}></UpdateTimeBoxModal>
                 </div>))}
