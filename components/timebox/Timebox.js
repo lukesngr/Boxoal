@@ -57,6 +57,8 @@ export default function TimeBox(props) {
         })  
     }
 
+    console.log(data);
+
     return (
     <div className={'col timeBox'}>
         {/* Form section of this TimeBox component */}
