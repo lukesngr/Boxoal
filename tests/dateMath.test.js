@@ -43,6 +43,24 @@ describe('getDayNumbers', () => {
       { day: 6, name: 'Sat', date: 3, month: 6 },
     ]);
   });
+
+  test('week of new years not working', () => {
+    // Change the mock date to May 25, 2023
+    let mockDate = new Date(2024, 1, 1);
+    jest.useFakeTimers("modern");
+    jest.setSystemTime(mockDate);
+
+    const result = getDayNumbers();
+    expect(result).toEqual([
+      { day: 0, name: 'Sun', date: 30, month: 0 },
+      { day: 1, name: 'Mon', date: 1, month: 1 },
+      { day: 2, name: 'Tue', date: 2, month: 1 },
+      { day: 3, name: 'Wed', date: 3, month: 1 },
+      { day: 4, name: 'Thur', date: 4, month: 1 },
+      { day: 5, name: 'Fri', date: 5, month: 1 },
+      { day: 6, name: 'Sat', date: 6, month: 1 },
+    ]);
+  });
 });
 
 describe('returnTimesSeperatedForSchedule', () => {
