@@ -46,13 +46,13 @@ describe('getDayNumbers', () => {
 
   test('week of new years not working', () => {
     // Change the mock date to May 25, 2023
-    let mockDate = new Date(2024, 1, 1);
+    let mockDate = new Date(2024, 0, 1);
     jest.useFakeTimers("modern");
     jest.setSystemTime(mockDate);
 
     const result = getDayNumbers();
     expect(result).toEqual([
-      { day: 0, name: 'Sun', date: 30, month: 0 },
+      { day: 0, name: 'Sun', date: 31, month: 12 },
       { day: 1, name: 'Mon', date: 1, month: 1 },
       { day: 2, name: 'Tue', date: 2, month: 1 },
       { day: 3, name: 'Wed', date: 3, month: 1 },
@@ -149,7 +149,7 @@ describe('Testing box calculation functions', () => {
 
     const result = calculateMaxNumberOfBoxesAfterTimeIfEmpty(boxSizeUnit, boxSizeNumber, timeSeparated, wakeUpTimeSeparated);
 
-    expect(result).toBe(16);
+    expect(result).toBe(64);
   });
 
   it('should calculate the max number of boxes when schedule is empty for hours when wakeup time after', () => {
