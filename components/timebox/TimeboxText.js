@@ -1,3 +1,3 @@
 export default function TimeboxText(props) {
-    return <span style={{height: props.height}} className="timeboxText">{props.title}</span>;
+    return <span style={{height: '100%'}} className="timeboxText">{props.title}</span>;
 }

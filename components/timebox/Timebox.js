@@ -9,6 +9,7 @@ import {toast} from "react-toastify";
 import { queryClient } from './../../pages/_app';
 import CreateTimeboxForm from '../form/CreateTimeboxForm';
 import TimeboxText from './TimeboxText';
+import UpdateTimeBoxModal from '../modal/UpdateTimeBoxModal';
 
 export default function TimeBox(props) {
 
@@ -67,13 +68,13 @@ export default function TimeBox(props) {
         closeTimeBox={closeTimeBox} dayName={dayName} timeBoxFormVisible={timeBoxFormVisible} titleFunc={[title, setTitle]} listOfColors={listOfColors}></CreateTimeboxForm>
 
         {/* Normal time box */}
-        {data && <div style={{height: getHeightForBoxes(data.numberOfBoxes), backgroundColor: data.color}} id="timeBox">
+        {data && <UpdateTimeBoxModal render={tags => (<div {...tags} style={{height: getHeightForBoxes(data.numberOfBoxes), backgroundColor: data.color}} id="timeBox">
             <TimeboxText height={getHeightForBoxes(data.numberOfBoxes)} title={data.title}></TimeboxText>
 
             {data.recordedTimeBoxes.length == 0 && timeboxRecording == -1 && <button className="recordTimeButton" onClick={startRecording} ><FontAwesomeIcon height={20} width={20} icon={faCircleDot} /></button>}
             {data.recordedTimeBoxes.length == 0 && timeboxRecording == data.id && <button className="stopRecordTimeButton" onClick={stopRecording} ><FontAwesomeIcon height={20} width={20} icon={faCircleStop} /></button>}
 
-        </div>}
+        </div>)} timebox={data}></UpdateTimeBoxModal> }
 
         {/* Placeholder */}
         {timeBoxFormVisible && <div style={{height: getHeightForBoxes(numberOfBoxes)}} id="placeholderTimeBox">{title}</div>}
