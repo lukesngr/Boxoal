@@ -20,6 +20,7 @@
     transform: translateX(-110%);
     text-align: left;
     z-index: 998;
+    width: 25%;
 }
 
 #addTimeBox h5, #addTimeBoxConstrained h5  {
@@ -41,10 +42,10 @@
 #addTimeBox #timeBoxBubble {
     position: absolute !important;
     top: 0;
-    left: -50px;
+    left: -8vw;
     width: 0;
     height: 0;
-    border-left: 100px solid transparent;
+    border-left: 9vw solid transparent;
     border-top: 20px solid theme.$base-color;
 }
 
@@ -54,7 +55,7 @@
     left: 100%;
     width: 0;
     height: 0;
-    border-right: 100px solid transparent;
+    border-right: 9vw solid transparent;
     border-top: 20px solid theme.$base-color;
 }
 
@@ -81,4 +82,28 @@
 
 #boxes {
     width: 85%;
+}
+
+#description {
+    width: 74%;
+}
+
+#title {
+    width: 90%;
+}
+
+@media only screen and (max-width: 992px) {
+    #addTimeBox {
+        transform: translateX(60%);
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    #addTimeBox, #addTimeBoxConstrained {
+        top: 40%;
+        left: 15%;
+        z-index: 999;
+        width: 70%;
+        transform: none;
+    }
 }
