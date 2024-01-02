@@ -7,7 +7,7 @@ import RedirWhenNotAuth from "@/components/RedirWhenNotAuth";
 import { createContext } from "react";
 import SchedulesView from "@/components/schedule/SchedulesView";
 import { getDayNumbers } from "@/modules/dateLogic";
-import CreateScheduleModal from '@/components/modal/CreateScheduleModal'
+import { ScheduleContextProvider } from "./ScheduleContext";
 
 export const SessionContext = createContext();
 export const RefetchContext = createContext();
@@ -52,6 +52,6 @@ export default function MySchedules() {
     if(status == "loading") {
         return <h1>Loading</h1>
     }else if(status === "authenticated"){
-        return <MySchedulesSeperatedForFunctionality session={session} status={status}></MySchedulesSeperatedForFunctionality>
+        return <ScheduleContextProvider><MySchedulesSeperatedForFunctionality session={session} status={status}></MySchedulesSeperatedForFunctionality></ScheduleContextProvider>
     }  
 }
