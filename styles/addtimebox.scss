@@ -8,6 +8,7 @@
     padding: 1%;
     transform: translateX(40%);
     text-align: left;
+    width: 25%;
 }
 
 #addTimeBoxConstrained {
@@ -72,4 +73,12 @@
     background-color: theme.$base-color;
     color: black;
     position: relative;
+}
+
+#goal {
+    width: 89%;
+}
+
+#boxes {
+    width: 85%;
 }

@@ -48,7 +48,7 @@ export default function CreateTimeboxForm(props) {
     }
 
     return <>
-        {timeBoxFormVisible && <div id={(dayName == 'Sat' || dayName == 'Fri') ? 'addTimeBoxConstrained' : 'addTimeBox'}> 
+        {timeBoxFormVisible && <div id={(dayName == 'Sat' || dayName == 'Fri' || dayName == 'Thur') ? 'addTimeBoxConstrained' : 'addTimeBox'}> 
             <div id="timeBoxBubble"></div>
             <button onClick={closeTimeBox} id="addTimeBoxExitButton">X</button>
             <form onSubmit={handleSubmit}>
@@ -59,8 +59,8 @@ export default function CreateTimeboxForm(props) {
                 <input type="text" name="description" id="description" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)}></input><br />
                 <label htmlFor="boxes">Boxes</label>
                 <input min="1" max={maxNumberOfBoxes} type="number" name="boxes" id="boxes" placeholder="Boxes" value={numberOfBoxes} onChange={(e) => setNumberOfBoxes(e.target.value)}></input><br />
-                <label>Goal: </label>
-                <select value={goalSelected} onChange={(e) => {setGoalSelected(e.target.value)}}>
+                <label htmlFor="goal">Goal</label>
+                <select name="goal" id="goal" value={goalSelected} onChange={(e) => {setGoalSelected(e.target.value)}}>
                     {schedule.goals.map((goal) => (
                         <option value={String(goal.id)}>{goal.name}</option>
                     ))}
