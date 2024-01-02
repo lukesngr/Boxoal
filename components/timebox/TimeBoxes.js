@@ -23,7 +23,7 @@ export default function TimeBoxes(props) {
     const [activeOverlayHeight, setActiveOverlayHeight] = useState(0);
  
     //get schedule that is selected in sidebar and assign it to schedule variable
-    const {selectedSchedule, setSelectedSchedule, expanded, setExpanded} = useContext(ScheduleContext);
+    const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
     let schedule = props.data.data[selectedSchedule];
 
     const dayToName = getDayNumbers(); //get all info to make headers look nice

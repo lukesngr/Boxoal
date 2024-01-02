@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight, faWindowMinimize } from '@fortawesome/free-solid-svg-icons';
 
 export default function SchedulesSidebar(props) {
-    const {selectedSchedule, setSelectedSchedule, expanded, setExpanded} = useContext(ScheduleContext);
+    const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
     const [isSideBarMobile, setIsSideBarMobile] = useState(true);
 
     let smallerThanLargeBreakpoint = useMediaQuery({query: '(max-width: 992px)'});

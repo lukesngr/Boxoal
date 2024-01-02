@@ -15,15 +15,7 @@ export const RefetchContext = createContext();
 function MySchedulesSeperatedForFunctionality(props) {
 
     let dayNumbers = getDayNumbers();
-    let startOfWeek = new Date();
-    startOfWeek.setDate(dayNumbers[0].date);
-    startOfWeek.setHours(0);
-    startOfWeek.setMinutes(0);
-
-    let endOfWeek = new Date()
-    endOfWeek.setDate(dayNumbers[6].date+1); //another day as sometimes timeboxes will go into next week
-    endOfWeek.setHours(23);
-    endOfWeek.setHours(59);
+    const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
     
     const {status, data, error, refetch} = useQuery({
         queryKey: ["schedules"], 
