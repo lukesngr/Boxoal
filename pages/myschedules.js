@@ -4,10 +4,10 @@ import { useQuery, QueryCache } from "react-query";
 import axios from "axios";
 import NoSchedules from "@/components/schedule/NoSchedules";
 import RedirWhenNotAuth from "@/components/RedirWhenNotAuth";
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import SchedulesView from "@/components/schedule/SchedulesView";
 import { getDayNumbers } from "@/modules/dateLogic";
-import { ScheduleContextProvider } from "./ScheduleContext";
+import { ScheduleContextProvider, ScheduleContext } from "@/components/schedule/ScheduleContext";
 
 export const SessionContext = createContext();
 export const RefetchContext = createContext();

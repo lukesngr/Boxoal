@@ -11,6 +11,7 @@ import RecordingOverlay from '../overlay/RecordingOverlay';
 import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
+import TimeboxHeading from './TimeboxHeading';
 
 export default function TimeBoxes(props) {
 
@@ -95,9 +96,7 @@ export default function TimeBoxes(props) {
 
     return (
     <>
-        <h1 className="viewHeading">This Week 
-            {!expanded && <FontAwesomeIcon className="sideBarExpandBtn ml-1" icon={faCog} onClick={() => setExpanded(true)}></FontAwesomeIcon>}
-        </h1>
+        <TimeboxHeading expanded={expanded} setExpanded={setExpanded} selectedDate={selectedDate} setSelectedDate={setSelectedDate}></TimeboxHeading>
         <div ref={gridContainerRef} className="container-fluid mt-2 timeboxesGrid">
             <TimeboxContextProvider>
 
