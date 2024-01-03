@@ -5,6 +5,7 @@ import { faCalendar, faCog } from "@fortawesome/free-solid-svg-icons";
 import { StaticDatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import "../../styles/timeboxheading.scss";
 
 export default function TimeboxHeading(props) {
 
@@ -12,7 +13,7 @@ export default function TimeboxHeading(props) {
     const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
 
     return <h1 className="viewHeading">This Week
-                <FontAwesomeIcon icon={faCalendar} onClick={() => setDatePickerVisible(true)}></FontAwesomeIcon>
+                <FontAwesomeIcon className="calendarIcon" icon={faCalendar} onClick={() => setDatePickerVisible(true)}></FontAwesomeIcon>
                 {datePickerVisible && <LocalizationProvider dateAdapter={AdapterDayjs}><StaticDatePicker displayStaticWrapperAs="desktop"
                     openTo="year" value={selectedDate} onChange={(newValue) => setSelectedDate(newValue)}></StaticDatePicker>
                 </LocalizationProvider>}
