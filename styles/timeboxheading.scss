@@ -11,3 +11,15 @@
 .datePicker {
     position: absolute;
 }
+
+.MuiPickersCalendarHeader-label {
+    color: white;
+}
+
+.MuiPickersYear-yearButton {
+    color: white !important;
+}
+
+.MuiPickersYear-yearButton:hover {
+    background-color: rgba(127, 255, 212, 0.08) !important;
+}
