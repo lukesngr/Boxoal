@@ -13,9 +13,10 @@ export default function TimeboxHeading(props) {
     const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
 
     return <h1 className="viewHeading">This Week
-                <FontAwesomeIcon className="calendarIcon" icon={faCalendar} onClick={() => setDatePickerVisible(true)}></FontAwesomeIcon>
-                {datePickerVisible && <LocalizationProvider dateAdapter={AdapterDayjs}><StaticDatePicker displayStaticWrapperAs="desktop"
-                    openTo="year" value={selectedDate} onChange={(newValue) => setSelectedDate(newValue)}></StaticDatePicker>
+                <FontAwesomeIcon className="calendarIcon" icon={faCalendar} onClick={() => setDatePickerVisible(!datePickerVisible)}></FontAwesomeIcon>
+                {datePickerVisible && <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <StaticDatePicker sx={{position: "absolute", zIndex: 999, left: '50%'}} displayStaticWrapperAs="desktop"
+                    openTo="day" value={selectedDate} onChange={(newValue) => setSelectedDate(newValue)}></StaticDatePicker>
                 </LocalizationProvider>}
                 {!props.expanded && <FontAwesomeIcon className="sideBarExpandBtn ml-1" icon={faCog} onClick={() => props.setExpanded(true)}></FontAwesomeIcon>}
             </h1>
