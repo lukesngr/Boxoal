@@ -8,24 +8,17 @@ import { createContext, useContext } from "react";
 import SchedulesView from "@/components/schedule/SchedulesView";
 import { getDayNumbers } from "@/modules/dateLogic";
 import { ScheduleContextProvider, ScheduleContext } from "@/components/schedule/ScheduleContext";
+import dayjs from "dayjs";
 
 export const SessionContext = createContext();
 export const RefetchContext = createContext();
 
 function MySchedulesSeperatedForFunctionality(props) {
 
-    let dayNumbers = getDayNumbers();
     const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
 
-    let startOfWeek = new Date();
-    startOfWeek.setDate(dayNumbers[0].date);
-    startOfWeek.setHours(0);
-    startOfWeek.setMinutes(0);
-
-    let endOfWeek = new Date()
-    endOfWeek.setDate(dayNumbers[6].date+1); //another day as sometimes timeboxes will go into next week
-    endOfWeek.setHours(23);
-    endOfWeek.setHours(59);
+    let startOfWeek = selectedDate.startOf('week').hour(0).minute(0).toDate();
+    let endOfWeek = selectedDate.endOf('week').add(1, 'day').hour(23).minute(59).toDate(); //another day as sometimes timeboxes will go into next week
     
     const {status, data, error, refetch} = useQuery({
         queryKey: ["schedules"], 
