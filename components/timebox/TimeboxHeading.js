@@ -34,7 +34,7 @@ export default function TimeboxHeading(props) {
                 {datePickerVisible && <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <ThemeProvider theme={theme}>
                         <StaticDatePicker sx={{position: "absolute", zIndex: 999, left: '50%'}} displayStaticWrapperAs="desktop"
-                        openTo="day" value={selectedDate} onChange={(newValue) => setSelectedDate(newValue)}></StaticDatePicker>
+                        openTo="day" value={selectedDate} onChange={(newValue) => {setSelectedDate(newValue);}}></StaticDatePicker>
                     </ThemeProvider>
                 </LocalizationProvider>}
                 {!props.expanded && <FontAwesomeIcon className="sideBarExpandBtn ml-1" icon={faCog} onClick={() => props.setExpanded(true)}></FontAwesomeIcon>}
