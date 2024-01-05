@@ -1,9 +1,8 @@
-export function getDayNumbers() {
-    const dateObject = new Date();
-    let month = dateObject.getMonth() + 1;
-    let day = dateObject.getDay();
-    let date = dateObject.getDate();
-    let year = dateObject.getFullYear();
+export function getDayNumbers(todaysDate) {
+    let month = todaysDate.getMonth() + 1;
+    let day = todaysDate.getDay();
+    let date = todaysDate.getDate();
+    let year = todaysDate.getFullYear();
     let dayToName = [{day: 0, name: "Sun"}, {day: 1, name: "Mon"}, {day: 2, name: "Tue"}, {day: 3, name: "Wed"}, {day: 4, name: "Thur"},  {day: 5, name: "Fri"},  {day: 6, name: "Sat"}];
     let simpleArray = [0, 1, 2, 3, 4, 5, 6];
 
