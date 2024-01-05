@@ -114,7 +114,7 @@
 }
 
 .sidebarExpandableButton {
-    height: 1.77vh;
+    width: 13%;
     float: right;
 }
 
@@ -144,18 +144,28 @@
     padding-left: 5%;
 }
 
+.mobileSideBar .sidebarExpandableButton {
+    width: 20px;
+}
+
 @media only screen and (max-width: 576px) {
     .mobileSideBar .sidebarHeading {
-        font-size: medium;
+        font-size: large;
     }
 
     .mobileSideBar .minimizeButton {
-        height: 15px;
+        height: 20px;
     }
+
+    
 }
 
 @media only screen and (max-width: 380px) { //max width this application supports is 320px
     .mobileSideBar {
         width: 75%;
+    }
+
+    .sidebarExpandableButton {
+        width: 20px;
     }
 }
