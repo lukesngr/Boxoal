@@ -27,7 +27,7 @@ export default function TimeBoxes(props) {
     const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
     let schedule = props.data.data[selectedSchedule];
 
-    const dayToName = getDayNumbers(); //get all info to make headers look nice
+    const dayToName = getDayNumbers(selectedDate.toDate()); //get all info to make headers look nice
     const listOfTimes = returnTimesSeperatedForSchedule(schedule); //get times that go down each row
     
     //make a map for the timeboxes with a map inside it
