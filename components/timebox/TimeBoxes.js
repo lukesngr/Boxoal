@@ -17,6 +17,7 @@ export default function TimeBoxes(props) {
     const headerContainerRef = useRef(null);
     const timeboxColumnRef = useRef(null);
     const activeOverlayInterval = useRef(null);
+    const activeOverlayResetTime = 5000;
 
     const [overlayDimensions, setOverlayDimensions] = useState(0);
     const [activeOverlayHeight, setActiveOverlayHeight] = useState(0);
@@ -73,21 +74,15 @@ export default function TimeBoxes(props) {
     useEffect(() => {
         setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions));
 
-        activeOverlayInterval.current = setInterval(() => {
-            setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions));
-        }, 5000); //don't why but this fixed bug
+        activeOverlayInterval.current = setInterval(() => { setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions))}, activeOverlayResetTime);
         
-        return () => {
-            clearInterval(activeOverlayInterval.current);
-        };
+        return () => { clearInterval(activeOverlayInterval.current); };
     }, [overlayDimensions])
 
     function pauseActiveOverlay() { clearInterval(activeOverlayInterval.current); }
 
     function resumeActiveOverlay() { 
-        activeOverlayInterval.current = setInterval(() => {
-            setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions));
-        }, 5000);
+        activeOverlayInterval.current = setInterval(() => {setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions))}, activeOverlayResetTime);
     }
 
    
