@@ -283,3 +283,8 @@ export function calculateSizeOfRecordingOverlay(wakeupTime, boxSizeUnit, boxSize
     let recordingOverlayHeight = overlaysTotalHeight - originalOverlayHeight;
     return recordingOverlayHeight;
 }
+
+export function whereRecordedStartTimeSameAsCurrent(obj){
+    let recordedStartTime = new Date(obj.recordedStartTime);
+    return (recordedStartTime.getMonth()+1) == day.month && (recordedStartTime.getDate()) == day.date;
+}

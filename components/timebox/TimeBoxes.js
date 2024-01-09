@@ -1,6 +1,6 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
 import { getDayNumbers, returnTimesSeperatedForSchedule, ifCurrentDay, ifEqualOrBeyondCurrentDay,
-     convertToTimeAndDate, calculateSizeOfOverlayBasedOnCurrentTime, calculateSizeOfRecordingOverlay } from '@/modules/dateLogic';
+     convertToTimeAndDate, calculateSizeOfOverlayBasedOnCurrentTime, calculateSizeOfRecordingOverlay, whereRecordedStartTimeSameAsCurrent } from '@/modules/dateLogic';
 import '../../styles/timeboxes.scss';
 import TimeBox from './Timebox';
 import { ScheduleContext } from '../schedule/ScheduleContext';
@@ -9,8 +9,6 @@ import Overlay from '../overlay/Overlay';
 import ActiveOverlay from '../overlay/ActiveOverlay';
 import RecordingOverlay from '../overlay/RecordingOverlay';
 import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCog } from '@fortawesome/free-solid-svg-icons';
 import TimeboxHeading from './TimeboxHeading';
 
 export default function TimeBoxes(props) {
@@ -52,37 +50,29 @@ export default function TimeBoxes(props) {
         }
     };
 
-    function pauseActiveOverlay() { clearInterval(activeOverlayInterval.current); }
-
-    function resumeActiveOverlay() { 
-        activeOverlayInterval.current = setInterval(() => {
-            setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions));
-        }, 5000);
-    }
-
-    //when page first loads calculate overlay dimensions and set timer for every 5 seconds to recalculate active overlay height
+    //when page first loads calculate overlay dimensions
     useEffect(() => {
         calculateOverlayDimensions();
-        window.addEventListener('resize', calculateOverlayDimensions);
+        window.addEventListener('resize', calculateOverlayDimensions); //if resized calculate overlay dimensions
     
         return () => {
             clearInterval(activeOverlayInterval.current);
             window.removeEventListener('resize', calculateOverlayDimensions);
         };
     }, []);
-
     //if schedule changes recalculate overlay dimensions
     useEffect(() => {
         calculateOverlayDimensions();
     }, [selectedSchedule]);
-
+    //if sidebar changes recalculate overlay dimensions
     useEffect(() => {
         setTimeout(calculateOverlayDimensions, 600);
     }, [expanded]);
 
-    //how many useeffects do I need I hate react sometimes
+    //when overlay dimensions changes set active overlay height
     useEffect(() => {
         setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions));
+
         activeOverlayInterval.current = setInterval(() => {
             setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions));
         }, 5000); //don't why but this fixed bug
@@ -91,6 +81,14 @@ export default function TimeBoxes(props) {
             clearInterval(activeOverlayInterval.current);
         };
     }, [overlayDimensions])
+
+    function pauseActiveOverlay() { clearInterval(activeOverlayInterval.current); }
+
+    function resumeActiveOverlay() { 
+        activeOverlayInterval.current = setInterval(() => {
+            setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions));
+        }, 5000);
+    }
 
    
 
@@ -113,10 +111,7 @@ export default function TimeBoxes(props) {
                                 activeOverlayHeight={activeOverlayHeight}></RecordingOverlay>
                             </>}
                             {!ifCurrentDay(index, true, false) && <Overlay dimensions={overlayDimensions} active={ifEqualOrBeyondCurrentDay(index, true, false)}></Overlay>}
-                            <RecordedTimeBoxOverlay data={schedule.recordedTimeboxes.filter(function(obj){
-                                let recordedStartTime = new Date(obj.recordedStartTime);
-                                return (recordedStartTime.getMonth()+1) == day.month && (recordedStartTime.getDate()) == day.date;
-                            })} overlayDimensions={overlayDimensions} schedule={schedule}></RecordedTimeBoxOverlay>
+                            <RecordedTimeBoxOverlay data={schedule.recordedTimeboxes.filter(whereRecordedStartTimeSameAsCurrent)} overlayDimensions={overlayDimensions} schedule={schedule}></RecordedTimeBoxOverlay>
                         </div>
                     ))}
                 </div>
