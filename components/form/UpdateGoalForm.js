@@ -55,7 +55,7 @@ export default function UpdateGoalForm(props) {
             <label>Target Date: </label>
             <input type="datetime-local" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} required></input><br />
             <button type="submit">Update</button>
-            <button type="button" className="btn btn-danger" onClick={deleteGoal}>Delete</button>
+            <button type="button" onClick={deleteGoal}>Delete</button>
         </form>
     )
 }
