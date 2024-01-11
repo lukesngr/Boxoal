@@ -1,25 +1,28 @@
 @use 'theme';
 
-#createScheduleModal, #createGoalModal {
-    .modal-header, .modal-header button, .modal-body  {
-        background-color: theme.$base-color;
-    }
+.modal-header, .modal-header button, .modal-body  {
+    background-color: theme.$base-color;
+}
 
-    .modal-header, label {
-        border-bottom: none;
-        font-family: 'Lato', sans-serif;
-    }
+.modal-header, label {
+    border-bottom: none;
+    font-family: 'Lato', sans-serif;
+}
 
-    label {
-        margin-right: 3px;
-    }
+.modal label {
+    margin-right: 3px;
+}
 
-    .modal-header {
-        font-weight: bold;
-    }
+.modal-header {
+    font-weight: bold;
+}
 
-    button {
-        background-color: black;
-        color: white;
-    }
+.modal button {
+    background-color: black;
+    color: white;
+}
+
+.modal-content {
+    border-radius: 0px;
+    background-color: theme.$base-color;
 }
