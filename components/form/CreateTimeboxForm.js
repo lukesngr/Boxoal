@@ -19,6 +19,8 @@ export default function CreateTimeboxForm(props) {
 
     const [goalSelected, setGoalSelected] = useState(initialSelectedGoal);
     const [description, setDescription] = useState("");
+    const [reoccurFrequency, setReoccurFrequency] = useState("no");
+    const [weeklyDate, setWeeklyDate] = useState(new Date());
     
     function handleSubmit(event) {
         event.preventDefault();
@@ -65,6 +67,17 @@ export default function CreateTimeboxForm(props) {
                         <option value={String(goal.id)}>{goal.name}</option>
                     ))}
                 </select>
+                <label htmlFor="reoccurFrequency">Reoccuring?</label>
+                <select name="reoccurFrequency" id="reoccurFrequency" value={reoccurFrequency} onChange={(e) => {setReoccurFrequency(e.target.value)}}>
+                    <option value="no">No</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                </select><br />
+                {reoccurFrequency == 'weekly' && <>
+                <label htmlFor="weeklyDate">Weekly Date</label>
+                <input type="date" name="weeklyDate" id="weeklyDate" value={weeklyDate} onChange={(e) => {setWeeklyDate(e.target.value)}}></input>
+                </>
+                }
                 <button id="addTimeBoxButton">Add TimeBox</button>
             </form>
         </div>}
