@@ -58,7 +58,7 @@ model ReoccuringTimeBox {
   color             String
   startTime         String
   endTime           String
-  reoccurFrequency  Int
+  reoccurFrequency  String
   weeklyDate        DateTime?
   goal              Goal?             @relation(fields: [goalID], references: [id])
   goalID            Int?

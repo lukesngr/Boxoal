@@ -52,10 +52,12 @@ export default function CreateTimeboxForm(props) {
             })
         }else if(reoccurFrequency != "no") {
 
+            let weekDate = weeklyDate; //need to not include weeklyDate if reoccurFrequency isn't weekly
+            if(reoccurFrequency != "weekly") { weekDate = null; }
             //post to api
             axios.post('/api/createReoccuringTimebox', 
                 {title, description, startTime, endTime, numberOfBoxes: parseInt(numberOfBoxes), color, schedule: {connect: {id: schedule.id}}, goal: {connect: {id: parseInt(goalSelected)}},
-                reoccurFrequency, weeklyDate}
+                reoccurFrequency, weeklyDate: weekDate}
             ).then(() => {
                 //reset the form
                 queryClient.refetchQueries();
