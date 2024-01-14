@@ -30,35 +30,15 @@ export default function CreateTimeboxForm(props) {
 
         if(goalSelected === null) { 
             toast.error("No goal selected, please select or make one"); 
-        }else if(reoccurFrequency == "no") {
+        }else{
+
+            let data = {title, description, startTime, endTime, numberOfBoxes: parseInt(numberOfBoxes), color, schedule: {connect: {id: schedule.id}}, goal: {connect: {id: parseInt(goalSelected)}}}
+
+            if(reoccurFrequency == "daily") { data["reoccurFrequency"] = "daily"; }
+            else if(reoccurFrequency == "weekly") { data["reoccurFrequency"] = "weekly"; data["weeklyDate"] = weeklyDate; }
 
             //post to api
-            axios.post('/api/createTimebox', 
-                {title, description, startTime, endTime, numberOfBoxes: parseInt(numberOfBoxes), color, schedule: {connect: {id: schedule.id}}, goal: {connect: {id: parseInt(goalSelected)}}}
-            ).then(() => {
-                //reset the form
-                queryClient.refetchQueries();
-                closeTimeBox();
-                setTitle("");
-                setDescription("");
-                setNumberOfBoxes(1);
-                setReoccurFrequency("no");
-                toast.success("Added timebox!", {
-                    position: toast.POSITION.TOP_RIGHT,
-                });
-            }).catch(function(error) {
-                toast.error("Error occurred please try again or contact developer");
-                console.log(error); 
-            })
-        }else if(reoccurFrequency != "no") {
-
-            let weekDate = weeklyDate; //need to not include weeklyDate if reoccurFrequency isn't weekly
-            if(reoccurFrequency != "weekly") { weekDate = null; }
-            //post to api
-            axios.post('/api/createReoccuringTimebox', 
-                {title, description, startTime, endTime, numberOfBoxes: parseInt(numberOfBoxes), color, schedule: {connect: {id: schedule.id}}, goal: {connect: {id: parseInt(goalSelected)}},
-                reoccurFrequency, weeklyDate: weekDate}
-            ).then(() => {
+            axios.post('/api/createTimebox', data).then(() => {
                 //reset the form
                 queryClient.refetchQueries();
                 closeTimeBox();

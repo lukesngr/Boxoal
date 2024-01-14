@@ -24,10 +24,12 @@ export default async function handler(req, res) {
                                 startTime: 'asc'
                             },
                             where: {
-                                startTime: {
-                                    gte: data.startOfWeek,
-                                    lte: data.endOfWeek
-                                }
+                                OR: [
+                                        {AND: [
+                                            {reoccuringID: null}, 
+                                            {startTime: {gte: data.startOfWeek, lte: data.endOfWeek}}
+                                        ]}, {NOT: {reoccuringID: null}}
+                                ]
                             },
                             select: {
                                 title: true,
@@ -43,24 +45,7 @@ export default async function handler(req, res) {
                                     }
                                 }
                             },
-                        },
-                        reoccuringTimeboxes: {
-                            select: {
-                                title: true,
-                                description: true,
-                                startTime: true,
-                                endTime: true,
-                                numberOfBoxes: true,
-                                id: true,
-                                reoccurFrequency: true,
-                                weeklyDate: true,
-                                recordedTimeBoxes: {
-                                    select: {
-                                        id: true
-                                    }
-                                }
-                            },
-                        },
+                        }
                     },
                 },
                 timeboxes: {
@@ -87,23 +72,6 @@ export default async function handler(req, res) {
                             }
                         }
                     }
-                },
-                reoccuringTimeboxes: {
-                    select: {
-                        title: true,
-                        description: true,
-                        startTime: true,
-                        endTime: true,
-                        numberOfBoxes: true,
-                        id: true,
-                        reoccurFrequency: true,
-                        weeklyDate: true,
-                        recordedTimeBoxes: {
-                            select: {
-                                id: true
-                            }
-                        }
-                    },
                 },
                 recordedTimeboxes: {
                     orderBy: {
