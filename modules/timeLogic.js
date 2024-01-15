@@ -1,7 +1,16 @@
 export function returnTimesSeperatedForSchedule(schedule) {
 
-    let listOfTimes = []
-    let wakeUpTimeSeperatedIntoHoursAndMins = schedule.wakeupTime.split(":").map(function(num) { return parseInt(num); });
+    let listOfTimes = [];
+    let wakeUpTimeSeperatedIntoHoursAndMins
+
+    try {
+        wakeUpTimeSeperatedIntoHoursAndMins = schedule.wakeupTime.split(":").map(function(num) { return parseInt(num); });
+    }catch(error) {
+        if(error.name == 'TypeError') {
+            console.log("Wakeup time provided to function is not a string or in correct format", schedule.wakeupTime);
+        }
+        return [];
+    }
 
     if(schedule.boxSizeUnit == "min") { 
         let currentHour = wakeUpTimeSeperatedIntoHoursAndMins[0]; //hours and minutes start off at wakeup time

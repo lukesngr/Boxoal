@@ -59,10 +59,41 @@ describe('returnTimesSeperatedForSchedule', () => {
       boxSizeNumber: 1,
     };
 
-    const consoleSpy = jest.spyOn(console, 'log');
+    let consoleSpy = jest.spyOn(global.console, 'log');
     
     const result = returnTimesSeperatedForSchedule(schedule);
 
-    expect(consoleSpy).toHaveBeenCalledWith("Wakeup time provied to function is not a string");
+    expect(consoleSpy).toHaveBeenCalledWith("Wakeup time provided to function is not a string or in correct format");
+    consoleSpy.mockRestore();
+  });
+
+  it('graceful exiting if wakeup time is not a time in correct format', () => {
+    const schedule = {
+      wakeupTime: "8",
+      boxSizeUnit: 'hr',
+      boxSizeNumber: 1,
+    };
+
+    const consoleSpy = jest.spyOn(global.console, 'log');
+    
+    const result = returnTimesSeperatedForSchedule(schedule);
+
+    expect(consoleSpy).toHaveBeenCalledWith("Wakeup time provided to function is not a string or in correct format");
+    consoleSpy.mockRestore();
+  });
+
+  it('graceful exiting if wakeup time is in impossible bounds', () => {
+    const schedule = {
+      wakeupTime: "08:30",
+      boxSizeUnit: 'hr',
+      boxSizeNumber: 1,
+    };
+
+    const consoleSpy = jest.spyOn(global.console, 'log');
+    
+    const result = returnTimesSeperatedForSchedule(schedule);
+
+    expect(consoleSpy).toHaveBeenCalledWith("Wakeup time must be between 0:00 and 24:00");
+    consoleSpy.mockRestore();
   });
 });
