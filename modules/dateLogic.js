@@ -293,13 +293,13 @@ export function isRecordingButtonPresent(recordedBoxes, reoccuring, date, time) 
     }else if(reoccuring != null) {
         if(reoccuring.reoccurFrequency == "daily") {
             let timeboxDateTime = convertToDateTime(time, date);
+            let result = true
             recordedBoxes.forEach(element => {
-                if(dayjs(timeboxDateTime.isSame(dayjs(element.recordedStartTime), 'date'))) {
-                    console.log("dsd");
-                    return false;
+                if(dayjs(timeboxDateTime).isSame(dayjs(element.recordedStartTime), 'date')) {
+                    result = false;
                 }
             });
-            return true;
+            return result;
         }
     }
     return false;
