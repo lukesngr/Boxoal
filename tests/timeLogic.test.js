@@ -1,4 +1,4 @@
-import { returnTimesSeperatedForSchedule } from '../modules/timeLogic';
+import { calculateRemainderTimeBetweenTwoDateTimes, returnTimesSeperatedForSchedule } from '../modules/timeLogic';
 
 
 describe('returnTimesSeperatedForSchedule normal testing', () => {
@@ -114,4 +114,24 @@ describe('returnTimesSeperatedForSchedule error testing', () => {
     expect(consoleSpy).toHaveBeenCalledWith("Beware decimal passed as box size number, was ignored");
     consoleSpy.mockRestore();
   });
+});
+
+describe('calculateRemainderTimeBetweenTwoDateTimes normal testing', () => {
+  test('for minutes', () => {
+    let dateTime1 = new Date(2023, 10, 1, 10, 30);
+    let dateTime2 = new Date(2023, 10, 1, 10, 45);
+
+    const result = calculateRemainderTimeBetweenTwoDateTimes(dateTime1, dateTime2, "min", 30);
+
+    expect(result).toEqual(15);
+  })
+
+  test('for hours', () => {
+    let dateTime1 = new Date(2023, 10, 1, 10, 30);
+    let dateTime2 = new Date(2023, 10, 1, 11, 45);
+
+    const result = calculateRemainderTimeBetweenTwoDateTimes(dateTime1, dateTime2, "hr", 1);
+
+    expect(result).toEqual(15);
+  })
 });
