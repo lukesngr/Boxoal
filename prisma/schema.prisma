@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Schedule {
-  id                Int                 @id @default(autoincrement())
+  id                Int               @id @default(autoincrement())
   boxSizeNumber     Int
   name              String
   boxSizeUnit       String
@@ -21,18 +21,16 @@ model Schedule {
   goals             Goal[]
   timeboxes         TimeBox[]
   recordedTimeboxes RecordedTimeBox[]
-  ReoccuringTimeBox ReoccuringTimeBox[]
 }
 
 model Goal {
-  id                Int                 @id @default(autoincrement())
-  priority          Int
-  name              String
-  targetDate        DateTime
-  timeboxes         TimeBox[]
-  schedule          Schedule?           @relation(fields: [scheduleID], references: [id])
-  scheduleID        Int?
-  ReoccuringTimeBox ReoccuringTimeBox[]
+  id         Int       @id @default(autoincrement())
+  priority   Int
+  name       String
+  targetDate DateTime
+  timeboxes  TimeBox[]
+  schedule   Schedule? @relation(fields: [scheduleID], references: [id])
+  scheduleID Int?
 }
 
 model TimeBox {
@@ -43,6 +41,8 @@ model TimeBox {
   color             String
   startTime         DateTime          @db.Timestamptz
   endTime           DateTime          @db.Timestamptz
+  reoccuring        Reoccuring?       @relation(fields: [reoccuringID], references: [id])
+  reoccuringID      Int?
   goal              Goal?             @relation(fields: [goalID], references: [id])
   goalID            Int?
   schedule          Schedule?         @relation(fields: [scheduleID], references: [id])
@@ -50,31 +50,19 @@ model TimeBox {
   recordedTimeBoxes RecordedTimeBox[]
 }
 
-model ReoccuringTimeBox {
-  id                Int               @id @default(autoincrement())
-  numberOfBoxes     Int
-  title             String
-  description       String
-  color             String
-  startTime         String
-  endTime           String
-  reoccurFrequency  String
-  weeklyDate        DateTime?
-  goal              Goal?             @relation(fields: [goalID], references: [id])
-  goalID            Int?
-  schedule          Schedule?         @relation(fields: [scheduleID], references: [id])
-  scheduleID        Int?
-  recordedTimeBoxes RecordedTimeBox[]
+model Reoccuring {
+  id               Int       @id @default(autoincrement())
+  reoccurFrequency String
+  weeklyDay        String?
+  TimeBox          TimeBox[]
 }
 
 model RecordedTimeBox {
-  id                  Int                @id @default(autoincrement())
-  recordedStartTime   DateTime           @db.Timestamptz
-  recordedEndTime     DateTime           @db.Timestamptz
-  timeBox             TimeBox?           @relation(fields: [timeBoxID], references: [id])
-  timeBoxID           Int?
-  schedule            Schedule?          @relation(fields: [scheduleID], references: [id])
-  scheduleID          Int?
-  ReoccuringTimeBox   ReoccuringTimeBox? @relation(fields: [reoccuringTimeBoxId], references: [id])
-  reoccuringTimeBoxId Int?
+  id                Int       @id @default(autoincrement())
+  recordedStartTime DateTime  @db.Timestamptz
+  recordedEndTime   DateTime  @db.Timestamptz
+  timeBox           TimeBox?  @relation(fields: [timeBoxID], references: [id])
+  timeBoxID         Int?
+  schedule          Schedule? @relation(fields: [scheduleID], references: [id])
+  scheduleID        Int?
 }
