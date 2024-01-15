@@ -1,16 +1,11 @@
-import { getArrayOfDayDateDayNameAndMonthForHeaders, returnTimesSeperatedForSchedule, calculateMaxNumberOfBoxesAfterTimeIfEmpty,
-   calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoDateTimes, addBoxesToTime, calculateSizeOfOverlayBasedOnCurrentTime, calculateSizeOfRecordingOverlay } from '../modules/dateLogic';
+import { getArrayOfDayDateDayNameAndMonthForHeaders, ifCurrentDay, ifEqualOrBeyondCurrentDay } from '../modules/dateLogic';
 
 
 //mainly testing most important functions in this code
 describe('getArrayOfDayDateDayNameAndMonthForHeaders', () => {
-  // Mock the current date to June 21, 2023
-  afterAll(() => {
-    // Restore the original Date implementation after all tests
-    jest.restoreAllMocks();
-  });
 
   test('returns the correct day numbers and month for the current day (e.g., Wednesday)', () => {
+    // Mock the current date to June 21, 2023
     let mockDate = new Date(2023, 5, 21);
     const result = getArrayOfDayDateDayNameAndMonthForHeaders(mockDate);
     expect(result).toEqual([
@@ -54,7 +49,46 @@ describe('getArrayOfDayDateDayNameAndMonthForHeaders', () => {
       { day: 6, name: 'Sat', date: 6, month: 1 },
     ]);
   });
+
+  //not gonna test other use cases as I feel dayjs is relatively stable and can handle any input
 });
+
+describe("Testing simple day comparison functions", () => {
+  afterAll(() => {
+    // Restore the original Date implementation after all tests
+    jest.restoreAllMocks();
+  });
+
+  test('when day is current day', () => {
+    let mockDate = new Date('2023-06-21')
+    jest.useFakeTimers("modern");
+    jest.setSystemTime(mockDate);
+
+    const result = ifCurrentDay(3, true, false);
+    expect(result).toEqual(true);
+  })
+
+  test('when day is not current day', () => {
+    let mockDate = new Date('2023-06-21')
+    jest.useFakeTimers("modern");
+    jest.setSystemTime(mockDate);
+
+    const result = ifCurrentDay(2, true, false);
+    expect(result).toEqual(false);
+  })
+
+  test('silently throw error if unknown input and return false', () => {
+    let mockDate = new Date('2023-06-21')
+    jest.useFakeTimers("modern");
+    jest.setSystemTime(mockDate);
+    const consoleSpy = jest.spyOn(console, 'log');
+
+    const result = ifCurrentDay({kjk: "kjjlk"}, true, false);
+    expect(result).toEqual(false);
+    expect(consoleSpy).toHaveBeenCalledWith("Non-number datatype given to comparison function");
+  })
+  
+})
 
 
 
