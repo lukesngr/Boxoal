@@ -44,6 +44,10 @@ export default function TimeBoxes(props) {
                     if (!timeBoxGrid.has(currentDate)) { timeBoxGrid.set(currentDate, new Map()); } //if date key not in map than set empty map to date key
                     timeBoxGrid.get(currentDate).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
                 }
+            }else if(element.reoccuring.reoccurFrequency === "weekly") {
+                let currentDate = dayjs().day(element.reoccuring.weeklyDay).format('DD/M');
+                if (!timeBoxGrid.has(currentDate)) { timeBoxGrid.set(currentDate, new Map()); } //if date key not in map than set empty map to date key
+                timeBoxGrid.get(currentDate).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
             }
         }else{
             if(!timeBoxGrid.has(date)) { timeBoxGrid.set(date, new Map()); } //if date key not in map than set empty map to date key
