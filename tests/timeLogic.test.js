@@ -51,4 +51,18 @@ describe('returnTimesSeperatedForSchedule', () => {
 
     expect(result).toEqual(expectedTimes);
   });
+
+  it('graceful exiting if wakeup time is not string', () => {
+    const schedule = {
+      wakeupTime: 5,
+      boxSizeUnit: 'hr',
+      boxSizeNumber: 1,
+    };
+
+    const consoleSpy = jest.spyOn(console, 'log');
+    
+    const result = returnTimesSeperatedForSchedule(schedule);
+
+    expect(consoleSpy).toHaveBeenCalledWith("Wakeup time provied to function is not a string");
+  });
 });
