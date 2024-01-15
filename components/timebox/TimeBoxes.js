@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext, useEffect } from 'react';
+import React, { useRef, useState, useContext, useEffect, useMemo } from 'react';
 import { getDayNumbers, returnTimesSeperatedForSchedule, ifCurrentDay, ifEqualOrBeyondCurrentDay,
      convertToTimeAndDate, calculateSizeOfOverlayBasedOnCurrentTime, calculateSizeOfRecordingOverlay, whereRecordedStartTimeSameAsCurrent } from '@/modules/dateLogic';
 import '../../styles/timeboxes.scss';
@@ -33,28 +33,30 @@ export default function TimeBoxes(props) {
     //make a map for the timeboxes with a map inside it
     //this allows fast lookup based on date than time first
     let timeBoxGrid = new Map();
-    schedule.timeboxes.forEach(function (element) { //for each timebox
-        const [time, date] = convertToTimeAndDate(element.startTime); //convert the datetime to a time and date e.g. format hh:mm dd/mm
-        if(element.reoccuring != null) {
-            console.log(element);
-            if(element.reoccuring.reoccurFrequency === "daily") {
-                for(let i = 0; i < 7; i++) {
-                    let currentDate = dayjs(selectedDate).day(i).format('DD/M');
-                    console.log(currentDate);
+    useMemo(() => {
+        schedule.timeboxes.forEach(function (element) { //for each timebox
+            const [time, date] = convertToTimeAndDate(element.startTime); //convert the datetime to a time and date e.g. format hh:mm dd/mm
+            if(element.reoccuring != null) {
+                console.log(element);
+                if(element.reoccuring.reoccurFrequency === "daily") {
+                    for(let i = 0; i < 7; i++) {
+                        let currentDate = dayjs(selectedDate).day(i).format('D/M');
+                        console.log(currentDate);
+                        if (!timeBoxGrid.has(currentDate)) { timeBoxGrid.set(currentDate, new Map()); } //if date key not in map than set empty map to date key
+                        timeBoxGrid.get(currentDate).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
+                    }
+                }else if(element.reoccuring.reoccurFrequency === "weekly") {
+                    console.log(element.reoccuring.weeklyDay);
+                    let currentDate = dayjs(selectedDate).day(element.reoccuring.weeklyDay).format('D/M');
                     if (!timeBoxGrid.has(currentDate)) { timeBoxGrid.set(currentDate, new Map()); } //if date key not in map than set empty map to date key
                     timeBoxGrid.get(currentDate).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
                 }
-            }else if(element.reoccuring.reoccurFrequency === "weekly") {
-                console.log(element.reoccuring.weeklyDay);
-                let currentDate = dayjs(selectedDate).day(element.reoccuring.weeklyDay).format('DD/M');
-                if (!timeBoxGrid.has(currentDate)) { timeBoxGrid.set(currentDate, new Map()); } //if date key not in map than set empty map to date key
-                timeBoxGrid.get(currentDate).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
+            }else{
+                if(!timeBoxGrid.has(date)) { timeBoxGrid.set(date, new Map()); } //if date key not in map than set empty map to date key
+                timeBoxGrid.get(date).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
             }
-        }else{
-            if(!timeBoxGrid.has(date)) { timeBoxGrid.set(date, new Map()); } //if date key not in map than set empty map to date key
-            timeBoxGrid.get(date).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
-        }
-    });
+        });
+    }, [props.data, selectedSchedule])
 
     console.log(timeBoxGrid);
    
