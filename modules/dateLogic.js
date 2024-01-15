@@ -287,13 +287,15 @@ export function calculateSizeOfRecordingOverlay(wakeupTime, boxSizeUnit, boxSize
 }
 
 
-export function isRecordingButtonPresent(recordedBoxes, reoccuring, date) {
+export function isRecordingButtonPresent(recordedBoxes, reoccuring, date, time) {
     if(recordedBoxes.length == 0) {
         return true;
     }else if(reoccuring != null) {
         if(reoccuring.reoccurFrequency == "daily") {
+            let timeboxDateTime = convertToDateTime(time, date);
             recordedBoxes.forEach(element => {
-                if(dayjs(`${dayjs().year}-${date}`).isSame(element.recordedStartTime, 'day')) {
+                if(dayjs(timeboxDateTime.isSame(dayjs(element.recordedStartTime), 'date'))) {
+                    console.log("dsd");
                     return false;
                 }
             });

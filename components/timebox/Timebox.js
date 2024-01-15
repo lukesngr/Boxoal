@@ -70,8 +70,8 @@ export default function TimeBox(props) {
             
             <span {...tags} style={{height: getHeightForBoxes(data.numberOfBoxes)}} className="timeboxText">{data.title}</span>
 
-            {isRecordingButtonPresent(data.recordedTimeBoxes, data.reoccuring, date) && timeboxRecording == -1 && <button className="recordTimeButton" onClick={startRecording} ><FontAwesomeIcon height={20} width={20} icon={faCircleDot} /></button>}
-            {isRecordingButtonPresent(data.recordedTimeBoxes, data.reoccuring, date) && timeboxRecording == data.id && <button className="stopRecordTimeButton" onClick={stopRecording} ><FontAwesomeIcon height={20} width={20} icon={faCircleStop} /></button>}
+            {isRecordingButtonPresent(data.recordedTimeBoxes, data.reoccuring, date, time) && timeboxRecording == -1 && <button className="recordTimeButton" onClick={startRecording} ><FontAwesomeIcon height={20} width={20} icon={faCircleDot} /></button>}
+            {isRecordingButtonPresent(data.recordedTimeBoxes, data.reoccuring, date, time) && timeboxRecording == data.id && <button className="stopRecordTimeButton" onClick={stopRecording} ><FontAwesomeIcon height={20} width={20} icon={faCircleStop} /></button>}
 
         </div>)} timebox={data}></UpdateTimeBoxModal> }
 
