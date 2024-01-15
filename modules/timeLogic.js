@@ -1,20 +1,28 @@
 export function returnTimesSeperatedForSchedule(schedule) {
 
     let listOfTimes = [];
-    let wakeUpTimeSeperatedIntoHoursAndMins
+    let wakeUpTimeSeperatedIntoHoursAndMins;
+    let currentHour;
+    let currentMinute;
 
     try {
         wakeUpTimeSeperatedIntoHoursAndMins = schedule.wakeupTime.split(":").map(function(num) { return parseInt(num); });
+        currentHour = wakeUpTimeSeperatedIntoHoursAndMins[0]; //hours and minutes start off at wakeup time
+        currentMinute = wakeUpTimeSeperatedIntoHoursAndMins[1];
+
+        if(currentMinute == undefined) {
+            throw "Wakeup time provided to function is not in correct format";
+        }
     }catch(error) {
         if(error.name == 'TypeError') {
-            console.log("Wakeup time provided to function is not a string or in correct format", schedule.wakeupTime);
+            console.log("Wakeup time provided to function is not a string");
+        }else{
+            console.log(error);
         }
         return [];
     }
 
     if(schedule.boxSizeUnit == "min") { 
-        let currentHour = wakeUpTimeSeperatedIntoHoursAndMins[0]; //hours and minutes start off at wakeup time
-        let currentMinute = wakeUpTimeSeperatedIntoHoursAndMins[1];
         
         while(currentHour < 24 && currentMinute < 60) {
             listOfTimes.push(`${currentHour}:${currentMinute < 10 ? '0' : ''}${currentMinute}`);  //push to list of times in format hh:mm 
@@ -42,17 +50,17 @@ export function returnTimesSeperatedForSchedule(schedule) {
         }
     }else if(schedule.boxSizeUnit == "hr") {
         let currentHour = wakeUpTimeSeperatedIntoHoursAndMins[0]; //hours  start off at wakeup time
-        const minuteThatRemainsUnchanged = wakeUpTimeSeperatedIntoHoursAndMins[1]; //minute doesn't change due to unit being hours
+        const currentMinute = wakeUpTimeSeperatedIntoHoursAndMins[1]; //minute doesn't change due to unit being hours
         
         while(currentHour < 24) {
-            listOfTimes.push(`${currentHour}:${minuteThatRemainsUnchanged < 10 ? '0' : ''}${minuteThatRemainsUnchanged}`);  //push to list of times in format hh:mm 
+            listOfTimes.push(`${currentHour}:${currentMinute < 10 ? '0' : ''}${currentMinute}`);  //push to list of times in format hh:mm 
             currentHour += schedule.boxSizeNumber;
         }
 
         currentHour = 0;
 
         while(currentHour < wakeUpTimeSeperatedIntoHoursAndMins[0]) {
-            listOfTimes.push(`${currentHour}:${minuteThatRemainsUnchanged < 10 ? '0' : ''}${minuteThatRemainsUnchanged}`);
+            listOfTimes.push(`${currentHour}:${currentMinute < 10 ? '0' : ''}${currentMinute}`);
             
             currentHour += schedule.boxSizeNumber;
         }

@@ -1,8 +1,8 @@
 import { returnTimesSeperatedForSchedule } from '../modules/timeLogic';
 
 
-describe('returnTimesSeperatedForSchedule', () => {
-  it('should return an array of times based on the given schedule in minutes', () => {
+describe('returnTimesSeperatedForSchedule normal testing', () => {
+  test('should return an array of times based on the given schedule in minutes', () => {
     const schedule = {
       wakeupTime: '08:30',
       boxSizeUnit: 'min',
@@ -33,7 +33,7 @@ describe('returnTimesSeperatedForSchedule', () => {
     expect(result).toEqual(expectedTimes);
   });
 
-  it('should return an array of times based on the given schedule in hours', () => {
+  test('should return an array of times based on the given schedule in hours', () => {
     const schedule = {
       wakeupTime: '08:30',
       boxSizeUnit: 'hr',
@@ -51,6 +51,9 @@ describe('returnTimesSeperatedForSchedule', () => {
 
     expect(result).toEqual(expectedTimes);
   });
+})
+
+describe('returnTimesSeperatedForSchedule error testing', () => {
 
   it('graceful exiting if wakeup time is not string', () => {
     const schedule = {
@@ -59,15 +62,15 @@ describe('returnTimesSeperatedForSchedule', () => {
       boxSizeNumber: 1,
     };
 
-    let consoleSpy = jest.spyOn(global.console, 'log');
+    const consoleSpy = jest.spyOn(global.console, 'log');
     
     const result = returnTimesSeperatedForSchedule(schedule);
 
-    expect(consoleSpy).toHaveBeenCalledWith("Wakeup time provided to function is not a string or in correct format");
+    expect(console.log).toHaveBeenCalledWith("Wakeup time provided to function is not a string");
     consoleSpy.mockRestore();
   });
 
-  it('graceful exiting if wakeup time is not a time in correct format', () => {
+  it('graceful exiting if wakeup time is not in correct format', () => {
     const schedule = {
       wakeupTime: "8",
       boxSizeUnit: 'hr',
@@ -78,7 +81,7 @@ describe('returnTimesSeperatedForSchedule', () => {
     
     const result = returnTimesSeperatedForSchedule(schedule);
 
-    expect(consoleSpy).toHaveBeenCalledWith("Wakeup time provided to function is not a string or in correct format");
+    expect(consoleSpy).toHaveBeenCalledWith("Wakeup time provided to function is not in correct format");
     consoleSpy.mockRestore();
   });
 
