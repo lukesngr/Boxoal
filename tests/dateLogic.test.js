@@ -87,6 +87,44 @@ describe("Testing simple day comparison functions", () => {
     expect(result).toEqual(false);
     expect(consoleSpy).toHaveBeenCalledWith("Non-number datatype given to comparison function");
   })
+
+  test('when day is current day', () => {
+    let mockDate = new Date('2023-06-21')
+    jest.useFakeTimers("modern");
+    jest.setSystemTime(mockDate);
+
+    const result = ifEqualOrBeyondCurrentDay(3, true, false);
+    expect(result).toEqual(true);
+  })
+
+  test('when day is behind current day', () => {
+    let mockDate = new Date('2023-06-21')
+    jest.useFakeTimers("modern");
+    jest.setSystemTime(mockDate);
+
+    const result = ifEqualOrBeyondCurrentDay(2, true, false);
+    expect(result).toEqual(false);
+  })
+
+  test('when day is beyond current day', () => {
+    let mockDate = new Date('2023-06-21')
+    jest.useFakeTimers("modern");
+    jest.setSystemTime(mockDate);
+
+    const result = ifEqualOrBeyondCurrentDay(5, true, false);
+    expect(result).toEqual(true);
+  })
+
+  test('silently throw error if unknown input and return false', () => {
+    let mockDate = new Date('2023-06-21')
+    jest.useFakeTimers("modern");
+    jest.setSystemTime(mockDate);
+    const consoleSpy = jest.spyOn(console, 'log');
+
+    const result = ifEqualOrBeyondCurrentDay({kjk: "kjjlk"}, true, false);
+    expect(result).toEqual(false);
+    expect(consoleSpy).toHaveBeenCalledWith("Non-number datatype given to comparison function");
+  })
   
 })
 
