@@ -16,6 +16,12 @@ export function getArrayOfDayDateDayNameAndMonthForHeaders(todaysDate) {
 export function ifCurrentDay(number, returnIfTrue, returnIfFalse) {
     const dateObject = new Date();
     let currentDay = dateObject.getDay();
+
+    if(typeof number !== 'number') { 
+        console.log("Non-number datatype given to comparison function");
+        return returnIfFalse;
+    }
+
     if(number == currentDay) {
         return returnIfTrue;
     }
@@ -25,6 +31,12 @@ export function ifCurrentDay(number, returnIfTrue, returnIfFalse) {
 export function ifEqualOrBeyondCurrentDay(number, returnIfTrue, returnIfFalse) {
     const dateObject = new Date();
     let currentDay = dateObject.getDay();
+
+    if(typeof number !== 'number') { 
+        console.log("Non-number datatype given to comparison function");
+        return returnIfFalse;
+    }
+    
     if(number >= currentDay) {
         return returnIfTrue;
     }
