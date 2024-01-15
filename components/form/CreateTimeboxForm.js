@@ -35,7 +35,7 @@ export default function CreateTimeboxForm(props) {
             let data = {title, description, startTime, endTime, numberOfBoxes: parseInt(numberOfBoxes), color, schedule: {connect: {id: schedule.id}}, goal: {connect: {id: parseInt(goalSelected)}}}
 
             if(reoccurFrequency != "no") { data["reoccuring"] = {create: {reoccurFrequency}}; }
-            if(reoccurFrequency == weekly) {data.reoccuring.weeklyDay = weeklyDate.getDay();}
+            if(reoccurFrequency == "weekly") {data.reoccuring.create.weeklyDay = new Date(weeklyDate).getDay();}
 
             //post to api
             axios.post('/api/createTimebox', data).then(() => {
@@ -70,8 +70,8 @@ export default function CreateTimeboxForm(props) {
                 <input min="1" max={maxNumberOfBoxes} type="number" name="boxes" id="boxes" placeholder="Boxes" value={numberOfBoxes} onChange={(e) => setNumberOfBoxes(e.target.value)}></input><br />
                 <label htmlFor="goal">Goal</label>
                 <select name="goal" id="goal" value={goalSelected} onChange={(e) => {setGoalSelected(e.target.value)}}>
-                    {schedule.goals.map((goal) => (
-                        <option value={String(goal.id)}>{goal.name}</option>
+                    {schedule.goals.map((goal, index) => (
+                        <option key={index} value={String(goal.id)}>{goal.name}</option>
                     ))}
                 </select>
                 <label htmlFor="reoccurFrequency">Reoccuring?</label>
