@@ -55,7 +55,7 @@ describe('returnTimesSeperatedForSchedule normal testing', () => {
 
 describe('returnTimesSeperatedForSchedule error testing', () => {
 
-  it('graceful exiting if wakeup time is not string', () => {
+  test('graceful exiting if wakeup time is not string', () => {
     const schedule = {
       wakeupTime: 5,
       boxSizeUnit: 'hr',
@@ -70,7 +70,7 @@ describe('returnTimesSeperatedForSchedule error testing', () => {
     consoleSpy.mockRestore();
   });
 
-  it('graceful exiting if wakeup time is not in correct format', () => {
+  test('graceful exiting if wakeup time is not in correct format', () => {
     const schedule = {
       wakeupTime: "8",
       boxSizeUnit: 'hr',
@@ -85,7 +85,7 @@ describe('returnTimesSeperatedForSchedule error testing', () => {
     consoleSpy.mockRestore();
   });
 
-  it('graceful exiting if wakeup time is in impossible bounds', () => {
+  test('graceful exiting if wakeup time is in impossible bounds', () => {
     const schedule = {
       wakeupTime: "24:30",
       boxSizeUnit: 'hr',
@@ -100,7 +100,7 @@ describe('returnTimesSeperatedForSchedule error testing', () => {
     consoleSpy.mockRestore();
   });
 
-  it('make sure decimals just get rounded', () => {
+  test('make sure decimals just get rounded', () => {
     const schedule = {
       wakeupTime: "08:30",
       boxSizeUnit: 'hr',
