@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export function getDayNumbers(todaysDate) {
     let month = todaysDate.getMonth() + 1;
     let day = todaysDate.getDay();
@@ -282,4 +284,21 @@ export function calculateSizeOfRecordingOverlay(wakeupTime, boxSizeUnit, boxSize
     let overlaysTotalHeight = calculateSizeOfOverlayBasedOnCurrentTime(wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions);
     let recordingOverlayHeight = overlaysTotalHeight - originalOverlayHeight;
     return recordingOverlayHeight;
+}
+
+
+export function isRecordingButtonPresent(recordedBoxes, reoccuring, date) {
+    if(recordedBoxes.length == 0) {
+        return true;
+    }else if(reoccuring != null) {
+        if(reoccuring.reoccurFrequency == "daily") {
+            recordedBoxes.forEach(element => {
+                if(dayjs(`${dayjs().year}-${date}`).isSame(element.recordedStartTime, 'day')) {
+                    return false;
+                }
+            });
+            return true;
+        }
+    }
+    return false;
 }

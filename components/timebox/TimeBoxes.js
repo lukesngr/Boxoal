@@ -35,12 +35,12 @@ export default function TimeBoxes(props) {
     let timeBoxGrid = new Map();
     schedule.timeboxes.forEach(function (element) { //for each timebox
         const [time, date] = convertToTimeAndDate(element.startTime); //convert the datetime to a time and date e.g. format hh:mm dd/mm
-        console.log(element);
         if(element.reoccuring != null) {
             console.log(element);
-            if(element.reoccurFrequency == "daily") {
-                for(i = 0; i < 7; i++) {
-                    let currentDate = dayjs().day(i).format('DD/MM');
+            if(element.reoccuring.reoccurFrequency === "daily") {
+                for(let i = 0; i < 7; i++) {
+                    let currentDate = dayjs().day(i).format('DD/M');
+                    console.log(currentDate);
                     if (!timeBoxGrid.has(currentDate)) { timeBoxGrid.set(currentDate, new Map()); } //if date key not in map than set empty map to date key
                     timeBoxGrid.get(currentDate).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
                 }
@@ -50,6 +50,8 @@ export default function TimeBoxes(props) {
             timeBoxGrid.get(date).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
         }
     });
+
+    console.log(timeBoxGrid);
    
     function calculateOverlayDimensions() {
         if (gridContainerRef.current && headerContainerRef.current && timeboxColumnRef.current) { //if ref working
