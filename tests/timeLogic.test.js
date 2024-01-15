@@ -87,7 +87,7 @@ describe('returnTimesSeperatedForSchedule error testing', () => {
 
   it('graceful exiting if wakeup time is in impossible bounds', () => {
     const schedule = {
-      wakeupTime: "08:30",
+      wakeupTime: "24:30",
       boxSizeUnit: 'hr',
       boxSizeNumber: 1,
     };
@@ -97,6 +97,21 @@ describe('returnTimesSeperatedForSchedule error testing', () => {
     const result = returnTimesSeperatedForSchedule(schedule);
 
     expect(consoleSpy).toHaveBeenCalledWith("Wakeup time must be between 0:00 and 24:00");
+    consoleSpy.mockRestore();
+  });
+
+  it('make sure decimals just get rounded', () => {
+    const schedule = {
+      wakeupTime: "08:30",
+      boxSizeUnit: 'hr',
+      boxSizeNumber: 1.5,
+    };
+
+    const consoleSpy = jest.spyOn(global.console, 'log');
+    
+    const result = returnTimesSeperatedForSchedule(schedule);
+
+    expect(consoleSpy).toHaveBeenCalledWith("Beware decimal passed as box size number, was ignored");
     consoleSpy.mockRestore();
   });
 });

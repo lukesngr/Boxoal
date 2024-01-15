@@ -12,7 +12,12 @@ export function returnTimesSeperatedForSchedule(schedule) {
 
         if(currentMinute == undefined) {
             throw "Wakeup time provided to function is not in correct format";
+        }else if(currentMinute > 60 || currentMinute < 0) { //do minutes for readability sake
+            throw "Wakeup time must be between 0:00 and 24:00";
+        }else if((currentHour >= 24 && currentMinute > 0) || currentHour < 0  ) {
+            throw "Wakeup time must be between 0:00 and 24:00";
         }
+
     }catch(error) {
         if(error.name == 'TypeError') {
             console.log("Wakeup time provided to function is not a string");
@@ -20,6 +25,11 @@ export function returnTimesSeperatedForSchedule(schedule) {
             console.log(error);
         }
         return [];
+    }
+
+    if(!Number.isInteger(schedule.boxSizeNumber)) {
+        schedule.boxSizeNumber = Math.floor(schedule.boxSizeNumber);
+        console.log("Beware decimal passed as box size number, was ignored");
     }
 
     if(schedule.boxSizeUnit == "min") { 
