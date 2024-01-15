@@ -1,3 +1,5 @@
+import { calculateRemainderTimeBetweenTwoDateTimes } from "./timeLogic";
+
 export function convertToDateTime(time, date) {
     let timeSeparated = time.split(":").map(function(num) { return parseInt(num); });
     let dateSeparated = date.split("/").map(function(num) { return parseInt(num); });

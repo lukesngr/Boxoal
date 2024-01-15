@@ -12,18 +12,6 @@ export function getArrayOfDayDateDayNameAndMonthForHeaders(todaysDate) {
     return result;
 }
 
-export function calculateRemainderTimeBetweenTwoDateTimes(dateTime1, dateTime2, boxSizeUnit, boxSizeNumber) {
-    let remainderTime = 0;
-    if(boxSizeUnit == "min") {
-        remainderTime += ((dateTime2.getHours() - dateTime1.getHours())*60) % boxSizeNumber;
-        remainderTime += (dateTime2.getMinutes() - dateTime1.getMinutes()) % boxSizeNumber;
-    }else if(boxSizeUnit == "hr") {
-        remainderTime += (dateTime2.getHours() - dateTime1.getHours()) / boxSizeNumber;
-    }
-
-    return remainderTime;
-}
-
 
 export function ifCurrentDay(number, returnIfTrue, returnIfFalse) {
     const dateObject = new Date();
