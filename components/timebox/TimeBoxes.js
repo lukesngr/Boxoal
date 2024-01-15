@@ -10,6 +10,7 @@ import ActiveOverlay from '../overlay/ActiveOverlay';
 import RecordingOverlay from '../overlay/RecordingOverlay';
 import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
 import TimeboxHeading from './TimeboxHeading';
+import dayjs from 'dayjs';
 
 export default function TimeBoxes(props) {
 
@@ -34,8 +35,20 @@ export default function TimeBoxes(props) {
     let timeBoxGrid = new Map();
     schedule.timeboxes.forEach(function (element) { //for each timebox
         const [time, date] = convertToTimeAndDate(element.startTime); //convert the datetime to a time and date e.g. format hh:mm dd/mm
-        if (!timeBoxGrid.has(date)) { timeBoxGrid.set(date, new Map()); } //if date key not in map than set empty map to date key
-        timeBoxGrid.get(date).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
+        console.log(element);
+        if(element.reoccuring != null) {
+            console.log(element);
+            if(element.reoccurFrequency == "daily") {
+                for(i = 0; i < 7; i++) {
+                    let currentDate = dayjs().day(i).format('DD/MM');
+                    if (!timeBoxGrid.has(currentDate)) { timeBoxGrid.set(currentDate, new Map()); } //if date key not in map than set empty map to date key
+                    timeBoxGrid.get(currentDate).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
+                }
+            }
+        }else{
+            if(!timeBoxGrid.has(date)) { timeBoxGrid.set(date, new Map()); } //if date key not in map than set empty map to date key
+            timeBoxGrid.get(date).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
+        }
     });
    
     function calculateOverlayDimensions() {

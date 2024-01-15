@@ -46,7 +46,8 @@ export default async function handler(req, res) {
                                 },
                                 reoccuring: {
                                     select: {
-                                        id: true
+                                        id: true,
+                                        reoccurFrequency: true
                                     }
                                 }
                             },
@@ -74,6 +75,12 @@ export default async function handler(req, res) {
                         recordedTimeBoxes: {
                             select: {
                                 id: true
+                            }
+                        },
+                        reoccuring: {
+                            select: {
+                                id: true,
+                                reoccurFrequency: true
                             }
                         }
                     }
