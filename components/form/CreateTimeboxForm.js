@@ -35,6 +35,7 @@ export default function CreateTimeboxForm(props) {
             let data = {title, description, startTime, endTime, numberOfBoxes: parseInt(numberOfBoxes), color, schedule: {connect: {id: schedule.id}}, goal: {connect: {id: parseInt(goalSelected)}}}
 
             if(reoccurFrequency != "no") { data["reoccuring"] = {create: {reoccurFrequency}}; }
+            if(reoccurFrequency == weekly) {data.reoccuring.weeklyDay = weeklyDate.getDay();}
 
             //post to api
             axios.post('/api/createTimebox', data).then(() => {
