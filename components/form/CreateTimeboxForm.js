@@ -5,7 +5,7 @@ import axios from 'axios';
 import {toast} from "react-toastify";
 
 export default function CreateTimeboxForm(props) {
-    let {schedule, time, date, closeTimeBox, dayName, timeBoxFormVisible, titleFunc, listOfColors, ...theRest} = props;
+    let {schedule, time, date, closeTimeBox, dayName, timeBoxFormVisible, listOfColors, ...theRest} = props;
     let [numberOfBoxes, setNumberOfBoxes] = props.numberOfBoxes;
     let [title, setTitle] = props.titleFunc;
     let initialSelectedGoal;
