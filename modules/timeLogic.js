@@ -86,6 +86,7 @@ export function calculateRemainderTimeBetweenTwoDateTimes(dateTime1, dateTime2, 
         remainderTime += (dateTime2.getMinutes() - dateTime1.getMinutes()) % boxSizeNumber;
     }else if(boxSizeUnit == "hr") {
         remainderTime += (dateTime2.getHours() - dateTime1.getHours()) / boxSizeNumber;
+        remainderTime += (dateTime2.getMinutes() - dateTime1.getMinutes()) / (boxSizeNumber*60);
     }
 
     return remainderTime;

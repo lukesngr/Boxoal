@@ -128,10 +128,23 @@ describe('calculateRemainderTimeBetweenTwoDateTimes normal testing', () => {
 
   test('for hours', () => {
     let dateTime1 = new Date(2023, 10, 1, 10, 30);
-    let dateTime2 = new Date(2023, 10, 1, 11, 45);
+    let dateTime2 = new Date(2023, 10, 1, 10, 45);
+
+    //needs to be decimal for hours
 
     const result = calculateRemainderTimeBetweenTwoDateTimes(dateTime1, dateTime2, "hr", 1);
 
-    expect(result).toEqual(15);
+    expect(result).toEqual(0.25);
+  })
+
+  test('for hours where box size number bigger than 1', () => {
+    let dateTime1 = new Date(2023, 10, 1, 10, 0);
+    let dateTime2 = new Date(2023, 10, 1, 11, 0);
+
+    //needs to be decimal for hours
+
+    const result = calculateRemainderTimeBetweenTwoDateTimes(dateTime1, dateTime2, "hr", 2);
+
+    expect(result).toEqual(0.5);
   })
 });
