@@ -9,6 +9,8 @@ export function convertToDateTime(time, date) {
     datetime.setMinutes(timeSeparated[1]);
     datetime.setDate(dateSeparated[0]);
     datetime.setMonth(dateSeparated[1]-1);
+    datetime.setSeconds(0);
+    datetime.setMilliseconds(0);
     return datetime;
 }
 
@@ -184,13 +186,12 @@ export function isRecordingButtonPresent(recordedBoxes, reoccuring, date, time) 
     }else if(reoccuring != null) {
         if(reoccuring.reoccurFrequency == "daily") {
             let timeboxDateTime = convertToDateTime(time, date);
-            console.log(timeboxDateTime)
             let result = true
             recordedBoxes.forEach(element => {
-                console.log(dayjs(timeboxDateTime));
+                console.log(dayjs(timeboxDateTime), dayjs(element.recordedStartTime))
                 if(dayjs(timeboxDateTime).isSame(dayjs(element.recordedStartTime), 'date')) {
                     result = false;
-                    console.log(result)
+                    
                 }
             });
             return result;

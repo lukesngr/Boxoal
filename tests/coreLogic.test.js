@@ -250,24 +250,24 @@ describe('Testing overlay height calculation functions', () => {
 describe('isRecordingButtonPresent', () => {
 
   const recordedBoxes = [
-    { recordedStartTime: new Date(2024, 1, 17, 8, 0) },
-    { recordedStartTime: new Date(2024, 1, 18, 9, 30) },
+    { recordedStartTime: new Date(2024, 0, 17, 8, 0, 0, 0)},
+    { recordedStartTime: new Date(2024, 0, 18, 9, 30, 0, 0) },
   ];
   
   const reoccuringDaily = { reoccurFrequency: 'daily' };
 
   test('should return true when recordedBoxes is empty', () => {
-    const result = isRecordingButtonPresent([], null, '1/17', '8:00');
+    const result = isRecordingButtonPresent([], null, '17/1', '08:00');
     expect(result).toBe(true);
   });
 
   test('should return true for daily reoccurring when no match in recordedBoxes', () => {
-    const result = isRecordingButtonPresent(recordedBoxes, reoccuringDaily, '1/19', '10:00');
+    const result = isRecordingButtonPresent(recordedBoxes, reoccuringDaily, '19/1', '10:00');
     expect(result).toBe(true);
   });
 
   test('should return false for daily reoccurring when there is a match in recordedBoxes', () => {
-    const result = isRecordingButtonPresent(recordedBoxes, reoccuringDaily, '1/19', '09:30');
+    const result = isRecordingButtonPresent(recordedBoxes, reoccuringDaily, '18/1', '09:30');
     expect(result).toBe(false);
   });
 
