@@ -188,7 +188,6 @@ export function isRecordingButtonPresent(recordedBoxes, reoccuring, date, time) 
             let timeboxDateTime = convertToDateTime(time, date);
             let result = true
             recordedBoxes.forEach(element => {
-                console.log(dayjs(timeboxDateTime), dayjs(element.recordedStartTime))
                 if(dayjs(timeboxDateTime).isSame(dayjs(element.recordedStartTime), 'date')) {
                     result = false;
                     
