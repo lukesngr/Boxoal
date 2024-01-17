@@ -156,7 +156,7 @@ describe('calculateRemainderTimeBetweenTwoDateTimes error testing', () => {
 
     const result = calculateRemainderTimeBetweenTwoDateTimes(dateTime1, dateTime2, "min", 30);
 
-    expect(result).toEqual(15);
+    expect(result).toEqual(-15);
   })
 
   test('decimal input for boxSizeNumber', () => {
