@@ -81,6 +81,21 @@ export function returnTimesSeperatedForSchedule(schedule) {
 
 export function calculateRemainderTimeBetweenTwoDateTimes(dateTime1, dateTime2, boxSizeUnit, boxSizeNumber) {
     let remainderTime = 0;
+
+    if(!(dateTime1 instanceof Date && dateTime2 instanceof Date)) {
+        console.log("Datetimes passed aren't datetimes");
+        return 0;
+    }
+
+    if(typeof boxSizeNumber != 'number') {
+        console.log("Box size number isn't a number");
+    }
+
+    if(!Number.isInteger(boxSizeNumber)) {
+        boxSizeNumber = Math.floor(boxSizeNumber);
+        console.log("Beware decimal passed as box size number, was ignored");
+    }
+
     if(boxSizeUnit == "min") {
         remainderTime += ((dateTime2.getHours() - dateTime1.getHours())*60) % boxSizeNumber;
         remainderTime += (dateTime2.getMinutes() - dateTime1.getMinutes()) % boxSizeNumber;
@@ -89,5 +104,10 @@ export function calculateRemainderTimeBetweenTwoDateTimes(dateTime1, dateTime2, 
         remainderTime += (dateTime2.getMinutes() - dateTime1.getMinutes()) / (boxSizeNumber*60);
     }
 
-    return remainderTime;
+    if(dateTime1 > dateTime2) {
+        return -remainderTime;
+    }else{
+        return remainderTime;
+    }
+
 }

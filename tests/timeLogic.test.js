@@ -148,3 +148,62 @@ describe('calculateRemainderTimeBetweenTwoDateTimes normal testing', () => {
     expect(result).toEqual(0.5);
   })
 });
+
+describe('calculateRemainderTimeBetweenTwoDateTimes error testing', () => {
+  test('reverse order', () => {
+    let dateTime1 = new Date(2023, 10, 1, 10, 45);
+    let dateTime2 = new Date(2023, 10, 1, 10, 30);
+
+    const result = calculateRemainderTimeBetweenTwoDateTimes(dateTime1, dateTime2, "min", 30);
+
+    expect(result).toEqual(15);
+  })
+
+  test('decimal input for boxSizeNumber', () => {
+    let dateTime1 = new Date(2023, 10, 1, 10, 30);
+    let dateTime2 = new Date(2023, 10, 1, 10, 45);
+
+    //needs to be decimal for hours
+
+    const consoleSpy = jest.spyOn(global.console, 'log');
+
+    const result = calculateRemainderTimeBetweenTwoDateTimes(dateTime1, dateTime2, "hr", 1.5);
+
+    expect(consoleSpy).toHaveBeenCalledWith("Beware decimal passed as box size number, was ignored");
+    consoleSpy.mockRestore();
+
+    expect(result).toEqual(0.25);
+  })
+
+  test('non date time', () => {
+    let dateTime1 = 0;
+    let dateTime2 = 0;
+
+    //needs to be decimal for hours
+
+    const consoleSpy = jest.spyOn(global.console, 'log');
+
+    const result = calculateRemainderTimeBetweenTwoDateTimes(dateTime1, dateTime2, "hr", 2);
+
+    expect(consoleSpy).toHaveBeenCalledWith("Datetimes passed aren't datetimes");
+    consoleSpy.mockRestore();
+
+    expect(result).toEqual(0);
+  })
+
+  test('if box size number isnt a number', () => {
+    let dateTime1 = new Date(2023, 10, 1, 10, 30);
+    let dateTime2 = new Date(2023, 10, 1, 10, 45);
+
+    //needs to be decimal for hours
+
+    const consoleSpy = jest.spyOn(global.console, 'log');
+
+    const result = calculateRemainderTimeBetweenTwoDateTimes(dateTime1, dateTime2, "hr", 'gfg');
+
+    expect(consoleSpy).toHaveBeenCalledWith("Box size number isn't a number");
+    consoleSpy.mockRestore();
+
+    expect(result).toEqual(0);
+  })
+});
