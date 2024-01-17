@@ -105,10 +105,6 @@ export function calculateRemainderTimeBetweenTwoDateTimes(dateTime1, dateTime2, 
         remainderTime += (dateTime2.getMinutes() - dateTime1.getMinutes()) / (boxSizeNumber*60);
     }
 
-    if(dateTime1 > dateTime2) {
-        return -remainderTime;
-    }else{
-        return remainderTime;
-    }
+    return remainderTime;
 
 }
