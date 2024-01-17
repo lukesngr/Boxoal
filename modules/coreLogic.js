@@ -26,13 +26,12 @@ export function convertToTimeAndDate(input) {
 }
 
 export function calculateMaxNumberOfBoxesAfterTimeIfEmpty(boxSizeUnit, boxSizeNumber, timeSeparated, wakeUpTimeSeparated) {
-    
+    let [timeHours, timeMinutes] = timeSeparated;
+    let [wakeupTimeHours, wakeupTimeMinutes] = wakeUpTimeSeparated;
+
     if(boxSizeUnit == "min") {
         const minutesInOneDay = 24 * 60; //idk why but this works //update this works cause I stuffed up 24 hour time
         let maxNumberOfBoxes = Math.floor(minutesInOneDay / boxSizeNumber);
-        let [timeHours, timeMinutes] = timeSeparated;
-        let [wakeupTimeHours, wakeupTimeMinutes] = wakeUpTimeSeparated;
-
 
         //if time hours bigger than wakeup hour or time hours equals wakeup hours and time minutes bigger. basically if time ahead of wakeup
         if(timeHours > wakeupTimeHours || (timeHours == wakeupTimeHours && timeMinutes > wakeupTimeMinutes)) {  
@@ -52,8 +51,6 @@ export function calculateMaxNumberOfBoxesAfterTimeIfEmpty(boxSizeUnit, boxSizeNu
         return maxNumberOfBoxes;
     }else if(boxSizeUnit == "hr") {
         let maxNumberOfBoxes = Math.floor(24 / boxSizeNumber);
-        let [timeHours, timeMinutes] = timeSeparated;
-        let [wakeupTimeHours, wakeupTimeMinutes] = wakeUpTimeSeparated;
 
         if(timeHours > wakeupTimeHours) {  
             let boxesMadeUpOfHours = (timeHours-wakeupTimeHours) / boxSizeNumber;

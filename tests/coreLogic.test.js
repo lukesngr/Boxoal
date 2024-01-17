@@ -3,7 +3,7 @@ import {  calculateMaxNumberOfBoxesAfterTimeIfEmpty,
 
 
 describe('Testing box calculation functions', () => {
-  it('should calculate the max number of boxes when schedule is empty for minutes when wakeup time before', () => {
+  test('should calculate the max number of boxes when schedule is empty for minutes when wakeup time before', () => {
     const boxSizeUnit = 'min';
     const boxSizeNumber = 15;
 
@@ -12,10 +12,10 @@ describe('Testing box calculation functions', () => {
 
     const result = calculateMaxNumberOfBoxesAfterTimeIfEmpty(boxSizeUnit, boxSizeNumber,  timeSeparated, wakeUpTimeSeparated);
 
-    expect(result).toBe(79);
+    expect(result).toBe(79); 
   });
 
-  it('should calculate the max number of boxes when schedule is empty for minutes when wakeup time after', () => {
+  test('should calculate the max number of boxes when schedule is empty for minutes when wakeup time after', () => {
     const boxSizeUnit = 'min';
     const boxSizeNumber = 15;
 
@@ -27,19 +27,19 @@ describe('Testing box calculation functions', () => {
     expect(result).toBe(2);
   });
 
-  it('should calculate the max number of boxes when schedule is empty for hours when wakeup time before', () => {
-    const boxSizeUnit = 'min';
-    const boxSizeNumber = 15;
+  test('should calculate the max number of boxes when schedule is empty for hours when wakeup time before', () => {
+    const boxSizeUnit = 'hr';
+    const boxSizeNumber = 1;
 
     const wakeUpTimeSeparated = [8, 30]; 
     const timeSeparated = [16, 30];
 
     const result = calculateMaxNumberOfBoxesAfterTimeIfEmpty(boxSizeUnit, boxSizeNumber, timeSeparated, wakeUpTimeSeparated);
 
-    expect(result).toBe(64);
+    expect(result).toBe(16);
   });
 
-  it('should calculate the max number of boxes when schedule is empty for hours when wakeup time after', () => {
+  test('should calculate the max number of boxes when schedule is empty for hours when wakeup time after', () => {
     const boxSizeUnit = 'hr';
     const boxSizeNumber = 1;
 
@@ -51,7 +51,11 @@ describe('Testing box calculation functions', () => {
     expect(result).toBe(2);
   });
 
-  it('should calculate the number of boxes between two date times in minutes', () => {
+});
+
+describe('Testing box calculation functions', () => {
+
+  test('should calculate the number of boxes between two date times in minutes', () => {
     const dateTime1 = new Date('2023-01-01T08:30:00');
     const dateTime2 = new Date('2023-01-01T10:45:00');
     const boxSizeUnit = 'min';
@@ -62,7 +66,7 @@ describe('Testing box calculation functions', () => {
     expect(result).toBe(9);
   });
 
-  it('should calculate the number of boxes between two date times in hours', () => {
+  test('should calculate the number of boxes between two date times in hours', () => {
     const dateTime1 = new Date('2023-01-01T08:30:00');
     const dateTime2 = new Date('2023-01-01T10:30:00');
     const boxSizeUnit = 'hr';
@@ -72,6 +76,7 @@ describe('Testing box calculation functions', () => {
 
     expect(result).toBe(2);
   });
+})
   
   it('should calculate the max number of boxes based on the schedule, time, and date', () => {
     const schedule = {
