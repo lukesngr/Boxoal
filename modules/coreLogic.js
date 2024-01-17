@@ -26,6 +26,7 @@ export function convertToTimeAndDate(input) {
 }
 
 export function calculateMaxNumberOfBoxesAfterTimeIfEmpty(boxSizeUnit, boxSizeNumber, timeSeparated, wakeUpTimeSeparated) {
+
     let [timeHours, timeMinutes] = timeSeparated;
     let [wakeupTimeHours, wakeupTimeMinutes] = wakeUpTimeSeparated;
 
@@ -48,6 +49,12 @@ export function calculateMaxNumberOfBoxesAfterTimeIfEmpty(boxSizeUnit, boxSizeNu
             maxNumberOfBoxes -= boxesMadeUpOfHours;
             maxNumberOfBoxes -= boxesMadeUpOfMinutes;
         }
+
+        if(!Number.isInteger(maxNumberOfBoxes)) {
+            console.log("Minutes aren't divisible by boxSizeNumber, just gonna ignore");
+            maxNumberOfBoxes = Math.round(maxNumberOfBoxes);
+        }
+
         return maxNumberOfBoxes;
     }else if(boxSizeUnit == "hr") {
         let maxNumberOfBoxes = Math.floor(24 / boxSizeNumber);
@@ -66,6 +73,7 @@ export function calculateMaxNumberOfBoxesAfterTimeIfEmpty(boxSizeUnit, boxSizeNu
 
 export function calculateBoxesBetweenTwoDateTimes(dateTime1, dateTime2, boxSizeUnit, boxSizeNumber) {
     let numberOfBoxes = 0;
+
     if(boxSizeUnit == "min") {
         numberOfBoxes += Math.floor(((dateTime2.getHours() - dateTime1.getHours())*60) / boxSizeNumber);
         numberOfBoxes += Math.floor((dateTime2.getMinutes() - dateTime1.getMinutes()) / boxSizeNumber);
@@ -73,7 +81,11 @@ export function calculateBoxesBetweenTwoDateTimes(dateTime1, dateTime2, boxSizeU
         numberOfBoxes += Math.floor((dateTime2.getHours() - dateTime1.getHours()) / boxSizeNumber);
     }
 
-    return numberOfBoxes;
+    if(dateTime1 > dateTime2) {
+        return -numberOfBoxes;
+    }else{
+        return numberOfBoxes;
+    }
 }
 
 export function calculateMaxNumberOfBoxes(schedule, time, date) {

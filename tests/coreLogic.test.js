@@ -2,7 +2,7 @@ import {  calculateMaxNumberOfBoxesAfterTimeIfEmpty,
    calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoDateTimes, addBoxesToTime, calculateSizeOfOverlayBasedOnCurrentTime, calculateSizeOfRecordingOverlay } from '../modules/coreLogic';
 
 
-describe('Testing box calculation functions', () => {
+describe('Testing max number of boxes after time is empty', () => {
   test('should calculate the max number of boxes when schedule is empty for minutes when wakeup time before', () => {
     const boxSizeUnit = 'min';
     const boxSizeNumber = 15;
@@ -53,7 +53,29 @@ describe('Testing box calculation functions', () => {
 
 });
 
-describe('Testing box calculation functions', () => {
+describe('Testing max number of boxes after time is empty errors', () => {
+  test('if minutes are not divisble by box size number', () => {
+    const boxSizeUnit = 'min';
+    const boxSizeNumber = 15;
+
+    const wakeUpTimeSeparated = [8, 30]; 
+    const timeSeparated = [12, 48];
+
+    const consoleSpy = jest.spyOn(global.console, 'log');
+
+    const result = calculateMaxNumberOfBoxesAfterTimeIfEmpty(boxSizeUnit, boxSizeNumber,  timeSeparated, wakeUpTimeSeparated);
+
+    expect(consoleSpy).toHaveBeenCalledWith("Minutes aren't divisible by boxSizeNumber, just gonna ignore");
+    consoleSpy.mockRestore();
+
+    expect(result).toBe(79); 
+  });
+
+  //taking too long to test any possible error just gonna test the main ones
+
+});
+
+describe('Testing calculate boxes between two date times', () => {
 
   test('should calculate the number of boxes between two date times in minutes', () => {
     const dateTime1 = new Date('2023-01-01T08:30:00');
@@ -76,7 +98,31 @@ describe('Testing box calculation functions', () => {
 
     expect(result).toBe(2);
   });
-})
+
+  test('should calculate the number of boxes between two date times in hours reverse', () => {
+    const dateTime1 = new Date('2023-01-01T10:30:00');
+    const dateTime2 = new Date('2023-01-01T08:30:00');
+    const boxSizeUnit = 'hr';
+    const boxSizeNumber = 1;
+
+    const result = calculateBoxesBetweenTwoDateTimes(dateTime1, dateTime2, boxSizeUnit, boxSizeNumber);
+
+    expect(result).toBe(2);
+  });
+
+  test('should calculate the number of boxes between two date times in hours if extra minutes', () => {
+    const dateTime1 = new Date('2023-01-01T08:30:00');
+    const dateTime2 = new Date('2023-01-01T10:33:00');
+    const boxSizeUnit = 'hr';
+    const boxSizeNumber = 1;
+
+    const result = calculateBoxesBetweenTwoDateTimes(dateTime1, dateTime2, boxSizeUnit, boxSizeNumber);
+
+    expect(result).toBe(2);
+  });
+});
+
+describe('Testing calculate boxes between two date times', () => {
   
   it('should calculate the max number of boxes based on the schedule, time, and date', () => {
     const schedule = {
