@@ -1,4 +1,5 @@
 import { calculateRemainderTimeBetweenTwoDateTimes } from "./timeLogic";
+import dayjs from "dayjs";
 
 export function convertToDateTime(time, date) {
     let timeSeparated = time.split(":").map(function(num) { return parseInt(num); });
@@ -142,22 +143,24 @@ export function addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes) 
 
 export function calculatePixelsFromTopOfGridBasedOnTime(wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions, time) {
 
+    if(overlayDimensions == 0 ) { //hasn't been set yet
+        return 0;
+    }
+
+    const pixelsPerBox = overlayDimensions[2];
+
     let wakeupDateTime = convertToDateTime(wakeupTime, time.getDate()+"/"+time.getMonth());
 
     let boxesBetween = calculateBoxesBetweenTwoDateTimes(wakeupDateTime, time, boxSizeUnit, boxSizeNumber);
     let remainderTime = calculateRemainderTimeBetweenTwoDateTimes(wakeupDateTime, time, boxSizeUnit, boxSizeNumber);
 
-    if(remainderTime < 0) {
+    if(remainderTime < 0) { //if negative remainder e.g. time is behind number of boxes
         remainderTime = boxSizeNumber + remainderTime; 
     }
-
-    const pixelsPerBox = overlayDimensions[2];
+    
     const justBoxesHeight = pixelsPerBox * boxesBetween;
     const inBetweenHeight = (pixelsPerBox / boxSizeNumber) * remainderTime;
-
-    if(overlayDimensions == 0 ) { //hasn't been set yet
-        return 0;
-    }
+    
     return justBoxesHeight+inBetweenHeight;
 }
 
@@ -181,10 +184,13 @@ export function isRecordingButtonPresent(recordedBoxes, reoccuring, date, time) 
     }else if(reoccuring != null) {
         if(reoccuring.reoccurFrequency == "daily") {
             let timeboxDateTime = convertToDateTime(time, date);
+            console.log(timeboxDateTime)
             let result = true
             recordedBoxes.forEach(element => {
+                console.log(dayjs(timeboxDateTime));
                 if(dayjs(timeboxDateTime).isSame(dayjs(element.recordedStartTime), 'date')) {
                     result = false;
+                    console.log(result)
                 }
             });
             return result;

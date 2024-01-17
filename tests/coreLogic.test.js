@@ -1,6 +1,5 @@
 import {  calculateMaxNumberOfBoxesAfterTimeIfEmpty,
-   calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoDateTimes, addBoxesToTime, calculateSizeOfOverlayBasedOnCurrentTime, calculateSizeOfRecordingOverlay } from '../modules/coreLogic';
-
+   calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoDateTimes, addBoxesToTime, calculateSizeOfOverlayBasedOnCurrentTime, calculateSizeOfRecordingOverlay, isRecordingButtonPresent } from '../modules/coreLogic';
 
 describe('Testing max number of boxes after time is empty', () => {
   test('should calculate the max number of boxes when schedule is empty for minutes when wakeup time before', () => {
@@ -247,3 +246,29 @@ describe('Testing overlay height calculation functions', () => {
     expect(result).toBe(23.86458333333337);
   });
 })
+
+describe('isRecordingButtonPresent', () => {
+
+  const recordedBoxes = [
+    { recordedStartTime: new Date(2024, 1, 17, 8, 0) },
+    { recordedStartTime: new Date(2024, 1, 18, 9, 30) },
+  ];
+  
+  const reoccuringDaily = { reoccurFrequency: 'daily' };
+
+  test('should return true when recordedBoxes is empty', () => {
+    const result = isRecordingButtonPresent([], null, '1/17', '8:00');
+    expect(result).toBe(true);
+  });
+
+  test('should return true for daily reoccurring when no match in recordedBoxes', () => {
+    const result = isRecordingButtonPresent(recordedBoxes, reoccuringDaily, '1/19', '10:00');
+    expect(result).toBe(true);
+  });
+
+  test('should return false for daily reoccurring when there is a match in recordedBoxes', () => {
+    const result = isRecordingButtonPresent(recordedBoxes, reoccuringDaily, '1/19', '09:30');
+    expect(result).toBe(false);
+  });
+
+});
