@@ -89,6 +89,7 @@ export function calculateRemainderTimeBetweenTwoDateTimes(dateTime1, dateTime2, 
 
     if(typeof boxSizeNumber != 'number') {
         console.log("Box size number isn't a number");
+        return 0;
     }
 
     if(!Number.isInteger(boxSizeNumber)) {
