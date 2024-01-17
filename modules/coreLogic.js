@@ -112,6 +112,34 @@ export function calculateMaxNumberOfBoxes(schedule, time, date) {
     return maxNumberOfBoxes;
 }
 
+export function addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes) {
+    let [timeHours, timeMinutes] = time.split(":").map(function(num) { return parseInt(num); });
+    let endHours = timeHours;
+    let endMinutes = timeMinutes;
+
+    if(boxSizeUnit == "min") {
+        for(let i = 0; i < numberOfBoxes; i++) {
+            endMinutes += boxSizeNumber;
+
+            if(endMinutes >= 60) {
+                if(endHours == 23) {
+                    endHours = 0;
+                }else{
+                    endHours += 1;
+                }
+                endMinutes -= 60;
+            }
+        }
+    }else if(boxSizeUnit == "hr") {
+        endHours += numberOfBoxes * boxSizeNumber;
+        if(endHours > 24) {
+            endHours = endHours - 24;
+        }
+    }
+
+    return `${endHours}:${endMinutes < 10 ? '0' : ''}${endMinutes}`;
+}
+
 export function calculatePixelsFromTopOfGridBasedOnTime(wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions, time) {
 
     let wakeupDateTime = convertToDateTime(wakeupTime, time.getDate()+"/"+time.getMonth());
@@ -165,30 +193,3 @@ export function isRecordingButtonPresent(recordedBoxes, reoccuring, date, time) 
     return false;
 }
 
-export function addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes) {
-    let [timeHours, timeMinutes] = time.split(":").map(function(num) { return parseInt(num); });
-    let endHours = timeHours;
-    let endMinutes = timeMinutes;
-
-    if(boxSizeUnit == "min") {
-        for(let i = 0; i < numberOfBoxes; i++) {
-            endMinutes += boxSizeNumber;
-
-            if(endMinutes >= 60) {
-                if(endHours == 23) {
-                    endHours = 0;
-                }else{
-                    endHours += 1;
-                }
-                endMinutes -= 60;
-            }
-        }
-    }else if(boxSizeUnit == "hr") {
-        endHours += numberOfBoxes * boxSizeNumber;
-        if(endHours > 24) {
-            endHours = endHours - 24;
-        }
-    }
-
-    return `${endHours}:${endMinutes < 10 ? '0' : ''}${endMinutes}`;
-}

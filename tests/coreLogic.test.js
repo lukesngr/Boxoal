@@ -124,7 +124,7 @@ describe('Testing calculate boxes between two date times', () => {
 
 describe('Testing calculate boxes between two date times', () => {
   
-  it('should calculate the max number of boxes based on the schedule, time, and date', () => {
+  test('should calculate the max number of boxes based on the schedule, time, and date', () => {
     const schedule = {
       wakeupTime: '08:30',
       timeboxes: [
@@ -142,51 +142,66 @@ describe('Testing calculate boxes between two date times', () => {
     expect(result).toBe(1);
   });
 
-  it('should add boxes to the given time and return the updated time in minutes', () => {
+  test('should calculate the max number of boxes if there is none', () => {
+    const schedule = {
+      wakeupTime: '08:30',
+      timeboxes: [],
+      boxSizeUnit: 'min',
+      boxSizeNumber: 15,
+    };
+    const time = '12:45';
+    const date = '1/1';
+
+    const result = calculateMaxNumberOfBoxes(schedule, time, date);
+
+    expect(result).toBe(79);
+  });
+
+  test('should add boxes to the given time and return the updated time in minutes', () => {
     const boxSizeUnit = 'min';
     const boxSizeNumber = 15;
-    const time = '08:30'; // replace with your actual time
-    const numberOfBoxes = 3; // replace with your actual number of boxes
+    const time = '08:30'; 
+    const numberOfBoxes = 3;
 
     const result = addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes);
 
-    // Adjust the expected value based on your specific calculation
+    
     expect(result).toBe('9:15');
   });
 
   it('should add boxes to the given time and return the updated time in hours', () => {
     const boxSizeUnit = 'hr';
     const boxSizeNumber = 1;
-    const time = '08:30'; // replace with your actual time
-    const numberOfBoxes = 3; // replace with your actual number of boxes
+    const time = '08:30'; 
+    const numberOfBoxes = 3; 
 
     const result = addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes);
 
-    // Adjust the expected value based on your specific calculation
+    
     expect(result).toBe('11:30');
   });
 
   it('testing if 24 hour time works in minutes', () => {
     const boxSizeUnit = 'min';
     const boxSizeNumber = 15;
-    const time = '23:30'; // replace with your actual time
-    const numberOfBoxes = 3; // replace with your actual number of boxes
+    const time = '23:30'; 
+    const numberOfBoxes = 3; 
 
     const result = addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes);
 
-    // Adjust the expected value based on your specific calculation
+    
     expect(result).toBe('0:15');
   });
 
   it('testing if 24 hour time works in in hours', () => {
     const boxSizeUnit = 'hr';
     const boxSizeNumber = 1;
-    const time = '22:00'; // replace with your actual time
-    const numberOfBoxes = 3; // replace with your actual number of boxes
+    const time = '22:00'; 
+    const numberOfBoxes = 3; 
 
     const result = addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes);
 
-    // Adjust the expected value based on your specific calculation
+    
     expect(result).toBe('1:00');
   });
 });
