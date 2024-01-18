@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { calculateMaxNumberOfBoxes, convertToDateTime, addBoxesToTime } from "@/modules/dateLogic";
+import { calculateMaxNumberOfBoxes, convertToDateTime, addBoxesToTime } from "@/modules/coreLogic";
 import { queryClient } from './../../pages/_app';
 import axios from 'axios';
 import {toast} from "react-toastify";
@@ -68,14 +68,8 @@ export default function CreateTimeboxForm(props) {
                 <input type="text" name="description" id="description" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)}></input><br />
                 <label htmlFor="boxes">Boxes</label>
                 <input min="1" max={maxNumberOfBoxes} type="number" name="boxes" id="boxes" placeholder="Boxes" value={numberOfBoxes} onChange={(e) => setNumberOfBoxes(e.target.value)}></input><br />
-                <label htmlFor="goal">Goal</label>
-                <select name="goal" id="goal" value={goalSelected} onChange={(e) => {setGoalSelected(e.target.value)}}>
-                    {schedule.goals.map((goal, index) => (
-                        <option key={index} value={String(goal.id)}>{goal.name}</option>
-                    ))}
-                </select>
                 <label htmlFor="reoccurFrequency">Reoccuring?</label>
-                <select name="reoccurFrequency" id="reoccurFrequency" value={reoccurFrequency} onChange={(e) => {setReoccurFrequency(e.target.value)}}>
+                <select data-testid="reoccurFrequency" name="reoccurFrequency" id="reoccurFrequency" value={reoccurFrequency} onChange={(e) => {setReoccurFrequency(e.target.value)}}>
                     <option value="no">No</option>
                     <option value="daily">Daily</option>
                     <option value="weekly">Weekly</option>
@@ -85,7 +79,14 @@ export default function CreateTimeboxForm(props) {
                     <input type="date" name="weeklyDate" id="weeklyDate" value={weeklyDate} onChange={(e) => {setWeeklyDate(e.target.value)}}></input>
                 </>
                 }
-                <button id="addTimeBoxButton">Add TimeBox</button>
+                {schedule.goals.length == 0 ? (<p data-testid="noGoalsWarning">Must create a goal first</p>) : (<>
+                <label htmlFor="goal">Goal</label>
+                <select name="goal" id="goal" value={goalSelected} onChange={(e) => {setGoalSelected(e.target.value)}}>
+                {schedule.goals.map((goal, index) => (
+                    <option key={index} value={String(goal.id)}>{goal.name}</option>
+                ))}
+                </select></>)}
+                <button disabled={schedule.goals.length == 0} id="addTimeBoxButton">Add TimeBox</button>
             </form>
         </div>}
     </>
