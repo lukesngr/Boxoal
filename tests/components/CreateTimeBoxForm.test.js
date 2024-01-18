@@ -37,7 +37,7 @@ describe('CreateTimeboxForm', () => {
     expect(screen.getByLabelText(/title/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/description/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/boxes/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/goals/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/goal/i)).toBeInTheDocument();
     expect(screen.getByTestId('reoccurFrequency')).toBeInTheDocument();
   });
 
