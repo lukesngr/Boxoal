@@ -86,7 +86,7 @@ export default function CreateTimeboxForm(props) {
                     <option key={index} value={String(goal.id)}>{goal.name}</option>
                 ))}
                 </select></>)}
-                <button disabled={schedule.goals.length == 0} id="addTimeBoxButton">Add TimeBox</button>
+                <button data-testid="addTimeBox" disabled={schedule.goals.length == 0} id="addTimeBoxButton">Add TimeBox</button>
             </form>
         </div>}
     </>

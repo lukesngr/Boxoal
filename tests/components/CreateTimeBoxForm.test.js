@@ -23,6 +23,7 @@ describe('CreateTimeboxForm', () => {
     expect(screen.getByLabelText(/boxes/i)).toBeInTheDocument();
     expect(screen.getByTestId('reoccurFrequency')).toBeInTheDocument();
     expect(screen.getByTestId('noGoalsWarning')).toBeInTheDocument();
+    expect(screen.getByTestId('addTimeBox')).toHaveAttribute('disabled');
   });
 
   test('test input field appear normally', () => {
@@ -39,6 +40,7 @@ describe('CreateTimeboxForm', () => {
     expect(screen.getByLabelText(/boxes/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/goal/i)).toBeInTheDocument();
     expect(screen.getByTestId('reoccurFrequency')).toBeInTheDocument();
+    expect(screen.getByTestId('addTimeBox')).not.toHaveAttribute('disabled');
   });
 
   
