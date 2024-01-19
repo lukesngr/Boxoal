@@ -38,9 +38,8 @@ export default function CreateTimeboxForm(props) {
 
             //post to api
             axios.post('/api/createTimebox', data).then(() => {
-                console.log("fdfd")
                 //reset the form
-                //queryClient.refetchQueries();
+                queryClient.refetchQueries();
                 closeTimeBox();
                 setTitle("");
                 setDescription("");
