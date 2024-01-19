@@ -27,11 +27,10 @@ export default function CreateTimeboxForm(props) {
         let startTime = convertToDateTime(time, date);
         let endTime = convertToDateTime(addBoxesToTime(schedule.boxSizeUnit, schedule.boxSizeNumber, time, numberOfBoxes), date); //add boxes to start time to get end time
         let color = listOfColors[Math.floor(Math.random() * listOfColors.length)]; //randomly pick a box color
-
+        
         if(goalSelected === null) { 
-            toast.error("No goal selected, please select or make one"); 
+            toast.error("No goal selected, please select or make one");
         }else{
-
             let data = {title, description, startTime, endTime, numberOfBoxes: parseInt(numberOfBoxes), color, schedule: {connect: {id: schedule.id}}, goal: {connect: {id: parseInt(goalSelected)}}}
 
             if(reoccurFrequency != "no") { data["reoccuring"] = {create: {reoccurFrequency}}; }
@@ -39,8 +38,9 @@ export default function CreateTimeboxForm(props) {
 
             //post to api
             axios.post('/api/createTimebox', data).then(() => {
+                console.log("fdfd")
                 //reset the form
-                queryClient.refetchQueries();
+                //queryClient.refetchQueries();
                 closeTimeBox();
                 setTitle("");
                 setDescription("");
@@ -53,6 +53,8 @@ export default function CreateTimeboxForm(props) {
                 toast.error("Error occurred please try again or contact developer");
                 console.log(error); 
             })
+
+            
         }
     }
 
