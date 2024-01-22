@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import CreateTimeboxForm from '@/components/form/CreateTimeboxForm';
 import axios from 'axios';
 import { act } from 'react-dom/test-utils';
-import { useState } from 'react';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('axios', () => ({
   post: jest.fn(() => Promise.resolve({ data: {}})),
@@ -90,6 +90,30 @@ describe('CreateTimeboxForm', () => {
     await waitFor(() => {
       expect(axios.post).not.toHaveBeenCalledWith('/api/createTimebox', expect.any(Object));
     });
+
+  });
+
+  test('if weekly reoccuring ', async () => {
+
+    const mockProps = {
+      schedule: {wakeupTime: "7:00", timeboxes: [], goals: [{id: 5, name: "example"}]}, time: "7:30", date: "8/5", closeTimeBox: function(){}, dayName: 'Sat', timeBoxFormVisible: true, listOfColors: ["#fdsfds"],
+      numberOfBoxes: [2, function(){}],
+      titleFunc: ["Go gym", function(){}]
+    };
+
+    render(<CreateTimeboxForm {...mockProps} />);
+
+    fireEvent.change(screen.getByLabelText(/goal/i), { target: { value: '5' } });
+
+    fireEvent.change(screen.getByTestId('reoccurFrequency'), { target: { value: 'weekly' } });
+    fireEvent.change(, { target: { value: 'weekly' } });
+    fireEvent.change(screen.getByTestId('weeklyDate'), { target: { value: '1995-12-17T03:24:00' } });
+
+    await waitFor(() => {fireEvent.click(screen.getByTestId('addTimeBox'))});
+
+    await waitFor(() => {
+      expect(axios.post).toHaveBeenCalledWith('/api/createTimebox', expect.any(Object));
+    })
 
   });
 

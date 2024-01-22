@@ -31,10 +31,12 @@ export default function CreateTimeboxForm(props) {
         if(goalSelected === null) { 
             toast.error("No goal selected, please select or make one");
         }else{
+            
             let data = {title, description, startTime, endTime, numberOfBoxes: parseInt(numberOfBoxes), color, schedule: {connect: {id: schedule.id}}, goal: {connect: {id: parseInt(goalSelected)}}}
 
             if(reoccurFrequency != "no") { data["reoccuring"] = {create: {reoccurFrequency}}; }
             if(reoccurFrequency == "weekly") {data.reoccuring.create.weeklyDay = new Date(weeklyDate).getDay();}
+            console.log(reoccurFrequency)
 
             //post to api
             axios.post('/api/createTimebox', data).then(() => {
@@ -77,7 +79,7 @@ export default function CreateTimeboxForm(props) {
                 </select><br />
                 {reoccurFrequency == 'weekly' && <>
                     <label htmlFor="weeklyDate">Weekly Date</label>
-                    <input type="date" name="weeklyDate" id="weeklyDate" value={weeklyDate} onChange={(e) => {setWeeklyDate(e.target.value)}}></input>
+                    <input data-testid="weeklyDate" type="date" name="weeklyDate" id="weeklyDate" value={weeklyDate} onChange={(e) => {setWeeklyDate(e.target.value)}}></input>
                 </>
                 }
                 {schedule.goals.length == 0 ? (<p data-testid="noGoalsWarning">Must create a goal first</p>) : (<>
