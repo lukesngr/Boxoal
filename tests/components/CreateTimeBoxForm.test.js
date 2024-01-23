@@ -4,7 +4,6 @@ import '@testing-library/jest-dom';
 import CreateTimeboxForm from '@/components/form/CreateTimeboxForm';
 import axios from 'axios';
 import { act } from 'react-dom/test-utils';
-import userEvent from '@testing-library/user-event';
 
 jest.mock('axios', () => ({
   post: jest.fn(() => Promise.resolve({ data: {}})),
