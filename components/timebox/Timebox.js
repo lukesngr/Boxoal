@@ -61,6 +61,12 @@ export default function TimeBox(props) {
 
     return (
     <div className={'col timeBox'}>
+        {/* Add timebox button */}
+        {active && !timeBoxFormVisible && !addTimeBoxDialogOpen && !props.data &&
+        <button data-testid="addTimeBoxButton" onClick={addTimeBox} className="btn btn-dark addBoxButton">
+            <FontAwesomeIcon height={25} width={25} icon={faCirclePlus}/>
+        </button>}
+
         {/* Form section of this TimeBox component */}
         {timeBoxFormVisible && <><CreateTimeboxForm schedule={schedule} time={time} date={date} numberOfBoxes={[numberOfBoxes, setNumberOfBoxes]}
         closeTimeBox={closeTimeBox} dayName={dayName} titleFunc={[title, setTitle]} listOfColors={listOfColors}></CreateTimeboxForm>
@@ -77,10 +83,5 @@ export default function TimeBox(props) {
 
         </div>)} timebox={data}></UpdateTimeBoxModal> }
 
-        {/* Add timebox button */}
-        {active && !timeBoxFormVisible && !addTimeBoxDialogOpen && !props.data &&
-        <button data-testid="addTimeBoxButton" onClick={addTimeBox} className="btn btn-dark addBoxButton">
-            <FontAwesomeIcon height={25} width={25} icon={faCirclePlus}/>
-        </button>}
     </div>)
 }
