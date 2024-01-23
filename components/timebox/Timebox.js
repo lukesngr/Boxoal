@@ -24,10 +24,8 @@ export default function TimeBox(props) {
     function getHeightForBoxes(numberOfBoxes) { return `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)` }
 
     function addTimeBox() {
-        if(!addTimeBoxDialogOpen) {
-            setTimeBoxFormVisible(true);
-            setAddTimeBoxDialogOpen(true);
-        }
+        setTimeBoxFormVisible(true);
+        setAddTimeBoxDialogOpen(true);
     }
 
     function closeTimeBox() {
