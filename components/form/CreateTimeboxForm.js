@@ -36,7 +36,7 @@ export default function CreateTimeboxForm(props) {
 
             if(reoccurFrequency != "no") { data["reoccuring"] = {create: {reoccurFrequency}}; }
             if(reoccurFrequency == "weekly") {data.reoccuring.create.weeklyDay = new Date(weeklyDate).getDay();}
-            console.log(reoccurFrequency)
+            console.log(data)
 
             //post to api
             axios.post('/api/createTimebox', data).then(() => {

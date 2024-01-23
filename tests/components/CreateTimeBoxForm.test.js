@@ -104,15 +104,23 @@ describe('CreateTimeboxForm', () => {
     render(<CreateTimeboxForm {...mockProps} />);
 
     fireEvent.change(screen.getByLabelText(/goal/i), { target: { value: '5' } });
-
     fireEvent.change(screen.getByTestId('reoccurFrequency'), { target: { value: 'weekly' } });
-    fireEvent.change(, { target: { value: 'weekly' } });
-    fireEvent.change(screen.getByTestId('weeklyDate'), { target: { value: '1995-12-17T03:24:00' } });
+    fireEvent.change(screen.getByTestId('weeklyDate'), { target: { value: '2024-05-07' } });
 
     await waitFor(() => {fireEvent.click(screen.getByTestId('addTimeBox'))});
 
     await waitFor(() => {
-      expect(axios.post).toHaveBeenCalledWith('/api/createTimebox', expect.any(Object));
+      expect(axios.post).toHaveBeenCalledWith('/api/createTimebox', {
+        title: 'Go gym',
+        description: '',
+        startTime: new Date('2024-05-07T21:30:00.000Z'),
+        endTime: new Date('2024-05-07T21:30:00.000Z'),  
+        numberOfBoxes: 2,
+        color: '#fdsfds',
+        schedule: { connect: { id: undefined } },
+        goal: { connect: { id: 5 } },
+        reoccuring: { create: { reoccurFrequency: 'weekly', weeklyDay: 2 } }
+      });
     })
 
   });
