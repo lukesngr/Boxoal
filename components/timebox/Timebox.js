@@ -9,7 +9,7 @@ import {toast} from "react-toastify";
 import { queryClient } from './../../pages/_app';
 import CreateTimeboxForm from '../form/CreateTimeboxForm';
 import UpdateTimeBoxModal from '../modal/UpdateTimeBoxModal';
-import { isRecordingButtonPresent } from '@/modules/dateLogic';
+import { isRecordingButtonPresent } from '@/modules/coreLogic';
 
 export default function TimeBox(props) {
 
