@@ -81,10 +81,6 @@ describe('CreateTimeboxForm', () => {
 
     render(<CreateTimeboxForm {...mockProps} />);
 
-    /*fireEvent.change(screen.getByLabelText(/title/i), { target: { value: 'Test Title' } });
-    fireEvent.change(screen.getByLabelText(/description/i), { target: { value: 'Test Description' } });
-    fireEvent.change(screen.getByLabelText(/boxes/i), { target: { value: 3 } });*/
-
     act(() => {fireEvent.click(screen.getByTestId('addTimeBox'))});
 
     await waitFor(() => {
