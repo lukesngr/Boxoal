@@ -26,37 +26,29 @@ export default function CreateTimeboxForm(props) {
         event.preventDefault();
         let startTime = convertToDateTime(time, date);
         let endTime = convertToDateTime(addBoxesToTime(schedule.boxSizeUnit, schedule.boxSizeNumber, time, numberOfBoxes), date); //add boxes to start time to get end time
-        let color = listOfColors[Math.floor(Math.random() * listOfColors.length)]; //randomly pick a box color
-        
-        if(goalSelected === null) { 
-            toast.error("No goal selected, please select or make one");
-        }else{
-            
-            let data = {title, description, startTime, endTime, numberOfBoxes: parseInt(numberOfBoxes), color, schedule: {connect: {id: schedule.id}}, goal: {connect: {id: parseInt(goalSelected)}}}
+        let color = listOfColors[Math.floor(Math.random() * listOfColors.length)]; //randomly pick a box color     
+        let data = {title, description, startTime, endTime, numberOfBoxes: parseInt(numberOfBoxes), color, schedule: {connect: {id: schedule.id}}, goal: {connect: {id: parseInt(goalSelected)}}}
 
-            if(reoccurFrequency != "no") { data["reoccuring"] = {create: {reoccurFrequency}}; }
-            if(reoccurFrequency == "weekly") {data.reoccuring.create.weeklyDay = new Date(weeklyDate).getDay();}
-            console.log(data)
+        if(reoccurFrequency != "no") { data["reoccuring"] = {create: {reoccurFrequency}}; }
+        if(reoccurFrequency == "weekly") {data.reoccuring.create.weeklyDay = new Date(weeklyDate).getDay();}
 
-            //post to api
-            axios.post('/api/createTimebox', data).then(() => {
-                //reset the form
-                queryClient.refetchQueries();
-                closeTimeBox();
-                setTitle("");
-                setDescription("");
-                setNumberOfBoxes(1);
-                setReoccurFrequency("no");
-                toast.success("Added timebox!", {
-                    position: toast.POSITION.TOP_RIGHT,
-                });
-            }).catch(function(error) {
-                toast.error("Error occurred please try again or contact developer");
-                console.log(error); 
-            })
+        //post to api
+        axios.post('/api/createTimebox', data).then(() => {
+            //reset the form
+            queryClient.refetchQueries();
+            closeTimeBox();
+            setTitle("");
+            setDescription("");
+            setNumberOfBoxes(1);
+            setReoccurFrequency("no");
+            toast.success("Added timebox!", {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }).catch(function(error) {
+            toast.error("Error occurred please try again or contact developer");
+            console.log(error); 
+        })
 
-            
-        }
     }
 
     return <>
