@@ -5,7 +5,7 @@ import axios from 'axios';
 import {toast} from "react-toastify";
 
 export default function CreateTimeboxForm(props) {
-    let {schedule, time, date, closeTimeBox, dayName, timeBoxFormVisible, listOfColors, ...theRest} = props;
+    let {schedule, time, date, closeTimeBox, dayName, listOfColors, ...theRest} = props;
     let [numberOfBoxes, setNumberOfBoxes] = props.numberOfBoxes;
     let [title, setTitle] = props.titleFunc;
     let initialSelectedGoal;
@@ -52,7 +52,7 @@ export default function CreateTimeboxForm(props) {
     }
 
     return <>
-        {timeBoxFormVisible && <div id={(dayName == 'Sat' || dayName == 'Fri' || dayName == 'Thur') ? 'addTimeBoxConstrained' : 'addTimeBox'}> 
+        <div id={(dayName == 'Sat' || dayName == 'Fri' || dayName == 'Thur') ? 'addTimeBoxConstrained' : 'addTimeBox'}> 
             <div id="timeBoxBubble"></div>
             <button onClick={closeTimeBox} id="addTimeBoxExitButton">X</button>
             <form onSubmit={handleSubmit}>
@@ -83,6 +83,6 @@ export default function CreateTimeboxForm(props) {
                 </select></>)}
                 <button data-testid="addTimeBox" disabled={schedule.goals.length == 0} id="addTimeBoxButton">Add TimeBox</button>
             </form>
-        </div>}
+        </div>
     </>
 }
