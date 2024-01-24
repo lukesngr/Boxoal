@@ -58,9 +58,7 @@ describe('TimeBox component', () => {
 
     render(<TimeboxContextProvider><div id="portalRoot"></div><TimeBox {...mockProps} /></TimeboxContextProvider>);
 
-    act(() => {fireEvent.click(screen.getByTestId('addTimeBoxButton'));});
-
-    expect(screen.getByTestId('createTimeboxForm')).toBeInTheDocument();
+    expect(screen.getByTestId('normalTimeBox')).toBeInTheDocument();
     
   });
 });

@@ -2,9 +2,15 @@ import { thereIsNoRecording } from "@/modules/coreLogic";
 import axios from 'axios';
 import { toast } from "react-toastify";
 import { queryClient } from './../../pages/_app';
+import { useState } from "react";
+import { faCircleDot, faCircleStop } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function NormalTimeBox(props) {
-    const [data, height, tags, timeboxRecording] = props;
+    const [recordedStartTime, setRecordedStartTime] = useState();
+    const {data, height, tags, overlayFuncs, recordFuncs, scheduleID, date, time} = props;
+    const [pauseActiveOverlay, resumeActiveOverlay] = overlayFuncs;
+    const [timeboxRecording, setTimeBoxRecording] = recordFuncs;
     const noPreviousRecording = thereIsNoRecording(data.recordedTimeBoxes, data.reoccuring, date, time);
     const timeboxIsntRecording = timeboxRecording[0] == -1;
     const timeboxIsRecording = timeboxRecording[0] == data.id && timeboxRecording[1] == date;
@@ -20,7 +26,7 @@ export default function NormalTimeBox(props) {
         setTimeBoxRecording([-1, 0]);
         resumeActiveOverlay();
         axios.post('/api/createRecordedTimebox', 
-            {recordedStartTime, recordedEndTime: new Date(), timeBox: {connect: {id: data.id}}, schedule: {connect: {id: schedule.id}}
+            {recordedStartTime, recordedEndTime: new Date(), timeBox: {connect: {id: data.id}}, schedule: {connect: {id: scheduleID}}
         }).then(() => {
             queryClient.refetchQueries();
             toast.success("Added recorded timebox!", {
