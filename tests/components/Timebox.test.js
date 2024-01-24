@@ -24,15 +24,7 @@ describe('TimeBox component', () => {
       data: undefined,
       overlayFuncs: [jest.fn(), jest.fn()],
     };
-
-    /*{
-        id: 1,
-        numberOfBoxes: 1,
-        color: '#123456',
-        title: 'Test Time Box',
-        recordedTimeBoxes: [],
-        reoccuring: false,
-      }*/
+    
     render(<TimeboxContextProvider><div id="portalRoot"></div><TimeBox {...mockProps} /></TimeboxContextProvider>);
 
     act(() => {fireEvent.click(screen.getByTestId('addTimeBoxButton'));});
