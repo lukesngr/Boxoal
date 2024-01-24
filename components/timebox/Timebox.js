@@ -3,13 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../../styles/timebox.scss';
 import { useState, useContext } from 'react';
 import '../../styles/addtimebox.scss';
-import axios from 'axios';
 import { TimeboxContext } from './TimeboxContext';
-import {toast} from "react-toastify";
-import { queryClient } from './../../pages/_app';
 import CreateTimeboxForm from '../form/CreateTimeboxForm';
 import UpdateTimeBoxModal from '../modal/UpdateTimeBoxModal';
-import { isRecordingButtonPresent } from '@/modules/coreLogic';
 
 export default function TimeBox(props) {
 
@@ -32,30 +28,6 @@ export default function TimeBox(props) {
     function closeTimeBox() {
         setTimeBoxFormVisible(false);
         setAddTimeBoxDialogOpen(false);
-    }
-
-    function startRecording() {
-        setTimeBoxRecording([data.id, date]);
-        pauseActiveOverlay();
-        setRecordedStartTime(new Date());
-    }
-
-    function stopRecording() {
-        setTimeBoxRecording([-1, 0]);
-        resumeActiveOverlay();
-        axios.post('/api/createRecordedTimebox', 
-            {recordedStartTime, recordedEndTime: new Date(), timeBox: {connect: {id: data.id}}, schedule: {connect: {id: schedule.id}}
-        }).then(() => {
-            queryClient.refetchQueries();
-            toast.success("Added recorded timebox!", {
-                position: toast.POSITION.TOP_RIGHT,
-            });
-        }).catch(function(error) {
-            toast.error("Error: "+error, {
-                position: toast.POSITION.TOP_RIGHT,
-            });
-            console.log(error); 
-        })  
     }
 
     return (
