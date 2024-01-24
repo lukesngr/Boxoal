@@ -17,7 +17,6 @@ export default function TimeBox(props) {
     const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen, listOfColors, timeboxRecording, setTimeBoxRecording} = useContext(TimeboxContext);
 
     function getHeightForBoxes(numberOfBoxes) { return `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)` }
-    let boxHeight = {height: getHeightForBoxes(numberOfBoxes)};
 
     function addTimeBox() {
         setTimeBoxFormVisible(true);
@@ -40,7 +39,7 @@ export default function TimeBox(props) {
         {/* Form section of this TimeBox component */}
         {timeBoxFormVisible && <><CreateTimeboxForm schedule={schedule} time={time} date={date} numberOfBoxes={[numberOfBoxes, setNumberOfBoxes]}
         closeTimeBox={closeTimeBox} dayName={dayName} titleFunc={[title, setTitle]} listOfColors={listOfColors}></CreateTimeboxForm>
-        <div style={boxHeight} id="placeholderTimeBox">{title}</div></>}
+        <div style={{height: getHeightForBoxes(numberOfBoxes)}} id="placeholderTimeBox">{title}</div></>}
 
         {/* Normal time box */}
         {data && <UpdateTimeBoxModal timebox={data} render={tags => 
