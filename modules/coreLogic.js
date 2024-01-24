@@ -180,7 +180,7 @@ export function calculateSizeOfRecordingOverlay(wakeupTime, boxSizeUnit, boxSize
 }
 
 
-export function isRecordingButtonPresent(recordedBoxes, reoccuring, date, time) {
+export function thereIsNoRecording(recordedBoxes, reoccuring, date, time) {
     if(recordedBoxes.length == 0) {
         return true;
     }else if(reoccuring != null) {
