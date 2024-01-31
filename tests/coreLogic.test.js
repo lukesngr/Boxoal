@@ -1,5 +1,5 @@
 import {  calculateMaxNumberOfBoxesAfterTimeIfEmpty,
-   calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoDateTimes, addBoxesToTime, calculateSizeOfOverlayBasedOnCurrentTime, calculateSizeOfRecordingOverlay, isRecordingButtonPresent } from '../modules/coreLogic';
+   calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoDateTimes, addBoxesToTime, calculateSizeOfOverlayBasedOnCurrentTime, calculateSizeOfRecordingOverlay, thereIsNoRecording } from '../modules/coreLogic';
 
 describe('Testing max number of boxes after time is empty', () => {
   test('should calculate the max number of boxes when schedule is empty for minutes when wakeup time before', () => {
