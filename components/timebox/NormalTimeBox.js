@@ -45,12 +45,12 @@ export default function NormalTimeBox(props) {
             <span {...tags} style={{height: height}} className="timeboxText">{data.title}</span>
 
             {noPreviousRecording && timeboxIsntRecording && 
-            <button className="recordTimeButton" onClick={startRecording} >
+            <button className="recordTimeButton" onClick={startRecording} data-testid="startRecording">
                 <FontAwesomeIcon height={iconSize} width={iconSize} icon={faCircleDot} />
             </button>}
 
             {noPreviousRecording && timeboxIsRecording && 
-            <button className="stopRecordTimeButton" onClick={stopRecording} >
+            <button className="stopRecordTimeButton" onClick={stopRecording} data-testid="stopRecording">
                 <FontAwesomeIcon height={iconSize} width={iconSize} icon={faCircleStop} />
             </button>}
         </div>
