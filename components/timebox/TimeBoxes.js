@@ -1,6 +1,5 @@
 import React, { useRef, useState, useContext, useEffect, useMemo } from 'react';
-import { getDayNumbers, returnTimesSeperatedForSchedule, ifCurrentDay, ifEqualOrBeyondCurrentDay,
-     convertToTimeAndDate, calculateOverlayHeightForNow, calculateSizeOfRecordingOverlay, whereRecordedStartTimeSameAsCurrent } from '@/modules/dateLogic';
+import { returnTimesSeperatedForSchedule } from '@/modules/timeLogic';
 import '../../styles/timeboxes.scss';
 import TimeBox from './Timebox';
 import { ScheduleContext } from '../schedule/ScheduleContext';
@@ -10,8 +9,7 @@ import ActiveOverlay from '../overlay/ActiveOverlay';
 import RecordingOverlay from '../overlay/RecordingOverlay';
 import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
 import TimeboxHeading from './TimeboxHeading';
-import dayjs from 'dayjs';
-import { calculateOverlayHeightForNow, generateTimeBoxGrid } from '@/modules/coreLogic';
+import { calculateOverlayHeightForNow, generateTimeBoxGrid, ifCurrentDay, ifEqualOrBeyondCurrentDay } from '@/modules/coreLogic';
 import { OverlayLogic } from '../overlay/OverlayLogic';
 
 export default function TimeBoxes(props) {
@@ -29,7 +27,7 @@ export default function TimeBoxes(props) {
     const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
     let schedule = props.data.data[selectedSchedule];
 
-    const dayToName = getDayNumbers(selectedDate.toDate()); //get all info to make headers look nice
+    const dayToName = getArrayOfDayDateDayNameAndMonthForHeaders(selectedDate.toDate()); //get all info to make headers look nice
     const listOfTimes = returnTimesSeperatedForSchedule(schedule); //get times that go down each row
     
     //make a map for the timeboxes with a map inside it
@@ -41,7 +39,7 @@ export default function TimeBoxes(props) {
 
     //when overlay dimensions changes set active overlay height
     useEffect(() => {
-        setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
+        setActiveOverlayHeight(calculateOverlayHeightForNow(schedule, overlayDimensions));
 
         activeOverlayInterval.current = setInterval(() => { setActiveOverlayHeight(calculateOverlayHeightForNow(schedule, overlayDimensions))}, activeOverlayResetTime);
         
