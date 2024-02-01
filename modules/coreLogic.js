@@ -203,16 +203,13 @@ export function generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid) {
     schedule.timeboxes.forEach(function (element) { //for each timebox
         const [time, date] = convertToTimeAndDate(element.startTime); //convert the datetime to a time and date e.g. format hh:mm dd/mm
         if(element.reoccuring != null) {
-            console.log(element);
             if(element.reoccuring.reoccurFrequency === "daily") {
                 for(let i = 0; i < 7; i++) {
                     let currentDate = dayjs(selectedDate).day(i).format('D/M');
-                    console.log(currentDate);
                     if (!timeBoxGrid.has(currentDate)) { timeBoxGrid.set(currentDate, new Map()); } //if date key not in map than set empty map to date key
                     timeBoxGrid.get(currentDate).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
                 }
             }else if(element.reoccuring.reoccurFrequency === "weekly") {
-                console.log(element.reoccuring.weeklyDay);
                 let currentDate = dayjs(selectedDate).day(element.reoccuring.weeklyDay).format('D/M');
                 if (!timeBoxGrid.has(currentDate)) { timeBoxGrid.set(currentDate, new Map()); } //if date key not in map than set empty map to date key
                 timeBoxGrid.get(currentDate).set(time, element); //lookup date key and set the map inside it to key of time with value of the element itself
