@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 export function OverlayLogic(setOverlayDimensions, headerContainerRef, gridContainerRef, timeboxColumnRef, activeOverlayInterval, selectedSchedule, expanded) {
     function calculateOverlayDimensions() {
         if (gridContainerRef.current && headerContainerRef.current && timeboxColumnRef.current) { //if ref working
