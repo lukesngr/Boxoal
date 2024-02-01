@@ -220,7 +220,7 @@ describe('Testing overlay height calculation functions', () => {
     jest.useFakeTimers("modern");
     jest.setSystemTime(mockDate);
 
-    let result = calculateSizeOfOverlayBasedOnCurrentTime(wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions);
+    let result = calculateSizeOfOverlayBasedOnCurrentTime({wakeupTime, boxSizeUnit, boxSizeNumber}, overlayDimensions);
 
     expect(result).toBe(990.3802083333334);
   });
@@ -241,7 +241,7 @@ describe('Testing overlay height calculation functions', () => {
     jest.useFakeTimers("modern");
     jest.setSystemTime(mockDate);
 
-    let result = calculateSizeOfRecordingOverlay(wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions, overlayHeight);
+    let result = calculateSizeOfRecordingOverlay({wakeupTime, boxSizeUnit, boxSizeNumber}, overlayDimensions, overlayHeight);
 
     expect(result).toBe(23.86458333333337);
   });
