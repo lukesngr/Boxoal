@@ -1,6 +1,6 @@
 import { TimeboxContext } from '../timebox/TimeboxContext';
 import { useContext, useEffect, useState } from 'react';
-import { calculateSizeOfRecordingOverlay } from '@/modules/dateLogic';
+import { calculateSizeOfRecordingOverlay } from '@/modules/coreLogic';
 
 export default function RecordingOverlay(props) {
     const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen, listOfColors, timeboxRecording, setTimeBoxRecording} = useContext(TimeboxContext);

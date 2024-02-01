@@ -9,7 +9,8 @@ import ActiveOverlay from '../overlay/ActiveOverlay';
 import RecordingOverlay from '../overlay/RecordingOverlay';
 import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
 import TimeboxHeading from './TimeboxHeading';
-import { calculateOverlayHeightForNow, generateTimeBoxGrid, ifCurrentDay, ifEqualOrBeyondCurrentDay } from '@/modules/coreLogic';
+import { calculateOverlayHeightForNow, generateTimeBoxGrid } from '@/modules/coreLogic';
+import { ifCurrentDay, ifEqualOrBeyondCurrentDay } from '@/modules/dateLogic';
 import { OverlayLogic } from '../overlay/OverlayLogic';
 
 export default function TimeBoxes(props) {

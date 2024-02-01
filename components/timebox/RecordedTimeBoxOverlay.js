@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { calculatePixelsFromTopOfGridBasedOnTime } from "@/modules/dateLogic";
+import { calculatePixelsFromTopOfGridBasedOnTime } from "@/modules/coreLogic";
 
 export default function RecordedTimeBoxOverlay(props) {
     let {data, schedule, overlayDimensions} = props;
