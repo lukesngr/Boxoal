@@ -1,5 +1,5 @@
 import {  calculateMaxNumberOfBoxesAfterTimeIfEmpty,
-   calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoDateTimes, addBoxesToTime, calculateSizeOfOverlayBasedOnCurrentTime, calculateSizeOfRecordingOverlay, thereIsNoRecording } from '../modules/coreLogic';
+   calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoDateTimes, addBoxesToTime, calculateSizeOfOverlayBasedOnCurrentTime, calculateSizeOfRecordingOverlay, thereIsNoRecording, generateTimeBoxGrid } from '../modules/coreLogic';
 
 describe('Testing max number of boxes after time is empty', () => {
   test('should calculate the max number of boxes when schedule is empty for minutes when wakeup time before', () => {
@@ -270,5 +270,25 @@ describe('thereIsNoRecording', () => {
     const result = thereIsNoRecording(recordedBoxes, reoccuringDaily, '18/1', '09:30');
     expect(result).toBe(false);
   });
+
+});
+
+describe('generateTimeBoxGrid', () => {
+
+  test('should return nothing when recordedBoxes is empty', () => {
+    let timeboxGrid = new Map();
+    const timebox = generateTimeBoxGrid({timeboxes: []}, '17/1', timeboxGrid);
+    expect(timebox).toEqual(timeboxGrid);
+  });
+  
+  test('should return a timebox when recordedBoxes is empty', () => {
+    
+    let schedule = {timeboxes: [{startTime: new Date(2024, 0, 18, 9, 30, 0, 0), reoccuring: {reoccurFrequency: 'daily'}}]};
+    let timeboxGrid = new Map();
+    const timebox = generateTimeBoxGrid(schedule, new Date(2024, 0, 18, 9, 30, 0, 0), timeboxGrid);
+    expect(timebox).toEqual(timeboxGrid);
+    console.log(timeboxGrid);
+  });
+  
 
 });
