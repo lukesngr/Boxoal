@@ -12,6 +12,7 @@ import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
 import TimeboxHeading from './TimeboxHeading';
 import dayjs from 'dayjs';
 import { generateTimeBoxGrid } from '@/modules/coreLogic';
+import { OverlayLogic } from '../overlay/OverlayLogic';
 
 export default function TimeBoxes(props) {
 
@@ -37,40 +38,6 @@ export default function TimeBoxes(props) {
     useEffect(() => {
         generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
     }, [props.data, selectedSchedule])
-
-    console.log(timeBoxGrid);
-   
-    function calculateOverlayDimensions() {
-        if (gridContainerRef.current && headerContainerRef.current && timeboxColumnRef.current) { //if ref working
-            const gridHeight = gridContainerRef.current.offsetHeight; //get height of grid
-            const headerHeight = headerContainerRef.current.offsetHeight; //get height of headers
-
-            const headerWidth = headerContainerRef.current.offsetWidth; //get width of headers
-            const overlayHeight = gridHeight - headerHeight; //overlay is under headers but goes till end of grid
-            const timeboxHeight = timeboxColumnRef.current.getBoundingClientRect().height; //decimal for a bit more accuracy as this for active overlay
-
-            setOverlayDimensions([headerWidth, overlayHeight, timeboxHeight]);
-        }
-    };
-
-    //when page first loads calculate overlay dimensions
-    useEffect(() => {
-        calculateOverlayDimensions();
-        window.addEventListener('resize', calculateOverlayDimensions); //if resized calculate overlay dimensions
-    
-        return () => {
-            clearInterval(activeOverlayInterval.current);
-            window.removeEventListener('resize', calculateOverlayDimensions);
-        };
-    }, []);
-    //if schedule changes recalculate overlay dimensions
-    useEffect(() => {
-        calculateOverlayDimensions();
-    }, [selectedSchedule]);
-    //if sidebar changes recalculate overlay dimensions
-    useEffect(() => {
-        setTimeout(calculateOverlayDimensions, 600);
-    }, [expanded]);
 
     //when overlay dimensions changes set active overlay height
     useEffect(() => {
@@ -98,6 +65,7 @@ export default function TimeBoxes(props) {
                 {/*Headers */}
                 <div className="row">
                     <div className="col-1"></div>
+                    <OverlayLogic setOverlayDimensions={setOverlayDimensions} headerContainerRef={headerContainerRef} gridContainerRef={gridContainerRef}></OverlayLogic>
                     
                     {dayToName.map((day, index) => (
                         <div ref={headerContainerRef} key={index} style={{padding: '0'}} className={'col '+ifCurrentDay(index, 'currentDay', '')}>
