@@ -48,10 +48,7 @@ describe('NormalTimeBox component', () => {
     
   });
 
-  test('test clicking record and end', () => {
-    let mockDate = new Date('2023-06-21')
-    jest.useFakeTimers("modern");
-    jest.setSystemTime(mockDate);
+  test('test clicking record', () => {
     const resumeActiveOverlay = jest.fn();
     const pauseActiveOverlay = jest.fn();
     const setTimeBoxRecording = jest.fn();
@@ -71,6 +68,24 @@ describe('NormalTimeBox component', () => {
 
     expect(pauseActiveOverlay).toHaveBeenCalledTimes(1);
     expect(setTimeBoxRecording).toHaveBeenCalledTimes(1);
+    
+  });
+
+  test('test clicking end', () => {
+    const resumeActiveOverlay = jest.fn();
+    const setTimeBoxRecording = jest.fn();
+    const pauseActiveOverlay = jest.fn();
+    
+
+    const mockProps = {
+      schedule: { id: 1, wakeupTime: '07:00', boxSizeNumber: 1, boxSizeUnit: 'hour', goals: [], timeboxes: [], recordedTimeboxes: []},
+      time: '12:00', date: '23/1', active: true, dayName: 'Monday',
+      data: {recordedTimeBoxes: [], reoccuring: false, id: 1, color: '#123456', title: 'Test Time Box', numberOfBoxes: 1},
+      overlayFuncs: [pauseActiveOverlay, resumeActiveOverlay],
+      recordFuncs: [[1, '23/1'], setTimeBoxRecording],
+    };
+    
+    render(<NormalTimeBox {...mockProps}></NormalTimeBox>);
 
     act(() => {fireEvent.click(screen.getByTestId('stopRecording'));});
 
