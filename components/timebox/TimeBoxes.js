@@ -10,7 +10,7 @@ import RecordingOverlay from '../overlay/RecordingOverlay';
 import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
 import TimeboxHeading from './TimeboxHeading';
 import { calculateOverlayHeightForNow, generateTimeBoxGrid } from '@/modules/coreLogic';
-import { ifCurrentDay, ifEqualOrBeyondCurrentDay } from '@/modules/dateLogic';
+import { ifCurrentDay, ifEqualOrBeyondCurrentDay, getArrayOfDayDateDayNameAndMonthForHeaders } from '@/modules/dateLogic';
 import { OverlayLogic } from '../overlay/OverlayLogic';
 
 export default function TimeBoxes(props) {
@@ -52,8 +52,6 @@ export default function TimeBoxes(props) {
     function resumeActiveOverlay() { 
         activeOverlayInterval.current = setInterval(() => {setActiveOverlayHeight(calculateOverlayHeightForNow(schedule, overlayDimensions))}, activeOverlayResetTime);
     }
-
-   
 
     return (
     <>
