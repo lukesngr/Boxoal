@@ -4,7 +4,9 @@ import '../../styles/navbar.scss';
 export default function SignedInNav(props) {
     return (
         <nav className="navbar navbar-expand-lg boxNavbar">
-            <Image src="/icon.png" width={80} height={75} alt="BoxAlc Icon" priority></Image>
+            <a href="/">
+                <Image src="/icon.png" width={80} height={75} alt="BoxAlc Icon" priority></Image>
+            </a>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapsibleContent" aria-controls="navbarCollapsibleContent" aria-expanded="false" aria-label="Collapse content">
                 <span className="navbar-toggler-icon"></span>
             </button>
