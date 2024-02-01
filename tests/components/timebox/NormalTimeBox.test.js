@@ -55,6 +55,8 @@ describe('NormalTimeBox component', () => {
     const resumeActiveOverlay = jest.fn();
     const pauseActiveOverlay = jest.fn();
     const setTimeBoxRecording = jest.fn();
+    
+
     const mockProps = {
       schedule: { id: 1, wakeupTime: '07:00', boxSizeNumber: 1, boxSizeUnit: 'hour', goals: [], timeboxes: [], recordedTimeboxes: []},
       time: '12:00', date: '2024-01-23', active: true, dayName: 'Monday',
@@ -69,6 +71,13 @@ describe('NormalTimeBox component', () => {
 
     expect(pauseActiveOverlay).toHaveBeenCalledTimes(1);
     expect(setTimeBoxRecording).toHaveBeenCalledTimes(1);
+
+    act(() => {fireEvent.click(screen.getByTestId('stopRecording'));});
+
+    expect(resumeActiveOverlay).toHaveBeenCalledTimes(1);
+    expect(setTimeBoxRecording).toHaveBeenCalledTimes(1);
+
+    expect(axios.post).toHaveBeenCalledTimes(1);
     
   });
 
