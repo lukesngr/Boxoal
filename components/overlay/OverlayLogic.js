@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 
-export function OverlayLogic(setOverlayDimensions, headerContainerRef, gridContainerRef, timeboxColumnRef, activeOverlayInterval, selectedSchedule, expanded) {
+export function OverlayLogic(props) {
+    
+    const { gridContainerRef, headerContainerRef, timeboxColumnRef, setOverlayDimensions, selectedSchedule, expanded } = props;
+
     function calculateOverlayDimensions() {
         if (gridContainerRef.current && headerContainerRef.current && timeboxColumnRef.current) { //if ref working
             const gridHeight = gridContainerRef.current.offsetHeight; //get height of grid
