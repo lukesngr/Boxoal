@@ -275,20 +275,27 @@ describe('thereIsNoRecording', () => {
 
 describe('generateTimeBoxGrid', () => {
 
-  test('should return nothing when recordedBoxes is empty', () => {
+  test('should generate nothing when no timeboxes', () => {
     let timeboxGrid = new Map();
-    const timebox = generateTimeBoxGrid({timeboxes: []}, '17/1', timeboxGrid);
-    expect(timebox).toEqual(timeboxGrid);
+    generateTimeBoxGrid({timeboxes: []}, '17/1', timeboxGrid);
+    expect(timeboxGrid).toEqual(timeboxGrid);
   });
   
-  test('should return a timebox when recordedBoxes is empty', () => {
+  test('should generate with reoccurring daily', () => {
     
     let schedule = {timeboxes: [{startTime: new Date(2024, 0, 18, 9, 30, 0, 0), reoccuring: {reoccurFrequency: 'daily'}}]};
     let timeboxGrid = new Map();
-    const timebox = generateTimeBoxGrid(schedule, new Date(2024, 0, 18, 9, 30, 0, 0), timeboxGrid);
-    expect(timebox).toEqual(timeboxGrid);
-    console.log(timeboxGrid);
+    generateTimeBoxGrid(schedule, new Date(2024, 0, 18, 9, 30, 0, 0), timeboxGrid);
+    expect(timeboxGrid.get('18/1').get('9:30')).toEqual(schedule.timeboxes[0]);
+    expect(timeboxGrid.get('20/1').get('9:30')).toEqual(schedule.timeboxes[0]);
   });
-  
+
+  test('should generate with reoccurring weekly', () => {
+    
+    let schedule = {timeboxes: [{startTime: new Date(2024, 0, 18, 9, 30, 0, 0), reoccuring: {reoccurFrequency: 'weekly', weeklyDay: 1}}]};
+    let timeboxGrid = new Map();
+    generateTimeBoxGrid(schedule, new Date(2024, 0, 18, 9, 30, 0, 0), timeboxGrid);
+    expect(timeboxGrid.get('15/1').get('9:30')).toEqual(schedule.timeboxes[0]);
+  });
 
 });
