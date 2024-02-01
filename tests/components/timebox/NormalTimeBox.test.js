@@ -20,14 +20,55 @@ describe('NormalTimeBox component', () => {
     const mockProps = {
       schedule: { id: 1, wakeupTime: '07:00', boxSizeNumber: 1, boxSizeUnit: 'hour', goals: [], timeboxes: [], recordedTimeboxes: []},
       time: '12:00', date: '2024-01-23', active: true, dayName: 'Monday',
-      data: undefined,
-      overlayFuncs: [function pauseActiveOverlay() {}, function resumeActiveOverlay() {}],
+      data: {recordedTimeBoxes: [], reoccuring: false, id: 1, color: '#123456', title: 'Test Time Box', numberOfBoxes: 1},
+      overlayFuncs: [() => {}, () => {}],
+      recordFuncs: [[], () => {}],
     };
     
     render(<NormalTimeBox {...mockProps}></NormalTimeBox>);
 
-    expect(screen.getByTestId('startRecording')).not.toBeInTheDocument();
-    expect(screen.getByTestId('stopRecording')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('startRecording')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('stopRecording')).not.toBeInTheDocument();
+    
+  });
+
+  test('render with start buttons', () => {
+    const mockProps = {
+      schedule: { id: 1, wakeupTime: '07:00', boxSizeNumber: 1, boxSizeUnit: 'hour', goals: [], timeboxes: [], recordedTimeboxes: []},
+      time: '12:00', date: '2024-01-23', active: true, dayName: 'Monday',
+      data: {recordedTimeBoxes: [], reoccuring: false, id: 1, color: '#123456', title: 'Test Time Box', numberOfBoxes: 1},
+      overlayFuncs: [() => {}, () => {}],
+      recordFuncs: [[-1, 0], () => {}],
+    };
+    
+    render(<NormalTimeBox {...mockProps}></NormalTimeBox>);
+
+    expect(screen.queryByTestId('startRecording')).toBeInTheDocument();
+    expect(screen.queryByTestId('stopRecording')).not.toBeInTheDocument();
+    
+  });
+
+  test('test clicking record and end', () => {
+    let mockDate = new Date('2023-06-21')
+    jest.useFakeTimers("modern");
+    jest.setSystemTime(mockDate);
+    const resumeActiveOverlay = jest.fn();
+    const pauseActiveOverlay = jest.fn();
+    const setTimeBoxRecording = jest.fn();
+    const mockProps = {
+      schedule: { id: 1, wakeupTime: '07:00', boxSizeNumber: 1, boxSizeUnit: 'hour', goals: [], timeboxes: [], recordedTimeboxes: []},
+      time: '12:00', date: '2024-01-23', active: true, dayName: 'Monday',
+      data: {recordedTimeBoxes: [], reoccuring: false, id: 1, color: '#123456', title: 'Test Time Box', numberOfBoxes: 1},
+      overlayFuncs: [pauseActiveOverlay, resumeActiveOverlay],
+      recordFuncs: [[-1, 0], setTimeBoxRecording],
+    };
+    
+    render(<NormalTimeBox {...mockProps}></NormalTimeBox>);
+
+    act(() => {fireEvent.click(screen.getByTestId('startRecording'));});
+
+    expect(pauseActiveOverlay).toHaveBeenCalledTimes(1);
+    expect(setTimeBoxRecording).toHaveBeenCalledTimes(1);
     
   });
 
