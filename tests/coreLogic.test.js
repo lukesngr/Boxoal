@@ -298,4 +298,12 @@ describe('generateTimeBoxGrid', () => {
     expect(timeboxGrid.get('15/1').get('9:30')).toEqual(schedule.timeboxes[0]);
   });
 
+  test('should generate with reoccurring weekly even on non-current week', () => {
+    
+    let schedule = {timeboxes: [{startTime: new Date(2024, 0, 18, 9, 30, 0, 0), reoccuring: {reoccurFrequency: 'weekly', weeklyDay: 1}}]};
+    let timeboxGrid = new Map();
+    generateTimeBoxGrid(schedule, new Date(2024, 0, 25, 9, 30, 0, 0), timeboxGrid);
+    expect(timeboxGrid.get('22/1').get('9:30')).toEqual(schedule.timeboxes[0]);
+  });
+
 });
