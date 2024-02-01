@@ -1,6 +1,6 @@
 import React, { useRef, useState, useContext, useEffect, useMemo } from 'react';
 import { getDayNumbers, returnTimesSeperatedForSchedule, ifCurrentDay, ifEqualOrBeyondCurrentDay,
-     convertToTimeAndDate, calculateSizeOfOverlayBasedOnCurrentTime, calculateSizeOfRecordingOverlay, whereRecordedStartTimeSameAsCurrent } from '@/modules/dateLogic';
+     convertToTimeAndDate, calculateOverlayHeightForNow, calculateSizeOfRecordingOverlay, whereRecordedStartTimeSameAsCurrent } from '@/modules/dateLogic';
 import '../../styles/timeboxes.scss';
 import TimeBox from './Timebox';
 import { ScheduleContext } from '../schedule/ScheduleContext';
@@ -11,7 +11,7 @@ import RecordingOverlay from '../overlay/RecordingOverlay';
 import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
 import TimeboxHeading from './TimeboxHeading';
 import dayjs from 'dayjs';
-import { generateTimeBoxGrid } from '@/modules/coreLogic';
+import { calculateOverlayHeightForNow, generateTimeBoxGrid } from '@/modules/coreLogic';
 import { OverlayLogic } from '../overlay/OverlayLogic';
 
 export default function TimeBoxes(props) {
@@ -41,9 +41,9 @@ export default function TimeBoxes(props) {
 
     //when overlay dimensions changes set active overlay height
     useEffect(() => {
-        setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions));
+        setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule, overlayDimensions));
 
-        activeOverlayInterval.current = setInterval(() => { setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions))}, activeOverlayResetTime);
+        activeOverlayInterval.current = setInterval(() => { setActiveOverlayHeight(calculateOverlayHeightForNow(schedule, overlayDimensions))}, activeOverlayResetTime);
         
         return () => { clearInterval(activeOverlayInterval.current); };
     }, [overlayDimensions])
@@ -51,7 +51,7 @@ export default function TimeBoxes(props) {
     function pauseActiveOverlay() { clearInterval(activeOverlayInterval.current); }
 
     function resumeActiveOverlay() { 
-        activeOverlayInterval.current = setInterval(() => {setActiveOverlayHeight(calculateSizeOfOverlayBasedOnCurrentTime(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions))}, activeOverlayResetTime);
+        activeOverlayInterval.current = setInterval(() => {setActiveOverlayHeight(calculateOverlayHeightForNow(schedule, overlayDimensions))}, activeOverlayResetTime);
     }
 
    

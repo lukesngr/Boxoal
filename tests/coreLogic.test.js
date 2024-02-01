@@ -1,5 +1,5 @@
 import {  calculateMaxNumberOfBoxesAfterTimeIfEmpty,
-   calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoDateTimes, addBoxesToTime, calculateSizeOfOverlayBasedOnCurrentTime, calculateSizeOfRecordingOverlay, thereIsNoRecording, generateTimeBoxGrid } from '../modules/coreLogic';
+   calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoDateTimes, addBoxesToTime, calculateOverlayHeightForNow, calculateSizeOfRecordingOverlay, thereIsNoRecording, generateTimeBoxGrid } from '../modules/coreLogic';
 
 describe('Testing max number of boxes after time is empty', () => {
   test('should calculate the max number of boxes when schedule is empty for minutes when wakeup time before', () => {
@@ -220,7 +220,7 @@ describe('Testing overlay height calculation functions', () => {
     jest.useFakeTimers("modern");
     jest.setSystemTime(mockDate);
 
-    let result = calculateSizeOfOverlayBasedOnCurrentTime({wakeupTime, boxSizeUnit, boxSizeNumber}, overlayDimensions);
+    let result = calculateOverlayHeightForNow({wakeupTime, boxSizeUnit, boxSizeNumber}, overlayDimensions);
 
     expect(result).toBe(990.3802083333334);
   });
