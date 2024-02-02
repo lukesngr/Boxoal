@@ -20,10 +20,7 @@ export default function Home() {
         {!session && <UnSignedNav /> }
         {status === "authenticated" && <SignedInNav session={session}/>}
         <div className="text-center animatedText">
-            <p className={glitchFont.className}>Timeboxing</p>
-            <p className={glitchFont.className}>For</p>
-            <p className={glitchFont.className}>The</p>
-            <p className={glitchFont.className}>Everyman</p>
+            <h1 className={glitchFont.className}>Timeboxing For The Everyman</h1>
         </div>
     </>)
 }

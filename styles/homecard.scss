@@ -1,7 +1,30 @@
 @use 'theme';
 
-.animatedText p {
+.animatedText h1 {
     color: black;
-    font-size: 4em;
-    font-weight: bold;
+    overflow: hidden;
+    border-right: .15em solid theme.$base-color;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: .15em;
+    animation: typing 10s steps(154, end) infinite, blink-caret .75s step-end infinite;
+}
+
+.animatedText {
+    margin-top: 10%;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@keyframes typing {
+    0% { width: 0 }
+    35% { width: 100% }
+    65% { width: 100%}
+    100% {width: 0 }
+}
+  
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: theme.$base-color; }
 }
