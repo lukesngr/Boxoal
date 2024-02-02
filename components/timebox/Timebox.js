@@ -28,6 +28,8 @@ export default function TimeBox(props) {
         setAddTimeBoxDialogOpen(false);
     }
 
+    console.log(data);
+
     return (
     <div className={'col timeBox'}>
         {/* Add timebox button */}

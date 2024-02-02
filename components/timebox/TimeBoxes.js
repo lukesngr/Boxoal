@@ -38,6 +38,12 @@ export default function TimeBoxes(props) {
         generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
     }, [props.data, selectedSchedule])
 
+    useEffect(() => {
+        generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
+    }, []);
+    
+    console.log(timeBoxGrid, dayToName);
+
     //when overlay dimensions changes set active overlay height
     useEffect(() => {
         setActiveOverlayHeight(calculateOverlayHeightForNow(schedule, overlayDimensions));
