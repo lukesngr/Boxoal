@@ -53,16 +53,26 @@
     border-radius: 25px;
     z-index: 999;
     width: max-content;
+    padding-top: 10px;
+}
+
+.userCard h5 {
+    display: inline-block;
+    margin: 0;
+    margin-top: 5px;
 }
 
 .signOutButton {
     background-color: theme.$base-color;
     font-family: 'Roboto';
+    border: 0px;
 }
 
 .closeUserCard {
-    float: left;
+    float: right;
     border: 0;
     color: white;
     background: black;
+    font-size: 25px;
+    margin: 0;
 }

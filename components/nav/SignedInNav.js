@@ -2,6 +2,8 @@ import Image from 'next/image';
 import '../../styles/navbar.scss';
 import { useState } from 'react';
 import { signOut } from 'next-auth/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
 export default function SignedInNav(props) {
     const [userCardDisplayed, setUserCardDisplayed] = useState(false);
@@ -25,7 +27,7 @@ export default function SignedInNav(props) {
                         <div className="userCard">
                             <div>
                                 <h5>{props.session.user.email}</h5>
-                                <button className="closeUserCard" onClick={() => setUserCardDisplayed(false)}>X</button>
+                                <button className="closeUserCard" onClick={() => setUserCardDisplayed(false)}><FontAwesomeIcon icon={faCircleXmark} /></button>
                             </div>
                             <button onClick={() => signOut()} className="signOutButton">Sign Out</button>
                         </div>
