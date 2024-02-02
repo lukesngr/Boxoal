@@ -33,6 +33,7 @@ export function OverlayLogic(props) {
     }, [selectedSchedule]);
     //if sidebar changes recalculate overlay dimensions
     useEffect(() => {
+        setOverlayDimensions([0, 0, 0]);
         setTimeout(calculateOverlayDimensions, 600);
     }, [expanded]);
     
