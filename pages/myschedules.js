@@ -27,6 +27,10 @@ function MySchedulesSeperatedForFunctionality(props) {
         
             return response;},
         enabled: true})
+
+    if(status === "loading") {
+        return <Loading />
+    }
     
     return (
         <>
