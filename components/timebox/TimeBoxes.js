@@ -62,7 +62,7 @@ export default function TimeBoxes(props) {
                 {/*Headers */}
                 <div className="row">
                     <div className="col-1"></div>
-                    <OverlayLogic setOverlayDimensions={setOverlayDimensions} timeboxColumnRef={timeboxColumnRef} headerContainerRef={headerContainerRef} gridContainerRef={gridContainerRef}></OverlayLogic>
+                    <OverlayLogic setOverlayDimensions={setOverlayDimensions} expanded={expanded} timeboxColumnRef={timeboxColumnRef} headerContainerRef={headerContainerRef} gridContainerRef={gridContainerRef}></OverlayLogic>
                     
                     {dayToName.map((day, index) => (
                         <div ref={headerContainerRef} key={index} style={{padding: '0'}} className={'col '+ifCurrentDay(index, 'currentDay', '')}>
