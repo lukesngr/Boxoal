@@ -1,0 +1,15 @@
+@use 'theme';
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-color: white;
+}
+
+.loading p {
+    font-family: 'Roboto';
+    font-size: medium;
+}
