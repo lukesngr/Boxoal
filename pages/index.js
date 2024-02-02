@@ -5,6 +5,7 @@ import "../styles/homecard.scss";
 import { useSession } from "next-auth/react";
 import localFont from 'next/font/local'
 import Loading from "@/components/base/Loading";
+import { signIn } from "next-auth/react";
 const glitchFont = localFont({src: '../public/BlueScreen.ttf'});
 
 export default function Home() {
@@ -18,10 +19,10 @@ export default function Home() {
 
     return (
     <>
-        {!session && <UnSignedNav /> }
         {status === "authenticated" && <SignedInNav session={session}/>}
         <div className="text-center animatedText">
             <h1 className={glitchFont.className}>Timeboxing For The Everyman</h1>
+            {!session && <button className="signInButton" onClick={() => signIn()}>Join Us</button>}
         </div>
     </>)
 }

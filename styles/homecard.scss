@@ -28,3 +28,13 @@
     from, to { border-color: transparent }
     50% { border-color: theme.$base-color; }
 }
+
+.signInButton {
+    background-color: theme.$base-color;
+    color: black;
+    font-family: 'Roboto';
+    border: 1px solid black;
+    font-size: 1.5em;
+    margin-top: 5%
+
+}
