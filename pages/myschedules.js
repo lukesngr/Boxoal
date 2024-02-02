@@ -6,9 +6,9 @@ import NoSchedules from "@/components/schedule/NoSchedules";
 import RedirWhenNotAuth from "@/components/RedirWhenNotAuth";
 import { createContext, useContext } from "react";
 import SchedulesView from "@/components/schedule/SchedulesView";
-import { getDayNumbers } from "@/modules/dateLogic";
 import { ScheduleContextProvider, ScheduleContext } from "@/components/schedule/ScheduleContext";
 import dayjs from "dayjs";
+import Loading from "@/components/base/Loading";
 
 export const SessionContext = createContext();
 export const RefetchContext = createContext();
@@ -45,7 +45,7 @@ export default function MySchedules() {
     const {data: session, status} = useSession();
 
     if(status == "loading") {
-        return <h1>Loading</h1>
+        return <Loading />
     }else if(status === "authenticated"){
         return <ScheduleContextProvider><MySchedulesSeperatedForFunctionality session={session} status={status}></MySchedulesSeperatedForFunctionality></ScheduleContextProvider>
     }  

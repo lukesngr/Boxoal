@@ -4,7 +4,7 @@ import Image from "next/image"
 import "../styles/homecard.scss";
 import { useSession } from "next-auth/react";
 import localFont from 'next/font/local'
-import { Loading } from "@/components/base/Loading";
+import Loading from "@/components/base/Loading";
 const glitchFont = localFont({src: '../public/BlueScreen.ttf'});
 
 export default function Home() {
@@ -15,8 +15,6 @@ export default function Home() {
     if(status === "loading") {
         return <Loading />
     }
-
-    
 
     return (
     <>
