@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import Loading from "./base/Loading";
 
 export default function RedirWhenNotAuth(props) {
     const router = useRouter();
@@ -9,6 +10,6 @@ export default function RedirWhenNotAuth(props) {
     }else if(props.status === "authenticated") {
         return props.children
     }else {
-        return <p>Loading</p>
+        return <Loading />
     }
 }

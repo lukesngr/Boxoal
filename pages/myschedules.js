@@ -34,7 +34,7 @@ function MySchedulesSeperatedForFunctionality(props) {
     
     return (
         <>
-            <RedirWhenNotAuth redirectSrc="/signin" status={props.status}>
+            <RedirWhenNotAuth redirectSrc="/" status={props.status}>
                 <div id='portalRoot'></div>
                 <SignedInNav session={props.session}></SignedInNav>
                 <SessionContext.Provider value={props.session}>
