@@ -1,7 +1,11 @@
 import Image from 'next/image';
 import '../../styles/navbar.scss';
+import { useState } from 'react';
+import { signOut } from 'next-auth/react';
 
 export default function SignedInNav(props) {
+    const [userCardDisplayed, setUserCardDisplayed] = useState(false);
+
     return (
         <nav className="navbar navbar-expand-lg boxNavbar">
             <a href="/">
@@ -17,12 +21,19 @@ export default function SignedInNav(props) {
                     </li>
                 </ul>
                 <ul className="nav navbar-nav pr-1">
-                    <li className="nav-item" id="userButton">
+                    {userCardDisplayed && 
+                        <div className="userCard">
+                        <h5>{props.session.user.email}<button onClick={() => setUserCardDisplayed(false)}>X</button></h5>
+                        <button onClick={() => signOut()} className="signOutButton">Sign Out</button>
+                        </div>
+                    }
+                    <li className="nav-item" id="userButton" onClick={() => setUserCardDisplayed(!userCardDisplayed)}>
                         <img src={props.session.user.image} alt="User Image" width={45} height={45}></img>
                         <a className='nav-link accountImageAlt'>Account</a>
                     </li>
                 </ul>
             </div>
+            
         </nav>
     )
 }
