@@ -3,11 +3,9 @@ import { useSession } from "next-auth/react";
 import { useQuery, QueryCache } from "react-query";
 import axios from "axios";
 import NoSchedules from "@/components/schedule/NoSchedules";
-import RedirWhenNotAuth from "@/components/RedirWhenNotAuth";
 import { createContext, useContext } from "react";
 import SchedulesView from "@/components/schedule/SchedulesView";
 import { ScheduleContextProvider, ScheduleContext } from "@/components/schedule/ScheduleContext";
-import dayjs from "dayjs";
 import Loading from "@/components/base/Loading";
 import { useRouter } from "next/router";
 
@@ -35,13 +33,11 @@ function MySchedulesSeperatedForFunctionality(props) {
     
     return (
         <>
-            <RedirWhenNotAuth redirectSrc="/" status={props.status}>
-                <div id='portalRoot'></div>
-                <SignedInNav session={props.session}></SignedInNav>
-                <SessionContext.Provider value={props.session}>
-                    {data && data.data.length > 0 ? (<SchedulesView data={data}></SchedulesView>) : (<NoSchedules session={props.session}/>) }
-                </SessionContext.Provider>
-            </RedirWhenNotAuth>
+            <div id='portalRoot'></div>
+            <SignedInNav session={props.session}></SignedInNav>
+            <SessionContext.Provider value={props.session}>
+                {data && data.data.length > 0 ? (<SchedulesView data={data}></SchedulesView>) : (<NoSchedules session={props.session}/>) }
+            </SessionContext.Provider>
         </>
     )
 }
