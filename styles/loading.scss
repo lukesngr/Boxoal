@@ -16,14 +16,59 @@
 }
 
 .loading img {
-    animation: 2s gearTurn infinite linear;
+    animation: 5s gearTurn infinite linear;
 }
 
 @keyframes gearTurn {
-    from {
+    0% {
         transform: rotate(0deg);
     }
-    to {
+    10% {
+        transform: rotate(45deg);
+    }
+    13% {
+        transform: rotate(45deg);
+    }
+    23% {
+        transform: rotate(90deg);
+    }
+    26% {
+        transform: rotate(90deg);
+    }
+    36% {
+        transform: rotate(135deg);
+    }
+    39% {
+        transform: rotate(135deg);
+    }
+
+    49% {
+        transform: rotate(180deg);
+    }
+
+    52% {
+        transform: rotate(180deg);
+    }
+
+    62% {
+        transform: rotate(225deg);
+    }
+    65% {
+        transform: rotate(225deg);
+    }
+    75% {
+        transform: rotate(270deg);
+    }
+    78% {
+        transform: rotate(270deg);
+    }
+    89% {
+        transform: rotate(315deg);
+    }
+    92% {
+        transform: rotate(315deg);
+    }
+    100% {
         transform: rotate(360deg);
     }
 }
