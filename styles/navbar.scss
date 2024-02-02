@@ -51,9 +51,18 @@
     transform: translate(-100%, 100%);
     padding: 20px;
     border-radius: 25px;
+    z-index: 999;
+    width: max-content;
 }
 
 .signOutButton {
     background-color: theme.$base-color;
     font-family: 'Roboto';
+}
+
+.closeUserCard {
+    float: left;
+    border: 0;
+    color: white;
+    background: black;
 }

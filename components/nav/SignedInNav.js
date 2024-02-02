@@ -23,8 +23,11 @@ export default function SignedInNav(props) {
                 <ul className="nav navbar-nav pr-1">
                     {userCardDisplayed && 
                         <div className="userCard">
-                        <h5>{props.session.user.email}<button onClick={() => setUserCardDisplayed(false)}>X</button></h5>
-                        <button onClick={() => signOut()} className="signOutButton">Sign Out</button>
+                            <div>
+                                <h5>{props.session.user.email}</h5>
+                                <button className="closeUserCard" onClick={() => setUserCardDisplayed(false)}>X</button>
+                            </div>
+                            <button onClick={() => signOut()} className="signOutButton">Sign Out</button>
                         </div>
                     }
                     <li className="nav-item" id="userButton" onClick={() => setUserCardDisplayed(!userCardDisplayed)}>
