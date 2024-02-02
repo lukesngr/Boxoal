@@ -9,6 +9,7 @@ import SchedulesView from "@/components/schedule/SchedulesView";
 import { ScheduleContextProvider, ScheduleContext } from "@/components/schedule/ScheduleContext";
 import dayjs from "dayjs";
 import Loading from "@/components/base/Loading";
+import { useRouter } from "next/router";
 
 export const SessionContext = createContext();
 export const RefetchContext = createContext();
@@ -47,10 +48,13 @@ function MySchedulesSeperatedForFunctionality(props) {
 
 export default function MySchedules() {
     const {data: session, status} = useSession();
+    const router = useRouter();
 
     if(status == "loading") {
         return <Loading />
     }else if(status === "authenticated"){
         return <ScheduleContextProvider><MySchedulesSeperatedForFunctionality session={session} status={status}></MySchedulesSeperatedForFunctionality></ScheduleContextProvider>
-    }  
+    }else if(status === "unauthenticated") {
+        router.push('/');
+    } 
 }
