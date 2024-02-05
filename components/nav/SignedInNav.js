@@ -21,6 +21,9 @@ export default function SignedInNav(props) {
                     <li className="nav-item">
                         <a className="nav-link" href="/myschedules">Timeboxes</a>
                     </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="/habit">Habits</a>
+                    </li>
                 </ul>
                 <ul className="nav navbar-nav pr-1">
                     {userCardDisplayed && 
