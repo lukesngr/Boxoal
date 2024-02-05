@@ -102,7 +102,7 @@ describe('NormalTimeBox component', () => {
     
 
     const mockProps = {
-      schedule: { id: 1, wakeupTime: '07:00', boxSizeNumber: 1, boxSizeUnit: 'hour', goals: [], timeboxes: [], recordedTimeboxes: []},
+      schedule: { id: 1, wakeupTime: '07:00', boxSizeNumber: 1, boxSizeUnit: 'hr', goals: [], timeboxes: [], recordedTimeboxes: []},
       time: '12:00', date: "23/1", active: true, dayName: 'Monday',
       data: {recordedTimeBoxes: [], reoccuring: false, id: 1, color: '#123456', title: 'Test Time Box', numberOfBoxes: 1},
       overlayFuncs: [() => {}, () => {}],
