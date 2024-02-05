@@ -27,8 +27,7 @@ export default function UpdateTimeBoxForm(props) {
     function deleteTimeBox() {
 
         axios.post('/api/deleteTimebox', {
-            id: props.timebox.id, 
-            recordedTimeBoxes: props.timebox.recordedTimeBoxes
+            id: props.timebox.id
         }).then(() => {
             const closeButton = document.querySelector(`#updateTimeBoxModal .close`);
             if (closeButton) {

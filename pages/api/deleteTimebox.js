@@ -4,7 +4,12 @@ export default async function handler(req, res) {
     try {
       const data = req.body;
 
-      for(const recordedTimeBox of data.recordedTimeBoxes) {
+      const recordedTimeBoxes = await prisma.timeBox.findMany({
+        where: { id: data.id }, 
+        select: { recordedTimeBoxes: { select: { id: true } } }
+      })
+
+      for(const recordedTimeBox of recordedTimeBoxes) {
         await prisma.recordedTimeBox.delete({
           where: {
             id: recordedTimeBox.id

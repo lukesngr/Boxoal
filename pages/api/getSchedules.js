@@ -41,7 +41,8 @@ export default async function handler(req, res) {
                                 id: true,
                                 recordedTimeBoxes: {
                                     select: {
-                                        id: true
+                                        id: true,
+                                        timeBoxID: true,
                                     }
                                 },
                                 reoccuring: {
@@ -76,7 +77,8 @@ export default async function handler(req, res) {
                         recordedTimeBoxes: {
                             select: {
                                 id: true,
-                                recordedStartTime: true
+                                recordedStartTime: true,
+                                timeBoxID: true,
                             }
                         },
                         reoccuring: {

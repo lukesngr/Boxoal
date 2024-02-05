@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { calculatePixelsFromTopOfGridBasedOnTime } from "@/modules/coreLogic";
+import UpdateTimeBoxModal from "../modal/UpdateTimeBoxModal";
 
 export default function RecordedTimeBoxOverlay(props) {
     let {data, schedule, overlayDimensions} = props;
@@ -18,7 +19,7 @@ export default function RecordedTimeBoxOverlay(props) {
                 }//reasonable value which alllows it is visible
                 let notEitherZero = !(marginFromTop == 0 || heightForBox == 0); //due to overlay dimensions not being set at right time
                 if(notEitherZero && !normalArrayFromState.some(item => item.id === element.id)) {
-                    normalArrayFromState.push({id: element.id, heightForBox, marginFromTop, title: element.timeBox.title});
+                    normalArrayFromState.push({timeBoxID: element.timeBoxID, id: element.id, heightForBox, marginFromTop, title: element.timeBox.title});
                 }
             });
             setRecordedBoxes(normalArrayFromState);
@@ -26,7 +27,9 @@ export default function RecordedTimeBoxOverlay(props) {
     }, [data]);
     
     return <>{recordedBoxes.map((recordedBoxes) => (
-        <div key={recordedBoxes} className="recordedTimeBox" style={{width: props.overlayDimensions[0]+"px", 
+        <UpdateTimeBoxModal timebox={data} render={tags => (
+        <div key={recordedBoxes} {...tags} className="recordedTimeBox" style={{width: props.overlayDimensions[0]+"px", 
         height: `${recordedBoxes.heightForBox}px`, transform: `translate(-3px, ${recordedBoxes.marginFromTop+3}px)`}}>{recordedBoxes.title}</div>
+        )}></UpdateTimeBoxModal>
     ))}</>
 }
