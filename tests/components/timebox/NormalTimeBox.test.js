@@ -3,6 +3,7 @@ import { render, fireEvent, act, screen } from '@testing-library/react';
 import axios from 'axios';
 import NormalTimeBox from '@/components/timebox/NormalTimeBox';
 import '@testing-library/jest-dom'
+import { convertToDateTime } from '@/modules/coreLogic';
 
 jest.mock('axios', () => ({
     post: jest.fn(() => Promise.resolve({ data: {}})),
@@ -96,24 +97,24 @@ describe('NormalTimeBox component', () => {
     
   });
 
-  /*test('when timebox has data, timebox pops up', () => {
+  test('test clicking autorecord', () => {
+    const setTimeBoxRecording = jest.fn();
+    
+
     const mockProps = {
       schedule: { id: 1, wakeupTime: '07:00', boxSizeNumber: 1, boxSizeUnit: 'hour', goals: [], timeboxes: [], recordedTimeboxes: []},
-      time: '12:00', date: '2024-01-23', active: true, dayName: 'Monday',
-      data: {
-        id: 1,
-        numberOfBoxes: 1,
-        color: '#123456',
-        title: 'Test Time Box',
-        recordedTimeBoxes: [],
-        reoccuring: false,
-      },
-      overlayFuncs: [jest.fn(), jest.fn()],
+      time: '12:00', date: "23/1", active: true, dayName: 'Monday',
+      data: {recordedTimeBoxes: [], reoccuring: false, id: 1, color: '#123456', title: 'Test Time Box', numberOfBoxes: 1},
+      overlayFuncs: [() => {}, () => {}],
+      recordFuncs: [[-1, 0], setTimeBoxRecording],
     };
-
-    render(<TimeboxContextProvider><div id="portalRoot"></div><TimeBox {...mockProps} /></TimeboxContextProvider>);
-
-    expect(screen.getByTestId('normalTimeBox')).toBeInTheDocument();
     
-  });*/
+    render(<NormalTimeBox {...mockProps}></NormalTimeBox>);
+
+    act(() => {fireEvent.click(screen.getByTestId('autoRecord'));});
+
+    expect(axios.post).toHaveBeenCalledWith('/api/createRecordedTimebox', 
+    {recordedStartTime: convertToDateTime(mockProps.time, mockProps.date), recordedEndTime: convertToDateTime('13:00', mockProps.date), timeBox: {connect: {id: 1}}, schedule: {connect: {id: 1}}});
+    
+  });
 });

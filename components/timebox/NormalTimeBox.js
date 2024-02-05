@@ -43,7 +43,7 @@ export default function NormalTimeBox(props) {
     function autoRecord() {
         axios.post('/api/createRecordedTimebox', 
             {recordedStartTime: convertToDateTime(time, date), 
-                recordedEndTime: convertToDateTime(addBoxesToTime(schedule.boxSizeUnit, schedule.boxSizeNumber, time, data.numberOfBoxes)),
+                recordedEndTime: convertToDateTime(addBoxesToTime(schedule.boxSizeUnit, schedule.boxSizeNumber, time, data.numberOfBoxes), date),
                  timeBox: {connect: {id: data.id}}, schedule: {connect: {id: schedule.id}}
         }).then(() => {
             queryClient.refetchQueries();

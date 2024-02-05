@@ -40,6 +40,14 @@
     overflow: hidden;
 }
 
+.autoRecordButton {
+    position: relative;
+    z-index: 998;
+    float: right;
+    border: none;
+    background-color: transparent;
+}
+
 .recordTimeButton {
     position: relative;
     z-index: 998;
