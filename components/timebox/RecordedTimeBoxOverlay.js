@@ -19,7 +19,7 @@ export default function RecordedTimeBoxOverlay(props) {
                 }//reasonable value which alllows it is visible
                 let notEitherZero = !(marginFromTop == 0 || heightForBox == 0); //due to overlay dimensions not being set at right time
                 if(notEitherZero && !normalArrayFromState.some(item => item.id === element.id)) {
-                    normalArrayFromState.push({timeBoxID: element.timeBoxID, id: element.id, heightForBox, marginFromTop, title: element.timeBox.title});
+                    normalArrayFromState.push({timeBox: element.timeBox, id: element.id, heightForBox, marginFromTop, title: element.timeBox.title});
                 }
             });
             setRecordedBoxes(normalArrayFromState);
@@ -27,7 +27,7 @@ export default function RecordedTimeBoxOverlay(props) {
     }, [data]);
     
     return <>{recordedBoxes.map((recordedBoxes) => (
-        <UpdateTimeBoxModal timebox={data} render={tags => (
+        <UpdateTimeBoxModal timebox={recordedBoxes.timeBox} render={tags => (
         <div key={recordedBoxes} {...tags} className="recordedTimeBox" style={{width: props.overlayDimensions[0]+"px", 
         height: `${recordedBoxes.heightForBox}px`, transform: `translate(-3px, ${recordedBoxes.marginFromTop+3}px)`}}>{recordedBoxes.title}</div>
         )}></UpdateTimeBoxModal>
