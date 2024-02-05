@@ -43,7 +43,7 @@ export default function TimeBox(props) {
 
         {/* Normal time box */}
         {data && <UpdateTimeBoxModal timebox={data} render={tags => 
-            (<NormalTimeBox tags={tags} data={data} scheduleID={schedule.id} overlayFuncs={overlayFuncs} recordFuncs={[timeboxRecording, setTimeBoxRecording]}
+            (<NormalTimeBox tags={tags} data={data} schedule={schedule} overlayFuncs={overlayFuncs} recordFuncs={[timeboxRecording, setTimeBoxRecording]}
               height={getHeightForBoxes(data.numberOfBoxes)} date={date} time={time}></NormalTimeBox>)
         }></UpdateTimeBoxModal> }
 
