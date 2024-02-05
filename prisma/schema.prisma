@@ -67,3 +67,9 @@ model RecordedTimeBox {
   schedule          Schedule? @relation(fields: [scheduleID], references: [id])
   scheduleID        Int?
 }
+
+model CompletedHabit {
+  id                Int               @id @default(autoincrement())
+  userEmail         String
+  date          DateTime
+}
