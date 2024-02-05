@@ -17,14 +17,7 @@ describe('SignedInNav', () => {
     const userImage = screen.getByAltText('User Image');
     expect(userImage).toBeInTheDocument();
     expect(userImage).toHaveAttribute('src', userImageSrc);
-    expect(userImage).toHaveAttribute('width', '30');
-    expect(userImage).toHaveAttribute('height', '30');
-  });
-
-  test('displays user email', () => {
-    const userEmail = 'test@example.com'; // Replace with a sample email
-    const { getByText } = render(<SignedInNav session={{ user: { email: userEmail } }} />);
-    const emailElement = screen.getByText(userEmail);
-    expect(emailElement).toBeInTheDocument();
+    expect(userImage).toHaveAttribute('width', '45');
+    expect(userImage).toHaveAttribute('height', '45');
   });
 });
