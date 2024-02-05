@@ -15,12 +15,11 @@ export const RefetchContext = createContext();
 function MySchedulesSeperatedForFunctionality(props) {
 
     const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
-
     let startOfWeek = selectedDate.startOf('week').hour(0).minute(0).toDate();
     let endOfWeek = selectedDate.endOf('week').add(1, 'day').hour(23).minute(59).toDate(); //another day as sometimes timeboxes will go into next week
     
     const {status, data, error, refetch} = useQuery({
-        queryKey: ["schedules"], 
+        queryKey: ["schedules", selectedDate], 
         queryFn: async () => {
             const response = await axios.post("/api/getSchedules", { userEmail: props.session.user.email, startOfWeek, endOfWeek });
         

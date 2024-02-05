@@ -34,15 +34,13 @@ export default function TimeBoxes(props) {
     //make a map for the timeboxes with a map inside it
     //this allows fast lookup based on date than time first
     let timeBoxGrid = new Map();
-    useEffect(() => {
-        generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
-    }, [props.data, selectedSchedule])
-
-    useEffect(() => {
-        generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
-    }, []);
+    timeBoxGrid = generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
     
-    console.log(timeBoxGrid, dayToName);
+    useEffect(() => {
+        timeBoxGrid = generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
+    }, [props.data, selectedSchedule])
+    
+    
 
     //when overlay dimensions changes set active overlay height
     useEffect(() => {
