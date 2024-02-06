@@ -32,7 +32,7 @@ export default function RecordedTimeBoxOverlay(props) {
         <PortalComponent>
         <UpdateTimeBoxModal timebox={recordedBoxes.timeBox}></UpdateTimeBoxModal>
         </PortalComponent>
-        <div key={recordedBoxes} data-bs-toggle='modal' data-bs-target={"#"+recordedBoxes.timeBox.id } className="recordedTimeBox" style={{width: props.overlayDimensions[0]+"px", 
+        <div key={recordedBoxes} data-bs-toggle='modal' data-bs-target={"#updateTimeBoxModal"+recordedBoxes.timeBox.id } className="recordedTimeBox" style={{width: props.overlayDimensions[0]+"px", 
         height: `${recordedBoxes.heightForBox}px`, transform: `translate(-3px, ${recordedBoxes.marginFromTop+3}px)`}}>{recordedBoxes.title}</div>
         </>
     ))}</>
