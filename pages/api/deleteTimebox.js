@@ -10,7 +10,6 @@ export default async function handler(req, res) {
       })
 
       for(const recordedTimeBox of recordedTimeBoxes.recordedTimeBoxes) {
-        console.log(recordedTimeBox.id)
         await prisma.recordedTimeBox.delete({
           where: {
             id: recordedTimeBox.id

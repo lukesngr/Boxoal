@@ -6,7 +6,6 @@ import {toast} from "react-toastify";
 export default function UpdateTimeBoxForm(props) {
     const [title, setTitle] = useState(props.timebox.title);
     const [description, setDescription] = useState(props.timebox.description);
-    console.log(props.timebox);
 
     function handleSubmit(event) {
         event.preventDefault();
