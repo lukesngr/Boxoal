@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { calculatePixelsFromTopOfGridBasedOnTime } from "@/modules/coreLogic";
 import UpdateTimeBoxModal from "../modal/UpdateTimeBoxModal";
+import PortalComponent from "../modal/PortalComponent";
 
 export default function RecordedTimeBoxOverlay(props) {
     let {data, schedule, overlayDimensions} = props;
@@ -27,9 +28,12 @@ export default function RecordedTimeBoxOverlay(props) {
     }, [data]);
     
     return <>{recordedBoxes.map((recordedBoxes) => (
-        <UpdateTimeBoxModal timebox={recordedBoxes.timeBox} render={tags => (
-        <div key={recordedBoxes} {...tags} className="recordedTimeBox" style={{width: props.overlayDimensions[0]+"px", 
+        <>
+        <PortalComponent>
+        <UpdateTimeBoxModal timebox={recordedBoxes.timeBox}></UpdateTimeBoxModal>
+        </PortalComponent>
+        <div key={recordedBoxes} data-bs-toggle='modal' data-bs-target={"#"+recordedBoxes.timeBox.id } className="recordedTimeBox" style={{width: props.overlayDimensions[0]+"px", 
         height: `${recordedBoxes.heightForBox}px`, transform: `translate(-3px, ${recordedBoxes.marginFromTop+3}px)`}}>{recordedBoxes.title}</div>
-        )}></UpdateTimeBoxModal>
+        </>
     ))}</>
 }

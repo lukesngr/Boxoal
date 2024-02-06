@@ -107,7 +107,9 @@ export default async function handler(req, res) {
                         recordedEndTime: true,
                         timeBox: {
                             select: {
-                                title: true
+                                id: true, 
+                                title: true, 
+                                description: true
                             }
                         }
                     }

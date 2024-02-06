@@ -8,7 +8,7 @@ export default function BootstrapModal(props) {
 
     return (
         <>
-            {props.render(buttonTags)}
+            {props.render && props.render(buttonTags)}
             <PortalComponent>
                 <div className="modal fade" id={props.id} tabIndex="-1" role="dialog" aria-labelledby={props.id} aria-hidden="true">
                     <div className="modal-dialog" role="document">

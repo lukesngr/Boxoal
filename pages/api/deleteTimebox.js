@@ -4,13 +4,13 @@ export default async function handler(req, res) {
     try {
       const data = req.body;
 
-      const recordedTimeBoxes = await prisma.timeBox.findMany({
+      const recordedTimeBoxes = await prisma.timeBox.findUnique({
         where: { id: data.id, recordedTimeBoxes: { some: {} } }, 
         select: { recordedTimeBoxes: { select: { id: true } } }
       })
 
-      for(const recordedTimeBox of recordedTimeBoxes) {
-        console.log(recordedTimeBox.recordedTimeBoxes[1])
+      for(const recordedTimeBox of recordedTimeBoxes.recordedTimeBoxes) {
+        console.log(recordedTimeBox.id)
         await prisma.recordedTimeBox.delete({
           where: {
             id: recordedTimeBox.id
