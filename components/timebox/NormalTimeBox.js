@@ -60,7 +60,7 @@ export default function NormalTimeBox(props) {
 
     return (
         <div style={{height: height, backgroundColor: data.color}} id="timeBox" data-testid="normalTimeBox">    
-            <span {...tags} style={{height: height}} className="timeboxText">{data.title}</span>
+            <span {...tags} className="timeboxText">{data.title}</span>
 
             {noPreviousRecording && timeboxIsntRecording && 
             <button className="autoRecordButton" onClick={autoRecord} data-testid="autoRecord">
