@@ -21,7 +21,7 @@ function MySchedulesSeperatedForFunctionality(props) {
     const {status, data, error, refetch} = useQuery({
         queryKey: ["schedules", selectedDate], 
         queryFn: async () => {
-            const response = await axios.post("/api/getSchedules", { userEmail: props.session.user.email, startOfWeek, endOfWeek });
+            const response = await axios.get("http://3.26.103.57:3000/getSchedules", { userEmail: props.session.user.email, startOfWeek, endOfWeek });
         
             return response;},
         enabled: true})
@@ -29,6 +29,8 @@ function MySchedulesSeperatedForFunctionality(props) {
     if(status === "loading") {
         return <Loading />
     }
+
+    console.log(data);
     
     return (
         <>
