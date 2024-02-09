@@ -52,8 +52,8 @@ export default function CreateTimeboxForm(props) {
     }
 
     return <>
-        <div data-testid="createTimeboxForm" id={(dayName == 'Sat' || dayName == 'Fri' || dayName == 'Thur') ? 'addTimeBoxConstrained' : 'addTimeBox'}> 
-            <div id="timeBoxBubble"></div>
+        <div data-testid="createTimeboxForm" className={(dayName == 'Sat' || dayName == 'Fri' || dayName == 'Thur') ? 'addTimeBoxConstrained' : 'addTimeBox'}> 
+            <div className="timeBoxBubble"></div>
             <button onClick={closeTimeBox} id="addTimeBoxExitButton">X</button>
             <form onSubmit={handleSubmit}>
                 <h4>Add TimeBox</h4>
@@ -81,7 +81,7 @@ export default function CreateTimeboxForm(props) {
                     <option key={index} value={String(goal.id)}>{goal.name}</option>
                 ))}
                 </select></>)}
-                <button data-testid="addTimeBox" disabled={schedule.goals.length == 0} id="addTimeBoxButton">Add TimeBox</button>
+                <button data-testid="addTimeBox" disabled={schedule.goals.length == 0} className="addTimeBoxButton">Add TimeBox</button>
             </form>
         </div>
     </>

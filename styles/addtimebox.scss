@@ -1,45 +1,45 @@
 @use 'theme';
 
-#addTimeBox {
+.addTimeBox {
     background-color: theme.$base-color;
     position: absolute;
     color: black;
     float: left;
     padding: 1%;
+    text-align: left;
+    width: 25%;
     transform: translateX(40%);
-    text-align: left;
-    width: 25%;
 }
 
-#addTimeBoxConstrained {
+.addTimeBoxConstrained {
     background-color: theme.$base-color;
     position: absolute;
     color: black;
     float: left;
     padding: 1%;
-    transform: translateX(-110%);
     text-align: left;
-    z-index: 998;
     width: 25%;
+    transform: translateX(-110%);
+    z-index: 998;
 }
 
-#addTimeBox h5, #addTimeBoxConstrained h5  {
+.addTimeBox h5, .addTimeBoxConstrained h5  {
     font-family: 'Lato', sans-serif;
     text-align: left;
     display: block;
     width: 100%;
 }
 
-#addTimeBox input, #addTimeBoxConstrained input {
+.addTimeBox input, .addTimeBoxConstrained input {
     flex: 1;
 }
 
-#addTimeBoxButton {
+.addTimeBoxButton {
     background-color: black;
     color: white;
 }
 
-#addTimeBox #timeBoxBubble {
+.addTimeBox .timeBoxBubble {
     position: absolute !important;
     top: 0;
     left: -8vw;
@@ -49,7 +49,7 @@
     border-top: 20px solid theme.$base-color;
 }
 
-#addTimeBoxConstrained #timeBoxBubble {
+.addTimeBoxConstrained .timeBoxBubble {
     position: absolute !important;
     top: 0;
     left: 100%;
@@ -59,18 +59,18 @@
     border-top: 20px solid theme.$base-color;
 }
 
-#addTimeBoxExitButton {
+.addTimeBoxExitButton {
     float: right;
     background-color: theme.$base-color;
     border: none;
     font-size: larger;
 }
 
-#addTimeBoxButton {
+.addTimeBoxButton {
     width: 100%;
 }
 
-#placeholderTimeBox {
+.placeholderTimeBox {
     background-color: theme.$base-color;
     color: black;
     position: relative;
