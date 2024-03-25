@@ -3,7 +3,7 @@ import { returnTimesSeperatedForSchedule } from '@/modules/timeLogic';
 import '../../styles/timeboxes.scss';
 import TimeBox from './Timebox';
 import { ScheduleContext } from '../schedule/ScheduleContext';
-import { TimeboxContextProvider } from "./TimeboxDialogContext";
+import { TimeboxContextProvider, TimeboxDialogContextProvider } from "./TimeboxDialogContext";
 import Overlay from '../overlay/Overlay';
 import ActiveOverlay from '../overlay/ActiveOverlay';
 import RecordingOverlay from '../overlay/RecordingOverlay';
@@ -12,6 +12,7 @@ import TimeboxHeading from './TimeboxHeading';
 import { calculateOverlayHeightForNow, generateTimeBoxGrid } from '@/modules/coreLogic';
 import { ifCurrentDay, ifEqualOrBeyondCurrentDay, getArrayOfDayDateDayNameAndMonthForHeaders } from '@/modules/dateLogic';
 import { OverlayLogic } from '../overlay/OverlayLogic';
+import { TimeboxRecordingContextProvider } from './TimeboxRecordingContext';
 
 export const ScheduleDataContext = createContext();
 
@@ -63,8 +64,8 @@ export default function TimeBoxes(props) {
     <>
         <TimeboxHeading expanded={expanded} setExpanded={setExpanded} selectedDate={selectedDate} setSelectedDate={setSelectedDate}></TimeboxHeading>
         <div ref={gridContainerRef} className="container-fluid mt-2 timeboxesGrid">
-            <TimeboxContextProvider>
             <ScheduleDataContext.Provider value={schedule}>
+            <TimeboxRecordingContextProvider>
                 {/*Headers */}
                 <div className="row">
                     <div className="col-1"></div>
@@ -88,6 +89,7 @@ export default function TimeBoxes(props) {
                 </div>
                 
                 {/* Timeboxes */}
+                <TimeboxDialogContextProvider>
                 {listOfTimes.map(time => (
                     <div key={time} className="row">
                         <div ref={timeboxColumnRef} className="col-1 timeCol">{time}</div>
@@ -97,8 +99,9 @@ export default function TimeBoxes(props) {
                              overlayFuncs={[pauseActiveOverlay, resumeActiveOverlay]}></TimeBox>
                         ))}
                     </div>))}
+                </TimeboxDialogContextProvider>
+            </TimeboxRecordingContextProvider>
             </ScheduleDataContext.Provider>
-            </TimeboxContextProvider>
         </div>
     </>
     )

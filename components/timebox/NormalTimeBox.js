@@ -5,12 +5,13 @@ import { queryClient } from './../../pages/_app';
 import { useContext, useState } from "react";
 import { faCircleCheck, faCircleDot, faCircleStop } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { TimeboxRecordingContext } from "./TimeboxRecordingContext";
 
 export default function NormalTimeBox(props) {
     const [recordedStartTime, setRecordedStartTime] = useState();
     const {data, height, tags, overlayFuncs, date, time, schedule} = props;
     const [pauseActiveOverlay, resumeActiveOverlay] = overlayFuncs;
-    const [timeboxRecording, setTimeBoxRecording] = useContext(TimeboxContext);
+    const [timeboxRecording, setTimeBoxRecording] = useContext(TimeboxRecordingContext);
     
     
     const noPreviousRecording = thereIsNoRecording(data.recordedTimeBoxes, data.reoccuring, date, time);

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../../styles/timebox.scss';
 import { useState, useContext } from 'react';
 import '../../styles/addtimebox.scss';
-import { TimeboxContext } from './TimeboxDialogContext';
+import { TimeboxDialogContext } from './TimeboxDialogContext';
 import CreateTimeboxForm from '../form/CreateTimeboxForm';
 import UpdateTimeBoxModal from '../modal/UpdateTimeBoxModal';
 import NormalTimeBox from './NormalTimeBox';
@@ -22,7 +22,7 @@ export default function TimeBox(props) {
     });
     
     const [timeBoxFormVisible, setTimeBoxFormVisible] = useState(false);
-    const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen, ...rest} = useContext(TimeboxContext);
+    const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen} = useContext(TimeboxDialogContext);
 
     function getHeightForBoxes(numberOfBoxes) { return `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)` }
 
@@ -46,7 +46,7 @@ export default function TimeBox(props) {
 
         {/* Normal time box */}
         {data && <UpdateTimeBoxModal timebox={data} render={tags => 
-            (<NormalTimeBox tags={tags} data={data} schedule={schedule} overlayFuncs={overlayFuncs} recordFuncs={[timeboxRecording, setTimeBoxRecording]}
+            (<NormalTimeBox tags={tags} data={data} schedule={schedule} overlayFuncs={overlayFuncs}
               height={getHeightForBoxes(data.numberOfBoxes)} date={date} time={time}></NormalTimeBox>)
         }></UpdateTimeBoxModal> }
 
