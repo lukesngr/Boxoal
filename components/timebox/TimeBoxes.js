@@ -14,6 +14,7 @@ import { ifCurrentDay, ifEqualOrBeyondCurrentDay, getArrayOfDayDateDayNameAndMon
 import { OverlayLogic } from '../overlay/OverlayLogic';
 import { TimeboxRecordingContextProvider } from './TimeboxRecordingContext';
 import useActiveOverlay from '@/hooks/useActiveOverlay';
+import useOverlayDimensions from '@/hooks/useOverlayDimensions';
 
 export const ScheduleDataContext = createContext();
 
@@ -22,8 +23,6 @@ export default function TimeBoxes(props) {
     const gridContainerRef = useRef(null);
     const headerContainerRef = useRef(null);
     const timeboxColumnRef = useRef(null);
-
-    const [overlayDimensions, setOverlayDimensions] = useState(0);
  
     //get schedule that is selected in sidebar and assign it to schedule variable
     const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
@@ -40,7 +39,8 @@ export default function TimeBoxes(props) {
     useEffect(() => {
         timeBoxGrid = generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
     }, [props.data, selectedSchedule])
-    
+
+    const overlayDimensions = useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef, selectedSchedule, expanded);
     const [activeOverlayHeight, pauseActiveOverlay, resumeActiveOverlay] = useActiveOverlay(schedule, overlayDimensions);
 
     return (
@@ -52,7 +52,6 @@ export default function TimeBoxes(props) {
                 {/*Headers */}
                 <div className="row">
                     <div className="col-1"></div>
-                    <OverlayLogic setOverlayDimensions={setOverlayDimensions} expanded={expanded} timeboxColumnRef={timeboxColumnRef} headerContainerRef={headerContainerRef} gridContainerRef={gridContainerRef}></OverlayLogic>
                     
                     {dayToName.map((day, index) => (
                         <div ref={headerContainerRef} key={index} style={{padding: '0'}} className={'col '+ifCurrentDay(index, 'currentDay', '')}>

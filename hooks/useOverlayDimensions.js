@@ -1,5 +1,7 @@
-export default function useOverlayDimensions() {
-    const { gridContainerRef, headerContainerRef, timeboxColumnRef, setOverlayDimensions, selectedSchedule, expanded } = props;
+import { useState, useEffect } from "react";
+
+export default function useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef, selectedSchedule, expanded) {
+    const [overlayDimensions, setOverlayDimensions] = useState(0);
 
     function calculateOverlayDimensions() {
         if (gridContainerRef.current && headerContainerRef.current && timeboxColumnRef.current) { //if ref working
@@ -33,4 +35,6 @@ export default function useOverlayDimensions() {
         setOverlayDimensions([0, 0, 0]);
         setTimeout(calculateOverlayDimensions, 600);
     }, [expanded]);
+
+    return overlayDimensions;
 }
