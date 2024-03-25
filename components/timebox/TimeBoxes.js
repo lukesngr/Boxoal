@@ -14,6 +14,7 @@ import { ifCurrentDay, ifEqualOrBeyondCurrentDay, getArrayOfDayDateDayNameAndMon
 import { TimeboxRecordingContextProvider } from './TimeboxRecordingContext';
 import useActiveOverlay from '@/hooks/useActiveOverlay';
 import useOverlayDimensions from '@/hooks/useOverlayDimensions';
+import { useDispatch } from 'react-redux';
 
 export const ScheduleDataContext = createContext();
 
@@ -26,6 +27,9 @@ export default function TimeBoxes(props) {
     //get schedule that is selected in sidebar and assign it to schedule variable
     const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
     let schedule = props.data.data[selectedSchedule];
+    const dispatch = useDispatch();
+
+    dispatch({type: 'scheduleEssentials/set', payload: [schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber]});
 
     const dayToName = getArrayOfDayDateDayNameAndMonthForHeaders(selectedDate.toDate()); //get all info to make headers look nice
     const listOfTimes = returnTimesSeperatedForSchedule(schedule); //get times that go down each row
@@ -46,7 +50,6 @@ export default function TimeBoxes(props) {
     <>
         <TimeboxHeading expanded={expanded} setExpanded={setExpanded} selectedDate={selectedDate} setSelectedDate={setSelectedDate}></TimeboxHeading>
         <div ref={gridContainerRef} className="container-fluid mt-2 timeboxesGrid">
-            <ScheduleDataContext.Provider value={schedule}>
             <TimeboxRecordingContextProvider>
                 {/*Headers */}
                 <div className="row">
@@ -81,7 +84,6 @@ export default function TimeBoxes(props) {
                     </div>))}
                 </TimeboxDialogContextProvider>
             </TimeboxRecordingContextProvider>
-            </ScheduleDataContext.Provider>
         </div>
     </>
     )
