@@ -22,7 +22,7 @@ export default function TimeBox(props) {
         numberOfBoxes: 1
     });
     const [timeBoxFormVisible, setTimeBoxFormVisible] = useState(false);
-    const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen} = useContext(TimeboxDialogContext);
+    const [addTimeBoxDialogOpen, setAddTimeBoxDialogOpen] = useContext(TimeboxDialogContext);
 
     let date = day.date+"/"+day.month;
     let dayName = day.name;

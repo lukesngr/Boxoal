@@ -6,7 +6,7 @@ function TimeboxDialogContextProvider({ children }) {
     const [addTimeBoxDialogOpen, setAddTimeBoxDialogOpen] = useState(false);
     
     return (
-      <TimeboxDialogContext.Provider value={{ addTimeBoxDialogOpen, setAddTimeBoxDialogOpen}}>
+      <TimeboxDialogContext.Provider value={[addTimeBoxDialogOpen, setAddTimeBoxDialogOpen]}>
         {children}
       </TimeboxDialogContext.Provider>
     );
