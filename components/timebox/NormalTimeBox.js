@@ -9,7 +9,7 @@ import { TimeboxRecordingContext } from "./TimeboxRecordingContext";
 
 export default function NormalTimeBox(props) {
     const [recordedStartTime, setRecordedStartTime] = useState();
-    const {data, height, tags, overlayFuncs, date, time, schedule} = props;
+    const {data, height, tags, overlayFuncs, date, time} = props;
     const [pauseActiveOverlay, resumeActiveOverlay] = overlayFuncs;
     const [timeboxRecording, setTimeBoxRecording] = useContext(TimeboxRecordingContext);
     const {id, boxSizeUnit, boxSizeNumber} = useSelector(state => state.scheduleEssentials.value);
