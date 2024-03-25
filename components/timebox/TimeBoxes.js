@@ -11,7 +11,6 @@ import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
 import TimeboxHeading from './TimeboxHeading';
 import { calculateOverlayHeightForNow, generateTimeBoxGrid } from '@/modules/coreLogic';
 import { ifCurrentDay, ifEqualOrBeyondCurrentDay, getArrayOfDayDateDayNameAndMonthForHeaders } from '@/modules/dateLogic';
-import { OverlayLogic } from '../overlay/OverlayLogic';
 import { TimeboxRecordingContextProvider } from './TimeboxRecordingContext';
 import useActiveOverlay from '@/hooks/useActiveOverlay';
 import useOverlayDimensions from '@/hooks/useOverlayDimensions';
