@@ -29,7 +29,7 @@ export default function TimeBoxes(props) {
     let schedule = props.data.data[selectedSchedule];
     const dispatch = useDispatch();
 
-    dispatch({type: 'scheduleEssentials/set', payload: [schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber]});
+    dispatch({type: 'scheduleEssentials/set', payload: {wakeupTime: schedule.wakeupTime, boxSizeUnit: schedule.boxSizeUnit, boxSizeNumber: schedule.boxSizeNumber}});
 
     const dayToName = getArrayOfDayDateDayNameAndMonthForHeaders(selectedDate.toDate()); //get all info to make headers look nice
     const listOfTimes = returnTimesSeperatedForSchedule(schedule); //get times that go down each row

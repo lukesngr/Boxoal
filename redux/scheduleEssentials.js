@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const scheduleEssentials = createSlice({
   name: 'scheduleEssentials',
   initialState: {
-    value: {boxSizeUnit: 'hour', boxSizeNumber: 1, wakeupTime: '06:00'},
+    value: {boxSizeUnit: 'hr', boxSizeNumber: 1, wakeupTime: '06:00'},
   },
   reducers: {
     set: (state, action) => {
