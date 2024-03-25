@@ -221,3 +221,7 @@ export function generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid) {
     });
     return timeBoxGrid
 }
+
+export function getHeightForBoxes(numberOfBoxes) { return `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)` }
+
+    

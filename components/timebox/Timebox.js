@@ -8,6 +8,7 @@ import CreateTimeboxForm from '../form/CreateTimeboxForm';
 import UpdateTimeBoxModal from '../modal/UpdateTimeBoxModal';
 import NormalTimeBox from './NormalTimeBox';
 import { ifEqualOrBeyondCurrentDay } from '@/modules/dateLogic';
+import { getHeightForBoxes } from '@/modules/coreLogic';
 
 export default function TimeBox(props) {
 
@@ -26,8 +27,6 @@ export default function TimeBox(props) {
     let date = day.date+"/"+day.month;
     let dayName = day.name;
     let active = ifEqualOrBeyondCurrentDay(index, true, false)
-
-    function getHeightForBoxes(numberOfBoxes) { return `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)` }
 
     function setTimeBoxVisibility(state) {
         setTimeBoxFormVisible(state);
