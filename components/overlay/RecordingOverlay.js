@@ -1,16 +1,19 @@
 import { useContext, useEffect, useState } from 'react';
 import { calculateSizeOfRecordingOverlay } from '@/modules/coreLogic';
 import { TimeboxRecordingContext } from '../timebox/TimeboxRecordingContext';
+import { useSelector } from 'react-redux';
 
 export default function RecordingOverlay(props) {
     const [timeboxRecording, setTimeBoxRecording] = useContext(TimeboxRecordingContext);
     const [recordingOverlayHeight, setRecordingOverlayHeight] = useState(0);
-    const {schedule, activeOverlayHeight, overlayDimensions} = props;
+    const {activeOverlayHeight, overlayDimensions} = props;
+    const schedule = useSelector(state => state.scheduleEssentials.value);
+    console.log(activeOverlayHeight, overlayDimensions)
 
     useEffect(() => {
         if(timeboxRecording[0] != -1) {
             let recordingOverlayInterval = setInterval(() => {
-                setRecordingOverlayHeight(calculateSizeOfRecordingOverlay(schedule, overlayDimensions, activeOverlayHeight));
+                setRecordingOverlayHeight(calculateSizeOfRecordingOverlay(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions, activeOverlayHeight));
             }, 5000);
         
             return () => {

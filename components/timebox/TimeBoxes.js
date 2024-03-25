@@ -27,9 +27,9 @@ export default function TimeBoxes(props) {
     //get schedule that is selected in sidebar and assign it to schedule variable
     const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
     let schedule = props.data.data[selectedSchedule];
-    const dispatch = useDispatch();
+    
 
-    dispatch({type: 'scheduleEssentials/set', payload: {wakeupTime: schedule.wakeupTime, boxSizeUnit: schedule.boxSizeUnit, boxSizeNumber: schedule.boxSizeNumber}});
+    
 
     const dayToName = getArrayOfDayDateDayNameAndMonthForHeaders(selectedDate.toDate()); //get all info to make headers look nice
     const listOfTimes = returnTimesSeperatedForSchedule(schedule); //get times that go down each row
@@ -43,8 +43,11 @@ export default function TimeBoxes(props) {
         timeBoxGrid = generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
     }, [props.data, selectedSchedule])
 
-    const overlayDimensions = useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef, selectedSchedule, expanded);
+    //const overlayDimensions = useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef, selectedSchedule, expanded);
+    let overlayDimensions = [0, 0, 0];
     const [activeOverlayHeight, pauseActiveOverlay, resumeActiveOverlay] = useActiveOverlay(schedule, overlayDimensions);
+    
+    //dispatch({type: 'scheduleEssentials/set', payload: {wakeupTime: schedule.wakeupTime, boxSizeUnit: schedule.boxSizeUnit, boxSizeNumber: schedule.boxSizeNumber}});
 
     return (
     <>
@@ -60,7 +63,7 @@ export default function TimeBoxes(props) {
                             <span className='timeboxHeadingText'>{day.name}<br />{" ("+day.date+"/"+day.month+")"}</span>
                             {ifCurrentDay(index, true, false) && <>
                                 <ActiveOverlay width={overlayDimensions[0]} overlayHeight={activeOverlayHeight}></ActiveOverlay>
-                                <RecordingOverlay overlayDimensions={overlayDimensions} schedule={schedule} 
+                                <RecordingOverlay overlayDimensions={overlayDimensions}
                                 activeOverlayHeight={activeOverlayHeight}></RecordingOverlay>
                             </>}
                             {!ifCurrentDay(index, true, false) && <Overlay dimensions={overlayDimensions} active={ifEqualOrBeyondCurrentDay(index, true, false)}></Overlay>}
