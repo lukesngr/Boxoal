@@ -6,7 +6,8 @@ import {toast} from "react-toastify";
 import { ScheduleDataContext } from "../timebox/TimeBoxes";
 
 export default function CreateTimeboxForm(props) {
-    let {time, date, closeTimeBox, dayName, listOfColors, schedule, ...theRest} = props;
+    const listOfColors = ["#00E3DD", "#00C5E6", "#00A4E7", "#0081DC", "#1E5ABF", "#348D9D", "#67D6FF"];
+    let {time, date, closeTimeBox, dayName, schedule, ...theRest} = props;
     let [timeboxFormData, setTimeboxFormData] = props.timeboxFormData;
     //const {schedule} = useContext(ScheduleDataContext);
 
