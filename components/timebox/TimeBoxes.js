@@ -28,12 +28,16 @@ export default function TimeBoxes(props) {
     const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
     let schedule = props.data.data[selectedSchedule];
     const dispatch = useDispatch();
-    dispatch({type: 'scheduleEssentials/set', payload: {wakeupTime: schedule.wakeupTime, boxSizeUnit: schedule.boxSizeUnit, boxSizeNumber: schedule.boxSizeNumber}});
+    
     const dayToName = getArrayOfDayDateDayNameAndMonthForHeaders(selectedDate.toDate()); //get all info to make headers look nice
     const listOfTimes = returnTimesSeperatedForSchedule(schedule); //get times that go down each row
     
     //make a map for the timeboxes with a map inside it
     //this allows fast lookup based on date than time first
+
+    useEffect(() => {
+        dispatch({type: 'scheduleEssentials/set', payload: {id: schedule.id, wakeupTime: schedule.wakeupTime, boxSizeUnit: schedule.boxSizeUnit, boxSizeNumber: schedule.boxSizeNumber}});
+    });
     let timeBoxGrid = new Map();
     timeBoxGrid = generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
     
@@ -66,7 +70,7 @@ export default function TimeBoxes(props) {
                             <RecordedTimeBoxOverlay data={schedule.recordedTimeboxes.filter(function(obj) {
                                 let recordedStartTime = new Date(obj.recordedStartTime);
                                 return (recordedStartTime.getMonth()+1) == day.month && (recordedStartTime.getDate()) == day.date;
-                            })} overlayDimensions={overlayDimensions} schedule={schedule}></RecordedTimeBoxOverlay>
+                            })} overlayDimensions={overlayDimensions}></RecordedTimeBoxOverlay>
                         </div>
                     ))}
                 </div>

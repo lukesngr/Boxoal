@@ -12,6 +12,7 @@ export default function NormalTimeBox(props) {
     const {data, height, tags, overlayFuncs, date, time, schedule} = props;
     const [pauseActiveOverlay, resumeActiveOverlay] = overlayFuncs;
     const [timeboxRecording, setTimeBoxRecording] = useContext(TimeboxRecordingContext);
+    const {id, boxSizeUnit, boxSizeNumber} = useSelector(state => state.scheduleEssentials.value);
     
     
     const noPreviousRecording = thereIsNoRecording(data.recordedTimeBoxes, data.reoccuring, date, time);
@@ -29,7 +30,7 @@ export default function NormalTimeBox(props) {
         setTimeBoxRecording([-1, 0]);
         resumeActiveOverlay();
         axios.post('/api/createRecordedTimebox', 
-            {recordedStartTime, recordedEndTime: new Date(), timeBox: {connect: {id: data.id}}, schedule: {connect: {id: schedule.id}}
+            {recordedStartTime, recordedEndTime: new Date(), timeBox: {connect: {id: data.id}}, schedule: {connect: {id}}
         }).then(() => {
             queryClient.refetchQueries();
             toast.success("Added recorded timebox!", {
@@ -46,8 +47,8 @@ export default function NormalTimeBox(props) {
     function autoRecord() {
         axios.post('/api/createRecordedTimebox', 
             {recordedStartTime: convertToDateTime(time, date), 
-                recordedEndTime: convertToDateTime(addBoxesToTime(schedule.boxSizeUnit, schedule.boxSizeNumber, time, data.numberOfBoxes), date),
-                 timeBox: {connect: {id: data.id}}, schedule: {connect: {id: schedule.id}}
+                recordedEndTime: convertToDateTime(addBoxesToTime(boxSizeUnit, boxSizeNumber, time, data.numberOfBoxes), date),
+                 timeBox: {connect: {id: data.id}}, schedule: {connect: {id}}
         }).then(() => {
             queryClient.refetchQueries();
             toast.success("Added recorded timebox!", {
