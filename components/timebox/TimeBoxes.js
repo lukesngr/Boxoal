@@ -3,7 +3,7 @@ import { returnTimesSeperatedForSchedule } from '@/modules/timeLogic';
 import '../../styles/timeboxes.scss';
 import TimeBox from './Timebox';
 import { ScheduleContext } from '../schedule/ScheduleContext';
-import { TimeboxContextProvider } from "./TimeboxContext";
+import { TimeboxContextProvider } from "./TimeboxDialogContext";
 import Overlay from '../overlay/Overlay';
 import ActiveOverlay from '../overlay/ActiveOverlay';
 import RecordingOverlay from '../overlay/RecordingOverlay';

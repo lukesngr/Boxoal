@@ -1,4 +1,4 @@
-import { TimeboxContext } from '../timebox/TimeboxContext';
+import { TimeboxContext } from '../timebox/TimeboxDialogContext';
 import { useContext, useEffect, useState } from 'react';
 import { calculateSizeOfRecordingOverlay } from '@/modules/coreLogic';
 
