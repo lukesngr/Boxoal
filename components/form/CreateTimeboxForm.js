@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { calculateMaxNumberOfBoxes, convertToDateTime, addBoxesToTime } from "@/modules/coreLogic";
 import { queryClient } from './../../pages/_app';
 import axios from 'axios';
 import {toast} from "react-toastify";
+import { ScheduleDataContext } from "../timebox/TimeBoxes";
 
 export default function CreateTimeboxForm(props) {
-    let {schedule, time, date, closeTimeBox, dayName, listOfColors, ...theRest} = props;
+    let {time, date, closeTimeBox, dayName, listOfColors, schedule, ...theRest} = props;
     let [timeboxFormData, setTimeboxFormData] = props.timeboxFormData;
+    //const {schedule} = useContext(ScheduleDataContext);
 
 
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(schedule, time, date);
@@ -67,7 +69,7 @@ export default function CreateTimeboxForm(props) {
                     <option value="daily">Daily</option>
                     <option value="weekly">Weekly</option>
                 </select><br />
-                {reoccurFrequency == 'weekly' && 
+                {timeboxFormData.reoccurFrequency == 'weekly' && 
                     <>
                         <label htmlFor="weeklyDate">Weekly Date</label>
                         <input data-testid="weeklyDate" type="date" name="weeklyDate" id="weeklyDate" onChange={handleChange}></input>

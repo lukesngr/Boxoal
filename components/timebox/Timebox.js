@@ -41,12 +41,12 @@ export default function TimeBox(props) {
 
         {/* Form section of this TimeBox component */}
         {timeBoxFormVisible && <><CreateTimeboxForm time={time} date={date} timeboxFormData={[timeboxFormData, setTimeboxFormData]}
-        closeTimeBox={() => setTimeBoxVisibility(true)} dayName={dayName} listOfColors={listOfColors}></CreateTimeboxForm>
-        <div style={{height: getHeightForBoxes(numberOfBoxes)}} id="placeholderTimeBox">{title}</div></>}
+        closeTimeBox={() => setTimeBoxVisibility(true)} schedule={schedule} dayName={dayName} listOfColors={listOfColors}></CreateTimeboxForm>
+        <div style={{height: getHeightForBoxes(timeboxFormData.numberOfBoxes)}} id="placeholderTimeBox">{timeboxFormData.numberOfBoxes}</div></>}
 
         {/* Normal time box */}
         {data && <UpdateTimeBoxModal timebox={data} render={tags => 
-            (<NormalTimeBox tags={tags} data={data} overlayFuncs={overlayFuncs} recordFuncs={[timeboxRecording, setTimeBoxRecording]}
+            (<NormalTimeBox tags={tags} data={data} schedule={schedule} overlayFuncs={overlayFuncs} recordFuncs={[timeboxRecording, setTimeBoxRecording]}
               height={getHeightForBoxes(data.numberOfBoxes)} date={date} time={time}></NormalTimeBox>)
         }></UpdateTimeBoxModal> }
 
