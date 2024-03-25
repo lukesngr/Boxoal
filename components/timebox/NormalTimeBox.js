@@ -8,9 +8,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function NormalTimeBox(props) {
     const [recordedStartTime, setRecordedStartTime] = useState();
-    const {data, height, tags, overlayFuncs, recordFuncs, date, time, schedule} = props;
+    const {data, height, tags, overlayFuncs, date, time, schedule} = props;
     const [pauseActiveOverlay, resumeActiveOverlay] = overlayFuncs;
-    const [timeboxRecording, setTimeBoxRecording] = recordFuncs;
+    const [timeboxRecording, setTimeBoxRecording] = useContext(TimeboxContext);
     
     
     const noPreviousRecording = thereIsNoRecording(data.recordedTimeBoxes, data.reoccuring, date, time);

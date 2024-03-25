@@ -22,8 +22,7 @@ export default function TimeBox(props) {
     });
     
     const [timeBoxFormVisible, setTimeBoxFormVisible] = useState(false);
-    const [addTimeBoxDialogOpen, setAddTimeBoxDialogOpen] = useState(false);
-    const {listOfColors, timeboxRecording, setTimeBoxRecording} = useContext(TimeboxContext);
+    const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen, ...rest} = useContext(TimeboxContext);
 
     function getHeightForBoxes(numberOfBoxes) { return `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)` }
 
