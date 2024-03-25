@@ -2,17 +2,19 @@ import { useEffect, useState } from "react";
 import { calculatePixelsFromTopOfGridBasedOnTime } from "@/modules/coreLogic";
 import UpdateTimeBoxModal from "../modal/UpdateTimeBoxModal";
 import PortalComponent from "../modal/PortalComponent";
+import { useSelector } from "react-redux";
 
 export default function RecordedTimeBoxOverlay(props) {
-    let {data, schedule, overlayDimensions} = props;
+    let {data, overlayDimensions} = props;
     const [recordedBoxes, setRecordedBoxes] = useState([]);
+    const {wakeupTime, boxSizeUnit, boxSizeNumber} = useSelector(state => state.scheduleEssentials.value);
 
     useEffect(() => {
         setRecordedBoxes([]) //so deleted recordings don't get stuck
         if(data.length > 0) {
             let normalArrayFromState = [...recordedBoxes];
             data.forEach(element => {
-                let fieldsForCalculation = [schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions];
+                let fieldsForCalculation = [wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions];
                 let marginFromTop = calculatePixelsFromTopOfGridBasedOnTime(...fieldsForCalculation, new Date(element.recordedStartTime));
                 let heightForBox = calculatePixelsFromTopOfGridBasedOnTime(...fieldsForCalculation, new Date(element.recordedEndTime)) - marginFromTop;
                 if(heightForBox < 30) {
