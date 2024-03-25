@@ -64,7 +64,7 @@ export default function TimeBoxes(props) {
         <TimeboxHeading expanded={expanded} setExpanded={setExpanded} selectedDate={selectedDate} setSelectedDate={setSelectedDate}></TimeboxHeading>
         <div ref={gridContainerRef} className="container-fluid mt-2 timeboxesGrid">
             <TimeboxContextProvider>
-
+            <ScheduleDataContext.Provider value={schedule}>
                 {/*Headers */}
                 <div className="row">
                     <div className="col-1"></div>
@@ -97,6 +97,7 @@ export default function TimeBoxes(props) {
                              overlayFuncs={[pauseActiveOverlay, resumeActiveOverlay]}></TimeBox>
                         ))}
                     </div>))}
+            </ScheduleDataContext.Provider>
             </TimeboxContextProvider>
         </div>
     </>
