@@ -13,6 +13,7 @@ import { calculateOverlayHeightForNow, generateTimeBoxGrid } from '@/modules/cor
 import { ifCurrentDay, ifEqualOrBeyondCurrentDay, getArrayOfDayDateDayNameAndMonthForHeaders } from '@/modules/dateLogic';
 import { OverlayLogic } from '../overlay/OverlayLogic';
 import { TimeboxRecordingContextProvider } from './TimeboxRecordingContext';
+import useActiveOverlay from '@/hooks/useActiveOverlay';
 
 export const ScheduleDataContext = createContext();
 
@@ -21,11 +22,8 @@ export default function TimeBoxes(props) {
     const gridContainerRef = useRef(null);
     const headerContainerRef = useRef(null);
     const timeboxColumnRef = useRef(null);
-    const activeOverlayInterval = useRef(null);
-    const activeOverlayResetTime = 5000;
 
     const [overlayDimensions, setOverlayDimensions] = useState(0);
-    const [activeOverlayHeight, setActiveOverlayHeight] = useState(0);
  
     //get schedule that is selected in sidebar and assign it to schedule variable
     const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
@@ -43,22 +41,7 @@ export default function TimeBoxes(props) {
         timeBoxGrid = generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
     }, [props.data, selectedSchedule])
     
-    
-
-    //when overlay dimensions changes set active overlay height
-    useEffect(() => {
-        setActiveOverlayHeight(calculateOverlayHeightForNow(schedule, overlayDimensions));
-
-        activeOverlayInterval.current = setInterval(() => { setActiveOverlayHeight(calculateOverlayHeightForNow(schedule, overlayDimensions))}, activeOverlayResetTime);
-        
-        return () => { clearInterval(activeOverlayInterval.current); };
-    }, [overlayDimensions])
-
-    function pauseActiveOverlay() { clearInterval(activeOverlayInterval.current); }
-
-    function resumeActiveOverlay() { 
-        activeOverlayInterval.current = setInterval(() => {setActiveOverlayHeight(calculateOverlayHeightForNow(schedule, overlayDimensions))}, activeOverlayResetTime);
-    }
+    const [activeOverlayHeight, pauseActiveOverlay, resumeActiveOverlay] = useActiveOverlay(schedule, overlayDimensions);
 
     return (
     <>
