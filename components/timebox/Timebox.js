@@ -20,34 +20,28 @@ export default function TimeBox(props) {
         weeklyDate: new Date(),
         numberOfBoxes: 1
     });
-    const [numberOfBoxes, setNumberOfBoxes] = useState(1);
-    const [title, setTitle] = useState("");
+    
     const [timeBoxFormVisible, setTimeBoxFormVisible] = useState(false);
     const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen, listOfColors, timeboxRecording, setTimeBoxRecording} = useContext(TimeboxContext);
 
     function getHeightForBoxes(numberOfBoxes) { return `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)` }
 
-    function addTimeBox() {
-        setTimeBoxFormVisible(true);
-        setAddTimeBoxDialogOpen(true);
-    }
-
-    function closeTimeBox() {
-        setTimeBoxFormVisible(false);
-        setAddTimeBoxDialogOpen(false);
+    function setTimeBoxVisibility(state) {
+        setTimeBoxFormVisible(state);
+        setAddTimeBoxDialogOpen(state);
     }
 
     return (
     <div className={'col timeBox'}>
         {/* Add timebox button */}
         {active && !timeBoxFormVisible && !addTimeBoxDialogOpen && !props.data &&
-        <button data-testid="addTimeBoxButton" onClick={addTimeBox} className="btn btn-dark addBoxButton">
+        <button data-testid="addTimeBoxButton" onClick={() => setTimeBoxVisibility(true)} className="btn btn-dark addBoxButton">
             <FontAwesomeIcon height={25} width={25} icon={faCirclePlus}/>
         </button>}
 
         {/* Form section of this TimeBox component */}
-        {timeBoxFormVisible && <><CreateTimeboxForm schedule={schedule} time={time} date={date} numberOfBoxes={[numberOfBoxes, setNumberOfBoxes]}
-        closeTimeBox={closeTimeBox} dayName={dayName} titleFunc={[title, setTitle]} listOfColors={listOfColors}></CreateTimeboxForm>
+        {timeBoxFormVisible && <><CreateTimeboxForm schedule={schedule} time={time} date={date} timeboxFormData={[timeboxFormData, setTimeboxFormData]}
+        closeTimeBox={() => setTimeBoxVisibility(true)} dayName={dayName} listOfColors={listOfColors}></CreateTimeboxForm>
         <div style={{height: getHeightForBoxes(numberOfBoxes)}} id="placeholderTimeBox">{title}</div></>}
 
         {/* Normal time box */}

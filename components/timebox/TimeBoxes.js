@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext, useEffect, useMemo } from 'react';
+import React, { useRef, useState, useContext, useEffect, useMemo, createContext } from 'react';
 import { returnTimesSeperatedForSchedule } from '@/modules/timeLogic';
 import '../../styles/timeboxes.scss';
 import TimeBox from './Timebox';
@@ -12,6 +12,8 @@ import TimeboxHeading from './TimeboxHeading';
 import { calculateOverlayHeightForNow, generateTimeBoxGrid } from '@/modules/coreLogic';
 import { ifCurrentDay, ifEqualOrBeyondCurrentDay, getArrayOfDayDateDayNameAndMonthForHeaders } from '@/modules/dateLogic';
 import { OverlayLogic } from '../overlay/OverlayLogic';
+
+export const ScheduleDataContext = createContext();
 
 export default function TimeBoxes(props) {
 
