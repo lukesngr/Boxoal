@@ -8,7 +8,6 @@ export default function RecordingOverlay(props) {
     const [recordingOverlayHeight, setRecordingOverlayHeight] = useState(0);
     const {activeOverlayHeight, overlayDimensions} = props;
     const schedule = useSelector(state => state.scheduleEssentials.value);
-    console.log(activeOverlayHeight, overlayDimensions)
 
     useEffect(() => {
         if(timeboxRecording[0] != -1) {

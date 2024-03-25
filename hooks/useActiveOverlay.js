@@ -8,9 +8,9 @@ export default function useActiveOverlay(schedule, overlayDimensions) {
     const activeOverlayResetTime = 5000;
 
     useEffect(() => {
-        setActiveOverlayHeight(calculateOverlayHeightForNow(schedule, overlayDimensions));
+        setActiveOverlayHeight(calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions));
 
-        activeOverlayInterval.current = setInterval(() => { setActiveOverlayHeight(calculateOverlayHeightForNow(schedule, overlayDimensions))}, activeOverlayResetTime);
+        activeOverlayInterval.current = setInterval(() => { setActiveOverlayHeight(calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions))}, activeOverlayResetTime);
         
         return () => { clearInterval(activeOverlayInterval.current); };
     }, [overlayDimensions])
@@ -18,7 +18,7 @@ export default function useActiveOverlay(schedule, overlayDimensions) {
     function pauseActiveOverlay() { clearInterval(activeOverlayInterval.current); }
 
     function resumeActiveOverlay() { 
-        activeOverlayInterval.current = setInterval(() => {setActiveOverlayHeight(calculateOverlayHeightForNow(schedule, overlayDimensions))}, activeOverlayResetTime);
+        activeOverlayInterval.current = setInterval(() => {setActiveOverlayHeight(calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions))}, activeOverlayResetTime);
     }
 
     return [activeOverlayHeight, pauseActiveOverlay, resumeActiveOverlay];
