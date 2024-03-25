@@ -11,11 +11,7 @@ export default function CreateTimeboxForm(props) {
     let initialSelectedGoal;
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(schedule, time, date);
 
-    if(schedule.goals.length > 0) {
-        initialSelectedGoal = schedule.goals[0].id;
-    }else{
-        initialSelectedGoal = null;
-    }
+    
 
     const [goalSelected, setGoalSelected] = useState(initialSelectedGoal);
     const [description, setDescription] = useState("");

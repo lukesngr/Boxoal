@@ -11,6 +11,15 @@ import NormalTimeBox from './NormalTimeBox';
 export default function TimeBox(props) {
 
     const {schedule, time, date, active, dayName, data, overlayFuncs} = props;
+    
+    const [timeboxFormData, setTimeboxFormData] = useState({
+        title: "",
+        description: "",
+        goalSelected: null,
+        reoccurFrequency: "no",
+        weeklyDate: new Date(),
+        numberOfBoxes: 1
+    });
     const [numberOfBoxes, setNumberOfBoxes] = useState(1);
     const [title, setTitle] = useState("");
     const [timeBoxFormVisible, setTimeBoxFormVisible] = useState(false);
