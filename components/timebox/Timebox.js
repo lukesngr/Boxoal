@@ -7,11 +7,11 @@ import { TimeboxDialogContext } from './TimeboxDialogContext';
 import CreateTimeboxForm from '../form/CreateTimeboxForm';
 import UpdateTimeBoxModal from '../modal/UpdateTimeBoxModal';
 import NormalTimeBox from './NormalTimeBox';
+import { ifEqualOrBeyondCurrentDay } from '@/modules/dateLogic';
 
 export default function TimeBox(props) {
 
-    const {schedule, time, date, active, dayName, data, overlayFuncs} = props;
-    
+    const {schedule, time, day, index, data, overlayFuncs} = props;
     const [timeboxFormData, setTimeboxFormData] = useState({
         title: "",
         description: "",
@@ -20,9 +20,12 @@ export default function TimeBox(props) {
         weeklyDate: new Date(),
         numberOfBoxes: 1
     });
-    
     const [timeBoxFormVisible, setTimeBoxFormVisible] = useState(false);
     const {addTimeBoxDialogOpen, setAddTimeBoxDialogOpen} = useContext(TimeboxDialogContext);
+
+    let date = day.date+"/"+day.month;
+    let dayName = day.name;
+    let active = ifEqualOrBeyondCurrentDay(index, true, false)
 
     function getHeightForBoxes(numberOfBoxes) { return `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)` }
 

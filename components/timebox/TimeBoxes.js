@@ -94,9 +94,8 @@ export default function TimeBoxes(props) {
                     <div key={time} className="row">
                         <div ref={timeboxColumnRef} className="col-1 timeCol">{time}</div>
                         {dayToName.map((day, index) => (
-                            <TimeBox key={index} dayName={day.name} active={ifEqualOrBeyondCurrentDay(index, true, false)}
-                             schedule={schedule} time={time} date={day.date+"/"+day.month} data={timeBoxGrid.get(day.date+"/"+day.month)?.get(time)}
-                             overlayFuncs={[pauseActiveOverlay, resumeActiveOverlay]}></TimeBox>
+                            <TimeBox key={index} index={index} day={day} schedule={schedule} time={time} 
+                            data={timeBoxGrid.get(day.date+"/"+day.month)?.get(time)} overlayFuncs={[pauseActiveOverlay, resumeActiveOverlay]}></TimeBox>
                         ))}
                     </div>))}
                 </TimeboxDialogContextProvider>
