@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { calculateOverlayHeightForNow } from '@/modules/coreLogic';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { resetTimer, setTimer } from '@/redux/activeOverlayInterval';
+import { resetActiveOverlayInterval, setActiveOverlayInterval } from '@/redux/activeOverlayInterval';
 
 export default function useActiveOverlay(schedule) {
 
@@ -11,9 +11,9 @@ export default function useActiveOverlay(schedule) {
 
     useEffect(() => {
         dispatch({type:"activeOverlayHeight/set", payload: calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions)});
-        dispatch(setTimer());
+        dispatch(setActiveOverlayInterval());
         
-        return () => { dispatch(resetTimer()); };
+        return () => { dispatch(resetActiveOverlayInterval()); };
     }, [overlayDimensions])
 
     return;

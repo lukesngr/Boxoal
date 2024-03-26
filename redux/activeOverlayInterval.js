@@ -15,7 +15,7 @@ import { calculateOverlayHeightForNow } from '@/modules/coreLogic';
     },
   })
 
-  export function setTimer() { 
+  export function setActiveOverlayInterval() { 
     return function (dispatch, getState) {
       const overlayDimensions = getState().overlayDimensions.value;
       const {wakeupTime, boxSizeUnit, boxSizeNumber} = getState().scheduleEssentials.value;
@@ -28,7 +28,7 @@ import { calculateOverlayHeightForNow } from '@/modules/coreLogic';
   }
 };
 
-export function resetTimer() {
+export function resetActiveOverlayInterval() {
    return function(dispatch, getState) {
     if(getState().activeOverlayInterval.value) {
       clearInterval(getState().activeOverlayInterval.value);
