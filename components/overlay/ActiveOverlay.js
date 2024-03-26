@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
 export default function ActiveOverlay(props) {
-    return <div className="overlay" style={{width: props.width+"px", height: props.overlayHeight+"px"}}></div>
+    const overlayDimensions = useSelector(state => state.overlayDimensions.value);
+    return <div className="overlay" style={{width: overlayDimensions[0]+"px", height: props.overlayHeight+"px"}}></div>
 }
