@@ -13,9 +13,10 @@ function set() {
   return createAsyncThunk('activeOverlayInterval/set', 
   async function(arg, {dispatch, getState}) {
     const overlayDimensions = getState().overlayDimensions.value;
+    const {wakeupTime, boxSizeUnit, boxSizeNumber} = getState().scheduleEssentials.value;
     getState().activeOverlayInterval.value.current = setInterval(() => 
         { 
-            dispatch({type:"activeOverlayHeight/set", payload: calculateOverlayHeightForNow(arg.wakeupTime, arg.boxSizeUnit, arg.boxSizeNumber, overlayDimensions)});
+            dispatch({type:"activeOverlayHeight/set", payload: calculateOverlayHeightForNow(wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions)});
         }
     , 5000);
   

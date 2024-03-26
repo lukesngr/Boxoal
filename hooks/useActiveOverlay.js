@@ -12,13 +12,9 @@ export default function useActiveOverlay(schedule) {
 
     useEffect(() => {
         dispatch({type:"activeOverlayHeight/set", payload: calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions)});
-        activeOverlayInterval.current = setInterval(() => 
-            { 
-                dispatch({type:"activeOverlayHeight/set", payload: calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions)});
-            }
-        , activeOverlayResetTime);
+        dispatch({type:"activeOverlayInterval/set"});
         
-        return () => { clearInterval(activeOverlayInterval.current); };
+        return () => { dispatch({type:"activeOverlayInterval/clear"}); };
     }, [overlayDimensions])
 
     function pauseActiveOverlay() { clearInterval(activeOverlayInterval.current); }
