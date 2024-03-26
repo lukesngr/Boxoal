@@ -6,9 +6,9 @@ import { useSelector } from 'react-redux';
 export default function RecordingOverlay(props) {
     const [timeboxRecording, setTimeBoxRecording] = useContext(TimeboxRecordingContext);
     const [recordingOverlayHeight, setRecordingOverlayHeight] = useState(0);
-    const {activeOverlayHeight} = props;
     const {wakeupTime, boxSizeUnit, boxSizeNumber} = useSelector(state => state.scheduleEssentials.value);
     const overlayDimensions = useSelector(state => state.overlayDimensions.value);
+    const activeOverlayHeight = useSelector(state => state.activeOverlayHeight.value);
 
     useEffect(() => {
         if(timeboxRecording[0] != -1) {
