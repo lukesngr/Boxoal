@@ -6,7 +6,7 @@ export const overlayDimensions = createSlice({
     value: 0,
   },
   reducers: {
-    setOverlayDimensions: (state, action) => {
+    set: (state, action) => {
       state.value = action.payload;
     },
   },
