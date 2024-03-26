@@ -6,9 +6,12 @@ export const activeOverlay = createSlice({
     value: {activeOverlayHeight: 0, activeOverlayInterval: useRef(null).current},
   },
   reducers: {
-    set: (state, action) => {
+    overallActiveOverlaySet: (state, action) => {
       state.value = action.payload;
     },
+    reset: (state) => {
+      state.value = {...state, activeOverlayInterval: clearInterval(state.value.activeOverlayInterval)};
+    }
   },
 })
 

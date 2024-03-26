@@ -15,7 +15,7 @@ export default function useActiveOverlay(schedule, overlayDimensions) {
             activeOverlayInterval: setInterval(() => { setActiveOverlayHeight(calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions))}, activeOverlayResetTime)
         }});
         
-        //return () => { clearInterval(activeOverlayInterval.current); };
+        return () => { dispatch({type: "activeOverlay/reset"})};
     }, [overlayDimensions])
 
     function pauseActiveOverlay() { clearInterval(activeOverlayInterval.current); }
