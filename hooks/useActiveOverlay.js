@@ -8,7 +8,6 @@ export default function useActiveOverlay(schedule) {
     const activeOverlayInterval = useRef(null);
     const activeOverlayResetTime = 5000;
     const overlayDimensions = useSelector(state => state.overlayDimensions.value);
-    const activeOverlayHeight = useSelector(state => state.activeOverlayHeight.value);
     const dispatch = useDispatch();
 
     useEffect(() => {
