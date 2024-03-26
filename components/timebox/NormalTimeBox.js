@@ -6,13 +6,14 @@ import { useContext, useState } from "react";
 import { faCircleCheck, faCircleDot, faCircleStop } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TimeboxRecordingContext } from "./TimeboxRecordingContext";
+import { useDispatch } from "react-redux";
 
 export default function NormalTimeBox(props) {
     const [recordedStartTime, setRecordedStartTime] = useState();
     const {data, height, tags, overlayFuncs, date, time} = props;
-    const [pauseActiveOverlay, resumeActiveOverlay] = overlayFuncs;
     const [timeboxRecording, setTimeBoxRecording] = useContext(TimeboxRecordingContext);
     const {id, boxSizeUnit, boxSizeNumber} = useSelector(state => state.scheduleEssentials.value);
+    const dispatch = useDispatch();
     
     
     const noPreviousRecording = thereIsNoRecording(data.recordedTimeBoxes, data.reoccuring, date, time);
@@ -22,13 +23,13 @@ export default function NormalTimeBox(props) {
 
     function startRecording() {
         setTimeBoxRecording([data.id, date]);
-        pauseActiveOverlay();
+        dispatch({type:"activeOverlayInterval/clear"});
         setRecordedStartTime(new Date());
     }
 
     function stopRecording() {
         setTimeBoxRecording([-1, 0]);
-        resumeActiveOverlay();
+        dispatch({type:"activeOverlayInterval/clear"});
         axios.post('/api/createRecordedTimebox', 
             {recordedStartTime, recordedEndTime: new Date(), timeBox: {connect: {id: data.id}}, schedule: {connect: {id}}
         }).then(() => {

@@ -5,8 +5,6 @@ import { useSelector } from 'react-redux';
 
 export default function useActiveOverlay(schedule) {
 
-    const activeOverlayInterval = useRef(null);
-    const activeOverlayResetTime = 5000;
     const overlayDimensions = useSelector(state => state.overlayDimensions.value);
     const dispatch = useDispatch();
 
@@ -17,14 +15,5 @@ export default function useActiveOverlay(schedule) {
         return () => { dispatch({type:"activeOverlayInterval/clear"}); };
     }, [overlayDimensions])
 
-    function pauseActiveOverlay() { clearInterval(activeOverlayInterval.current); }
-
-    function resumeActiveOverlay() { 
-        activeOverlayInterval.current = setInterval(() => 
-        { 
-            dispatch({type:"activeOverlayHeight/set", payload: calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions)});
-        }, activeOverlayResetTime);
-    }
-
-    return [pauseActiveOverlay, resumeActiveOverlay];
+    return;
 }

@@ -46,7 +46,7 @@ export default function TimeBoxes(props) {
     }, [props.data, selectedSchedule])
 
     useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef, selectedSchedule, expanded);
-    const [pauseActiveOverlay, resumeActiveOverlay] = useActiveOverlay(schedule);
+    useActiveOverlay(schedule);
     
     
 
@@ -82,7 +82,7 @@ export default function TimeBoxes(props) {
                         <div ref={timeboxColumnRef} className="col-1 timeCol">{time}</div>
                         {dayToName.map((day, index) => (
                             <TimeBox key={index} index={index} day={day} schedule={schedule} time={time} 
-                            data={timeBoxGrid.get(day.date+"/"+day.month)?.get(time)} overlayFuncs={[pauseActiveOverlay, resumeActiveOverlay]}></TimeBox>
+                            data={timeBoxGrid.get(day.date+"/"+day.month)?.get(time)}></TimeBox>
                         ))}
                     </div>))}
                 </TimeboxDialogContextProvider>

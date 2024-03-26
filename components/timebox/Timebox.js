@@ -12,7 +12,7 @@ import { getHeightForBoxes } from '@/modules/coreLogic';
 
 export default function TimeBox(props) {
 
-    const {schedule, time, day, index, data, overlayFuncs} = props;
+    const {schedule, time, day, index, data} = props;
     const [timeboxFormData, setTimeboxFormData] = useState({
         title: "",
         description: "",
@@ -48,7 +48,7 @@ export default function TimeBox(props) {
 
         {/* Normal time box */}
         {data && <UpdateTimeBoxModal timebox={data} render={tags => 
-            (<NormalTimeBox tags={tags} data={data} overlayFuncs={overlayFuncs}
+            (<NormalTimeBox tags={tags} data={data}
               height={getHeightForBoxes(data.numberOfBoxes)} date={date} time={time}></NormalTimeBox>)
         }></UpdateTimeBoxModal> }
 
