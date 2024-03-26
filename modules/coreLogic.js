@@ -149,8 +149,6 @@ export function calculatePixelsFromTopOfGridBasedOnTime(wakeupTime, boxSizeUnit,
         return 0;
     }
 
-    console.log(overlayDimensions);
-
     const pixelsPerBox = overlayDimensions[2];
 
     let wakeupDateTime = convertToDateTime(wakeupTime, time.getDate()+"/"+time.getMonth());
