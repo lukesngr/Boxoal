@@ -3,6 +3,7 @@ import scheduleEssentialsReducer from './scheduleEssentials'
 import overlayDimensionsReducer from './overlayDimensions'
 import activeOverlayHeightReducer from './activeOverlayHeight'
 import activeOverlayIntervalReducer from './activeOverlayInterval'
+import scheduleDataReducer from './scheduleData'
 
 export default configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export default configureStore({
     overlayDimensions: overlayDimensionsReducer,
     activeOverlayHeight: activeOverlayHeightReducer,
     activeOverlayInterval: activeOverlayIntervalReducer,
+    scheduleData: scheduleDataReducer,
   },
 })

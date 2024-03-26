@@ -37,9 +37,17 @@ export default function TimeBoxes(props) {
 
     useEffect(() => {
         dispatch({type: 'scheduleEssentials/set', payload: {id: schedule.id, wakeupTime: schedule.wakeupTime, boxSizeUnit: schedule.boxSizeUnit, boxSizeNumber: schedule.boxSizeNumber}});
-    });
+        dispatch({type: 'scheduleData/set', payload: {timeboxes: schedule.timeboxes, recordedTimeboxes: schedule.recordedTimeboxes}});
+    }, []);
+
+    useEffect(() => {
+        dispatch({type: 'scheduleEssentials/set', payload: {id: schedule.id, wakeupTime: schedule.wakeupTime, boxSizeUnit: schedule.boxSizeUnit, boxSizeNumber: schedule.boxSizeNumber}});
+        dispatch({type: 'scheduleData/set', payload: {timeboxes: schedule.timeboxes, recordedTimeboxes: schedule.recordedTimeboxes}});
+    }, [schedule]);
     let timeBoxGrid = new Map();
     timeBoxGrid = generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
+
+    console.log(schedule, timeBoxGrid);
     
     useEffect(() => {
         timeBoxGrid = generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
@@ -67,10 +75,7 @@ export default function TimeBoxes(props) {
                                 <RecordingOverlay></RecordingOverlay>
                             </>}
                             {!ifCurrentDay(index, true, false) && <Overlay active={ifEqualOrBeyondCurrentDay(index, true, false)}></Overlay>}
-                            <RecordedTimeBoxOverlay data={schedule.recordedTimeboxes.filter(function(obj) {
-                                let recordedStartTime = new Date(obj.recordedStartTime);
-                                return (recordedStartTime.getMonth()+1) == day.month && (recordedStartTime.getDate()) == day.date;
-                            })}></RecordedTimeBoxOverlay>
+                            <RecordedTimeBoxOverlay day={day}></RecordedTimeBoxOverlay>
                         </div>
                     ))}
                 </div>

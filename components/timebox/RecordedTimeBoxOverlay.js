@@ -5,10 +5,15 @@ import PortalComponent from "../modal/PortalComponent";
 import { useSelector } from "react-redux";
 
 export default function RecordedTimeBoxOverlay(props) {
-    let {data} = props;
     const [recordedBoxes, setRecordedBoxes] = useState([]);
     const {wakeupTime, boxSizeUnit, boxSizeNumber} = useSelector(state => state.scheduleEssentials.value);
     const overlayDimensions = useSelector(state => state.overlayDimensions.value);
+    const {recordedTimeboxes} = useSelector(state => state.scheduleData.value);
+
+    let data = recordedTimeboxes.filter(function(obj) {
+        let recordedStartTime = new Date(obj.recordedStartTime);
+        return (recordedStartTime.getMonth()+1) == props.day.month && (recordedStartTime.getDate()) == props.day.date;
+    })
 
     useEffect(() => {
         setRecordedBoxes([]) //so deleted recordings don't get stuck
