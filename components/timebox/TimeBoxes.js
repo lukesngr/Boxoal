@@ -63,14 +63,14 @@ export default function TimeBoxes(props) {
                         <div ref={headerContainerRef} key={index} style={{padding: '0'}} className={'col '+ifCurrentDay(index, 'currentDay', '')}>
                             <span className='timeboxHeadingText'>{day.name}<br />{" ("+day.date+"/"+day.month+")"}</span>
                             {ifCurrentDay(index, true, false) && <>
-                                <ActiveOverlay width={overlayDimensions[0]} overlayHeight={activeOverlayHeight}></ActiveOverlay>
-                                <RecordingOverlay overlayDimensions={overlayDimensions} activeOverlayHeight={activeOverlayHeight}></RecordingOverlay>
+                                <ActiveOverlay overlayHeight={activeOverlayHeight}></ActiveOverlay>
+                                <RecordingOverlay activeOverlayHeight={activeOverlayHeight}></RecordingOverlay>
                             </>}
-                            {!ifCurrentDay(index, true, false) && <Overlay dimensions={overlayDimensions} active={ifEqualOrBeyondCurrentDay(index, true, false)}></Overlay>}
+                            {!ifCurrentDay(index, true, false) && <Overlay active={ifEqualOrBeyondCurrentDay(index, true, false)}></Overlay>}
                             <RecordedTimeBoxOverlay data={schedule.recordedTimeboxes.filter(function(obj) {
                                 let recordedStartTime = new Date(obj.recordedStartTime);
                                 return (recordedStartTime.getMonth()+1) == day.month && (recordedStartTime.getDate()) == day.date;
-                            })} overlayDimensions={overlayDimensions}></RecordedTimeBoxOverlay>
+                            })}></RecordedTimeBoxOverlay>
                         </div>
                     ))}
                 </div>
