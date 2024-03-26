@@ -12,7 +12,7 @@ import { getHeightForBoxes } from '@/modules/coreLogic';
 
 export default function TimeBox(props) {
 
-    const {schedule, time, day, index, data} = props;
+    const {time, day, index, data} = props;
     const [timeboxFormData, setTimeboxFormData] = useState({
         title: "",
         description: "",
@@ -43,7 +43,7 @@ export default function TimeBox(props) {
 
         {/* Form section of this TimeBox component */}
         {timeBoxFormVisible && <><CreateTimeboxForm time={time} date={date} timeboxFormData={[timeboxFormData, setTimeboxFormData]}
-        closeTimeBox={() => setTimeBoxVisibility(false)} schedule={schedule} dayName={dayName} listOfColors={listOfColors}></CreateTimeboxForm>
+        closeTimeBox={() => setTimeBoxVisibility(false)} dayName={dayName}></CreateTimeboxForm>
         <div style={{height: getHeightForBoxes(timeboxFormData.numberOfBoxes)}} id="placeholderTimeBox">{timeboxFormData.numberOfBoxes}</div></>}
 
         {/* Normal time box */}

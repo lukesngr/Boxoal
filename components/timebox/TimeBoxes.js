@@ -86,7 +86,7 @@ export default function TimeBoxes(props) {
                     <div key={time} className="row">
                         <div ref={timeboxColumnRef} className="col-1 timeCol">{time}</div>
                         {dayToName.map((day, index) => (
-                            <TimeBox key={index} index={index} day={day} schedule={schedule} time={time} 
+                            <TimeBox key={index} index={index} day={day} time={time} 
                             data={timeBoxGrid.get(day.date+"/"+day.month)?.get(time)}></TimeBox>
                         ))}
                     </div>))}

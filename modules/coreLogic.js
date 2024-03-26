@@ -91,25 +91,25 @@ export function calculateBoxesBetweenTwoDateTimes(dateTime1, dateTime2, boxSizeU
     }
 }
 
-export function calculateMaxNumberOfBoxes(schedule, time, date) {
-    let wakeUpTimeSeparated = schedule.wakeupTime.split(":").map(function(num) { return parseInt(num); });
+export function calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxes, time, date) {
+    let wakeUpTimeSeparated = wakeupTime.split(":").map(function(num) { return parseInt(num); });
     let timeSeparated = time.split(":").map(function(num) { return parseInt(num); });
     let currentDateTime = convertToDateTime(time, date);
     let maxNumberOfBoxes = 0;
 
-    for(let i = 0; i < schedule.timeboxes.length; i++) { //for each time box
-        let timeboxStartTimeInDateTime = new Date(schedule.timeboxes[i].startTime);
+    for(let i = 0; i < timeboxes.length; i++) { //for each time box
+        let timeboxStartTimeInDateTime = new Date(timeboxes[i].startTime);
 
         if(currentDateTime < timeboxStartTimeInDateTime) { //if timebox occurs after the time of a timebox
-            maxNumberOfBoxes = calculateBoxesBetweenTwoDateTimes(currentDateTime, timeboxStartTimeInDateTime, schedule.boxSizeUnit, schedule.boxSizeNumber);
-            i = schedule.timeboxes.length;
+            maxNumberOfBoxes = calculateBoxesBetweenTwoDateTimes(currentDateTime, timeboxStartTimeInDateTime, boxSizeUnit, boxSizeNumber);
+            i = timeboxes.length;
         }else{
             i++;
         }
     }
 
     if(maxNumberOfBoxes <= 0) {
-        maxNumberOfBoxes = calculateMaxNumberOfBoxesAfterTimeIfEmpty(schedule.boxSizeUnit, schedule.boxSizeNumber, timeSeparated, wakeUpTimeSeparated);
+        maxNumberOfBoxes = calculateMaxNumberOfBoxesAfterTimeIfEmpty(boxSizeUnit, boxSizeNumber, timeSeparated, wakeUpTimeSeparated);
     }
 
     return maxNumberOfBoxes;

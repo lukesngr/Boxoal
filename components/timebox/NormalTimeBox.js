@@ -11,7 +11,7 @@ import { resetTimer, setTimer } from "@/redux/activeOverlayInterval";
 
 export default function NormalTimeBox(props) {
     const [recordedStartTime, setRecordedStartTime] = useState();
-    const {data, height, tags, overlayFuncs, date, time} = props;
+    const {data, height, tags, date, time} = props;
     const [timeboxRecording, setTimeBoxRecording] = useContext(TimeboxRecordingContext);
     const {id, boxSizeUnit, boxSizeNumber} = useSelector(state => state.scheduleEssentials.value);
     const dispatch = useDispatch();
