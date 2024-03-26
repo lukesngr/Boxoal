@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const scheduleData = createSlice({
   name: 'scheduleData',
   initialState: {
-    value: {timeboxes: [], recordedTimeboxes: []},
+    value: {timeboxes: [], recordedTimeboxes: [], goals: []},
   },
   reducers: {
     set: (state, action) => {
