@@ -5,14 +5,19 @@ import { useSelector } from 'react-redux';
 
 export default function useActiveOverlay(schedule) {
 
-    const [activeOverlayHeight, setActiveOverlayHeight] = useState(0);
     const activeOverlayInterval = useRef(null);
     const activeOverlayResetTime = 5000;
     const overlayDimensions = useSelector(state => state.overlayDimensions.value);
+    const activeOverlayHeight = useSelector(state => state.activeOverlayHeight.value);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        setActiveOverlayHeight(calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions));
-        activeOverlayInterval.current = setInterval(() => { setActiveOverlayHeight(calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions))}, activeOverlayResetTime)
+        dispatch({type:"activeOverlayHeight/set", payload: calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions)});
+        activeOverlayInterval.current = setInterval(() => 
+            { 
+                dispatch({type:"activeOverlayHeight/set", payload: calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions)});
+            }
+        , activeOverlayResetTime);
         
         return () => { clearInterval(activeOverlayInterval.current); };
     }, [overlayDimensions])
@@ -20,8 +25,11 @@ export default function useActiveOverlay(schedule) {
     function pauseActiveOverlay() { clearInterval(activeOverlayInterval.current); }
 
     function resumeActiveOverlay() { 
-        activeOverlayInterval.current = setInterval(() => {setActiveOverlayHeight(calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions))}, activeOverlayResetTime);
+        activeOverlayInterval.current = setInterval(() => 
+        { 
+            dispatch({type:"activeOverlayHeight/set", payload: calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions)});
+        }, activeOverlayResetTime);
     }
 
-    return [activeOverlayHeight, pauseActiveOverlay, resumeActiveOverlay];
+    return [pauseActiveOverlay, resumeActiveOverlay];
 }
