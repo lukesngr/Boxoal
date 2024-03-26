@@ -23,7 +23,7 @@ import { calculateOverlayHeightForNow } from '@/modules/coreLogic';
           { 
               dispatch({type:"activeOverlayHeight/set", payload: calculateOverlayHeightForNow(wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions)});
           }
-      , 5000);
+      , 35000);
       dispatch({type: 'activeOverlayInterval/set', payload: newInterval});
   }
 };
