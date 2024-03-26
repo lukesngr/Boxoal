@@ -8,10 +8,10 @@ import { useSelector } from "react-redux";
 
 export default function CreateTimeboxForm(props) {
     const listOfColors = ["#00E3DD", "#00C5E6", "#00A4E7", "#0081DC", "#1E5ABF", "#348D9D", "#67D6FF"];
-    let {time, date, closeTimeBox, dayName, schedule, ...theRest} = props;
+    let {time, date, closeTimeBox, dayName} = props;
     let [timeboxFormData, setTimeboxFormData] = props.timeboxFormData;
-    const {wakeupTime, boxSizeUnit, boxSizeNumber} = useSelector(state => state.scheduleEssentials.value);
-    const {timeboxes} = useSelector(state => state.scheduleData.value);
+    const {id, wakeupTime, boxSizeUnit, boxSizeNumber} = useSelector(state => state.scheduleEssentials.value);
+    const {timeboxes, goals} = useSelector(state => state.scheduleData.value);
 
 
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxes, time, date);
@@ -28,7 +28,7 @@ export default function CreateTimeboxForm(props) {
             endTime, 
             numberOfBoxes: parseInt(numberOfBoxes), 
             color, 
-            schedule: {connect: {id: schedule.id}}, 
+            schedule: {connect: {id}}, 
             goal: {connect: {id: parseInt(timeboxFormData.goalSelected)}}
         }
 
@@ -78,17 +78,17 @@ export default function CreateTimeboxForm(props) {
                         <input data-testid="weeklyDate" type="date" name="weeklyDate" id="weeklyDate" onChange={handleChange}></input>
                     </>
                 }
-                {schedule.goals.length == 0 ? (<p data-testid="noGoalsWarning">Must create a goal first</p>) : (
+                {goals.length == 0 ? (<p data-testid="noGoalsWarning">Must create a goal first</p>) : (
                     <>
                         <label htmlFor="goal">Goal</label>
                         <select name="goalSelected" id="goal" onChange={handleChange}>
-                        {schedule.goals.map((goal, index) => (
+                        {goals.map((goal, index) => (
                             <option key={index} value={String(goal.id)}>{goal.name}</option>
                         ))}
                         </select>
                     </>
                 )}
-                <button data-testid="addTimeBox" disabled={schedule.goals.length == 0} className="addTimeBoxButton">Add TimeBox</button>
+                <button data-testid="addTimeBox" disabled={goals.length == 0} className="addTimeBoxButton">Add TimeBox</button>
             </form>
         </div>
     </>

@@ -37,12 +37,12 @@ export default function TimeBoxes(props) {
 
     useEffect(() => {
         dispatch({type: 'scheduleEssentials/set', payload: {id: schedule.id, wakeupTime: schedule.wakeupTime, boxSizeUnit: schedule.boxSizeUnit, boxSizeNumber: schedule.boxSizeNumber}});
-        dispatch({type: 'scheduleData/set', payload: {timeboxes: schedule.timeboxes, recordedTimeboxes: schedule.recordedTimeboxes}});
+        dispatch({type: 'scheduleData/set', payload: {timeboxes: schedule.timeboxes, recordedTimeboxes: schedule.recordedTimeboxes, goals: schedule.goals}});
     }, []);
 
     useEffect(() => {
         dispatch({type: 'scheduleEssentials/set', payload: {id: schedule.id, wakeupTime: schedule.wakeupTime, boxSizeUnit: schedule.boxSizeUnit, boxSizeNumber: schedule.boxSizeNumber}});
-        dispatch({type: 'scheduleData/set', payload: {timeboxes: schedule.timeboxes, recordedTimeboxes: schedule.recordedTimeboxes}});
+        dispatch({type: 'scheduleData/set', payload: {timeboxes: schedule.timeboxes, recordedTimeboxes: schedule.recordedTimeboxes, goals: schedule.goals}});
     }, [schedule]);
     let timeBoxGrid = new Map();
     timeBoxGrid = generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
