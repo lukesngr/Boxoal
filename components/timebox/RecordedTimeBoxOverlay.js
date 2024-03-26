@@ -33,7 +33,7 @@ export default function RecordedTimeBoxOverlay(props) {
             });
             setRecordedBoxes(normalArrayFromState);
         }
-    }, [data]);
+    }, [recordedTimeboxes]);
     
     return <>{recordedBoxes.map((recordedBoxes) => (
         <>
