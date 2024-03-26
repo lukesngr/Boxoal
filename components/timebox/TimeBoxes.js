@@ -45,7 +45,7 @@ export default function TimeBoxes(props) {
         timeBoxGrid = generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
     }, [props.data, selectedSchedule])
 
-    const overlayDimensions = useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef, selectedSchedule, expanded);
+    useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef, selectedSchedule, expanded);
     const [activeOverlayHeight, pauseActiveOverlay, resumeActiveOverlay] = useActiveOverlay(schedule, overlayDimensions);
     
     

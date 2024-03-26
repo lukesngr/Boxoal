@@ -37,5 +37,5 @@ export default function useOverlayDimensions(gridContainerRef, headerContainerRe
         setTimeout(calculateOverlayDimensions, 600);
     }, [expanded]);
 
-    return overlayDimensions;
+    return;
 }
