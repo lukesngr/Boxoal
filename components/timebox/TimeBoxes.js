@@ -63,7 +63,7 @@ export default function TimeBoxes(props) {
                         <div ref={headerContainerRef} key={index} style={{padding: '0'}} className={'col '+ifCurrentDay(index, 'currentDay', '')}>
                             <span className='timeboxHeadingText'>{day.name}<br />{" ("+day.date+"/"+day.month+")"}</span>
                             {ifCurrentDay(index, true, false) && <>
-                                <ActiveOverlay overlayHeight={activeOverlayHeight}></ActiveOverlay>
+                                <ActiveOverlay></ActiveOverlay>
                                 <RecordingOverlay></RecordingOverlay>
                             </>}
                             {!ifCurrentDay(index, true, false) && <Overlay active={ifEqualOrBeyondCurrentDay(index, true, false)}></Overlay>}
