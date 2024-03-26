@@ -6,16 +6,13 @@ export default function useActiveOverlay(schedule, overlayDimensions) {
 
     const [activeOverlayHeight, setActiveOverlayHeight] = useState(0);
     const activeOverlayInterval = useRef(null);
-    const dispatch = useDispatch();
     const activeOverlayResetTime = 5000;
 
     useEffect(() => {
-        dispatch({type: "activeOverlay/set", payload: {
-            activeOverlayHeight: calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions),
-            activeOverlayInterval: setInterval(() => { setActiveOverlayHeight(calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions))}, activeOverlayResetTime)
-        }});
+        setActiveOverlayHeight(calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions));
+        activeOverlayInterval.current = setInterval(() => { setActiveOverlayHeight(calculateOverlayHeightForNow(schedule.wakeupTime, schedule.boxSizeUnit, schedule.boxSizeNumber, overlayDimensions))}, activeOverlayResetTime)
         
-        return () => { dispatch({type: "activeOverlay/reset"})};
+        return () => { clearInterval(activeOverlayInterval.current); };
     }, [overlayDimensions])
 
     function pauseActiveOverlay() { clearInterval(activeOverlayInterval.current); }

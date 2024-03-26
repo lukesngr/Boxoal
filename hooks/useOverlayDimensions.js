@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 export default function useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef, selectedSchedule, expanded) {
-    const [overlayDimensions, setOverlayDimensions] = useState(0);
+    const dispatch = useDispatch();
 
     function calculateOverlayDimensions() {
         if (gridContainerRef.current && headerContainerRef.current && timeboxColumnRef.current) { //if ref working
@@ -12,7 +13,7 @@ export default function useOverlayDimensions(gridContainerRef, headerContainerRe
             const overlayHeight = gridHeight - headerHeight; //overlay is under headers but goes till end of grid
             const timeboxHeight = timeboxColumnRef.current.getBoundingClientRect().height; //decimal for a bit more accuracy as this for active overlay
 
-            setOverlayDimensions([headerWidth, overlayHeight, timeboxHeight]);
+            dispatch(setOverlayDimensions([headerWidth, overlayHeight, timeboxHeight]));
         }
     };
 
