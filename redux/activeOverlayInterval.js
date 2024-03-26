@@ -1,44 +1,38 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { useRef } from 'react';
 
-export const setActiveOverlayInterval = createAsyncThunk(
-  'activeOverlayInterval/set',
-  async (_, { dispatch, getState }) => {
-    const overlayDimensions = getState().overlayDimensions.value;
-    const { wakeupTime, boxSizeUnit, boxSizeNumber } = getState().scheduleEssentials.value;
-    const intervalId = setInterval(() => {
-      dispatch({ type: 'activeOverlayHeight/set', payload: calculateOverlayHeightForNow(wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions) });
-    }, 5000);
-    return intervalId;
-  }
-);
 
-export const clearActiveOverlayInterval = createAsyncThunk(
-  'activeOverlayInterval/clear',
-  async (_, { getState }) => {
-    const intervalId = getState().activeOverlayInterval.value;
-    clearInterval(intervalId);
-    return intervalId;
-  }
-);
-
-export const activeOverlayIntervalSlice = createSlice({
-  name: 'activeOverlayInterval',
-  initialState: {
-    value: null, // No need to use useRef here
-  },
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(setActiveOverlayInterval.fulfilled, (state, action) => {
+  export const activeOverlayInterval = createSlice({
+    name: 'activeOverlayInterval',
+    initialState: {
+      value: null,
+    },
+    reducers: {
+      set: (state, action) => {
         state.value = action.payload;
-      })
-      .addCase(clearActiveOverlayInterval.fulfilled, (state, action) => {
-        state.value = null;
-      });
-  },
-});
+      }
+    },
+  })
+
+  export const setTimer = () => (arg, {dispatch, getState}) => {
+    const overlayDimensions = getState().overlayDimensions.value;
+    const {wakeupTime, boxSizeUnit, boxSizeNumber} = getState().scheduleEssentials.value;
+    const newInterval = useRef(null);
+    newInterval.current = setInterval(() => 
+        { 
+            dispatch({type:"activeOverlayHeight/set", payload: calculateOverlayHeightForNow(wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions)});
+        }
+    , 5000);
+    dispatch({type: 'activeOverlayInterval/set', payload: newInterval});
+};
+
+export const resetTimer = (arg, {dispatch, getState}) => {
+    if(getState().activeOverlayInterval.value.current) {
+      clearInterval(getState().activeOverlayInterval.value.current);
+    }
+};
 
 // Action creators are generated for each case reducer function
-export const activeOverlayIntervalActions = activeOverlayIntervalSlice.actions;
+export const { set } = activeOverlayInterval.actions
 
-export default activeOverlayIntervalSlice.reducer;
+export default activeOverlayInterval.reducer;
