@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { calculateMaxNumberOfBoxes, convertToDateTime, addBoxesToTime } from "@/modules/coreLogic";
 import { queryClient } from './../../pages/_app';
 import axios from 'axios';
@@ -16,6 +16,10 @@ export default function CreateTimeboxForm(props) {
 
 
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxes, time, date);
+
+    useEffect(() => {
+        setTimeboxFormData({...timeboxFormData, goalSelected: goals.length == 0 ? 1 : goals[0].id});
+    }, []);
     
     function handleSubmit(e) {
         e.preventDefault();
@@ -54,6 +58,7 @@ export default function CreateTimeboxForm(props) {
     }
 
     function handleChange(e) {
+        console.log(e.target.name, e.target.value);
         setTimeboxFormData({...timeboxFormData, [e.target.name]: e.target.value});
     }
 

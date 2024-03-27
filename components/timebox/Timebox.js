@@ -16,7 +16,7 @@ export default function TimeBox(props) {
     const [timeboxFormData, setTimeboxFormData] = useState({
         title: "",
         description: "",
-        goalSelected: null,
+        goalSelected: 1,
         reoccurFrequency: "no",
         weeklyDate: new Date(),
         numberOfBoxes: 1
