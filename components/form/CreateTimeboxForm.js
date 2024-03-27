@@ -12,6 +12,7 @@ export default function CreateTimeboxForm(props) {
     let [timeboxFormData, setTimeboxFormData] = props.timeboxFormData;
     const {id, wakeupTime, boxSizeUnit, boxSizeNumber} = useSelector(state => state.scheduleEssentials.value);
     const {timeboxes, goals} = useSelector(state => state.scheduleData.value);
+    const {title, description, reoccurFrequency, numberOfBoxes, goalSelected, weeklyDate} = timeboxFormData;
 
 
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxes, time, date);
@@ -19,21 +20,23 @@ export default function CreateTimeboxForm(props) {
     function handleSubmit(e) {
         e.preventDefault();
         let startTime = convertToDateTime(time, date);
-        let endTime = convertToDateTime(addBoxesToTime(boxSizeUnit, boxSizeNumber, time, timeboxFormData.numberOfBoxes), date); //add boxes to start time to get end time
+        let endTime = convertToDateTime(addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes), date); //add boxes to start time to get end time
         let color = listOfColors[Math.floor(Math.random() * listOfColors.length)]; //randomly pick a box color     
         let data = {
             title, 
             description, 
             startTime, 
             endTime, 
-            numberOfBoxes: parseInt(timeboxFormData.numberOfBoxes), 
+            numberOfBoxes: parseInt(numberOfBoxes), 
             color, 
             schedule: {connect: {id}}, 
-            goal: {connect: {id: parseInt(timeboxFormData.goalSelected)}}
+            goal: {connect: {id: parseInt(goalSelected)}}
         }
 
+        console.log(goalSelected);
+
         if(reoccurFrequency != "no") { data["reoccuring"] = {create: {reoccurFrequency: "no"}}; }
-        if(reoccurFrequency == "weekly") {data.reoccuring.create.weeklyDay = new Date(timeboxFormData.weeklyDate).getDay();}
+        if(reoccurFrequency == "weekly") {data.reoccuring.create.weeklyDay = new Date(weeklyDate).getDay();}
 
         //post to api
         axios.post('/api/createTimebox', data).then(() => {
