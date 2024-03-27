@@ -32,6 +32,7 @@ export default function TimeBox(props) {
         setTimeBoxFormVisible(state);
         setAddTimeBoxDialogOpen(state);
     }
+    console.log(timeboxFormData.numberOfBoxes);
 
     return (
     <div className={'col timeBox'}>
@@ -44,7 +45,7 @@ export default function TimeBox(props) {
         {/* Form section of this TimeBox component */}
         {timeBoxFormVisible && <><CreateTimeboxForm time={time} date={date} timeboxFormData={[timeboxFormData, setTimeboxFormData]}
         closeTimeBox={() => setTimeBoxVisibility(false)} dayName={dayName}></CreateTimeboxForm>
-        <div style={{height: getHeightForBoxes(timeboxFormData.numberOfBoxes)}} id="placeholderTimeBox">{timeboxFormData.numberOfBoxes}</div></>}
+        <div style={{height: getHeightForBoxes(parseInt(timeboxFormData.numberOfBoxes))}} className="placeholderTimeBox">{timeboxFormData.title}</div></>}
 
         {/* Normal time box */}
         {data && <UpdateTimeBoxModal timebox={data} render={tags => 

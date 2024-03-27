@@ -26,7 +26,7 @@ export default function CreateTimeboxForm(props) {
             description, 
             startTime, 
             endTime, 
-            numberOfBoxes: parseInt(numberOfBoxes), 
+            numberOfBoxes: parseInt(timeboxFormData.numberOfBoxes), 
             color, 
             schedule: {connect: {id}}, 
             goal: {connect: {id: parseInt(timeboxFormData.goalSelected)}}
@@ -57,7 +57,7 @@ export default function CreateTimeboxForm(props) {
     return <>
         <div data-testid="createTimeboxForm" className={(dayName == 'Sat' || dayName == 'Fri' || dayName == 'Thur') ? 'addTimeBoxConstrained' : 'addTimeBox'}> 
             <div className="timeBoxBubble"></div>
-            <button onClick={closeTimeBox} id="addTimeBoxExitButton">X</button>
+            <button onClick={closeTimeBox} className="addTimeBoxExitButton">X</button>
             <form onSubmit={handleSubmit}>
                 <h4>Add TimeBox</h4>
                 <label htmlFor="title">Title</label>
