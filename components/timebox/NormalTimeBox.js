@@ -6,7 +6,8 @@ import { useContext, useState } from "react";
 import { faCircleCheck, faCircleDot, faCircleStop } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TimeboxRecordingContext } from "./TimeboxRecordingContext";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveOverlayInterval, resetActiveOverlayInterval } from "@/redux/activeOverlayInterval";
 import { resetTimer, setTimer } from "@/redux/activeOverlayInterval";
 
 export default function NormalTimeBox(props) {
@@ -32,7 +33,7 @@ export default function NormalTimeBox(props) {
         setTimeBoxRecording([-1, 0]);
         dispatch(resetActiveOverlayInterval());
         axios.post('/api/createRecordedTimebox', 
-            {recordedStartTime, recordedEndTime: new Date(), timeBox: {connect: {id: data.id}}, schedule: {connect: {id}}
+            {recordedStartTime: recordedStartTime, recordedEndTime: new Date(), timeBox: {connect: {id: data.id}}, schedule: {connect: {id}}
         }).then(() => {
             queryClient.refetchQueries();
             toast.success("Added recorded timebox!", {
