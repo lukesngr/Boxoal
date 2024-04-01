@@ -9,10 +9,11 @@ import UpdateTimeBoxModal from '../modal/UpdateTimeBoxModal';
 import NormalTimeBox from './NormalTimeBox';
 import { ifEqualOrBeyondCurrentDay } from '@/modules/dateLogic';
 import { getHeightForBoxes } from '@/modules/coreLogic';
+import { useSelector } from 'react-redux';
 
 export default function TimeBox(props) {
 
-    const {time, day, index, data} = props;
+    const {time, day, index} = props;
     const [timeboxFormData, setTimeboxFormData] = useState({
         title: "",
         description: "",
@@ -23,16 +24,17 @@ export default function TimeBox(props) {
     });
     const [timeBoxFormVisible, setTimeBoxFormVisible] = useState(false);
     const [addTimeBoxDialogOpen, setAddTimeBoxDialogOpen] = useContext(TimeboxDialogContext);
+    const timeboxGrid = useSelector(state => state.timeboxGrid.value);
 
     let date = day.date+"/"+day.month;
     let dayName = day.name;
     let active = ifEqualOrBeyondCurrentDay(index, true, false)
+    let data = timeboxGrid.get(date)?.get(time);
 
     function setTimeBoxVisibility(state) {
         setTimeBoxFormVisible(state);
         setAddTimeBoxDialogOpen(state);
     }
-    console.log(timeboxFormData.numberOfBoxes);
 
     return (
     <div className={'col timeBox'}>

@@ -15,6 +15,7 @@ import useActiveOverlay from '@/hooks/useActiveOverlay';
 import useOverlayDimensions from '@/hooks/useOverlayDimensions';
 import { useDispatch } from 'react-redux';
 import { useScheduleSetter } from '@/hooks/useScheduleSetter';
+import useTimeboxGridRedux from '@/hooks/useTimeboxGridRedux';
 
 export const ScheduleDataContext = createContext();
 
@@ -31,13 +32,8 @@ export default function TimeBoxes(props) {
     
     const dayToName = getArrayOfDayDateDayNameAndMonthForHeaders(selectedDate.toDate()); //get all info to make headers look nice
     const listOfTimes = returnTimesSeperatedForSchedule(schedule); //get times that go down each row
-    
-    //make a map for the timeboxes with a map inside it
-    //this allows fast lookup based on date than time first
 
-    
-    
-
+    useTimeboxGridRedux(schedule, selectedDate); //make a map for the timeboxes with another map inside it, makes lookup fast
     useScheduleSetter(schedule); //set schedule data to redux store (timeboxes, recordedTimeboxes, goals
     useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef, selectedSchedule, expanded);
     useActiveOverlay(schedule);
@@ -72,8 +68,7 @@ export default function TimeBoxes(props) {
                     <div key={time} className="row">
                         <div ref={timeboxColumnRef} className="col-1 timeCol">{time}</div>
                         {dayToName.map((day, index) => (
-                            <TimeBox key={index} index={index} day={day} time={time} 
-                            data={timeBoxGrid.get(day.date+"/"+day.month)?.get(time)}></TimeBox>
+                            <TimeBox key={index} index={index} day={day} time={time}></TimeBox>
                         ))}
                     </div>))}
                 </TimeboxDialogContextProvider>
