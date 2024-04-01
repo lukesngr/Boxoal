@@ -2,14 +2,14 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 export default function useTimeboxGridRedux(schedule, selectedDate) {
-    let timeBoxGrid = new Map();
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        timeBoxGrid = generateTimeBoxGrid(schedule, selectedDate);
+        dispatch({type: 'timeboxGrid/set', payload: generateTimeBoxGrid(schedule, selectedDate)});
     }, []);
     
     useEffect(() => {
-        timeBoxGrid = generateTimeBoxGrid(schedule, selectedDate);
-    }, [props.data, selectedSchedule])
+        dispatch({type: 'timeboxGrid/set', payload: generateTimeBoxGrid(schedule, selectedDate)});
+    }, [schedule]);
 
 }
