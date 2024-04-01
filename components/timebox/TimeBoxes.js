@@ -9,7 +9,6 @@ import ActiveOverlay from '../overlay/ActiveOverlay';
 import RecordingOverlay from '../overlay/RecordingOverlay';
 import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
 import TimeboxHeading from './TimeboxHeading';
-import { calculateOverlayHeightForNow, generateTimeBoxGrid } from '@/modules/coreLogic';
 import { ifCurrentDay, ifEqualOrBeyondCurrentDay, getArrayOfDayDateDayNameAndMonthForHeaders } from '@/modules/dateLogic';
 import { TimeboxRecordingContextProvider } from './TimeboxRecordingContext';
 import useActiveOverlay from '@/hooks/useActiveOverlay';
@@ -37,14 +36,7 @@ export default function TimeBoxes(props) {
     //this allows fast lookup based on date than time first
 
     
-    let timeBoxGrid = new Map();
-    timeBoxGrid = generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
-
-    console.log(schedule, timeBoxGrid);
     
-    useEffect(() => {
-        timeBoxGrid = generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
-    }, [props.data, selectedSchedule])
 
     useScheduleSetter(schedule); //set schedule data to redux store (timeboxes, recordedTimeboxes, goals
     useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef, selectedSchedule, expanded);

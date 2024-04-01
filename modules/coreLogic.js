@@ -200,7 +200,9 @@ export function thereIsNoRecording(recordedBoxes, reoccuring, date, time) {
     return false;
 }
 
-export function generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid) {
+export function generateTimeBoxGrid(schedule, selectedDate) {
+    let timeBoxGrid = new Map();
+
     schedule.timeboxes.forEach(function (element) { //for each timebox
         const [time, date] = convertToTimeAndDate(element.startTime); //convert the datetime to a time and date e.g. format hh:mm dd/mm
         if(element.reoccuring != null) {
