@@ -15,6 +15,7 @@ import { TimeboxRecordingContextProvider } from './TimeboxRecordingContext';
 import useActiveOverlay from '@/hooks/useActiveOverlay';
 import useOverlayDimensions from '@/hooks/useOverlayDimensions';
 import { useDispatch } from 'react-redux';
+import { useScheduleSetter } from '@/hooks/useScheduleSetter';
 
 export const ScheduleDataContext = createContext();
 
@@ -27,7 +28,7 @@ export default function TimeBoxes(props) {
     //get schedule that is selected in sidebar and assign it to schedule variable
     const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
     let schedule = props.data.data[selectedSchedule];
-    const dispatch = useDispatch();
+    
     
     const dayToName = getArrayOfDayDateDayNameAndMonthForHeaders(selectedDate.toDate()); //get all info to make headers look nice
     const listOfTimes = returnTimesSeperatedForSchedule(schedule); //get times that go down each row
@@ -35,15 +36,7 @@ export default function TimeBoxes(props) {
     //make a map for the timeboxes with a map inside it
     //this allows fast lookup based on date than time first
 
-    useEffect(() => {
-        dispatch({type: 'scheduleEssentials/set', payload: {id: schedule.id, wakeupTime: schedule.wakeupTime, boxSizeUnit: schedule.boxSizeUnit, boxSizeNumber: schedule.boxSizeNumber}});
-        dispatch({type: 'scheduleData/set', payload: {timeboxes: schedule.timeboxes, recordedTimeboxes: schedule.recordedTimeboxes, goals: schedule.goals}});
-    }, []);
-
-    useEffect(() => {
-        dispatch({type: 'scheduleEssentials/set', payload: {id: schedule.id, wakeupTime: schedule.wakeupTime, boxSizeUnit: schedule.boxSizeUnit, boxSizeNumber: schedule.boxSizeNumber}});
-        dispatch({type: 'scheduleData/set', payload: {timeboxes: schedule.timeboxes, recordedTimeboxes: schedule.recordedTimeboxes, goals: schedule.goals}});
-    }, [schedule]);
+    
     let timeBoxGrid = new Map();
     timeBoxGrid = generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
 
@@ -53,6 +46,7 @@ export default function TimeBoxes(props) {
         timeBoxGrid = generateTimeBoxGrid(schedule, selectedDate, timeBoxGrid);
     }, [props.data, selectedSchedule])
 
+    useScheduleSetter(schedule); //set schedule data to redux store (timeboxes, recordedTimeboxes, goals
     useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef, selectedSchedule, expanded);
     useActiveOverlay(schedule);
     
