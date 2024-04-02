@@ -27,9 +27,7 @@ export default function TimeBoxes(props) {
  
     //get schedule that is selected in sidebar and assign it to schedule variable
     const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
-    let schedule = props.data.data[selectedSchedule];
-    
-    
+    const schedule = props.data.data[selectedSchedule];
     const dayToName = getArrayOfDayDateDayNameAndMonthForHeaders(selectedDate.toDate()); //get all info to make headers look nice
     const listOfTimes = returnTimesSeperatedForSchedule(schedule); //get times that go down each row
 
@@ -37,12 +35,10 @@ export default function TimeBoxes(props) {
     useScheduleSetter(schedule); //set schedule data to redux store (timeboxes, recordedTimeboxes, goals
     useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef, selectedSchedule, expanded);
     useActiveOverlay(schedule);
-    
-    
 
     return (
     <>
-        <TimeboxHeading expanded={expanded} setExpanded={setExpanded} selectedDate={selectedDate} setSelectedDate={setSelectedDate}></TimeboxHeading>
+        <TimeboxHeading></TimeboxHeading>
         <div ref={gridContainerRef} className="container-fluid mt-2 timeboxesGrid">
             <TimeboxRecordingContextProvider>
                 {/*Headers */}
