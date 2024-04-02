@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
 import { calculateSizeOfRecordingOverlay } from '@/modules/coreLogic';
-import { TimeboxRecordingContext } from '../timebox/TimeboxRecordingContext';
 import { useSelector } from 'react-redux';
 
 export default function RecordingOverlay() {

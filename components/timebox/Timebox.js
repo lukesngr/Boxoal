@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../../styles/timebox.scss';
 import { useState, useContext } from 'react';
 import '../../styles/addtimebox.scss';
-import { TimeboxDialogContext } from './TimeboxDialogContext';
 import CreateTimeboxForm from '../form/CreateTimeboxForm';
 import UpdateTimeBoxModal from '../modal/UpdateTimeBoxModal';
 import NormalTimeBox from './NormalTimeBox';

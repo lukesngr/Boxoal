@@ -3,17 +3,14 @@ import { returnTimesSeperatedForSchedule } from '@/modules/timeLogic';
 import '../../styles/timeboxes.scss';
 import TimeBox from './Timebox';
 import { ScheduleContext } from '../schedule/ScheduleContext';
-import { TimeboxContextProvider, TimeboxDialogContextProvider } from "./TimeboxDialogContext";
 import Overlay from '../overlay/Overlay';
 import ActiveOverlay from '../overlay/ActiveOverlay';
 import RecordingOverlay from '../overlay/RecordingOverlay';
 import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
 import TimeboxHeading from './TimeboxHeading';
 import { ifCurrentDay, ifEqualOrBeyondCurrentDay, getArrayOfDayDateDayNameAndMonthForHeaders } from '@/modules/dateLogic';
-import { TimeboxRecordingContextProvider } from './TimeboxRecordingContext';
 import useActiveOverlay from '@/hooks/useActiveOverlay';
 import useOverlayDimensions from '@/hooks/useOverlayDimensions';
-import { useDispatch } from 'react-redux';
 import { useScheduleSetter } from '@/hooks/useScheduleSetter';
 import useTimeboxGridRedux from '@/hooks/useTimeboxGridRedux';
 

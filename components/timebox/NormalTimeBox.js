@@ -5,10 +5,8 @@ import { queryClient } from './../../pages/_app';
 import { useContext, useState } from "react";
 import { faCircleCheck, faCircleDot, faCircleStop } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { TimeboxRecordingContext } from "./TimeboxRecordingContext";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveOverlayInterval, resetActiveOverlayInterval } from "@/redux/activeOverlayInterval";
-import { resetTimer, setTimer } from "@/redux/activeOverlayInterval";
 
 export default function NormalTimeBox(props) {
     const [recordedStartTime, setRecordedStartTime] = useState();
