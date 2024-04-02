@@ -13,7 +13,7 @@ import { resetTimer, setTimer } from "@/redux/activeOverlayInterval";
 export default function NormalTimeBox(props) {
     const [recordedStartTime, setRecordedStartTime] = useState();
     const {data, height, tags, date, time} = props;
-    const [timeboxRecording, setTimeBoxRecording] = useContext(TimeboxRecordingContext);
+    const timeboxRecording = useSelector(state => state.timeboxRecording.value);
     const {id, boxSizeUnit, boxSizeNumber} = useSelector(state => state.scheduleEssentials.value);
     const dispatch = useDispatch();
     
@@ -24,13 +24,13 @@ export default function NormalTimeBox(props) {
     const iconSize = 20
 
     function startRecording() {
-        setTimeBoxRecording([data.id, date]);
+        dispatch({type: 'timeboxRecording/set', payload: [data.id, date]});
         dispatch(setActiveOverlayInterval());
         setRecordedStartTime(new Date());
     }
 
     function stopRecording() {
-        setTimeBoxRecording([-1, 0]);
+        dispatch({type: 'timeboxRecording/set', payload: [-1, 0]});
         dispatch(resetActiveOverlayInterval());
         axios.post('/api/createRecordedTimebox', 
             {recordedStartTime: recordedStartTime, recordedEndTime: new Date(), timeBox: {connect: {id: data.id}}, schedule: {connect: {id}}
