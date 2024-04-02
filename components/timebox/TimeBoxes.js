@@ -57,7 +57,6 @@ export default function TimeBoxes(props) {
                 </div>
                 
                 {/* Timeboxes */}
-                <TimeboxDialogContextProvider>
                 {listOfTimes.map(time => (
                     <div key={time} className="row">
                         <div ref={timeboxColumnRef} className="col-1 timeCol">{time}</div>
@@ -65,7 +64,6 @@ export default function TimeBoxes(props) {
                             <TimeBox key={index} index={index} day={day} time={time}></TimeBox>
                         ))}
                     </div>))}
-                </TimeboxDialogContextProvider>
         </div>
     </>
     )

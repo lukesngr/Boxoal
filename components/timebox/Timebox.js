@@ -9,7 +9,7 @@ import UpdateTimeBoxModal from '../modal/UpdateTimeBoxModal';
 import NormalTimeBox from './NormalTimeBox';
 import { ifEqualOrBeyondCurrentDay } from '@/modules/dateLogic';
 import { getHeightForBoxes } from '@/modules/coreLogic';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function TimeBox(props) {
 
@@ -23,8 +23,9 @@ export default function TimeBox(props) {
         numberOfBoxes: 1
     });
     const [timeBoxFormVisible, setTimeBoxFormVisible] = useState(false);
-    const [addTimeBoxDialogOpen, setAddTimeBoxDialogOpen] = useContext(TimeboxDialogContext);
+    const addTimeBoxDialogOpen = useSelector(state => state.timeboxDialog.value);
     const timeboxGrid = useSelector(state => state.timeboxGrid.value);
+    const dispatch = useDispatch();
 
     let date = day.date+"/"+day.month;
     let dayName = day.name;
@@ -33,7 +34,7 @@ export default function TimeBox(props) {
 
     function setTimeBoxVisibility(state) {
         setTimeBoxFormVisible(state);
-        setAddTimeBoxDialogOpen(state);
+        dispatch({type: 'timeboxDialog/set', payload: state});
     }
 
     return (

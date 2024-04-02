@@ -6,6 +6,7 @@ import activeOverlayIntervalReducer from './activeOverlayInterval'
 import scheduleDataReducer from './scheduleData'
 import timeboxGridReducer from './timeboxGrid'
 import timeboxRecordingReducer from './timeboxRecording'
+import timeboxDialogReducer from './timeboxDialog'
 
 export default configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export default configureStore({
     scheduleData: scheduleDataReducer,
     timeboxGrid: timeboxGridReducer,
     timeboxRecording: timeboxRecordingReducer,
+    timeboxDialog: timeboxDialogReducer,
   },
 })
