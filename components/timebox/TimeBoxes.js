@@ -40,7 +40,6 @@ export default function TimeBoxes(props) {
     <>
         <TimeboxHeading></TimeboxHeading>
         <div ref={gridContainerRef} className="container-fluid mt-2 timeboxesGrid">
-            <TimeboxRecordingContextProvider>
                 {/*Headers */}
                 <div className="row">
                     <div className="col-1"></div>
@@ -67,7 +66,6 @@ export default function TimeBoxes(props) {
                         ))}
                     </div>))}
                 </TimeboxDialogContextProvider>
-            </TimeboxRecordingContextProvider>
         </div>
     </>
     )
