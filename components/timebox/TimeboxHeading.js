@@ -27,7 +27,7 @@ export default function TimeboxHeading(props) {
       });
 
     const [datePickerVisible, setDatePickerVisible] = useState(false);
-    const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
+    const {expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
 
     return <h1 className="viewHeading">This Week
                 <FontAwesomeIcon className="calendarIcon" icon={faCalendar} onClick={() => setDatePickerVisible(!datePickerVisible)}></FontAwesomeIcon>
@@ -37,6 +37,6 @@ export default function TimeboxHeading(props) {
                         openTo="day" value={selectedDate} onChange={(newValue) => {setSelectedDate(newValue);}}></StaticDatePicker>
                     </ThemeProvider>
                 </LocalizationProvider>}
-                {!props.expanded && <FontAwesomeIcon className="sideBarExpandBtn ml-1" icon={faCog} onClick={() => props.setExpanded(true)}></FontAwesomeIcon>}
+                {!expanded && <FontAwesomeIcon className="sideBarExpandBtn ml-1" icon={faCog} onClick={() => setExpanded(true)}></FontAwesomeIcon>}
             </h1>
 }
