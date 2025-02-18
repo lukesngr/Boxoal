@@ -1,5 +1,18 @@
 #signInCard h1 {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: medium;
     font-size: 35px;
+}
+
+#signInCard {
+    background-color: #D9D9D9;
+    padding: 2%;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    margin: auto;
+    height: fit-content;
+    margin-top: 20%;
+    border-radius: 15px;
+    border: 0;
 }

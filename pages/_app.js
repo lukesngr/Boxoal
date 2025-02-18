@@ -7,8 +7,22 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Provider } from 'react-redux'
 import store from "@/redux/store";
+import {ThemeProvider, createTheme} from "@mui/material/styles";
 
 export const queryClient = new QueryClient();
+
+
+export const theme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#c5c27c',
+    },
+    secondary: {
+      main: '#f50057',
+    },
+  },
+});
 
 function BoxAlc({ Component, pageProps: { session, ...pageProps} }) {
   useEffect(() => {
@@ -16,6 +30,7 @@ function BoxAlc({ Component, pageProps: { session, ...pageProps} }) {
   }, []);
   
   return (
+    <ThemeProvider theme={theme}>
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
       <SessionProvider session={session}>
@@ -25,6 +40,7 @@ function BoxAlc({ Component, pageProps: { session, ...pageProps} }) {
       <ReactQueryDevtools />
       <ToastContainer />
     </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 
