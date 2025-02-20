@@ -8,9 +8,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { Provider } from 'react-redux'
 import store from "@/redux/store";
 import {ThemeProvider, createTheme} from "@mui/material/styles";
+import { configureAmplify } from "@/modules/awsConfig";
 
 export const queryClient = new QueryClient();
-
+configureAmplify();
 
 export const theme = createTheme({
   palette: {
