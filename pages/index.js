@@ -1,25 +1,20 @@
-import UnSignedNav from "../components/nav/SignedOutNav"
-import SignedInNav from "@/components/nav/SignedInNav";
-import Image from "next/image"
 import "../styles/homecard.scss";
-import { useSession } from "next-auth/react";
 import localFont from 'next/font/local'
-import Loading from "@/components/base/Loading";
-import { signIn } from "next-auth/react";
 import { useState } from "react";
-import { SignInCard } from "@/components/login/SignInCard";
-const glitchFont = localFont({src: '../public/BlueScreen.ttf'});
+import SignInCard  from "@/components/login/SignInCard";
+import CreateAccountCard from "@/components/login/CreateAccountCard";
+import ForgotPasswordCard from "@/components/login/ForgotPasswordCard";
+import LandingPage from "@/components/login/LandingPage";
 
 export default function Home() {
 
-    const [displayLogin, setDisplayLogin] = useState(false);
+    const [componentDisplayed, setComponentDisplayed] = useState("landing");
 
     return (
     <>
-        {displayLogin ? (<SignInCard></SignInCard>) : (
-        <div className="text-center animatedText">
-            <h1 className={glitchFont.className}>Timeboxing For The Everyman</h1>
-            <button className="signInButton" onClick={() => setDisplayLogin(true)}>Join Us</button>
-        </div>)}
+        {componentDisplayed == "landing" && <LandingPage setComponentDisplayed={setComponentDisplayed} />}
+        {componentDisplayed == "signIn" && <SignInCard setComponentDisplayed={setComponentDisplayed} />}
+        {componentDisplayed == "createAccount" && <CreateAccountCard setComponentDisplayed={setComponentDisplayed} />}
+        {componentDisplayed == "forgotPassword" && <ForgotPasswordCard setComponentDisplayed={setComponentDisplayed} />}
     </>)
 }
