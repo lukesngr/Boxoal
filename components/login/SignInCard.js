@@ -8,8 +8,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 import { signIn } from 'aws-amplify/auth';
 
-export default function SignInCard(props) {
-    let {setComponentDisplayed} = props;
+export default function SignInCard({setComponentDisplayed}) {
     const [showPassword, setShowPassword] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
