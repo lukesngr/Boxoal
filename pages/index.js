@@ -1,5 +1,3 @@
-
-import localFont from 'next/font/local'
 import { useState } from "react";
 import SignInCard  from "@/components/login/SignInCard";
 import CreateAccountCard from "@/components/login/CreateAccountCard";
