@@ -1,3 +1,5 @@
+import "../styles/homecard.scss";
+
 const glitchFont = localFont({src: '../public/BlueScreen.ttf'});
 
 export default function LandingPage(props) {

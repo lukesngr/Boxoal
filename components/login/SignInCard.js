@@ -8,7 +8,8 @@ import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 import { signIn } from 'aws-amplify/auth';
 
-export default function SignInCard() {
+export default function SignInCard(props) {
+    let {setComponentDisplayed} = props;
     const [showPassword, setShowPassword] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -81,8 +82,8 @@ export default function SignInCard() {
                     </FormControl>
                     <Button sx={{borderRadius: '10px', color: 'white'}} variant="contained" type="submit" onClick={login}>Sign In</Button>
                     <div className='alternateActions'>
-                        <button className='forgetPasswordButton'>Forget Password</button>
-                        <button className='createAccountText'>Create Account</button>
+                        <button className='forgetPasswordButton' onClick={() => setComponentDisplayed('forgotPassword')}>Forgot Password</button>
+                        <button className='createAccountButton' onClick={() => setComponentDisplayed('createAccount')}>Create Account</button>
                     </div>
                 </Stack>
             </form>

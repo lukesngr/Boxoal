@@ -1,4 +1,4 @@
-import "../styles/homecard.scss";
+
 import localFont from 'next/font/local'
 import { useState } from "react";
 import SignInCard  from "@/components/login/SignInCard";
