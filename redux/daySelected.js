@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const timeboxRecording = createSlice({
-  name: 'timeboxRecording',
+export const daySelected = createSlice({
+  name: 'daySelected',
   initialState: {
-    value: {timeboxID: -1, timeboxDate: 0, recordingStartTime: -1},
+    value: 0,
   },
   reducers: {
     set: (state, action) => {
@@ -13,6 +13,6 @@ export const timeboxRecording = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { set } = timeboxRecording.actions
+export const { set } = daySelected.actions
 
-export default timeboxRecording.reducer
+export default daySelected.reducer

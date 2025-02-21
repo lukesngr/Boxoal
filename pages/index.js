@@ -4,7 +4,7 @@ import { useState } from "react";
 import SignInCard  from "@/components/login/SignInCard";
 import CreateAccountCard from "@/components/login/CreateAccountCard";
 import ForgotPasswordCard from "@/components/login/ForgotPasswordCard";
-import LandingPage from "@/components/login/LandingPage";
+import LandingPage from "@/components/LandingPage";
 
 export default function Home() {
 

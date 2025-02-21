@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const timeboxGrid = createSlice({
   name: 'timeboxGrid',
   initialState: {
-    value: new Map(),
+    value: null,
   },
   reducers: {
     set: (state, action) => {

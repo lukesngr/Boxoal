@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { useRef } from 'react';
-import { calculateOverlayHeightForNow } from '@/modules/coreLogic';
+import { calculateOverlayHeightForNow } from '../modules/overlayFunctions';
 
 
   export const activeOverlayInterval = createSlice({
@@ -18,7 +18,7 @@ import { calculateOverlayHeightForNow } from '@/modules/coreLogic';
   export function setActiveOverlayInterval() { 
     return function (dispatch, getState) {
       const overlayDimensions = getState().overlayDimensions.value;
-      const {wakeupTime, boxSizeUnit, boxSizeNumber} = getState().scheduleEssentials.value;
+      const {wakeupTime, boxSizeUnit, boxSizeNumber} = getState().profile.value;
       const newInterval = setInterval(() => 
           { 
               dispatch({type:"activeOverlayHeight/set", payload: calculateOverlayHeightForNow(wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions)});

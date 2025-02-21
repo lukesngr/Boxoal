@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const timeboxRecording = createSlice({
-  name: 'timeboxRecording',
+export const modalVisible = createSlice({
+  name: 'modalVisible',
   initialState: {
-    value: {timeboxID: -1, timeboxDate: 0, recordingStartTime: -1},
+    value: {visible: false, props: []},
   },
   reducers: {
     set: (state, action) => {
@@ -13,6 +13,6 @@ export const timeboxRecording = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { set } = timeboxRecording.actions
+export const { set } = modalVisible.actions
 
-export default timeboxRecording.reducer
+export default modalVisible.reducer
