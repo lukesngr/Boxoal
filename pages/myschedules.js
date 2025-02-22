@@ -6,6 +6,7 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useEffect } from "react";
 import { useProfile } from "@/hooks/useProfile";
 import { useDispatch } from "react-redux";
+import serverIP from "@/modules/serverIP";
 
 export default function MySchedules() {
     const router = useRouter();

@@ -3,6 +3,7 @@ import axios from "axios";
 import { getProgressAndLevel } from "../modules/coreLogic";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import serverIP from "@/modules/serverIP";
 export function useProfile(user, dispatch) {
     if(user === undefined) { return; }
 
