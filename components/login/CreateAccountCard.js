@@ -22,6 +22,7 @@ export default function CreateAccountCard({setComponentDisplayed, setAlert}) {
     const [detailsNotEntered, setDetailsNotEntered] = useState(true);
     const [passwordInvalid, setPasswordInvalid] = useState({invalid: false, message: ""});
     const [confirmPasswordInvalid, setConfirmPasswordInvalid] = useState({invalid: false, message: ""});
+    const [emailInvalid, setEmailInvalid] = useState({invalid: false, message: ""});
     const matchesPasswordPolicy = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9\s]).{8,}$/;
     const noAtSymbol = /^[^@]*$/;
 
@@ -54,6 +55,16 @@ export default function CreateAccountCard({setComponentDisplayed, setAlert}) {
         }
     }
 
+    function setEmailSafely(value) {
+        if (!noAtSymbol.test(value)) {
+            setEmailInvalid({ invalid: false, message: "" });
+            setEmail(value);
+        } else {
+            setEmailInvalid({ invalid: true, message: "Please enter a valid email address" });
+            setEmail(value);
+        }
+    }
+
     async function verifyCode() {
         if(confirmationCode == "") {
             document.querySelector('#verifCodeInput').reportValidity();
@@ -73,8 +84,8 @@ export default function CreateAccountCard({setComponentDisplayed, setAlert}) {
 
     async function createAccount() {
         if(noAtSymbol.test(email) || username == "" || newPassword == "" || confirmPassword == "") {
-            if(enoAtSymbol.test(email)) {
-                document.querySelector('#emailInput').reportValidity();
+            if(noAtSymbol.test(email)) {
+                setEmailInvalid({invalid: true, message: "Please enter a valid email address"});
             }
 
             if(username == "") {
@@ -88,7 +99,7 @@ export default function CreateAccountCard({setComponentDisplayed, setAlert}) {
             if(confirmPassword == "") {
                 document.querySelector('#confirmPasswordInput').reportValidity();
             } 
-        }else if(matchesPasswordPolicy.test(newPassword) || newPassword != confirmPassword) {
+        }else if(!matchesPasswordPolicy.test(newPassword) || newPassword != confirmPassword) {
             setAlert({open: true, title: "Error", message: "Please ensure your password meets the password policy requirements and that the passwords match"});
         }else{
             const { isSignUpComplete, userId, nextStep } = await signUp({
@@ -127,10 +138,11 @@ export default function CreateAccountCard({setComponentDisplayed, setAlert}) {
                     required={true} 
                     value={email}
                     id="emailInput" 
-                    onChange={(e) => setEmail(e.target.value)} 
+                    onChange={(e) => setEmailSafely(e.target.value)} 
                     label="Email" 
                     variant="standard" 
                 />
+                {emailInvalid.invalid && <p className="emailErrorMessage">{emailInvalid.message}</p>}
                 <TextField 
                     sx={{backgroundColor: 'white'}} 
                     required={true} 
