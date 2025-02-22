@@ -8,12 +8,10 @@ import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 import { signIn } from 'aws-amplify/auth';
 
-export default function SignInCard({setComponentDisplayed}) {
+export default function SignInCard({setComponentDisplayed, setAlert}) {
     const [showPassword, setShowPassword] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-    const [showError, setShowError] = useState(false);
 
     async function login(e){
         e.preventDefault();
@@ -22,8 +20,7 @@ export default function SignInCard({setComponentDisplayed}) {
                 const result = await signIn({username, password});
                 console.log(result);
             } catch (error) {
-                setErrorMessage(error.message);
-                setShowError(true);
+                setAlert({open: true, title: "Error", message: error.message});
             }
         }else if(username == ""){
             document.querySelector('#usernameInput').reportValidity();
@@ -34,18 +31,8 @@ export default function SignInCard({setComponentDisplayed}) {
 
     return (
     <>
-        <Dialog
-            open={showError}
-            onClose={() => setShowError(false)}
-        >
-            <DialogTitle>Error</DialogTitle>
-            <DialogContent>
-                <DialogContentText>
-                {errorMessage}
-                </DialogContentText>
-            </DialogContent>
-        </Dialog>
-        <div id="signInCard">
+        
+        <div className="signInCard">
             <h1>Sign In</h1>
             <form onSubmit={login}>
                 <Stack spacing={1}>
