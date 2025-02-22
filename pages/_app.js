@@ -9,6 +9,7 @@ import { Provider } from 'react-redux'
 import {store} from "@/redux/store";
 import {ThemeProvider, createTheme} from "@mui/material/styles";
 import { configureAmplify } from "@/modules/awsConfig";
+import { Authenticator } from "@aws-amplify/ui-react";
 
 export const queryClient = new QueryClient();
 configureAmplify();
@@ -31,6 +32,7 @@ function BoxAlc({ Component, pageProps: { session, ...pageProps} }) {
   }, []);
   
   return (
+    <Authenticator.Provider>
     <ThemeProvider theme={theme}>
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
@@ -42,6 +44,7 @@ function BoxAlc({ Component, pageProps: { session, ...pageProps} }) {
       <ToastContainer />
     </QueryClientProvider>
     </ThemeProvider>
+    </Authenticator.Provider>
   );
 }
 
