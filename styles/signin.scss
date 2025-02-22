@@ -1,10 +1,10 @@
-#signInCard h1 {
+.signInCard h1 {
     font-family: 'Roboto', sans-serif;
     font-weight: normal;
     font-size: 25px;
 }
 
-#signInCard {
+.signInCard {
     background-color: #D9D9D9;
     padding: 2%;
     width: fit-content;
@@ -25,4 +25,9 @@
 
 .forgetPasswordButton {
     margin-right: 40px;
+}
+
+.passwordErrorMessage {
+    width: 36ch;
+    word-wrap: break-word;
 }
