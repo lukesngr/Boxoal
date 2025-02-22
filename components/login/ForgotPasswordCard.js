@@ -81,7 +81,7 @@ export default function ForgotPasswordCard({setComponentDisplayed, setAlert}) {
             }
             
             if(confirmPassword == "") {
-                document.querySelector('#verifCodeInput').reportValidity();
+                document.querySelector('#confirmPasswordInput').reportValidity();
             } 
         }else if(matchesPasswordPolicy.test(newPassword) || newPassword != confirmPassword) {
             setAlert({open: true, title: "Error", message: "Please ensure your password meets the password policy requirements and that the passwords match"});
