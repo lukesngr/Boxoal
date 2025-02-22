@@ -139,7 +139,7 @@ export default function ForgotPasswordCard({setComponentDisplayed, setAlert}) {
                 </FormControl>
                 {passwordInvalid.invalid && <p className="passwordErrorMessage">{passwordInvalid.message}</p>}
                 <FormControl sx={{ m: 1, backgroundColor: 'white' }} variant="standard">
-                    <InputLabel htmlFor="standard-adornment-password" onClick={sendCode}>Confirm Password</InputLabel>
+                    <InputLabel htmlFor="standard-adornment-password">Confirm Password</InputLabel>
                     <Input
                         required={true}
                         id="confirmPasswordInput"
