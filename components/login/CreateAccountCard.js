@@ -10,6 +10,8 @@ import Button from '@mui/material/Button';
 import { set } from '@/redux/profile';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import { signUp } from 'aws-amplify/auth';
+import { confirmSignUp } from 'aws-amplify/auth';
 
 export default function CreateAccountCard({setComponentDisplayed, setAlert}) {
     const [email, setEmail] = useState("");
@@ -25,6 +27,7 @@ export default function CreateAccountCard({setComponentDisplayed, setAlert}) {
     const [emailInvalid, setEmailInvalid] = useState({invalid: false, message: ""});
     const matchesPasswordPolicy = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9\s]).{8,}$/;
     const noAtSymbol = /^[^@]*$/;
+    
 
     function goBack() {
         if(!detailsNotEntered) {
@@ -69,16 +72,22 @@ export default function CreateAccountCard({setComponentDisplayed, setAlert}) {
         if(confirmationCode == "") {
             document.querySelector('#verifCodeInput').reportValidity();
         }else{
-            const { isSignUpComplete, nextStep } = await confirmSignUp({
-                username: username,
-                confirmationCode: code,
-            });
+            try {
+                const { isSignUpComplete, nextStep } = await confirmSignUp({
+                    username: username,
+                    confirmationCode: confirmationCode,
+                });
 
-            if(isSignUpComplete) {
-                Alert.alert("Signed up, please login")
-                setAlert({open: true, title: "Signed Up", message: "You have successfully signed up. Please login."});
-                setComponentDisplayed("signIn");
+                if(isSignUpComplete) {
+                    Alert.alert("Signed up, please login")
+                    setAlert({open: true, title: "Signed Up", message: "You have successfully signed up. Please login."});
+                    setComponentDisplayed("signIn");
+                }
+            } catch (error) {
+                setAlert({open: true, title: "Error", message: error.message});
             }
+
+            
         }
     }
 
@@ -102,23 +111,27 @@ export default function CreateAccountCard({setComponentDisplayed, setAlert}) {
         }else if(!matchesPasswordPolicy.test(newPassword) || newPassword != confirmPassword) {
             setAlert({open: true, title: "Error", message: "Please ensure your password meets the password policy requirements and that the passwords match"});
         }else{
-            const { isSignUpComplete, userId, nextStep } = await signUp({
-                username: username,
-                password: password,
-                options: {
-                userAttributes: {
-                    email: email,
-                },
+            try{
+                const { isSignUpComplete, userId, nextStep } = await signUp({
+                    username: username,
+                    password: newPassword,
+                    options: {
+                    userAttributes: {
+                        email: email,
+                    },
+                    }
+                });
+
+                if(isSignUpComplete) {
+                    setAlert({open: true, title: "Signed Up", message: "You have successfully signed up. Please login."});
+                    setComponentDisplayed("signIn");
                 }
-            });
 
-            if(isSignUpComplete) {
-                setAlert({open: true, title: "Signed Up", message: "You have successfully signed up. Please login."});
-                setComponentDisplayed("signIn");
-            }
-
-            if(nextStep?.signUpStep === 'CONFIRM_SIGN_UP') {
-                setDetailsNotEntered(false);
+                if(nextStep?.signUpStep === 'CONFIRM_SIGN_UP') {
+                    setDetailsNotEntered(false);
+                }
+            } catch (error) {
+                setAlert({open: true, title: "Error", message: error.message});
             }
         }
     }
