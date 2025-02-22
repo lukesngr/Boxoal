@@ -1,57 +1,46 @@
-import SignedInNav from "@/components/nav/SignedInNav";
-import { useSession } from "next-auth/react";
-import { useQuery, QueryCache } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import NoSchedules from "@/components/schedule/NoSchedules";
-import { createContext, useContext } from "react";
-import SchedulesView from "@/components/schedule/SchedulesView";
-import { ScheduleContextProvider, ScheduleContext } from "@/components/schedule/ScheduleContext";
 import Loading from "@/components/base/Loading";
 import { useRouter } from "next/router";
-
-export const SessionContext = createContext();
-export const RefetchContext = createContext();
-
-function MySchedulesSeperatedForFunctionality(props) {
-
-    const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
-    let startOfWeek = selectedDate.startOf('week').hour(0).minute(0).toDate();
-    let endOfWeek = selectedDate.endOf('week').add(1, 'day').hour(23).minute(59).toDate(); //another day as sometimes timeboxes will go into next week
-    
-    const {status, data, error, refetch} = useQuery({
-        queryKey: ["schedules", selectedDate], 
-        queryFn: async () => {
-            const response = await axios.get("/api/getSchedules", { userEmail: props.session.user.email, startOfWeek, endOfWeek });
-        
-            return response;},
-        enabled: true})
-
-    if(status === "loading") {
-        return <Loading />
-    }
-
-    console.log(data);
-    
-    return (
-        <>
-            <div id='portalRoot'></div>
-            <SignedInNav session={props.session}></SignedInNav>
-            <SessionContext.Provider value={props.session}>
-                {data && data.data.length > 0 ? (<SchedulesView data={data}></SchedulesView>) : (<NoSchedules session={props.session}/>) }
-            </SessionContext.Provider>
-        </>
-    )
-}
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import { useEffect } from "react";
+import { useProfile } from "@/hooks/useProfile";
+import { useDispatch } from "react-redux";
 
 export default function MySchedules() {
-    const {data: session, status} = useSession();
     const router = useRouter();
+    const dispatch = useDispatch();
+    const { authStatus, user } = useAuthenticator((context) => [
+            context.authStatus,
+            context.user,
+    ]);
+    
+    useEffect(() => {
+        if(authStatus != 'authenticated') {
+            router.push('/');
+        }
+    }, [authStatus])
 
-    if(status == "loading") {
-        return <Loading />
-    }else if(status === "authenticated"){
-        return <ScheduleContextProvider><MySchedulesSeperatedForFunctionality session={session} status={status}></MySchedulesSeperatedForFunctionality></ScheduleContextProvider>
-    }else if(status === "unauthenticated") {
-        router.push('/');
-    } 
+    let userId = user?.userId;
+    useProfile(user, dispatch);
+
+    const {status, data, error, refetch} = useQuery({
+        queryKey: ["schedule"], 
+        queryFn: async () => {
+            const response = await axios.get(serverIP+"/getSchedules", { params: {
+                userUUID: userId
+            }});
+            return response.data;
+        },
+        enabled: true
+    })
+
+    /*if(status === 'pending') return <Loading />
+    if(status === 'error') return <Text>Error: {error.message}</Text>
+    if(data.length == 0) return <Welcome />*/
+
+    return (<>
+        <Loading />
+    </>)
+    
 }

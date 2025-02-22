@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { SessionProvider } from "next-auth/react"
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,8 +10,9 @@ import {store} from "@/redux/store";
 import {ThemeProvider, createTheme} from "@mui/material/styles";
 import { configureAmplify } from "@/modules/awsConfig";
 import { Authenticator } from "@aws-amplify/ui-react";
+import { queryClient } from "@/modules/queryClient";
+import { useState } from "react";
 
-export const queryClient = new QueryClient();
 configureAmplify();
 
 export const theme = createTheme({
