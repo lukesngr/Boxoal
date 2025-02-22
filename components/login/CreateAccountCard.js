@@ -72,9 +72,13 @@ export default function CreateAccountCard({setComponentDisplayed, setAlert}) {
     }
 
     async function createAccount() {
-        if(email == "" || newPassword == "" || confirmPassword == "") {
-            if(email == "" || noAtSymbol.test(email)) {
+        if(noAtSymbol.test(email) || username == "" || newPassword == "" || confirmPassword == "") {
+            if(enoAtSymbol.test(email)) {
                 document.querySelector('#emailInput').reportValidity();
+            }
+
+            if(username == "") {
+                document.querySelector('#usernameInput').reportValidity();
             }
             
             if(newPassword == "") {
@@ -82,7 +86,7 @@ export default function CreateAccountCard({setComponentDisplayed, setAlert}) {
             }
             
             if(confirmPassword == "") {
-                document.querySelector('#verifCodeInput').reportValidity();
+                document.querySelector('#confirmPasswordInput').reportValidity();
             } 
         }else if(matchesPasswordPolicy.test(newPassword) || newPassword != confirmPassword) {
             setAlert({open: true, title: "Error", message: "Please ensure your password meets the password policy requirements and that the passwords match"});
