@@ -8,6 +8,8 @@ import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 import { set } from '@/redux/profile';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 
 export default function ForgotPasswordCard({setComponentDisplayed, setAlert}) {
     const [confirmPasswordHidden, setConfirmPasswordHidden] = useState(true);
@@ -20,6 +22,14 @@ export default function ForgotPasswordCard({setComponentDisplayed, setAlert}) {
     const [passwordInvalid, setPasswordInvalid] = useState({invalid: false, message: ""});
     const [confirmPasswordInvalid, setConfirmPasswordInvalid] = useState({invalid: false, message: ""});
     const matchesPasswordPolicy = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9\s]).{8,}$/;
+
+    function goBack() {
+        if(codeSent) {
+            setCodeSent(false);
+        }else{
+            setComponentDisplayed("signIn");
+        }
+    }
 
     function setNewPasswordSafely(value) {
         
@@ -90,7 +100,11 @@ export default function ForgotPasswordCard({setComponentDisplayed, setAlert}) {
 
     return (
         <div className="signInCard">
-            <h1>Reset Password</h1>
+            <h1>Reset Password 
+                <IconButton onClick={() => goBack()}>
+                    <ArrowLeftIcon sx={{ color: 'black', fontSize: 30 }}></ArrowLeftIcon>
+                </IconButton>
+            </h1>
             <Stack spacing={1}>
             {codeSent ? ( <>
                 <TextField 
