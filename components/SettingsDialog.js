@@ -91,10 +91,27 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                             exclusive
                             onChange={(e, value) => value !== null && setOnDayView(value)}
                             sx={{ 
-                                backgroundColor: 'white',
+                                '& .MuiToggleButton-root': {
+                                    color: 'black',
+                                    borderColor: 'black',
+                                    borderWidth: '1px',
+                                    alignSelf: 'center',
+                                },
+                                '& .MuiToggleButton-root:hover': {
+                                    color: 'white',
+                                    borderColor: 'black',
+                                    borderWidth: '1px',
+                                    backgroundColor: 'black'
+                                },
                                 '& .MuiToggleButton-root.Mui-selected': {
-                                    backgroundColor: '#1976d2',
-                                    color: 'white'
+                                    backgroundColor: 'white',
+                                    color: 'black'
+                                },
+                                '& .MuiToggleButton-root.Mui-selected:hover': {
+                                    color: 'white',
+                                    borderColor: 'black',
+                                    borderWidth: '1px',
+                                    backgroundColor: 'black'
                                 }
                             }}
                         >
@@ -102,7 +119,16 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                             <ToggleButton value={false}>Week</ToggleButton>
                         </ToggleButtonGroup>
 
-                        <FormControl variant="standard">
+                        <FormControl variant="standard" sx={{ backgroundColor: 'white',
+                        '& .MuiInput-underline:before': {
+                            borderBottomColor: 'black'
+                        },
+                        '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
+                            borderBottomColor: 'black'
+                        },
+                        '& .MuiInputLabel-root': {
+                            color: 'black'
+                        }}}>
                             <InputLabel>Schedule</InputLabel>
                             <Select
                                 value={scheduleIndex}
@@ -131,11 +157,24 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                                 backgroundColor: 'white',
                                 '& .MuiInput-underline:before': {
                                     borderBottomColor: 'black'
+                                },
+                                '& .MuiInputLabel-root': {
+                                    color: 'black'
                                 }
                             }}
                         />
 
-                        <FormControl variant="standard">
+                        <FormControl variant="standard" sx={{ backgroundColor: 'white',
+                            '& .MuiInput-underline:before': {
+                                borderBottomColor: 'black'
+                            },
+                            '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
+                                borderBottomColor: 'black'
+                            },
+                            '& .MuiInputLabel-root': {
+                                color: 'black'
+                            }
+                        }}>
                             <InputLabel>Timebox Unit</InputLabel>
                             <Select
                                 value={boxSizeUnit}
@@ -168,6 +207,9 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                                 backgroundColor: 'white',
                                 '& .MuiInput-underline:before': {
                                     borderBottomColor: 'black'
+                                },
+                                '& .MuiInputLabel-root': {
+                                    color: 'black'
                                 }
                             }}
                         />
