@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
+import dayjs from 'dayjs'
 
 export const selectedDate = createSlice({
   name: 'selectedDate',
   initialState: {
-    value: new Date().toUTCString(),
+    value: dayjs(),
   },
   reducers: {
     set: (state, action) => {
