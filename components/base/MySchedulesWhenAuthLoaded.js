@@ -6,6 +6,7 @@ import CreateScheduleForm from "@/components/form/CreateScheduleForm";
 import { useState } from "react";
 import Alert from "@/components/base/Alert";
 import { useQuery } from "@tanstack/react-query";
+import SchedulesView from "@/components/schedule/SchedulesView";
 import axios from "axios";
 import Welcome from "./Welcome";
 import SignedInNav from "../nav/SignedInNav";
@@ -34,6 +35,6 @@ export default function MySchedulesWhenAuthLoaded({user}) {
 
     return (<>
         <SignedInNav username={username} />
-        
+        <SchedulesView data={data}></SchedulesView>
     </>)
 }
