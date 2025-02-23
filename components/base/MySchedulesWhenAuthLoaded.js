@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Welcome from "./Welcome";
 import SignedInNav from "../nav/SignedInNav";
+import Loading from "./Loading";
 export default function MySchedulesWhenAuthLoaded({user}) {
     const dispatch = useDispatch();
     const [alert, setAlert] = useState({open: false, title: "", message: ""});
@@ -27,7 +28,7 @@ export default function MySchedulesWhenAuthLoaded({user}) {
         enabled: true
     })
 
-    if(status === 'pending') return <Loading />
+    if(status === 'loading') return <Loading />
     if(status === 'error') return <p>Error: {error.message}</p>
     if(data.length == 0) return <Welcome></Welcome>
 
