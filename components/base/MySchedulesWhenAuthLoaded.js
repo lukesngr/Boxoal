@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useProfile } from "@/hooks/useProfile";
 import { useDispatch } from "react-redux";
 import serverIP from "@/modules/serverIP";
-import CreateScheduleForm from "@/components/form/CreateScheduleForm2";
+import CreateScheduleForm from "@/components/form/CreateScheduleForm";
 import { useState } from "react";
 import Alert from "@/components/base/Alert";
 import { useQuery } from "@tanstack/react-query";
