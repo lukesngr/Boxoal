@@ -7,6 +7,7 @@ import { useState } from "react";
 import Alert from "@/components/base/Alert";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Welcome from "./Welcome";
 export default function MySchedulesWhenAuthLoaded({userId}) {
     const dispatch = useDispatch();
     const [alert, setAlert] = useState({open: false, title: "", message: ""});
@@ -27,7 +28,7 @@ export default function MySchedulesWhenAuthLoaded({userId}) {
     if(status === 'error') return <p>Error: {error.message}</p>
 
     return (<>
-        <Alert alert={alert} setAlert={setAlert}/>
-        <CreateScheduleForm open={true} onClose={() => {}} setAlert={setAlert}/>
+        
+        <Welcome />
     </>)
 }
