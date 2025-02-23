@@ -8,6 +8,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ThemeProvider, createTheme } from "@mui/material";
 import "../../styles/timeboxheading.scss";
 import { useDispatch, useSelector } from "react-redux";
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import IconButton from '@mui/material/IconButton';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 export default function TimeboxHeading(props) {
 
@@ -16,7 +19,7 @@ export default function TimeboxHeading(props) {
       palette: {
         mode: 'dark',
         primary: {
-          main: '#7FFFD4',
+          main: '#C5C27C',
         },
         secondary: {
           main: '#e21919',
@@ -29,11 +32,17 @@ export default function TimeboxHeading(props) {
     });
 
     const [datePickerVisible, setDatePickerVisible] = useState(false);
+    const [settingDialogVisible, setSettingDialogVisible] = useState(false);
     const selectedDate = useSelector(state => state.selectedDate.value);
     const expanded = useSelector(state => state.expanded.value);
 
     return <h1 className="viewHeading">Timeboxes
-                <FontAwesomeIcon className="calendarIcon" icon={faCalendar} onClick={() => setDatePickerVisible(!datePickerVisible)}></FontAwesomeIcon>
+                <IconButton onClick={() => setDatePickerVisible(!datePickerVisible)}>
+                  <EditCalendarIcon sx={{color: 'black'}} fontSize="medium"></EditCalendarIcon>
+                </IconButton>
+                <IconButton onClick={() => setSettingDialogVisible(!settingDialogVisible)}>
+                  <SettingsIcon sx={{color: 'black'}} fontSize="medium"></SettingsIcon>
+                </IconButton>
                 {datePickerVisible && <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <ThemeProvider theme={theme}>
                         <StaticDatePicker sx={{position: "absolute", zIndex: 999, left: '50%'}} displayStaticWrapperAs="desktop"
