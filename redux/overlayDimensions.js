@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const overlayDimensions = createSlice({
   name: 'overlayDimensions',
   initialState: {
-    value: {headerWidth: 0, overlayHeight: 0, timeboxHeight: 30, headerHeight: 0},
+    value: {headerWidth: 0, overlayHeight: 0, timeboxHeight: 0},
   },
   reducers: {
     set: (state, action) => {
