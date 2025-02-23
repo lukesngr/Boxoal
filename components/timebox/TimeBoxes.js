@@ -2,10 +2,10 @@ import React, { useRef, useState, useContext, useEffect, useMemo, createContext 
 import { returnTimesSeperatedForSchedule } from '@/modules/formatters';
 import GridHeader from './GridHeader';
 import '../../styles/timeboxes.scss';
-
+import { getCurrentDay } from "../../modules/untestableFunctions";
 import TimeboxHeading from './TimeboxHeading';
 import { useSelector } from 'react-redux';
-import { filterTimeboxesBasedOnWeekRange, getArrayOfDayDateDayNameAndMonthForHeaders, getCurrentDay, ifCurrentDay, ifEqualOrBeyondCurrentDay } from '@/modules/dateCode';
+import { filterTimeboxesBasedOnWeekRange, getArrayOfDayDateDayNameAndMonthForHeaders, ifCurrentDay, ifEqualOrBeyondCurrentDay } from '@/modules/dateCode';
 import useActiveOverlay from '@/hooks/useActiveOverlay';
 import useOverlayDimensions from '@/hooks/useOverlayDimensions';
 import { useScheduleSetter } from '@/hooks/useScheduleSetter';
@@ -28,13 +28,12 @@ export default function TimeBoxes(props) {
 
     useTimeboxGridRedux(schedule, selectedDate); //make a map for the timeboxes with another map inside it, makes lookup fast
     useScheduleSetter(schedule); //set schedule data to redux store (timeboxes, recordedTimeboxes, goals
-    useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef, expanded);
+    useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef);
     useActiveOverlay();
-    useDaySelected(currentDay);
 
     return (
     <>
-        <TimeboxHeading></TimeboxHeading>
+        {/*<TimeboxHeading></TimeboxHeading>*/}
         <div ref={gridContainerRef} className="container-fluid mt-2 timeboxesGrid">
             <GridHeader headerContainerRef={headerContainerRef} dayToName={dayToName}></GridHeader>
                 
@@ -43,7 +42,7 @@ export default function TimeBoxes(props) {
                     <div key={time} className="row">
                         <div ref={timeboxColumnRef} className="col-1 timeCol">{time}</div>
                         {dayToName.map((day, index) => (
-                            {/*<TimeBox key={index} index={index} day={day} time={time}></TimeBox>*/}
+                            <></>
                         ))}
                     </div>))}
         </div>
@@ -51,3 +50,5 @@ export default function TimeBoxes(props) {
     )
     
 }
+
+{/*<TimeBox key={index} index={index} day={day} time={time}></TimeBox>*/}

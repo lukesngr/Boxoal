@@ -11,11 +11,11 @@ export default function GridHeader({headerContainerRef, dayToName}) {
             {dayToName.map((day, index) => (
                 <div ref={headerContainerRef} key={index} style={{padding: '0'}} className={'col '+ifCurrentDay(index, 'currentDay', '')}>
                     <span className='timeboxHeadingText'>{day.name}<br />{" ("+day.date+"/"+day.month+")"}</span>
-                    {ifCurrentDay(index, true, false) ? (<>
-                        <ActiveOverlay></ActiveOverlay>
+                    {/*ifCurrentDay(index, true, false) ? (<>
+                        {/*<ActiveOverlay></ActiveOverlay>
                         <RecordingOverlay></RecordingOverlay>
-                    </>) : (<Overlay active={ifEqualOrBeyondCurrentDay(index, true, false)}></Overlay>)}
-                    <RecordedTimeBoxOverlay day={day}></RecordedTimeBoxOverlay>
+                    </>) : (<Overlay active={ifEqualOrBeyondCurrentDay(index, true, false)}></Overlay>)
+                    <RecordedTimeBoxOverlay day={day}></RecordedTimeBoxOverlay>*/}
                 </div>
             ))}
         </div>
