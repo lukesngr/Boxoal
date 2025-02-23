@@ -26,9 +26,10 @@ export default function MySchedulesWhenAuthLoaded({userId}) {
 
     if(status === 'pending') return <Loading />
     if(status === 'error') return <p>Error: {error.message}</p>
+    if(data.length == 0) return <Welcome></Welcome>
 
     return (<>
         
-        <Welcome />
+        
     </>)
 }
