@@ -191,28 +191,27 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                             </Select>
                         </FormControl>
 
-                        <TextField
-                            label="Wakeup Time"
-                            value={wakeupTime.format('HH:mm')}
-                            InputProps={{
-                                endAdornment: (
-                                    <IconButton onClick={() => setTimePickerOpen(true)}>
-                                        <AccessTimeIcon />
-                                    </IconButton>
-                                ),
-                                readOnly: true,
-                            }}
-                            variant="standard"
-                            sx={{
-                                backgroundColor: 'white',
-                                '& .MuiInput-underline:before': {
-                                    borderBottomColor: 'black'
-                                },
-                                '& .MuiInputLabel-root': {
-                                    color: 'black'
-                                }
-                            }}
-                        />
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <div style={{backgroundColor: 'white', padding: '6px'}}>
+                            <TimePicker
+                                label="Wakeup Time"
+                                value={wakeupTime}
+                                onChange={(newValue) => {
+                                    setWakeupTime(newValue);
+                                    setTimePickerOpen(false);
+                                }}
+                                sx={{
+                                    
+                                    '& .MuiInput-underline:before': {
+                                        borderBottomColor: 'black'
+                                    },
+                                    '& .MuiInputLabel-root': {
+                                        color: 'black'
+                                    }
+                                }}
+                            />
+                            </div>
+                        </LocalizationProvider>
                     </div>
                 </DialogContent>
                 <DialogActions>
@@ -234,20 +233,6 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                         Exit
                     </Button>
                 </DialogActions>
-            </Dialog>
-
-            <Dialog open={timePickerOpen} onClose={() => setTimePickerOpen(false)}>
-                <DialogContent>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <TimePicker
-                            value={wakeupTime}
-                            onChange={(newValue) => {
-                                setWakeupTime(newValue);
-                                setTimePickerOpen(false);
-                            }}
-                        />
-                    </LocalizationProvider>
-                </DialogContent>
             </Dialog>
         </>
     );
