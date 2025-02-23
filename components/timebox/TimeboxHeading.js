@@ -11,8 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsDialog from "../SettingsDialog";
 
-export default function TimeboxHeading(props) {
+export default function TimeboxHeading({data}) {
 
   const dispatch = useDispatch();
   const theme = createTheme({
@@ -36,7 +37,7 @@ export default function TimeboxHeading(props) {
     const selectedDate = useSelector(state => state.selectedDate.value);
     const expanded = useSelector(state => state.expanded.value);
 
-    return <h1 className="viewHeading">Timeboxes
+    return <><h1 className="viewHeading">Timeboxes
                 <IconButton onClick={() => setDatePickerVisible(!datePickerVisible)}>
                   <EditCalendarIcon sx={{color: 'black'}} fontSize="medium"></EditCalendarIcon>
                 </IconButton>
@@ -53,5 +54,7 @@ export default function TimeboxHeading(props) {
                     </ThemeProvider>
                 </LocalizationProvider>}
                 {!expanded && <FontAwesomeIcon className="sideBarExpandBtn ml-1" icon={faCog} onClick={() => {}}></FontAwesomeIcon>}
-            </h1>
+                
+            </h1><SettingsDialog visible={settingDialogVisible} hideDialog={() => setSettingDialogVisible(false)} data={data}/>
+            </>
 }
