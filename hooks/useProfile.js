@@ -9,14 +9,15 @@ export function useProfile(userId, dispatch) {
     const {status, data, error, refetch} = useQuery({
         queryKey: ["XP"], 
         queryFn: async () => {
-            const response = await axios.get(serverIP+"/getProfile", { params: {userUUID: userID}});
+            const response = await axios.get(serverIP+"/getProfile", { params: {userUUID: userId}});
             return response.data;
         },
         enabled: true
     })
 
     useEffect(() => {
-        if(data !== undefined) {
+        if(data) {
+            console.log(data);
             let {boxSizeUnit, boxSizeNumber, wakeupTime, scheduleID} = data;
             dispatch({type: 'profile/set', payload: {scheduleID, boxSizeUnit, boxSizeNumber, wakeupTime}});
         }else{
