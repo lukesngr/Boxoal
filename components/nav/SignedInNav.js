@@ -13,9 +13,10 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Image from 'next/image';
+import NavbarIcon from './NavbarIcon';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Timeboxes'];
+const settings = ['Logout'];
 
 export default function SignedInNav() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -40,11 +41,11 @@ export default function SignedInNav() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-            <a href="/">
-                <Image src="/icon2.png" width={80} height={75} alt="BoxAlc Icon" priority></Image>
-            </a>
+            <Box sx={{display: { xs: 'none', md: 'flex' }, mr: 1}}>
+                <NavbarIcon />
+            </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -78,25 +79,10 @@ export default function SignedInNav() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography>
+          <Box sx={{display: { xs: 'flex', md: 'none' }, mr: 'auto', ml: 'auto'}}>
+                <NavbarIcon />
+            </Box>
+            
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
