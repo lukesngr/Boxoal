@@ -13,19 +13,25 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Image from 'next/image';
+import { useState } from 'react';
 import NavbarIcon from './NavbarIcon';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 const pages = ['Timeboxes'];
 const settings = ['Logout'];
 
-export default function SignedInNav() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+export default function SignedInNav({username}) {
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [userMenuShown, setUserMenuShown] = useState(false);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
+    setUserMenuShown(true);
     setAnchorElUser(event.currentTarget);
   };
 
@@ -34,6 +40,7 @@ export default function SignedInNav() {
   };
 
   const handleCloseUserMenu = () => {
+    setUserMenuShown(false);
     setAnchorElUser(null);
   };
 
@@ -96,8 +103,11 @@ export default function SignedInNav() {
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'black', '&:hover': {color: 'white'}, }}>
+                    <AccountCircleIcon  fontSize='large'/>
+                    <Typography sx={{ml: 1}}>{username}</Typography>
+                    {!userMenuShown && <ArrowDropDownIcon fontSize='medium'/>}
+                    {userMenuShown && <ArrowDropUpIcon  fontSize='medium'/>}
               </IconButton>
             </Tooltip>
             <Menu
