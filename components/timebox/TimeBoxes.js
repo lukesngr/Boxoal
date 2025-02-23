@@ -2,13 +2,13 @@ import React, { useRef, useState, useContext, useEffect, useMemo, createContext 
 import { returnTimesSeperatedForSchedule } from '@/modules/timeLogic';
 import '../../styles/timeboxes.scss';
 import TimeBox from './Timebox';
-import { ScheduleContext } from '../schedule/ScheduleContext';
 import Overlay from '../overlay/Overlay';
 import ActiveOverlay from '../overlay/ActiveOverlay';
 import RecordingOverlay from '../overlay/RecordingOverlay';
 import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
 import TimeboxHeading from './TimeboxHeading';
-import { ifCurrentDay, ifEqualOrBeyondCurrentDay, getArrayOfDayDateDayNameAndMonthForHeaders } from '@/modules/dateLogic';
+import { useSelector } from 'react-redux';
+import { filterTimeboxesBasedOnWeekRange, getArrayOfDayDateDayNameAndMonthForHeaders, getCurrentDay, ifCurrentDay, ifEqualOrBeyondCurrentDay } from '@/modules/dateCode';
 import useActiveOverlay from '@/hooks/useActiveOverlay';
 import useOverlayDimensions from '@/hooks/useOverlayDimensions';
 import { useScheduleSetter } from '@/hooks/useScheduleSetter';
@@ -18,20 +18,22 @@ export const ScheduleDataContext = createContext();
 
 export default function TimeBoxes(props) {
 
+    const selectedDate = useSelector(state => state.selectedDate.value);
+    const profile = useSelector(state => state.profile.value);
+    let schedule = props.data[profile.scheduleIndex]; 
     const gridContainerRef = useRef(null);
     const headerContainerRef = useRef(null);
     const timeboxColumnRef = useRef(null);
- 
-    //get schedule that is selected in sidebar and assign it to schedule variable
-    const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
-    const schedule = props.data.data[selectedSchedule];
-    const dayToName = getArrayOfDayDateDayNameAndMonthForHeaders(selectedDate.toDate()); //get all info to make headers look nice
-    const listOfTimes = returnTimesSeperatedForSchedule(schedule); //get times that go down each row
+    schedule.timeboxes = filterTimeboxesBasedOnWeekRange(schedule.timeboxes, selectedDate); //filter timeboxes based on week range
+    const dayToName = getArrayOfDayDateDayNameAndMonthForHeaders(selectedDate); //get all info to make headers look nice
+    const listOfTimes = returnTimesSeperatedForSchedule(profile); //get times that go down each row
+    let currentDay = getCurrentDay();
 
     useTimeboxGridRedux(schedule, selectedDate); //make a map for the timeboxes with another map inside it, makes lookup fast
     useScheduleSetter(schedule); //set schedule data to redux store (timeboxes, recordedTimeboxes, goals
-    useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef, selectedSchedule, expanded);
-    useActiveOverlay(schedule);
+    useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef, expanded);
+    useActiveOverlay();
+    useDaySelected(currentDay);
 
     return (
     <>
