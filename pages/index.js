@@ -3,9 +3,9 @@ import SignInCard  from "@/components/login/SignInCard";
 import CreateAccountCard from "@/components/login/CreateAccountCard";
 import ForgotPasswordCard from "@/components/login/ForgotPasswordCard";
 import LandingPage from "@/components/LandingPage";
-import { Dialog, DialogTitle, DialogContent, DialogContentText } from "@mui/material";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useRouter } from "next/router";
+import Alert from "@/components/base/Alert";
 
 export default function Home() {
 
@@ -25,14 +25,7 @@ export default function Home() {
 
     return (
     <>
-        <Dialog open={alert.open} onClose={() => setAlert({open: false, title: "", message: ""})}>
-            <DialogTitle>{alert.title}</DialogTitle>
-            <DialogContent>
-                <DialogContentText>
-                {alert.message}
-                </DialogContentText>
-            </DialogContent>
-        </Dialog>
+        <Alert alert={alert} setAlert={setAlert}/>
         {componentDisplayed == "landing" && <LandingPage setAlert={setAlert} setComponentDisplayed={setComponentDisplayed} />}
         {componentDisplayed == "signIn" && <SignInCard setAlert={setAlert} setComponentDisplayed={setComponentDisplayed} />}
         {componentDisplayed == "createAccount" && <CreateAccountCard setAlert={setAlert} setComponentDisplayed={setComponentDisplayed} />}
