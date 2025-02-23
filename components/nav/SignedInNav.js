@@ -18,31 +18,38 @@ import NavbarIcon from './NavbarIcon';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { signOut } from '@aws-amplify/auth';
+import { Router, useRouter } from 'next/router';
 
 const pages = ['Timeboxes'];
-const settings = ['Logout'];
 
 export default function SignedInNav({username}) {
-  const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
-  const [userMenuShown, setUserMenuShown] = useState(false);
+    const router = useRouter();
+    const [anchorElNav, setAnchorElNav] = useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
+    const [userMenuShown, setUserMenuShown] = useState(false);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setUserMenuShown(true);
-    setAnchorElUser(event.currentTarget);
-  };
+    const handleOpenNavMenu = (event) => {
+        setAnchorElNav(event.currentTarget);
+    };
+    const handleOpenUserMenu = (event) => {
+        setUserMenuShown(true);
+        setAnchorElUser(event.currentTarget);
+    };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
 
-  const handleCloseUserMenu = () => {
-    setUserMenuShown(false);
-    setAnchorElUser(null);
-  };
+    const handleCloseUserMenu = () => {
+        setUserMenuShown(false);
+        setAnchorElUser(null);
+    };
+
+    async function logout() {
+        await signOut();
+        router.push('/');
+    }
 
   return (
     <AppBar position="static">
@@ -52,55 +59,11 @@ export default function SignedInNav({username}) {
                 <NavbarIcon />
             </Box>
 
-          <Box sx={{display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' } }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          
           <Box sx={{display: { xs: 'flex', md: 'none' }, mr: 'auto', ml: 'auto'}}>
                 <NavbarIcon />
             </Box>
             
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'black', '&:hover': {color: 'white'}, }}>
@@ -126,11 +89,9 @@ export default function SignedInNav({username}) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                <MenuItem key={"Logout"} onClick={logout}>
+                  <Typography sx={{ textAlign: 'center' }}>Logout</Typography>
                 </MenuItem>
-              ))}
             </Menu>
           </Box>
         </Toolbar>
