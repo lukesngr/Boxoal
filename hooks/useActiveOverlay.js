@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { resetActiveOverlayInterval, setActiveOverlayInterval } from '../redux/activeOverlayInterval';
 import dayjs from 'dayjs';
 
-export default function useActiveOverlay(schedule) {
+export default function useActiveOverlay() {
 
     const timeboxRecording = useSelector(state => state.timeboxRecording.value);
     const overlayDimensions = useSelector(state => state.overlayDimensions.value);
