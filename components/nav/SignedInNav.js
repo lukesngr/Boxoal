@@ -51,51 +51,45 @@ export default function SignedInNav({username}) {
         router.push('/');
     }
 
-  return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-            <Box sx={{display: { xs: 'none', md: 'flex' }, mr: 1}}>
-                <NavbarIcon />
-            </Box>
-
-          
-          <Box sx={{display: { xs: 'flex', md: 'none' }, mr: 'auto', ml: 'auto'}}>
-                <NavbarIcon />
-            </Box>
-            
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'black', '&:hover': {color: 'white'}, }}>
-                    <AccountCircleIcon  fontSize='large'/>
-                    <Typography sx={{ml: 1}}>{username}</Typography>
-                    {!userMenuShown && <ArrowDropDownIcon fontSize='medium'/>}
-                    {userMenuShown && <ArrowDropUpIcon  fontSize='medium'/>}
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-                <MenuItem key={"Logout"} onClick={logout}>
-                  <Typography sx={{ textAlign: 'center' }}>Logout</Typography>
-                </MenuItem>
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
-  );
+    return (
+        <AppBar position="static">
+        <Container maxWidth="xl">
+            <Toolbar disableGutters>
+                <Box sx={{display: 'flex', mr: 1}}>
+                    <NavbarIcon />
+                </Box>
+                <Box sx={{ ml: 'auto', flexGrow: 0 }}>
+                    <Tooltip title="Open settings">
+                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'black', '&:hover': {color: 'white'}, }}>
+                                <AccountCircleIcon  fontSize='large'/>
+                                <Typography sx={{ml: 1}}>{username}</Typography>
+                                {!userMenuShown && <ArrowDropDownIcon fontSize='medium'/>}
+                                {userMenuShown && <ArrowDropUpIcon  fontSize='medium'/>}
+                        </IconButton>
+                    </Tooltip>
+                    <Menu
+                    sx={{ mt: '45px' }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                    >
+                        <MenuItem key={"Logout"} onClick={logout}>
+                        <Typography sx={{ textAlign: 'center' }}>Logout</Typography>
+                        </MenuItem>
+                    </Menu>
+                </Box>
+            </Toolbar>
+        </Container>
+        </AppBar>
+    );
 }
