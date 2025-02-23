@@ -8,9 +8,12 @@ import Alert from "@/components/base/Alert";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Welcome from "./Welcome";
-export default function MySchedulesWhenAuthLoaded({userId}) {
+import SignedInNav from "../nav/SignedInNav";
+export default function MySchedulesWhenAuthLoaded({user}) {
     const dispatch = useDispatch();
     const [alert, setAlert] = useState({open: false, title: "", message: ""});
+    console.log(user);
+    let {userId, username} = user;
     useProfile(userId, dispatch);
 
     const {status, data, error, refetch} = useQuery({
@@ -29,7 +32,7 @@ export default function MySchedulesWhenAuthLoaded({userId}) {
     if(data.length == 0) return <Welcome></Welcome>
 
     return (<>
-        
+        <SignedInNav username={username} />
         
     </>)
 }

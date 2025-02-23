@@ -5,13 +5,13 @@ import { signOut } from 'next-auth/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
-export default function SignedInNav(props) {
+export default function SignedInNav({username}) {
     const [userCardDisplayed, setUserCardDisplayed] = useState(false);
 
     return (
         <nav className="navbar navbar-expand-lg boxNavbar">
             <a href="/">
-                <Image src="/icon.png" width={80} height={75} alt="BoxAlc Icon" priority></Image>
+                <Image src="/icon2.png" width={80} height={75} alt="BoxAlc Icon" priority></Image>
             </a>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapsibleContent" aria-controls="navbarCollapsibleContent" aria-expanded="false" aria-label="Collapse content">
                 <span className="navbar-toggler-icon"></span>
@@ -26,14 +26,14 @@ export default function SignedInNav(props) {
                     {userCardDisplayed && 
                         <div className="userCard">
                             <div>
-                                <h5>{props.session.user.email}</h5>
+                                <h5>{username}</h5>
                                 <button className="closeUserCard" onClick={() => setUserCardDisplayed(false)}><FontAwesomeIcon icon={faCircleXmark} /></button>
                             </div>
                             <button onClick={() => signOut()} className="signOutButton">Sign Out</button>
                         </div>
                     }
                     <li className="nav-item" id="userButton" onClick={() => setUserCardDisplayed(!userCardDisplayed)}>
-                        <img src={props.session.user.image} alt="User Image" width={45} height={45}></img>
+                        <img alt="User Image" width={45} height={45}></img>
                         <a className='nav-link accountImageAlt'>Account</a>
                     </li>
                 </ul>

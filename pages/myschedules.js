@@ -21,7 +21,7 @@ export default function MySchedules() {
     if(authStatus == 'configuring' || authStatus == "idle") {
          return <Loading />
     }else if(authStatus == "authenticated") {
-        return <MySchedulesWhenAuthLoaded userId={user.userId}/>
+        return <MySchedulesWhenAuthLoaded user={user}/>
     }
     
     return <></>
