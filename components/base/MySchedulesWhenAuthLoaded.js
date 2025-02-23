@@ -13,8 +13,6 @@ import SignedInNav from "../nav/SignedInNav";
 import Loading from "./Loading";
 export default function MySchedulesWhenAuthLoaded({user}) {
     const dispatch = useDispatch();
-    const [alert, setAlert] = useState({open: false, title: "", message: ""});
-    console.log(user);
     let {userId, username} = user;
     useProfile(userId, dispatch);
 
