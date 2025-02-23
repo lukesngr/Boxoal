@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { styles } from "../styles/styles";
 
 export default function useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef) {
     const dispatch = useDispatch();

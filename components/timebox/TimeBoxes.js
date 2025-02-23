@@ -1,11 +1,8 @@
 import React, { useRef, useState, useContext, useEffect, useMemo, createContext } from 'react';
-import { returnTimesSeperatedForSchedule } from '@/modules/timeLogic';
+import { returnTimesSeperatedForSchedule } from '@/modules/formatters';
+import GridHeader from './GridHeader';
 import '../../styles/timeboxes.scss';
-import TimeBox from './Timebox';
-import Overlay from '../overlay/Overlay';
-import ActiveOverlay from '../overlay/ActiveOverlay';
-import RecordingOverlay from '../overlay/RecordingOverlay';
-import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
+
 import TimeboxHeading from './TimeboxHeading';
 import { useSelector } from 'react-redux';
 import { filterTimeboxesBasedOnWeekRange, getArrayOfDayDateDayNameAndMonthForHeaders, getCurrentDay, ifCurrentDay, ifEqualOrBeyondCurrentDay } from '@/modules/dateCode';
@@ -39,28 +36,14 @@ export default function TimeBoxes(props) {
     <>
         <TimeboxHeading></TimeboxHeading>
         <div ref={gridContainerRef} className="container-fluid mt-2 timeboxesGrid">
-                {/*Headers */}
-                <div className="row">
-                    <div className="col-1"></div>
-                    
-                    {dayToName.map((day, index) => (
-                        <div ref={headerContainerRef} key={index} style={{padding: '0'}} className={'col '+ifCurrentDay(index, 'currentDay', '')}>
-                            <span className='timeboxHeadingText'>{day.name}<br />{" ("+day.date+"/"+day.month+")"}</span>
-                            {ifCurrentDay(index, true, false) ? (<>
-                                <ActiveOverlay></ActiveOverlay>
-                                <RecordingOverlay></RecordingOverlay>
-                            </>) : (<Overlay active={ifEqualOrBeyondCurrentDay(index, true, false)}></Overlay>)}
-                            <RecordedTimeBoxOverlay day={day}></RecordedTimeBoxOverlay>
-                        </div>
-                    ))}
-                </div>
+            <GridHeader headerContainerRef={headerContainerRef} dayToName={dayToName}></GridHeader>
                 
                 {/* Timeboxes */}
                 {listOfTimes.map(time => (
                     <div key={time} className="row">
                         <div ref={timeboxColumnRef} className="col-1 timeCol">{time}</div>
                         {dayToName.map((day, index) => (
-                            <TimeBox key={index} index={index} day={day} time={time}></TimeBox>
+                            {/*<TimeBox key={index} index={index} day={day} time={time}></TimeBox>*/}
                         ))}
                     </div>))}
         </div>
