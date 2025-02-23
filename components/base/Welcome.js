@@ -7,66 +7,58 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import InfoIcon from '@mui/icons-material/Info';
 import CreateScheduleForm from "../form/CreateScheduleForm";
-import Alert from "./Alert";
+
 import '../../styles/cardInMiddle.scss';
 
 export default function Welcome() {
     const [modalOpen, setModalOpen] = useState(false);
-    const [alert, setAlert] = useState({ open: false, title: "", message: "" });
+    
 
     return (
-        <>
-        <Alert alert={alert} setAlert={setAlert}/>
-        
-        <div className="backgroundForCard">
-            <Card 
-                sx={{ 
-                    backgroundColor: 'white', 
-                    margin: '10px', 
-                    marginTop: '50px',
-                    mx: 'auto',
-                    height: 'fit-content',
-                }} 
-                elevation={3}
-            >
-                <CardHeader
-                    avatar={
-                        <Avatar sx={{ bgcolor: 'primary.main' }}>
-                            <InfoIcon />
-                        </Avatar>
-                    }
-                    title="Welcome to Boxoal"
-                    subheader="Tutorial video"
-                />
-                <CardContent>
-                    <div
-                        style={{
-                            width: '600px',
-                            height: '400px',
-                            backgroundColor: 'black',
-                        }}
-                    />
-                </CardContent>
-                <CardHeader
-                    title="Instructions"
-                    subheader="Create a schedule to get started"
-                />
-                <CardActions>
-                    <Button 
-                        variant="contained" 
-                        onClick={() => setModalOpen(true)}
-                    >
-                        Create Schedule
-                    </Button>
-                </CardActions>
-            </Card>
-
-            <CreateScheduleForm 
-                open={modalOpen} 
-                onClose={() => setModalOpen(false)}
-                setAlert={setAlert}
+    <div className="backgroundForCard">
+        <Card 
+            sx={{ 
+                backgroundColor: 'white', 
+                margin: '10px', 
+                marginTop: '50px',
+                mx: 'auto',
+                height: 'fit-content',
+            }} 
+            elevation={3}
+        >
+            <CardHeader
+                avatar={
+                    <Avatar sx={{ bgcolor: 'primary.main' }}>
+                        <InfoIcon />
+                    </Avatar>
+                }
+                title="Welcome to Boxoal"
+                subheader="Tutorial video"
             />
-        </div>
-        </>
+            <CardContent>
+                <div
+                    style={{
+                        width: '600px',
+                        height: '400px',
+                        backgroundColor: 'black',
+                    }}
+                />
+            </CardContent>
+            <CardHeader
+                title="Instructions"
+                subheader="Create a schedule to get started"
+            />
+            <CardActions>
+                <Button 
+                    variant="contained" 
+                    onClick={() => setModalOpen(true)}
+                >
+                    Create Schedule
+                </Button>
+            </CardActions>
+        </Card>
+
+        <CreateScheduleForm open={modalOpen} onClose={() => setModalOpen(false)}/>
+    </div>
     );
 }
