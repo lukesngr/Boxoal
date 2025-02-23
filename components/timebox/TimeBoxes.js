@@ -33,7 +33,7 @@ export default function TimeBoxes(props) {
 
     return (
     <>
-        {/*<TimeboxHeading></TimeboxHeading>*/}
+        <TimeboxHeading data={props.data}></TimeboxHeading>
         <div ref={gridContainerRef} className="container-fluid mt-2 timeboxesGrid">
             <GridHeader headerContainerRef={headerContainerRef} dayToName={dayToName}></GridHeader>
                 
