@@ -10,9 +10,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Alert from "../base/Alert";
 
-export default function CreateScheduleForm({ open, onClose, setAlert }) {
+export default function CreateScheduleForm({ open, onClose }) {
     const [title, setTitle] = useState("");
+    const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const { user } = useAuthenticator();
     
     async function createSchedule() {
@@ -40,6 +42,8 @@ export default function CreateScheduleForm({ open, onClose, setAlert }) {
     }
 
     return (
+    <>
+        <Alert alert={alert} setAlert={setAlert}/>
         <Dialog 
             open={open} 
             onClose={onClose}
@@ -94,6 +98,7 @@ export default function CreateScheduleForm({ open, onClose, setAlert }) {
                 </Button>
             </DialogActions>
         </Dialog>
+    </>
     );
 }
 
