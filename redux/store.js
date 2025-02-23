@@ -12,6 +12,7 @@ import { combineReducers } from '@reduxjs/toolkit'
 import onDayViewReducer from './onDayView'
 import daySelectedReducer from './daySelected'
 import modalVisibleReducer from './modalVisible'
+import expandedReducer from './expanded'
 
 
 const rootReducer = combineReducers({
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   onDayView: onDayViewReducer,
   daySelected: daySelectedReducer,
   modalVisible: modalVisibleReducer,
+  expanded: expandedReducer,
 });
 
 export const store = configureStore({
