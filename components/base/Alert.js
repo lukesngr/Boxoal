@@ -1,3 +1,5 @@
+import { Dialog, DialogTitle, DialogContent, DialogContentText } from "@mui/material";
+
 export default function Alert({alert, setAlert}) {
     return (
         <Dialog open={alert.open} onClose={() => setAlert({open: false, title: "", message: ""})}>
