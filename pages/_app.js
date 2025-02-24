@@ -12,6 +12,9 @@ import { configureAmplify } from "@/modules/awsConfig";
 import { Authenticator } from "@aws-amplify/ui-react";
 import { queryClient } from "@/modules/queryClient";
 import { useState } from "react";
+import dayjs from "dayjs";
+var utc = require("dayjs/plugin/utc");
+dayjs.extend(utc)
 
 configureAmplify();
 
