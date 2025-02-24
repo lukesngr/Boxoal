@@ -17,9 +17,8 @@ export function useProfile(userId, dispatch) {
 
     useEffect(() => {
         if(data) {
-            console.log(data);
-            let {boxSizeUnit, boxSizeNumber, wakeupTime, scheduleID} = data;
-            dispatch({type: 'profile/set', payload: {scheduleID, boxSizeUnit, boxSizeNumber, wakeupTime}});
+            let {boxSizeUnit, boxSizeNumber, wakeupTime, scheduleID, scheduleIndex} = data;
+            dispatch({type: 'profile/set', payload: {scheduleID, boxSizeUnit, boxSizeNumber, wakeupTime, scheduleIndex}});
         }else{
             dispatch({type: 'profile/set', payload: {scheduleID: 0, scheduleIndex: 0, boxSizeUnit: 'min', boxSizeNumber: 30, wakeupTime: '07:00'}});
         }
