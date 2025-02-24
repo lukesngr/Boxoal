@@ -12,28 +12,48 @@ import { useDispatch, useSelector } from 'react-redux';
 
 export default function TimeBox(props) {
 
-    const {time, day, index} = props;
-    const [timeboxFormData, setTimeboxFormData] = useState({
-        title: "",
-        description: "",
-        goalSelected: 1,
-        reoccurFrequency: "no",
-        weeklyDate: new Date(),
-        numberOfBoxes: 1
-    });
-    const [timeBoxFormVisible, setTimeBoxFormVisible] = useState(false);
-    const addTimeBoxDialogOpen = useSelector(state => state.timeboxDialog.value);
-    const timeboxGrid = useSelector(state => state.timeboxGrid.value);
     const dispatch = useDispatch();
+    const {headerWidth, timeboxHeight} = useSelector(state => state.overlayDimensions.value);
+    const timeboxGrid = useSelector(state => state.timeboxGrid.value);
+    const profile = useSelector(state => state.profile.value);
+    const date = props.day.date+"/"+props.day.month;
+    const dayName = props.day.name;
+    let data;
+    let marginFromTop = 0;
+    let numberOfBoxesInSpace = 0;
+    let boxesInsideSpace = [];
 
-    let date = day.date+"/"+day.month;
-    let dayName = day.name;
-    let active = ifEqualOrBeyondCurrentDay(index, true, false)
-    let data = timeboxGrid.get(date)?.get(time);
+    if(timeboxGrid) { 
+        if(timeboxGrid[date]) {
+            boxesInsideSpace = filterTimeGridBasedOnSpace(timeboxGrid[date], profile.boxSizeUnit, profile.boxSizeNumber, props.time);
+            numberOfBoxesInSpace = boxesInsideSpace.length;
 
-    function setTimeBoxVisibility(state) {
-        setTimeBoxFormVisible(state);
-        dispatch({type: 'timeboxDialog/set', payload: state});
+            if(timeboxGrid[date][props.time]) {
+                data = timeboxGrid[date][props.time];
+            }else if(numberOfBoxesInSpace == 1) {
+                marginFromTop = getMarginFromTopOfTimebox(profile.boxSizeUnit, profile.boxSizeNumber, props.time, boxesInsideSpace[0], timeboxHeight);
+                data = timeboxGrid[date][boxesInsideSpace[0]];
+            }
+        }
+    }
+
+    function onPress() {
+        if(data) {
+            dispatch({type: 'modalVisible/set', payload: {visible: true, props: {data: data, date: date, time: props.time}}});
+        }else{
+            dispatch({type: 'modalVisible/set', payload: {visible: true, props: {dayName: dayName, date: date, time: props.time}}});
+        }
+    }
+
+    function expandSchedule() {
+        let smallestTimeboxLength = findSmallestTimeBoxLengthInSpace(timeboxGrid[date], boxesInsideSpace);
+        if(smallestTimeboxLength % 60 == 0) {
+            axios.post(serverIP+'/updateProfile', {...profile, boxSizeNumber: (smallestTimeboxLength / 60), boxSizeUnit: 'hr'}).catch(function(error) { console.log(error); });
+            dispatch({type: 'profile/set', payload: {...profile, boxSizeNumber: smallestTimeboxLength, boxSizeUnit: 'hr'}});
+        }else{
+            axios.post(serverIP+'/updateProfile', {...profile, boxSizeNumber: smallestTimeboxLength, boxSizeUnit: 'min'}).catch(function(error) { console.log(error); });
+            dispatch({type: 'profile/set', payload: {...profile, boxSizeNumber: smallestTimeboxLength, boxSizeUnit: 'min'}});
+        }
     }
 
     return (
@@ -54,6 +74,16 @@ export default function TimeBox(props) {
             (<NormalTimeBox tags={tags} data={data}
               height={getHeightForBoxes(data.numberOfBoxes)} date={date} time={time}></NormalTimeBox>)
         }></UpdateTimeBoxModal> }
+
+        {numberOfBoxesInSpace < 2 ? (
+            <Pressable onPress={onPress}>
+                {numberOfBoxesInSpace == 1 ? (<NormalTimebox marginFromTop={marginFromTop} data={data}></NormalTimebox>) : (<Text style={{width: '100%', height: '100%'}}></Text>)}
+            </Pressable>
+        ) : (
+            <Pressable style={{alignContent: 'center', alignItems: 'center'}} onPress={expandSchedule}>
+                <FontAwesomeIcon style={{width: '100%', height: '100%'}} icon={faDiagramPredecessor} size={onDayView ? 60 : 30} />
+            </Pressable>
+        )}
 
     </div>)
 }
