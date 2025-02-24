@@ -1,16 +1,14 @@
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../../styles/timebox.scss';
-import { useState, useContext } from 'react';
 import '../../styles/addtimebox.scss';
-import CreateTimeboxForm from '../form/CreateTimeboxForm';
-import UpdateTimeBoxModal from '../modal/UpdateTimeBoxModal';
 import NormalTimeBox from './NormalTimeBox';
-import { ifEqualOrBeyondCurrentDay } from '@/modules/dateLogic';
-import { getHeightForBoxes } from '@/modules/coreLogic';
 import { useDispatch, useSelector } from 'react-redux';
+import { filterTimeGridBasedOnSpace } from '@/modules/boxCalculations';
+import { getMarginFromTopOfTimebox } from '@/modules/boxCalculations';
+import { findSmallestTimeBoxLengthInSpace } from '@/modules/boxCalculations';
+import { Icon } from '@aws-amplify/ui-react';
+import CalendarViewDayIcon from '@mui/icons-material/CalendarViewDay';
 
-export default function TimeBox(props) {
+export default function Timebox(props) {
 
     const dispatch = useDispatch();
     const {headerWidth, timeboxHeight} = useSelector(state => state.overlayDimensions.value);
@@ -22,6 +20,8 @@ export default function TimeBox(props) {
     let marginFromTop = 0;
     let numberOfBoxesInSpace = 0;
     let boxesInsideSpace = [];
+
+    console.log(timeboxGrid);
 
     if(timeboxGrid) { 
         if(timeboxGrid[date]) {
@@ -55,34 +55,19 @@ export default function TimeBox(props) {
             dispatch({type: 'profile/set', payload: {...profile, boxSizeNumber: smallestTimeboxLength, boxSizeUnit: 'min'}});
         }
     }
-
+    console.log(data);
     return (
     <div className={'col timeBox'}>
-        {/* Add timebox button */}
-        {active && !timeBoxFormVisible && !addTimeBoxDialogOpen && !props.data &&
-        <button data-testid="addTimeBoxButton" onClick={() => setTimeBoxVisibility(true)} className="btn btn-dark addBoxButton">
-            <FontAwesomeIcon height={25} width={25} icon={faCirclePlus}/>
-        </button>}
-
-        {/* Form section of this TimeBox component */}
-        {timeBoxFormVisible && <><CreateTimeboxForm time={time} date={date} timeboxFormData={[timeboxFormData, setTimeboxFormData]}
-        closeTimeBox={() => setTimeBoxVisibility(false)} dayName={dayName}></CreateTimeboxForm>
-        <div style={{height: getHeightForBoxes(timeboxFormData.numberOfBoxes)}} className="placeholderTimeBox">{timeboxFormData.title}</div></>}
-
-        {/* Normal time box */}
-        {data && <UpdateTimeBoxModal timebox={data} render={tags => 
-            (<NormalTimeBox tags={tags} data={data}
-              height={getHeightForBoxes(data.numberOfBoxes)} date={date} time={time}></NormalTimeBox>)
-        }></UpdateTimeBoxModal> }
+        {data && <NormalTimeBox data={data} marginFromTop={marginFromTop}></NormalTimeBox>}
 
         {numberOfBoxesInSpace < 2 ? (
-            <Pressable onPress={onPress}>
-                {numberOfBoxesInSpace == 1 ? (<NormalTimebox marginFromTop={marginFromTop} data={data}></NormalTimebox>) : (<Text style={{width: '100%', height: '100%'}}></Text>)}
-            </Pressable>
+            <div onClick={onPress}>
+                {numberOfBoxesInSpace == 1 && <NormalTimeBox marginFromTop={marginFromTop} data={data}></NormalTimeBox>}
+            </div>
         ) : (
-            <Pressable style={{alignContent: 'center', alignItems: 'center'}} onPress={expandSchedule}>
-                <FontAwesomeIcon style={{width: '100%', height: '100%'}} icon={faDiagramPredecessor} size={onDayView ? 60 : 30} />
-            </Pressable>
+            <IconButton onClick={expandSchedule}>
+                <CalendarViewDayIcon fontSize='medium'></CalendarViewDayIcon>
+            </IconButton>
         )}
 
     </div>)
