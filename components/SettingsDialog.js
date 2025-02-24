@@ -27,20 +27,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 export default function SettingsDialog({ visible, hideDialog, data }) {
     const { user } = useAuthenticator();
     const dispatch = useDispatch();
-    const onDayView = useSelector(state => state.onDayView.value);
     const profile = useSelector(state => state.profile.value);
     
-    const [dayView, setDayView] = useState(onDayView);
     const [scheduleIndex, setScheduleIndex] = useState(profile.scheduleIndex + 1);
     const [boxSizeNumber, setBoxSizeNumber] = useState(String(profile.boxSizeNumber));
     const [boxSizeUnit, setBoxSizeUnit] = useState(profile.boxSizeUnit);
     const [wakeupTime, setWakeupTime] = useState(dayjs(profile.wakeupTime, 'HH:mm'));
     const [timePickerOpen, setTimePickerOpen] = useState(false);
-
-    function setOnDayView(value) {
-        setDayView(value);
-        dispatch({ type: 'onDayView/set', payload: value });
-    }
 
     function updateProfile() {
         const wakeupTimeAsText = wakeupTime.format('HH:mm');
@@ -86,41 +79,6 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                 <DialogTitle sx={{ color: 'white' }}>Settings</DialogTitle>
                 <DialogContent>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
-                        <ToggleButtonGroup
-                            value={dayView}
-                            exclusive
-                            onChange={(e, value) => value !== null && setOnDayView(value)}
-                            sx={{ 
-                                '&': {
-                                    alignSelf: 'center'
-                                },
-                                '& .MuiToggleButton-root': {
-                                    color: 'black',
-                                    borderColor: 'black',
-                                    borderWidth: '1px',
-                                    alignSelf: 'center',
-                                },
-                                '& .MuiToggleButton-root:hover': {
-                                    color: 'white',
-                                    borderColor: 'black',
-                                    borderWidth: '1px',
-                                    backgroundColor: 'black'
-                                },
-                                '& .MuiToggleButton-root.Mui-selected': {
-                                    backgroundColor: 'white',
-                                    color: 'black'
-                                },
-                                '& .MuiToggleButton-root.Mui-selected:hover': {
-                                    color: 'white',
-                                    borderColor: 'black',
-                                    borderWidth: '1px',
-                                    backgroundColor: 'black'
-                                }
-                            }}
-                        >
-                            <ToggleButton value={true}>Day</ToggleButton>
-                            <ToggleButton value={false}>Week</ToggleButton>
-                        </ToggleButtonGroup>
 
                         <FormControl variant="standard" sx={{ backgroundColor: 'white',
                         '& .MuiInput-underline:before': {
