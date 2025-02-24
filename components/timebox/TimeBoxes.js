@@ -10,6 +10,7 @@ import useActiveOverlay from '@/hooks/useActiveOverlay';
 import useOverlayDimensions from '@/hooks/useOverlayDimensions';
 import { useScheduleSetter } from '@/hooks/useScheduleSetter';
 import useTimeboxGridRedux from '@/hooks/useTimeboxGridRedux';
+import { GridBody } from './GridBody';
 
 export const ScheduleDataContext = createContext();
 
@@ -36,15 +37,7 @@ export default function TimeBoxes(props) {
         <TimeboxHeading data={props.data}></TimeboxHeading>
         <div ref={gridContainerRef} className="container-fluid mt-2 timeboxesGrid">
             <GridHeader headerContainerRef={headerContainerRef} dayToName={dayToName}></GridHeader>
-                
-                {/* Timeboxes */}
-                {listOfTimes.map(time => (
-                    <div key={time} className="row">
-                        <div ref={timeboxColumnRef} className="col-1 timeCol">{time}</div>
-                        {dayToName.map((day, index) => (
-                            <></>
-                        ))}
-                    </div>))}
+            <GridBody timeboxColumnRef={timeboxColumnRef} listOfTimes={listOfTimes} dayToName={dayToName}></GridBody>
         </div>
     </>
     )
