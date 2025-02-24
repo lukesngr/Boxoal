@@ -7,7 +7,7 @@ export default function NormalTimeBox(props) {
     let height = Number(percentageOfBoxSizeFilled*100);
     return (
         <div style={{height: `${height}%`, backgroundColor: props.data.color}} id="timeBox" data-testid="normalTimeBox">    
-            <span {...tags} className="timeboxText">{props.data.title}</span>
+            <span className="timeboxText">{props.data.title}</span>
         </div>
     )
 }
