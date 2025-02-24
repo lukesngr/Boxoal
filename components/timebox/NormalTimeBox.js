@@ -15,7 +15,6 @@ export default function NormalTimeBox(props) {
     const {id, boxSizeUnit, boxSizeNumber} = useSelector(state => state.scheduleEssentials.value);
     const dispatch = useDispatch();
     
-    
     const noPreviousRecording = thereIsNoRecording(data.recordedTimeBoxes, data.reoccuring, date, time);
     const timeboxIsntRecording = timeboxRecording[0] == -1;
     const timeboxIsRecording = timeboxRecording[0] == data.id && timeboxRecording[1] == date;
@@ -67,20 +66,6 @@ export default function NormalTimeBox(props) {
         <div style={{height: height, backgroundColor: data.color}} id="timeBox" data-testid="normalTimeBox">    
             <span {...tags} className="timeboxText">{data.title}</span>
 
-            {noPreviousRecording && timeboxIsntRecording && 
-            <button className="autoRecordButton" onClick={autoRecord} data-testid="autoRecord">
-                <FontAwesomeIcon height={iconSize} width={iconSize} icon={faCircleCheck} />
-            </button>}
-
-            {noPreviousRecording && timeboxIsntRecording && 
-            <button className="recordTimeButton" onClick={startRecording} data-testid="startRecording">
-                <FontAwesomeIcon height={iconSize} width={iconSize} icon={faCircleDot} />
-            </button>}
-
-            {noPreviousRecording && timeboxIsRecording && 
-            <button className="stopRecordTimeButton" onClick={stopRecording} data-testid="stopRecording">
-                <FontAwesomeIcon height={iconSize} width={iconSize} icon={faCircleStop} />
-            </button>}
         </div>
     )
 }
