@@ -48,7 +48,7 @@ export default function TimeboxHeading({data}) {
                     <ThemeProvider theme={theme}>
                         <StaticDatePicker sx={{position: "absolute", zIndex: 999, left: '50%'}} displayStaticWrapperAs="desktop"
                         openTo="day" value={selectedDate} onChange={(newValue) => {
-                          dispatch({type: 'selectedDate/set', payload: newValue.toUTCString()})
+                          dispatch({type: 'selectedDate/set', payload: newValue})
                           setDatePickerVisible(false);
                         }}></StaticDatePicker>
                     </ThemeProvider>
