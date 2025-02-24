@@ -46,7 +46,7 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
         const wakeupTimeAsText = wakeupTime.format('HH:mm');
         const convertedBackBoxSizeNumber = Number(boxSizeNumber);
         
-        axios.post(serverIP + '/updateProfile', {
+        axios.put(serverIP + '/updateProfile', {
             scheduleIndex: (scheduleIndex - 1),
             scheduleID: data[scheduleIndex - 1].id,
             boxSizeUnit,
@@ -91,6 +91,9 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                             exclusive
                             onChange={(e, value) => value !== null && setOnDayView(value)}
                             sx={{ 
+                                '&': {
+                                    alignSelf: 'center'
+                                },
                                 '& .MuiToggleButton-root': {
                                     color: 'black',
                                     borderColor: 'black',
@@ -127,6 +130,9 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                             borderBottomColor: 'black'
                         },
                         '& .MuiInputLabel-root': {
+                            color: 'black'
+                        },
+                        '& .MuiInputLabel-root.Mui-focused': {
                             color: 'black'
                         }}}>
                             <InputLabel>Schedule</InputLabel>
@@ -172,6 +178,9 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                                 borderBottomColor: 'black'
                             },
                             '& .MuiInputLabel-root': {
+                                color: 'black'
+                            },
+                            '& .MuiInputLabel-root.Mui-focused': {
                                 color: 'black'
                             }
                         }}>
