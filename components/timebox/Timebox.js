@@ -60,9 +60,7 @@ export default function Timebox(props) {
 
         {numberOfBoxesInSpace < 2 ? (
             <>
-            {numberOfBoxesInSpace == 1 && <div onClick={onPress}>
-                 <NormalTimeBox marginFromTop={marginFromTop} data={data}></NormalTimeBox>
-            </div>}
+            {numberOfBoxesInSpace == 1 && <NormalTimeBox marginFromTop={marginFromTop} data={data}></NormalTimeBox>}
             {numberOfBoxesInSpace < 1 && <TimeboxInCreation day={props.day.day} date={date} time={props.time}></TimeboxInCreation>}
             </>
         ) : (
