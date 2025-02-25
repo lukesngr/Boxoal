@@ -19,7 +19,7 @@ import Stack from '@mui/material/Stack';
 export default function ManualEntryTimeModal({ visible, close, data, scheduleID, setAlert, dispatch }) {
     const [recordedStartTime, setRecordedStartTime] = useState(dayjs(data.startTime));
     const [recordedEndTime, setRecordedEndTime] = useState(dayjs(data.endTime));
-    console.log(data.endTime);
+    console.log(data.title, data.startTime, data.endTime);
 
     function submitManualEntry() {
         axios.post(serverIP+'/createRecordedTimebox', {
@@ -55,7 +55,6 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID,
                 title: timeboxTitle
             }]
         };
-        dispatch({type: 'modalVisible/set', payload: {visible: true, props: {data: timebox, date, time}}});
     }
 
     return (
@@ -78,7 +77,7 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID,
                             <DateTimePicker label="Start Time" value={recordedStartTime} onChange={(newValue) => setRecordedStartTime(newValue)} />
                         </div>
                         <div style={{backgroundColor: 'white', padding: '7px'}}>
-                            <DateTimePicker label="End Time" value={recordedStartTime} onChange={(newValue) => setRecordedEndTime(newValue)}/>
+                            <DateTimePicker label="End Time" value={recordedEndTime} onChange={(newValue) => setRecordedEndTime(newValue)}/>
                         </div>
                         </LocalizationProvider>
                     </Stack>
