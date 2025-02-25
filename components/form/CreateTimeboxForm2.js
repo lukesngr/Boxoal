@@ -21,10 +21,11 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Collapse from '@mui/material/Collapse';
 import { muiFormControlStyle, muiInputStyle } from '@/modules/muiStyles.js';
+import Alert from '../base/Alert.js';
 
 const listOfColors = ["#00E3DD", "#00C5E6", "#00A4E7", "#0081DC", "#1E5ABF", "#348D9D", "#67D6FF"]
 
-export default function CreateTimeboxForm({ visible, time, date, setAlert }) {
+export default function CreateTimeboxForm({ visible, time, date }) {
     const dispatch = useDispatch();
     const { scheduleID, wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
     const { timeboxes, goals } = useSelector(state => state.scheduleData.value);
@@ -38,6 +39,7 @@ export default function CreateTimeboxForm({ visible, time, date, setAlert }) {
     const [reoccurFrequency, setReoccurFrequency] = useState("no");
     const [weeklyDay, setWeeklyDay] = useState('0');
     const [goalPercentage, setGoalPercentage] = useState('0');
+    const [alert, setAlert] = useState({ open: false, title: "", message: "" });
 
     const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxes, time, date);
 
@@ -122,7 +124,8 @@ export default function CreateTimeboxForm({ visible, time, date, setAlert }) {
         }
     }
 
-    return (
+    return (<>
+        <Alert alert={alert} setAlert={setAlert}/>
         <Dialog
             open={visible}
             onClose={closeModal}
@@ -264,5 +267,5 @@ export default function CreateTimeboxForm({ visible, time, date, setAlert }) {
                 </Button>
             </DialogActions>
         </Dialog>
-    );
+        </>);
 }
