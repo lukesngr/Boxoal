@@ -12,8 +12,6 @@ export default function TimeboxInCreation({date, time}) {
         }
     }
 
-    console.log(createTimeboxFormVisible);
-
     return <>
         <CreateTimeboxForm 
             visible={createTimeboxFormVisible} 
