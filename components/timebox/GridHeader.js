@@ -18,6 +18,7 @@ export default function GridHeader({headerContainerRef, dayToName, currentDay}) 
                     </>) : (<Overlay active={ifEqualOrBeyondCurrentDay(index, true, false)}></Overlay>)
                     <RecordedTimeBoxOverlay day={day}></RecordedTimeBoxOverlay>*/}
                     {day.day == currentDay && <ActiveOverlay></ActiveOverlay>}
+                    {day.day < currentDay && <Overlay></Overlay>}
                     
                 </div>
             ))}
