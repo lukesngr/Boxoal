@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export default function TimeboxInCreation({date, time}) {
     const [createTimeboxFormVisible, setCreateTimeboxFormVisible] = useState(false);
-    const [numberOfBoxes, setNumberOfBoxes] = useState('1');
+    const [numberOfBoxes, setNumberOfBoxes] = useState('');
     function getHeightForBoxes (numberOfBoxes) { 
         if (numberOfBoxes === '') {
             return '0%';
@@ -11,6 +11,8 @@ export default function TimeboxInCreation({date, time}) {
             return `calc(${(parseInt(numberOfBoxes) * 100)}% + ${(parseInt(numberOfBoxes) - 1) * 2}px)` 
         }
     }
+
+    console.log(createTimeboxFormVisible);
 
     return <>
         <CreateTimeboxForm 
@@ -21,7 +23,7 @@ export default function TimeboxInCreation({date, time}) {
             numberOfBoxes={numberOfBoxes} 
             setNumberOfBoxes={setNumberOfBoxes}>
         </CreateTimeboxForm>
-        <div onClick={() => setCreateTimeboxFormVisible(true)}>
+        <div onClick={() => setCreateTimeboxFormVisible(true)} style={{height: '100%'}}>
             <div className="timeboxInCreation" style={{height: getHeightForBoxes(numberOfBoxes), backgroundColor: 'blue', width: '100%', marginTop: '0px'}}></div>
         </div>
     </>
