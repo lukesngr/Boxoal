@@ -14,6 +14,8 @@ import { queryClient } from "@/modules/queryClient";
 import { useState } from "react";
 import dayjs from "dayjs";
 var utc = require("dayjs/plugin/utc");
+var isSameOrBefore = require('dayjs/plugin/isSameOrBefore')
+dayjs.extend(isSameOrBefore)
 dayjs.extend(utc)
 
 configureAmplify();
