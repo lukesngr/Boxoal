@@ -77,7 +77,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
 
         axios.post(serverIP + '/createTimebox', data)
             .then(async () => {
-                closeModal();
+                close();
                 setAlert({
                     open: true,
                     title: "Timebox",
@@ -86,7 +86,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                 await queryClient.refetchQueries();
             })
             .catch(function(error) {
-                closeModal();
+                close();
                 setAlert({
                     open: true,
                     title: "Error",
