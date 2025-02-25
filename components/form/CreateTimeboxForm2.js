@@ -6,8 +6,8 @@ import axios from 'axios';
 import { queryClient } from '../../modules/queryClient.js';
 import serverIP from '../../modules/serverIP';
 import { dayToName } from '../../modules/dateCode';
-import { listOfColors } from '../../styles/styles';
-import { calculateMaxNumberOfBoxes, convertToDayjs, addBoxesToTime } from '../../modules/formatters';
+import { convertToDayjs } from '../../modules/formatters';
+import { calculateMaxNumberOfBoxes, addBoxesToTime } from '@/modules/boxCalculations.js';
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -20,6 +20,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Collapse from '@mui/material/Collapse';
+import { muiFormControlStyle, muiInputStyle } from '@/modules/muiStyles.js';
+
+const listOfColors = ["#00E3DD", "#00C5E6", "#00A4E7", "#0081DC", "#1E5ABF", "#348D9D", "#67D6FF"]
 
 export default function CreateTimeboxForm({ visible, time, date, setAlert }) {
     const dispatch = useDispatch();
@@ -139,12 +142,7 @@ export default function CreateTimeboxForm({ visible, time, date, setAlert }) {
                         onChange={(e) => setTitle(e.target.value)}
                         variant="standard"
                         data-testid="createTimeboxTitle"
-                        sx={{
-                            backgroundColor: 'white',
-                            '& .MuiInput-underline:before': {
-                                borderBottomColor: 'black'
-                            }
-                        }}
+                        sx={muiInputStyle}
                     />
 
                     <TextField
@@ -153,12 +151,7 @@ export default function CreateTimeboxForm({ visible, time, date, setAlert }) {
                         onChange={(e) => setDescription(e.target.value)}
                         variant="standard"
                         data-testid="createTimeboxDescription"
-                        sx={{
-                            backgroundColor: 'white',
-                            '& .MuiInput-underline:before': {
-                                borderBottomColor: 'black'
-                            }
-                        }}
+                        sx={muiInputStyle}
                     />
 
                     <TextField
@@ -167,15 +160,10 @@ export default function CreateTimeboxForm({ visible, time, date, setAlert }) {
                         onChange={(e) => safeSetNumberOfBoxes(e.target.value)}
                         variant="standard"
                         data-testid="createTimeboxBoxes"
-                        sx={{
-                            backgroundColor: 'white',
-                            '& .MuiInput-underline:before': {
-                                borderBottomColor: 'black'
-                            }
-                        }}
+                        sx={muiInputStyle}
                     />
 
-                    <FormControl variant="standard">
+                    <FormControl variant="standard" sx={muiFormControlStyle}>
                         <InputLabel>Goal</InputLabel>
                         <Select
                             value={goalSelected}
@@ -197,7 +185,7 @@ export default function CreateTimeboxForm({ visible, time, date, setAlert }) {
 
                     <Collapse in={moreOptionsVisible}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                            <FormControl variant="standard">
+                            <FormControl variant="standard" sx={muiFormControlStyle}>
                                 <InputLabel>Reoccurring</InputLabel>
                                 <Select
                                     value={reoccurFrequency}
@@ -216,7 +204,7 @@ export default function CreateTimeboxForm({ visible, time, date, setAlert }) {
                             </FormControl>
 
                             {reoccurFrequency === 'weekly' && (
-                                <FormControl variant="standard">
+                                <FormControl variant="standard" sx={muiFormControlStyle}>
                                     <InputLabel>Reoccurring Day</InputLabel>
                                     <Select
                                         value={weeklyDay}
@@ -242,12 +230,7 @@ export default function CreateTimeboxForm({ visible, time, date, setAlert }) {
                                 value={goalPercentage}
                                 onChange={(e) => setGoalPercentage(e.target.value)}
                                 variant="standard"
-                                sx={{
-                                    backgroundColor: 'white',
-                                    '& .MuiInput-underline:before': {
-                                        borderBottomColor: 'black'
-                                    }
-                                }}
+                                sx={muiInputStyle}
                             />
                         </div>
                     </Collapse>
