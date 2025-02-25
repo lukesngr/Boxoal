@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import { calculateSizeOfRecordingOverlay } from '../../modules/overlayFunctions';
 import { useSelector } from 'react-redux';
+import dayjs from 'dayjs';
 
-export default function RecordingOverlay() {
+export default function RecordingOverlay(props) {
     const {recordingStartTime, timeboxID} = useSelector(state => state.timeboxRecording.value);
     const {wakeupTime, boxSizeUnit, boxSizeNumber} = useSelector(state => state.profile.value);
     const overlayDimensions = useSelector(state => state.overlayDimensions.value);
@@ -25,6 +26,7 @@ export default function RecordingOverlay() {
 
         setRecordingOverlayHeight(recordingOverlayArray[0]);
         setMarginFromTop(recordingOverlayArray[1]);
+        console.log(recordingOverlayArray[1]);
     }
 
     useEffect(() => {
@@ -36,17 +38,18 @@ export default function RecordingOverlay() {
             setRecordingOverlayHeight("0px");
         }
     }, [timeboxID]);
+    console.log("RecordingOverlay.js: recordingOverlayHeight: ", recordingOverlayHeight, marginFromTop);
 
     return (
         <>
-            {timeboxRecording != -1 && <div className="recordingOverlay"
+            <div className="recordingOverlay"
              style={{backgroundColor: 'red',
                 opacity: 0.7,
                 zIndex: 999,
                 position: 'absolute',
                 width: overlayDimensions.headerWidth+"px", 
              height: recordingOverlayHeight,
-            transform: `translate(-3px, ${marginFromTop+3}px)`}}></div>}
+            transform: `translate(-3px, ${marginFromTop+3}px)`}}></div>
         </>
     )
 }
