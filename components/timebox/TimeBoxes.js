@@ -11,6 +11,7 @@ import useOverlayDimensions from '@/hooks/useOverlayDimensions';
 import { useScheduleSetter } from '@/hooks/useScheduleSetter';
 import useTimeboxGridRedux from '@/hooks/useTimeboxGridRedux';
 import { GridBody } from './GridBody';
+import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
 
 export const ScheduleDataContext = createContext();
 
@@ -38,6 +39,7 @@ export default function TimeBoxes(props) {
         <div ref={gridContainerRef} className="container-fluid mt-2 timeboxesGrid">
             <GridHeader headerContainerRef={headerContainerRef} dayToName={dayToName} currentDay={currentDay}></GridHeader>
             <GridBody timeboxColumnRef={timeboxColumnRef} listOfTimes={listOfTimes} dayToName={dayToName}></GridBody>
+            <RecordedTimeBoxOverlay currentDay={currentDay} dayToName={dayToName}></RecordedTimeBoxOverlay>
         </div>
     </>
     )
