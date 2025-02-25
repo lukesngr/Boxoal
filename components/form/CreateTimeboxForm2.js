@@ -25,12 +25,12 @@ import Alert from '../base/Alert.js';
 
 const listOfColors = ["#00E3DD", "#00C5E6", "#00A4E7", "#0081DC", "#1E5ABF", "#348D9D", "#67D6FF"]
 
-export default function CreateTimeboxForm({ visible, time, date, close, numberOfBoxes, setNumberOfBoxes, day }) {
+export default function CreateTimeboxForm({ visible, time, date, close, numberOfBoxes, setNumberOfBoxes, day, title, setTitle }) {
     const dispatch = useDispatch();
     const { scheduleID, wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
     const { timeboxes, goals } = useSelector(state => state.scheduleData.value);
     
-    const [title, setTitle] = useState("");
+    
     const [description, setDescription] = useState("");
     const [goalSelected, setGoalSelected] = useState(goals.length === 0 ? -1 : goals[0].id);
     

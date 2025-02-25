@@ -4,6 +4,7 @@ import { useState } from "react";
 export default function TimeboxInCreation({date, time, day}) {
     const [createTimeboxFormVisible, setCreateTimeboxFormVisible] = useState(false);
     const [numberOfBoxes, setNumberOfBoxes] = useState('');
+    const [title, setTitle] = useState("");
     function getHeightForBoxes (numberOfBoxes) { 
         if (numberOfBoxes === '') {
             return '0%';
@@ -20,10 +21,14 @@ export default function TimeboxInCreation({date, time, day}) {
             date={date} 
             numberOfBoxes={numberOfBoxes} 
             setNumberOfBoxes={setNumberOfBoxes}
-            day={day}>
+            day={day}
+            title={title} 
+            setTitle={setTitle}>
         </CreateTimeboxForm>
         <div onClick={() => setCreateTimeboxFormVisible(true)} style={{height: '100%'}}>
-            <div className="timeboxInCreation" style={{height: getHeightForBoxes(numberOfBoxes), backgroundColor: 'blue', width: '100%', marginTop: '0px'}}></div>
+            <div className="timeboxInCreation" style={{height: getHeightForBoxes(numberOfBoxes), backgroundColor: 'blue', width: '100%', marginTop: '0px'}}>
+                <span className="timeboxText">{title}</span>
+            </div>
         </div>
     </>
 }
