@@ -25,14 +25,13 @@ import Alert from '../base/Alert.js';
 
 const listOfColors = ["#00E3DD", "#00C5E6", "#00A4E7", "#0081DC", "#1E5ABF", "#348D9D", "#67D6FF"]
 
-export default function CreateTimeboxForm({ visible, time, date }) {
+export default function CreateTimeboxForm({ visible, time, date, close, numberOfBoxes, setNumberOfBoxes }) {
     const dispatch = useDispatch();
     const { scheduleID, wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
     const { timeboxes, goals } = useSelector(state => state.scheduleData.value);
     
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [numberOfBoxes, setNumberOfBoxes] = useState('1');
     const [goalSelected, setGoalSelected] = useState(goals.length === 0 ? -1 : goals[0].id);
     
     const [moreOptionsVisible, setMoreOptionsVisible] = useState(false);
@@ -42,10 +41,6 @@ export default function CreateTimeboxForm({ visible, time, date }) {
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
 
     const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxes, time, date);
-
-    function closeModal() {
-        dispatch({ type: 'modalVisible/set', payload: { visible: false, props: {} } });
-    }
 
     function handleSubmit() {
         if (goalSelected === -1) {
@@ -128,11 +123,13 @@ export default function CreateTimeboxForm({ visible, time, date }) {
         <Alert alert={alert} setAlert={setAlert}/>
         <Dialog
             open={visible}
-            onClose={closeModal}
+            onClose={close}
             PaperProps={{
                 style: {
                     backgroundColor: '#C5C27C',
-                    borderRadius: '15px'
+                    borderRadius: '15px',
+                    position: 'relative',
+                    left: '10%',
                 }
             }}
             hideBackdrop={true}
@@ -241,7 +238,7 @@ export default function CreateTimeboxForm({ visible, time, date }) {
                 </div>
             </DialogContent>
             <DialogActions>
-                <Button onClick={closeModal} sx={{ color: 'white' }}>
+                <Button onClick={close} sx={{ color: 'white' }}>
                     Close
                 </Button>
                 <Button
