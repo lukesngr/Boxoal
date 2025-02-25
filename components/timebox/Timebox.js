@@ -7,6 +7,7 @@ import { getMarginFromTopOfTimebox } from '@/modules/boxCalculations';
 import { findSmallestTimeBoxLengthInSpace } from '@/modules/boxCalculations';
 import { Icon } from '@aws-amplify/ui-react';
 import CalendarViewDayIcon from '@mui/icons-material/CalendarViewDay';
+import TimeboxInCreation from './TimeboxInCreation';
 
 export default function Timebox(props) {
 
@@ -58,12 +59,14 @@ export default function Timebox(props) {
     console.log(data);
     return (
     <div className={'col timeBox'}>
-        {data && <NormalTimeBox data={data} marginFromTop={marginFromTop}></NormalTimeBox>}
 
         {numberOfBoxesInSpace < 2 ? (
-            <div onClick={onPress}>
-                {numberOfBoxesInSpace == 1 && <NormalTimeBox marginFromTop={marginFromTop} data={data}></NormalTimeBox>}
-            </div>
+            <>
+            {numberOfBoxesInSpace == 1 && <div onClick={onPress}>
+                 <NormalTimeBox marginFromTop={marginFromTop} data={data}></NormalTimeBox>
+            </div>}
+            {numberOfBoxesInSpace < 1 && <TimeboxInCreation date={date} time={props.time}></TimeboxInCreation>}
+            </>
         ) : (
             <IconButton onClick={expandSchedule}>
                 <CalendarViewDayIcon fontSize='medium'></CalendarViewDayIcon>
