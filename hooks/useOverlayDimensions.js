@@ -15,7 +15,7 @@ export default function useOverlayDimensions(gridContainerRef, headerContainerRe
             const overlayHeight = gridHeight - headerHeight; //overlay is under headers but goes till end of grid
             const timeboxHeight = timeboxColumnRef.current.getBoundingClientRect().height; //decimal for a bit more accuracy as this for active overlay
 
-            dispatch({type: 'overlayDimensions/set', payload: {headerWidth, overlayHeight, timeboxHeight}});
+            dispatch({type: 'overlayDimensions/set', payload: {headerWidth, overlayHeight, timeboxHeight, headerHeight}});
         }
     };
 
