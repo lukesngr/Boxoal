@@ -4,9 +4,9 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import axios from 'axios';
 import { queryClient } from '../../modules/queryClient.js';
-import serverIP from '../../modules/serverIP';
-import { dayToName } from '../../modules/dateCode';
-import { convertToDayjs } from '../../modules/formatters';
+import serverIP from '../../modules/serverIP.js';
+import { dayToName } from '../../modules/dateCode.js';
+import { convertToDayjs } from '../../modules/formatters.js';
 import { calculateMaxNumberOfBoxes, addBoxesToTime } from '@/modules/boxCalculations.js';
 
 import Dialog from '@mui/material/Dialog';

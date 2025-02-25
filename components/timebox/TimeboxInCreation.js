@@ -1,4 +1,4 @@
-import CreateTimeboxForm from "../form/CreateTimeboxForm2";
+import CreateTimeboxForm from "../form/CreateTimeboxForm";
 import { useState } from "react";
 
 export default function TimeboxInCreation({date, time, day}) {
