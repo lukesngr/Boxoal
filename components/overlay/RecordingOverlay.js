@@ -50,7 +50,7 @@ export default function RecordingOverlay(props) {
                 position: 'absolute',
                 width: overlayDimensions.headerWidth+"px", 
              height: recordingOverlayHeight,
-            transform: `translate(-3px, ${marginFromTop+3}px)`}}></div>
+            transform: `translate(-3px, ${marginFromTop-3}px)`}}></div>
         </>
     )
 }
