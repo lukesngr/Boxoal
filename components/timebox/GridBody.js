@@ -1,3 +1,4 @@
+import CreateTimeboxForm from "../form/CreateTimeboxForm2"
 import Timebox from "./Timebox"
 export function GridBody({listOfTimes, dayToName, timeboxColumnRef}) {
     return (
