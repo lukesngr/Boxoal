@@ -18,6 +18,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Alert from "../base/Alert";
+import { muiFormControlStyle, muiInputStyle } from '@/modules/muiStyles.js';
 
 export default function EditTimeboxForm({ data, back, previousRecording }) {
     const dispatch = useDispatch();
@@ -172,12 +173,7 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
                         onChange={(e) => setTitle(e.target.value)}
                         variant="standard"
                         data-testid="editTitle"
-                        sx={{
-                            backgroundColor: 'white',
-                            '& .MuiInput-underline:before': {
-                                borderBottomColor: 'black'
-                            }
-                        }}
+                        sx={muiInputStyle}
                     />
 
                     <TextField
@@ -185,12 +181,7 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         variant="standard"
-                        sx={{
-                            backgroundColor: 'white',
-                            '& .MuiInput-underline:before': {
-                                borderBottomColor: 'black'
-                            }
-                        }}
+                        sx={muiInputStyle}
                     />
 
                     <TextField
@@ -198,15 +189,10 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
                         value={numberOfBoxes}
                         onChange={(e) => safeSetNumberOfBoxes(e.target.value)}
                         variant="standard"
-                        sx={{
-                            backgroundColor: 'white',
-                            '& .MuiInput-underline:before': {
-                                borderBottomColor: 'black'
-                            }
-                        }}
+                        sx={muiInputStyle}
                     />
 
-                    <FormControl variant="standard">
+                    <FormControl variant="standard" sx={muiFormControlStyle}>
                         <InputLabel>Goal</InputLabel>
                         <Select
                             value={goalSelected}
@@ -226,7 +212,7 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
                         </Select>
                     </FormControl>
 
-                    <FormControl variant="standard">
+                    <FormControl variant="standard" sx={muiFormControlStyle}>
                         <InputLabel>Reoccurring</InputLabel>
                         <Select
                             value={reoccurFrequency}
@@ -245,7 +231,7 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
                     </FormControl>
 
                     {reoccurFrequency === 'weekly' && (
-                        <FormControl variant="standard">
+                        <FormControl variant="standard" sx={muiFormControlStyle}>
                             <InputLabel>Reoccurring Day</InputLabel>
                             <Select
                                 value={weeklyDay}
@@ -271,12 +257,7 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
                         value={goalPercentage}
                         onChange={(e) => setGoalPercentage(e.target.value)}
                         variant="standard"
-                        sx={{
-                            backgroundColor: 'white',
-                            '& .MuiInput-underline:before': {
-                                borderBottomColor: 'black'
-                            }
-                        }}
+                        sx={muiInputStyle}
                     />
                 </div>
             </DialogContent>
