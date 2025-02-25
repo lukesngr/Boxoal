@@ -1,34 +1,52 @@
 import { useContext, useEffect, useState } from 'react';
-import { calculateSizeOfRecordingOverlay } from '@/modules/coreLogic';
+import { calculateSizeOfRecordingOverlay } from '../../modules/overlayFunctions';
 import { useSelector } from 'react-redux';
 
 export default function RecordingOverlay() {
-    const timeboxRecording = useSelector(state => state.timeboxRecording.value);
-    const [recordingOverlayHeight, setRecordingOverlayHeight] = useState(0);
-    const {wakeupTime, boxSizeUnit, boxSizeNumber} = useSelector(state => state.scheduleEssentials.value);
+    const {recordingStartTime, timeboxID} = useSelector(state => state.timeboxRecording.value);
+    const {wakeupTime, boxSizeUnit, boxSizeNumber} = useSelector(state => state.profile.value);
     const overlayDimensions = useSelector(state => state.overlayDimensions.value);
     const activeOverlayHeight = useSelector(state => state.activeOverlayHeight.value);
+    const [marginFromTop, setMarginFromTop] = useState(overlayDimensions.headerHeight+activeOverlayHeight); 
+    const [recordingOverlayHeight, setRecordingOverlayHeight] = useState(0);
+    let currentDate = dayjs();
+    let overlayDate = currentDate.date(props.day.date).month(props.day.month-1);
+
+    function setRecordingOverlay() {
+        const recordingOverlayArray = calculateSizeOfRecordingOverlay(
+            wakeupTime, 
+            boxSizeUnit, 
+            boxSizeNumber, 
+            overlayDimensions, 
+            activeOverlayHeight, 
+            props.day, 
+            recordingStartTime
+        );
+
+        setRecordingOverlayHeight(recordingOverlayArray[0]);
+        setMarginFromTop(recordingOverlayArray[1]);
+    }
 
     useEffect(() => {
-        if(timeboxRecording[0] != -1) {
-            let recordingOverlayInterval = setInterval(() => {
-                setRecordingOverlayHeight(calculateSizeOfRecordingOverlay(wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions, activeOverlayHeight));
-            }, 5000);
-        
-            return () => {
-                clearInterval(recordingOverlayInterval);
-            };
+        if(timeboxID != -1 && dayjs(recordingStartTime).isSameOrBefore(overlayDate) && overlayDate.isSameOrBefore(currentDate)) {
+            setRecordingOverlay();
+            let recordingOverlayInterval = setInterval(() => setRecordingOverlay(), 5000);
+            return () => clearInterval(recordingOverlayInterval);
         }else{
             setRecordingOverlayHeight("0px");
         }
-    }, [timeboxRecording])
+    }, [timeboxID]);
 
     return (
         <>
             {timeboxRecording != -1 && <div className="recordingOverlay"
-             style={{width: overlayDimensions[0]+"px", 
+             style={{backgroundColor: 'red',
+                opacity: 0.7,
+                zIndex: 999,
+                position: 'absolute',
+                width: overlayDimensions.headerWidth+"px", 
              height: recordingOverlayHeight,
-            transform: `translate(-3px, ${activeOverlayHeight+3}px)`}}></div>}
+            transform: `translate(-3px, ${marginFromTop+3}px)`}}></div>}
         </>
     )
 }
