@@ -23,6 +23,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { muiFormControlStyle } from "@/modules/muiStyles";
 
 export default function SettingsDialog({ visible, hideDialog, data }) {
     const { user } = useAuthenticator();
@@ -80,19 +81,7 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                 <DialogContent>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
 
-                        <FormControl variant="standard" sx={{ backgroundColor: 'white',
-                        '& .MuiInput-underline:before': {
-                            borderBottomColor: 'black'
-                        },
-                        '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
-                            borderBottomColor: 'black'
-                        },
-                        '& .MuiInputLabel-root': {
-                            color: 'black'
-                        },
-                        '& .MuiInputLabel-root.Mui-focused': {
-                            color: 'black'
-                        }}}>
+                        <FormControl variant="standard" sx={muiFormControlStyle}>
                             <InputLabel>Schedule</InputLabel>
                             <Select
                                 value={scheduleIndex}
@@ -128,20 +117,7 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                             }}
                         />
 
-                        <FormControl variant="standard" sx={{ backgroundColor: 'white',
-                            '& .MuiInput-underline:before': {
-                                borderBottomColor: 'black'
-                            },
-                            '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
-                                borderBottomColor: 'black'
-                            },
-                            '& .MuiInputLabel-root': {
-                                color: 'black'
-                            },
-                            '& .MuiInputLabel-root.Mui-focused': {
-                                color: 'black'
-                            }
-                        }}>
+                        <FormControl variant="standard" sx={muiFormControlStyle}>
                             <InputLabel>Timebox Unit</InputLabel>
                             <Select
                                 value={boxSizeUnit}
