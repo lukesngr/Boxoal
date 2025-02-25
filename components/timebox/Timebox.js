@@ -22,8 +22,6 @@ export default function Timebox(props) {
     let numberOfBoxesInSpace = 0;
     let boxesInsideSpace = [];
 
-    console.log(timeboxGrid);
-
     if(timeboxGrid) { 
         if(timeboxGrid[date]) {
             boxesInsideSpace = filterTimeGridBasedOnSpace(timeboxGrid[date], profile.boxSizeUnit, profile.boxSizeNumber, props.time);
@@ -65,7 +63,7 @@ export default function Timebox(props) {
             {numberOfBoxesInSpace == 1 && <div onClick={onPress}>
                  <NormalTimeBox marginFromTop={marginFromTop} data={data}></NormalTimeBox>
             </div>}
-            {numberOfBoxesInSpace < 1 && <TimeboxInCreation date={date} time={props.time}></TimeboxInCreation>}
+            {numberOfBoxesInSpace < 1 && <TimeboxInCreation day={props.day.day} date={date} time={props.time}></TimeboxInCreation>}
             </>
         ) : (
             <IconButton onClick={expandSchedule}>

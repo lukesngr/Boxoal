@@ -25,7 +25,7 @@ import Alert from '../base/Alert.js';
 
 const listOfColors = ["#00E3DD", "#00C5E6", "#00A4E7", "#0081DC", "#1E5ABF", "#348D9D", "#67D6FF"]
 
-export default function CreateTimeboxForm({ visible, time, date, close, numberOfBoxes, setNumberOfBoxes }) {
+export default function CreateTimeboxForm({ visible, time, date, close, numberOfBoxes, setNumberOfBoxes, day }) {
     const dispatch = useDispatch();
     const { scheduleID, wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
     const { timeboxes, goals } = useSelector(state => state.scheduleData.value);
@@ -39,6 +39,8 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const [weeklyDay, setWeeklyDay] = useState('0');
     const [goalPercentage, setGoalPercentage] = useState('0');
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
+
+    let transformedPercentage = day < 4 ? '20%' : '-10%';
 
     const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxes, time, date);
 
@@ -129,7 +131,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                     backgroundColor: '#C5C27C',
                     borderRadius: '15px',
                     position: 'relative',
-                    left: '10%',
+                    left: transformedPercentage,
                 }
             }}
             hideBackdrop={true}
