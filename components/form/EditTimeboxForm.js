@@ -17,13 +17,15 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+import Alert from "../base/Alert";
 
-export default function EditTimeboxForm({ data, back, previousRecording, setAlert }) {
+export default function EditTimeboxForm({ data, back, previousRecording }) {
     const dispatch = useDispatch();
     const [title, setTitle] = useState(data.title);
     const [description, setDescription] = useState(data.description);
     const [numberOfBoxes, setNumberOfBoxes] = useState(String(data.numberOfBoxes));
     const [goalSelected, setGoalSelected] = useState(data.goalID);
+    const [alert, setAlert] = useState({ open: false, title: "", message: "" });
 
     let reoccurFreq = "no";
     let weeklyDayIndex = "0";
@@ -37,7 +39,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, setAler
     const [weeklyDay, setWeeklyDay] = useState(weeklyDayIndex);
     const [goalPercentage, setGoalPercentage] = useState(String(data.goalPercentage));
 
-    const { id, wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
+    const {wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
     const { timeboxes, goals } = useSelector(state => state.scheduleData.value);
 
     let [time, date] = convertToTimeAndDate(data.startTime);
@@ -149,7 +151,8 @@ export default function EditTimeboxForm({ data, back, previousRecording, setAler
         }
     }
 
-    return (
+    return (<>
+        <Alert alert={alert} setAlert={setAlert}/>
         <Dialog
             open={true}
             onClose={closeModal}
@@ -157,12 +160,6 @@ export default function EditTimeboxForm({ data, back, previousRecording, setAler
                 style: {
                     backgroundColor: '#C5C27C',
                     borderRadius: '15px'
-                }
-            }}
-            BackdropProps={{
-                style: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                    backdropFilter: 'none'
                 }
             }}
         >
@@ -335,5 +332,5 @@ export default function EditTimeboxForm({ data, back, previousRecording, setAler
                 </Button>
             </DialogActions>
         </Dialog>
-    );
+        </>);
 }
