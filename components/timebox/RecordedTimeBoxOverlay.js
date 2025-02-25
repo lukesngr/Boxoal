@@ -3,7 +3,7 @@ import useRecordedBoxes from "../../hooks/useRecordedBoxesForWeek";
 import { useSelector } from "react-redux";
 
 export default function RecordedTimeBoxOverlay(props) {
-    const {headerWidth} = useSelector(state => state.overlayDimensions.value);
+    const {headerWidth, timeboxColWidth} = useSelector(state => state.overlayDimensions.value);
     const {recordedTimeboxes} = useSelector(state => state.scheduleData.value);
     let recordedBoxesForWeek = useRecordedBoxes(props.dayToName, recordedTimeboxes);
     console.log(recordedBoxesForWeek);
@@ -18,7 +18,7 @@ export default function RecordedTimeBoxOverlay(props) {
             <div key={index} className="recordedTimeBox" style={{
                 width: headerWidth+"px", 
                 height: `${Number(recordedBox.recordingBoxHeight)}px`, 
-                transform: `translate(${headerWidth*dayIndex}px, ${Number(recordedBox.marginToRecording)+3}px)`}}>{recordedBox.title}</div>
+                transform: `translate(${(headerWidth*dayIndex+timeboxColWidth)-12}px, ${Number(recordedBox.marginToRecording)+3}px)`}}>{recordedBox.title}</div>
             )})}
         </div>
         )
