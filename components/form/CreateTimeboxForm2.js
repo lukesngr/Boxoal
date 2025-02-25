@@ -132,6 +132,7 @@ export default function CreateTimeboxForm({ visible, time, date, setAlert }) {
                     borderRadius: '15px'
                 }
             }}
+            hideBackdrop={true}
         >
             <DialogTitle sx={{ color: 'white' }}>Create Timebox</DialogTitle>
             <DialogContent>
