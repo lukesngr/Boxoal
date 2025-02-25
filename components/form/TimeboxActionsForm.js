@@ -15,7 +15,7 @@ import ManualEntryTimeModal from "./ManualEntryTimeModal";
 import Alert from "../base/Alert";
 import Dialog from '@mui/material/Dialog';
 
-export default function TimeboxActionsForm({ visible, data, date, time }) {
+export default function TimeboxActionsForm({ visible, data, date, time, closeModal }) {
     const timeboxRecording = useSelector(state => state.timeboxRecording.value);
     const { boxSizeUnit, boxSizeNumber, scheduleID } = useSelector(state => state.profile.value);
     const dispatch = useDispatch();
@@ -26,10 +26,6 @@ export default function TimeboxActionsForm({ visible, data, date, time }) {
     const noPreviousRecording = thereIsNoRecording(data.recordedTimeBoxes, data.reoccuring, date, time);
     const timeboxIsntRecording = timeboxRecording.timeboxID === -1;
     const timeboxIsRecording = timeboxRecording.timeboxID === data.id && timeboxRecording.timeboxDate === date;
-
-    function closeModal() {
-        dispatch({ type: 'modalVisible/set', payload: { visible: false, props: {} } });
-    }
 
     async function startRecording() {
         // Start recording logic for web version
@@ -76,10 +72,6 @@ export default function TimeboxActionsForm({ visible, data, date, time }) {
             console.log(error); 
         });
     }
-
-    const handleCloseAlert = () => {
-        setAlert({ ...alert, open: false });
-    };
     
     return (
         <>
