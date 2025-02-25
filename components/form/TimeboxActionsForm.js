@@ -11,10 +11,14 @@ import serverIP from "../../modules/serverIP";
 import { thereIsNoRecording } from "../../modules/coreLogic";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import EditTimeboxForm from "./EditTimeboxForm";
-import ManualEntryTimeModal from "../ManualEntryTimeModal";
+import ManualEntryTimeModal from "./ManualEntryTimeModal";
 import Alert from "../base/Alert";
+import Dialog from '@mui/material/Dialog';
 
 export default function TimeboxActionsForm({ visible, data, date, time }) {
+    const timeboxRecording = useSelector(state => state.timeboxRecording.value);
+    const { boxSizeUnit, boxSizeNumber, scheduleID } = useSelector(state => state.profile.value);
+    const dispatch = useDispatch();
     const [manualEntryModalShown, setManualEntryModalShown] = useState(false);
     const [showEditTimeboxForm, setShowEditTimeboxForm] = useState(false);
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
