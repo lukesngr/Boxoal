@@ -36,7 +36,7 @@ export default function TimeBoxes(props) {
     <>
         <TimeboxHeading data={props.data}></TimeboxHeading>
         <div ref={gridContainerRef} className="container-fluid mt-2 timeboxesGrid">
-            <GridHeader headerContainerRef={headerContainerRef} dayToName={dayToName}></GridHeader>
+            <GridHeader headerContainerRef={headerContainerRef} dayToName={dayToName} currentDay={currentDay}></GridHeader>
             <GridBody timeboxColumnRef={timeboxColumnRef} listOfTimes={listOfTimes} dayToName={dayToName}></GridBody>
         </div>
     </>

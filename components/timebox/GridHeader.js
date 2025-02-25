@@ -3,7 +3,7 @@ import ActiveOverlay from '../overlay/ActiveOverlay';
 import RecordingOverlay from '../overlay/RecordingOverlay';
 import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
 import { ifCurrentDay, ifEqualOrBeyondCurrentDay } from '../../modules/untestableFunctions';
-export default function GridHeader({headerContainerRef, dayToName}) {
+export default function GridHeader({headerContainerRef, dayToName, currentDay}) {
     return (
         <div className="row">
             <div className="col-1"></div>
@@ -16,6 +16,8 @@ export default function GridHeader({headerContainerRef, dayToName}) {
                         <RecordingOverlay></RecordingOverlay>
                     </>) : (<Overlay active={ifEqualOrBeyondCurrentDay(index, true, false)}></Overlay>)
                     <RecordedTimeBoxOverlay day={day}></RecordedTimeBoxOverlay>*/}
+                    {day.day == currentDay && <ActiveOverlay></ActiveOverlay>}
+                    <RecordingOverlay day={day}></RecordingOverlay>
                 </div>
             ))}
         </div>
