@@ -16,10 +16,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Stack from '@mui/material/Stack';
 
-export default function ManualEntryTimeModal({ visible, close, data, scheduleID, setAlert, dispatch }) {
+export default function ManualEntryTimeModal({ visible, close, data, scheduleID, setAlert }) {
     const [recordedStartTime, setRecordedStartTime] = useState(dayjs(data.startTime));
     const [recordedEndTime, setRecordedEndTime] = useState(dayjs(data.endTime));
-    console.log(data.title, data.startTime, data.endTime);
 
     function submitManualEntry() {
         axios.post(serverIP+'/createRecordedTimebox', {
