@@ -19,8 +19,7 @@ import Stack from '@mui/material/Stack';
 export default function ManualEntryTimeModal({ visible, close, data, scheduleID, setAlert, dispatch }) {
     const [recordedStartTime, setRecordedStartTime] = useState(dayjs(data.startTime));
     const [recordedEndTime, setRecordedEndTime] = useState(dayjs(data.endTime));
-    const [startTimePickerOpen, setStartTimePickerOpen] = useState(false);
-    const [endTimePickerOpen, setEndTimePickerOpen] = useState(false);
+    console.log(data.endTime);
 
     function submitManualEntry() {
         axios.post(serverIP+'/createRecordedTimebox', {
@@ -70,45 +69,18 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID,
                         borderRadius: '15px'
                     }
                 }}
-                BackdropProps={{
-                    style: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                        backdropFilter: 'none'
-                    }
-                }}
             >
                 <DialogTitle sx={{ color: 'white' }}>Manual Entry Of Recorded Time</DialogTitle>
                 <DialogContent>
                     <Stack spacing={2} sx={{ mt: 2 }}>
-                        <Button 
-                            onClick={() => setStartTimePickerOpen(true)}
-                            variant="contained"
-                            sx={{
-                                backgroundColor: 'white',
-                                color: 'black',
-                                '&:hover': {
-                                    backgroundColor: 'black',
-                                    color: 'white'
-                                },
-                                mb: 1
-                            }}
-                        >
-                            Pick Recorded Start Time
-                        </Button>
-                        <Button 
-                            onClick={() => setEndTimePickerOpen(true)}
-                            variant="contained"
-                            sx={{
-                                backgroundColor: 'white',
-                                color: 'black',
-                                '&:hover': {
-                                    backgroundColor: 'black',
-                                    color: 'white'
-                                }
-                            }}
-                        >
-                            Pick Recorded End Time
-                        </Button>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <div style={{backgroundColor: 'white', padding: '7px'}}>
+                            <DateTimePicker label="Start Time" value={recordedStartTime} onChange={(newValue) => setRecordedStartTime(newValue)} />
+                        </div>
+                        <div style={{backgroundColor: 'white', padding: '7px'}}>
+                            <DateTimePicker label="End Time" value={recordedStartTime} onChange={(newValue) => setRecordedEndTime(newValue)}/>
+                        </div>
+                        </LocalizationProvider>
                     </Stack>
                 </DialogContent>
                 <DialogActions>
@@ -130,52 +102,6 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID,
                         Enter
                     </Button>
                 </DialogActions>
-            </Dialog>
-
-            <Dialog 
-                open={startTimePickerOpen} 
-                onClose={() => setStartTimePickerOpen(false)}
-                BackdropProps={{
-                    style: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                        backdropFilter: 'none'
-                    }
-                }}
-            >
-                <DialogContent>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DateTimePicker
-                            value={recordedStartTime}
-                            onChange={(newValue) => {
-                                setRecordedStartTime(newValue);
-                                setStartTimePickerOpen(false);
-                            }}
-                        />
-                    </LocalizationProvider>
-                </DialogContent>
-            </Dialog>
-
-            <Dialog 
-                open={endTimePickerOpen} 
-                onClose={() => setEndTimePickerOpen(false)}
-                BackdropProps={{
-                    style: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                        backdropFilter: 'none'
-                    }
-                }}
-            >
-                <DialogContent>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DateTimePicker
-                            value={recordedEndTime}
-                            onChange={(newValue) => {
-                                setRecordedEndTime(newValue);
-                                setEndTimePickerOpen(false);
-                            }}
-                        />
-                    </LocalizationProvider>
-                </DialogContent>
             </Dialog>
         </>
     );
