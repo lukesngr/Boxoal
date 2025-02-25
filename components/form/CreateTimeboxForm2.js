@@ -39,8 +39,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const [weeklyDay, setWeeklyDay] = useState('0');
     const [goalPercentage, setGoalPercentage] = useState('0');
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
-
-    let transformedPercentage = day < 4 ? '20%' : '-10%';
+    let transformPercentages = ['25%', '35%', '45%', '55%', '30%', '40%', '50%'];
 
     const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxes, time, date);
 
@@ -130,8 +129,8 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                 style: {
                     backgroundColor: '#C5C27C',
                     borderRadius: '15px',
-                    position: 'relative',
-                    left: transformedPercentage,
+                    position: 'absolute',
+                    left: transformPercentages[day], 
                 }
             }}
             hideBackdrop={true}
