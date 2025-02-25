@@ -35,15 +35,7 @@ export default function Timebox(props) {
             }
         }
     }
-
-    function onPress() {
-        if(data) {
-            dispatch({type: 'modalVisible/set', payload: {visible: true, props: {data: data, date: date, time: props.time}}});
-        }else{
-            dispatch({type: 'modalVisible/set', payload: {visible: true, props: {dayName: dayName, date: date, time: props.time}}});
-        }
-    }
-
+    
     function expandSchedule() {
         let smallestTimeboxLength = findSmallestTimeBoxLengthInSpace(timeboxGrid[date], boxesInsideSpace);
         if(smallestTimeboxLength % 60 == 0) {
@@ -54,7 +46,6 @@ export default function Timebox(props) {
             dispatch({type: 'profile/set', payload: {...profile, boxSizeNumber: smallestTimeboxLength, boxSizeUnit: 'min'}});
         }
     }
-    console.log(data);
     return (
     <div className={'col timeBox'}>
 
