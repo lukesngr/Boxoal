@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { getPercentageOfBoxSizeFilled } from "@/modules/boxCalculations";
 import TimeboxActionsForm from "../form/TimeboxActionsForm";
+import { useState } from "react";
 
 export default function NormalTimeBox(props) {
     const {boxSizeNumber, boxSizeUnit} = useSelector(state => state.profile.value);
@@ -10,7 +11,7 @@ export default function NormalTimeBox(props) {
     let calculatedHeight = `calc(${(Number(percentageOfBoxSizeFilled*100))}% + ${Number((percentageOfBoxSizeFilled-1)*2)}px)`
     return (<>
         <TimeboxActionsForm visible={timeboxActionsFormVisible} data={props.data} date={props.date} time={props.time}></TimeboxActionsForm>
-        <div style={{height: '100%'}} onClick={setTimeboxActionsFormVisible(true)}>
+        <div style={{height: '100%'}} onClick={() => setTimeboxActionsFormVisible(true)}>
             <div style={{height: `${calculatedHeight}`, backgroundColor: props.data.color, zIndex: 999, position: 'relative'}} id="timeBox" data-testid="normalTimeBox">    
                 <span className="timeboxText">{props.data.title}</span>
             </div>
