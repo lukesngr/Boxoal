@@ -27,7 +27,6 @@ export default function RecordingOverlay(props) {
 
         setRecordingOverlayHeight(recordingOverlayArray[0]);
         setMarginFromTop(recordingOverlayArray[1]);
-        console.log(recordingOverlayArray[1]);
     }
 
     useEffect(() => {
@@ -39,7 +38,6 @@ export default function RecordingOverlay(props) {
             setRecordingOverlayHeight("0px");
         }
     }, [timeboxID]);
-    console.log("RecordingOverlay.js: recordingOverlayHeight: ", recordingOverlayHeight, marginFromTop);
 
     return (
         <>

@@ -1,6 +1,7 @@
 import React from "react";
 import { getProgressWithGoal } from "@/modules/coreLogic";
 import { getDateWithSuffix } from "@/modules/formatters";
+import dayjs from "dayjs";
 
 export default function GoalProgressIndicator(props) {
     let goalDateInDayJS = dayjs(props.goal.targetDate);
@@ -40,7 +41,7 @@ export default function GoalProgressIndicator(props) {
                 strokeDashoffset={strokeDashoffset}
             />
             <text x={size / 2} y={(size /2) - 8} textAnchor="middle" stroke="black" fontSize="15px" dy=".3em">{dateWithSuffix}</text>
-            <text x={size / 2} y={(size /2) + 8} textAnchor="middle" stroke="black" fontSize="15px" dy=".3em">{dateWithSuffix}</text>
+            <text x={size / 2} y={(size /2) + 8} textAnchor="middle" stroke="black" fontSize="15px" dy=".3em">{abbrievatedMonth}</text>
         </svg>
     </div>)
 }
