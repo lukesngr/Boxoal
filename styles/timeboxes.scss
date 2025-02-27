@@ -71,12 +71,10 @@
 }
 
 .recordedTimeBox {
-    position: absolute;
-    transform: translate(-3px, 3px);
     z-index: 999;
     color: white;
     font-size: medium;
-    background-color: black;
+    background-color: red;
 }
 
 @media only screen and (max-width: 992px) {
