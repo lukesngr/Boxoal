@@ -12,6 +12,7 @@ import { useScheduleSetter } from '@/hooks/useScheduleSetter';
 import useTimeboxGridRedux from '@/hooks/useTimeboxGridRedux';
 import { GridBody } from './GridBody';
 import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
+import GoalProgressIndicator from '../goal/GoalProgressIndicator';
 
 export const ScheduleDataContext = createContext();
 
@@ -32,6 +33,7 @@ export default function TimeBoxes(props) {
     useScheduleSetter(schedule); //set schedule data to redux store (timeboxes, recordedTimeboxes, goals
     useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef);
     useActiveOverlay();
+    console.log(schedule);
 
     return (
     <>
@@ -40,7 +42,7 @@ export default function TimeBoxes(props) {
             <GridHeader headerContainerRef={headerContainerRef} dayToName={dayToName} currentDay={currentDay}></GridHeader>
             <RecordedTimeBoxOverlay currentDay={currentDay} dayToName={dayToName}></RecordedTimeBoxOverlay>
             <GridBody timeboxColumnRef={timeboxColumnRef} listOfTimes={listOfTimes} dayToName={dayToName}></GridBody>
-            
+            <GoalProgressIndicator goal={schedule.goals[0]}></GoalProgressIndicator>
         </div>
     </>
     )
