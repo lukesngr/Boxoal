@@ -12,8 +12,7 @@ export default function GoalProgressIndicator(props) {
     let strokeWidth = 2;
     const radius = (size - strokeWidth) / 2;
     const circumference = 2 * Math.PI * radius;
-    const strokeDashoffset = circumference - (circumference * progress) / 100;
-    console.log(strokeDashoffset)
+    const strokeDashoffset = (circumference * progress) / 100;
 
 
     return (
