@@ -10,6 +10,7 @@ import { faArrowLeft, faArrowRight, faWindowMinimize } from '@fortawesome/free-s
 import { useDispatch, useSelector } from 'react-redux';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { IconButton } from '@mui/material';
+import {Paper} from '@mui/material';
 
 export default function SchedulesSidebar(props) {
     const dispatch = useDispatch();
@@ -29,11 +30,12 @@ export default function SchedulesSidebar(props) {
         <div className={isSideBarMobile ? ("mobileSideBar") : ("col-2")} 
         id={expanded ? ('animateToAppear') : ('animateToDisappear')}>
             <div className="schedulesSidebar">
+                <Paper elevation={2} >
                 <h1 className="sidebarHeading">{schedule.title} 
                     <IconButton onClick={() => setExpanded(false)} className='minimizeButton'>
                         <ArrowLeftIcon></ArrowLeftIcon>
                     </IconButton></h1>
-                
+                </Paper>
             </div>
         </div>
         </>)
