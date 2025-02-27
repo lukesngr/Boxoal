@@ -7,15 +7,16 @@ import ScheduleSidebarButton from './ScheduleSidebarButton';
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight, faWindowMinimize } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch } from 'react-redux';
 
 export default function SchedulesSidebar(props) {
-    const {selectedSchedule, setSelectedSchedule, expanded, setExpanded, selectedDate, setSelectedDate} = useContext(ScheduleContext);
+    const dispatch = useDispatch();
     const [isSideBarMobile, setIsSideBarMobile] = useState(true);
 
     let smallerThanLargeBreakpoint = useMediaQuery({query: '(max-width: 992px)'});
 
     useEffect(() => {
-        setExpanded(!smallerThanLargeBreakpoint);
+        dispatch('expanded/set', {(!smallerThanLargeBreakpoint)});
         setIsSideBarMobile(smallerThanLargeBreakpoint);
     }, [smallerThanLargeBreakpoint])
 
