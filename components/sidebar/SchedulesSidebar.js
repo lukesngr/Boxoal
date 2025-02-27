@@ -7,30 +7,33 @@ import ScheduleSidebarButton from './ScheduleSidebarButton';
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight, faWindowMinimize } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import { IconButton } from '@mui/material';
 
 export default function SchedulesSidebar(props) {
     const dispatch = useDispatch();
     const [isSideBarMobile, setIsSideBarMobile] = useState(true);
+    const {scheduleIndex} = useSelector(state => state.profile.value);
+    const expanded = useSelector(state => state.expanded.value);
+    let schedule = props.data[scheduleIndex];
 
     let smallerThanLargeBreakpoint = useMediaQuery({query: '(max-width: 992px)'});
 
     useEffect(() => {
-        dispatch('expanded/set', {(!smallerThanLargeBreakpoint)});
+        dispatch({type: 'expanded/set', payload: !smallerThanLargeBreakpoint});
         setIsSideBarMobile(smallerThanLargeBreakpoint);
     }, [smallerThanLargeBreakpoint])
-
-    function selectSchedule(id) {
-        setSelectedSchedule(id);
-    }
 
     return (<>
         <div className={isSideBarMobile ? ("mobileSideBar") : ("col-2")} 
         id={expanded ? ('animateToAppear') : ('animateToDisappear')}>
             <div className="schedulesSidebar">
-                <h1 className="sidebarHeading">My Schedules <FontAwesomeIcon onClick={() => setExpanded(false)} className='minimizeButton' icon={faArrowLeft}></FontAwesomeIcon></h1>
-                {props.data.data.map((schedule, index) => (<ScheduleSidebarButton key={index} index={index} selectedSchedule={selectedSchedule} schedule={schedule} selectSchedule={selectSchedule}></ScheduleSidebarButton>))}                   
-                <CreateScheduleModal render={tags => ( <button type="button" {...tags} className="btn btn-dark createButton">Add schedule</button>)}></CreateScheduleModal>
+                <h1 className="sidebarHeading">{schedule.title} 
+                    <IconButton onClick={() => setExpanded(false)} className='minimizeButton'>
+                        <ArrowLeftIcon></ArrowLeftIcon>
+                    </IconButton></h1>
+                
             </div>
         </div>
         </>)
