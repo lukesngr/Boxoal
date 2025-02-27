@@ -42,7 +42,6 @@ export default function TimeBoxes(props) {
             <GridHeader headerContainerRef={headerContainerRef} dayToName={dayToName} currentDay={currentDay}></GridHeader>
             <RecordedTimeBoxOverlay currentDay={currentDay} dayToName={dayToName}></RecordedTimeBoxOverlay>
             <GridBody timeboxColumnRef={timeboxColumnRef} listOfTimes={listOfTimes} dayToName={dayToName}></GridBody>
-            <GoalProgressIndicator goal={schedule.goals[0]}></GoalProgressIndicator>
         </div>
     </>
     )
