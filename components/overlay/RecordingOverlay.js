@@ -12,7 +12,6 @@ export default function RecordingOverlay(props) {
     const [recordingOverlayHeight, setRecordingOverlayHeight] = useState(0);
     let currentDate = dayjs();
     let overlayDate = currentDate.date(props.day.date).month(props.day.month-1);
-    console.log(activeOverlayHeight)
 
     function setRecordingOverlay() {
         const recordingOverlayArray = calculateSizeOfRecordingOverlay(
