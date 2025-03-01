@@ -3,7 +3,7 @@ import { faGear, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-
 import CreateGoalModal from '../modal/CreateGoalModal';
 import { useState } from 'react';
 import PortalComponent from '../modal/PortalComponent';
-import GoalSidebarButton from './GoalSidebarButton';
+import GoalSidebarButton from './GoalAccordion';
 import UpdateScheduleModal from '../modal/UpdateScheduleModal';
 import ChevronExpandable from '../base/ChevronExpandable';
 

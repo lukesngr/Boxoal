@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { IconButton } from '@mui/material';
 import {Paper} from '@mui/material';
+import GoalAccordion from './GoalAccordion';
 
 export default function SchedulesSidebar(props) {
     const dispatch = useDispatch();
@@ -36,6 +37,7 @@ export default function SchedulesSidebar(props) {
                         <ArrowLeftIcon></ArrowLeftIcon>
                     </IconButton></h1>
                 </Paper>
+                {schedule.goals.map((goal, index) => (<GoalAccordion key={index} goal={goal}></GoalAccordion>))}
             </div>
         </div>
         </>)
