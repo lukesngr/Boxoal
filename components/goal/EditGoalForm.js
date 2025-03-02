@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { queryClient } from '../../modules/queryClient.js';
 import serverIP from '../../modules/serverIP';
@@ -22,13 +22,19 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { muiFormControlStyle } from "../../modules/muiStyles";
 
-export default function EditGoalForm({ visible, close, data }) {
-    const [title, setTitle] = useState(data.title);
-    const [priority, setPriority] = useState(""+data.priority);
-    const [targetDate, setTargetDate] = useState(dayjs(data.targetDate));
-    const [completed, setCompleted] = useState(data.completed);
-    const [datePickerOpen, setDatePickerOpen] = useState(false);
+export default function EditGoalForm(props) {
+    const [title, setTitle] = useState(props.data.title);
+    const [priority, setPriority] = useState(""+props.data.priority);
+    const [targetDate, setTargetDate] = useState(dayjs(props.data.targetDate));
+    const [completed, setCompleted] = useState(props.data.completed);
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
+    
+    useEffect(() => {
+        setTitle(data.title);
+        setPriority(""+data.priority);
+        setTargetDate(dayjs(data.targetDate));
+        setCompleted(data.completed);
+    }, [props.data]);
 
     function updateGoal() {
         axios.put(serverIP+'/updateGoal', {
@@ -71,18 +77,12 @@ export default function EditGoalForm({ visible, close, data }) {
     return (
         <>
             <Dialog
-                open={visible}
-                onClose={close}
+                open={props.visible}
+                onClose={props.close}
                 PaperProps={{
                     style: {
                         backgroundColor: '#C5C27C',
                         borderRadius: '15px'
-                    }
-                }}
-                BackdropProps={{
-                    style: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                        backdropFilter: 'none'
                     }
                 }}
             >
@@ -148,7 +148,7 @@ export default function EditGoalForm({ visible, close, data }) {
                     </div>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={close} sx={{ color: 'white' }}>
+                    <Button onClick={props.close} sx={{ color: 'white' }}>
                         Close
                     </Button>
                     <Button 
