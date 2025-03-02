@@ -133,6 +133,16 @@ export default function EditGoalForm({ visible, close, data }) {
                                 }
                             }}
                         />
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                label="Target Date"
+                                value={targetDate}
+                                onChange={(newValue) => {
+                                    setTargetDate(newValue);
+                                    setDatePickerOpen(false);
+                                }}
+                            />
+                        </LocalizationProvider>
 
                         <FormControl variant="standard">
                             <InputLabel>Completed</InputLabel>
@@ -179,28 +189,9 @@ export default function EditGoalForm({ visible, close, data }) {
                 </DialogActions>
             </Dialog>
 
-            <Dialog 
-                open={datePickerOpen} 
-                onClose={() => setDatePickerOpen(false)}
-                BackdropProps={{
-                    style: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                        backdropFilter: 'none'
-                    }
-                }}
-            >
-                <DialogContent>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            value={targetDate}
-                            onChange={(newValue) => {
-                                setTargetDate(newValue);
-                                setDatePickerOpen(false);
-                            }}
-                        />
-                    </LocalizationProvider>
-                </DialogContent>
-            </Dialog>
+            
+                    
+                
             
             <Alert alert={alert} setAlert={setAlert} />
         </>
