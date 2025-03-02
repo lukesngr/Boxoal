@@ -168,3 +168,26 @@
         width: 20px;
     }
 }
+
+.goalAccordion {
+    background-color: rgb(197, 194, 124);
+    border-top: 1px solid rgba(0, 0, 0, 0.54);
+    min-height: 34px;
+}
+
+.goalAccordion:last-child {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.54);
+}
+
+.goalProgressIndicator {
+    margin-left: 10px; 
+    margin-right: 10px; 
+    display: inline; 
+    vertical-align: top;
+}
+
+@media only screen and (max-width: 1170px) { //max width this application supports is 320px
+    .goalProgressIndicator {
+        display: none;
+    }
+}
