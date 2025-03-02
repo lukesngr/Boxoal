@@ -1,26 +1,27 @@
-import { Accordion, AccordionSummary, Typography, AccordionDetails } from '@mui/material';
+import { Accordion, AccordionSummary, Typography, AccordionDetails, IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import GoalProgressIndicator from '../goal/GoalProgressIndicator';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { useState } from 'react';
 
 export default function GoalAccordion(props) {
+    const [timeboxesListShown, setTimeboxesListShown] = useState(false);
     
     return (
-        <Accordion sx={{backgroundColor: '#C5C27C',
-            '&.MuiAccordion-root.Mui-expanded': {
-                marginTop: '0px',
-                marginBottom: '0px',
-            }}}>
-            <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1-content"
-            id="panel1-header"
-            >   
-                <GoalProgressIndicator goal={props.goal}></GoalProgressIndicator>            
-                <Typography component="span">{props.goal.title}</Typography>
-            </AccordionSummary>
-        <AccordionDetails>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          malesuada lacus ex, sit amet blandit leo lobortis eget.
-        </AccordionDetails>
-      </Accordion>)
+    <>
+        <div style={{backgroundColor: '#C5C27C'}}>
+            
+            <GoalProgressIndicator goal={props.goal}></GoalProgressIndicator>            
+            <span>{props.goal.title}</span>
+            <IconButton style={{float: 'inline-end', padding: '5px'}} onClick={() => setTimeboxesListShown(!timeboxesListShown)}>
+                <ExpandMoreIcon></ExpandMoreIcon>
+            </IconButton>
+            <IconButton style={{float: 'inline-end', padding: '5px'}}>
+                <SettingsIcon></SettingsIcon>
+            </IconButton>
+            
+            
+        </div>
+        {timeboxesListShown && props.goal.timeboxes.map((timebox, index) => (<p key={index}>{timebox.title}</p>))}
+    </>)
 }
