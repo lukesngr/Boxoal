@@ -20,6 +20,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { muiFormControlStyle } from "../../modules/muiStyles";
 
 export default function EditGoalForm({ visible, close, data }) {
     const [title, setTitle] = useState(data.title);
@@ -113,26 +114,7 @@ export default function EditGoalForm({ visible, close, data }) {
                                 }
                             }}
                         />
-
-                        <TextField
-                            label="Target Date"
-                            value={targetDate.format('YYYY-MM-DD')}
-                            InputProps={{
-                                endAdornment: (
-                                    <IconButton onClick={() => setDatePickerOpen(true)}>
-                                        <CalendarMonthIcon />
-                                    </IconButton>
-                                ),
-                                readOnly: true,
-                            }}
-                            variant="standard"
-                            sx={{
-                                backgroundColor: 'white',
-                                '& .MuiInput-underline:before': {
-                                    borderBottomColor: 'black'
-                                }
-                            }}
-                        />
+                        
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <div style={{backgroundColor: 'white', padding: '7px'}}>
                                 <DatePicker
@@ -145,8 +127,9 @@ export default function EditGoalForm({ visible, close, data }) {
                                 />
                             </div>
                         </LocalizationProvider>
-
-                        <FormControl variant="standard">
+                        
+                        
+                        <FormControl variant="standard"  sx={muiFormControlStyle}>
                             <InputLabel>Completed</InputLabel>
                             <Select
                                 value={completed}
