@@ -134,14 +134,16 @@ export default function EditGoalForm({ visible, close, data }) {
                             }}
                         />
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                                label="Target Date"
-                                value={targetDate}
-                                onChange={(newValue) => {
-                                    setTargetDate(newValue);
-                                    setDatePickerOpen(false);
-                                }}
-                            />
+                            <div style={{backgroundColor: 'white', padding: '7px'}}>
+                                <DatePicker
+                                    label="Target Date"
+                                    value={targetDate}
+                                    onChange={(newValue) => {
+                                        setTargetDate(newValue);
+                                        setDatePickerOpen(false);
+                                    }}
+                                />
+                            </div>
                         </LocalizationProvider>
 
                         <FormControl variant="standard">
