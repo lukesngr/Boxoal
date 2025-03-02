@@ -16,7 +16,7 @@ export default function GoalProgressIndicator(props) {
 
 
     return (
-    <div style={{marginLeft: 10, marginRight: 10, display: 'inline'}}>
+    <div style={{marginLeft: 10, marginRight: 10, display: 'inline', verticalAlign: 'top'}}>
         <svg
             width={size}
             height={size}
