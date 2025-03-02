@@ -29,30 +29,30 @@ export default function EditGoalForm(props) {
     const [completed, setCompleted] = useState(props.data.completed);
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     
-    useEffect(() => {
+    /*useEffect(() => {
         setTitle(data.title);
         setPriority(""+data.priority);
         setTargetDate(dayjs(data.targetDate));
         setCompleted(data.completed);
-    }, [props.data]);
+    }, [props.data]);*/
 
     function updateGoal() {
         axios.put(serverIP+'/updateGoal', {
             title,
             priority: parseInt(priority),
             targetDate: targetDate.toISOString(),
-            id: data.id,
+            id: props.data.id,
             completed,
             completedOn: new Date().toISOString(),
             active: true
         })
         .then(async () => {
-            close();
+            props.close();
             setAlert({ open: true, title: "Timebox", message: "Updated goal!" });
             await queryClient.refetchQueries();
         })
         .catch(function(error) {
-            close();
+            props.close();
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             console.log(error);
         });
@@ -60,15 +60,15 @@ export default function EditGoalForm(props) {
     
     function deleteGoal() {
         axios.post(serverIP+'/deleteGoal', {
-            id: data.id
+            id: props.data.id
         })
         .then(async () => {   
-            close();
+            props.close();
             setAlert({ open: true, title: "Timebox", message: "Deleted goal!" });
             await queryClient.refetchQueries();
         })
         .catch(function(error) {
-            close();
+            props.close();
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             console.log(error);
         });
