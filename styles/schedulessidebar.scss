@@ -190,10 +190,16 @@
     .goalProgressIndicator {
         display: none;
     }
+
+    .goalTitle {
+        max-width: calc((100% - 141px)* 0.44 + 4.5em); 
+        overflow-wrap: break-word; 
+        display: inline-block;
+    }
 }
 
 .goalTitle {
-    max-width: 9ch; 
+    max-width: 5.4em; 
     overflow-wrap: break-word; 
     display: inline-block;
 }
