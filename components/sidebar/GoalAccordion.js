@@ -12,7 +12,7 @@ export default function GoalAccordion(props) {
         <div className="goalAccordion">
             
             <GoalProgressIndicator goal={props.goal}></GoalProgressIndicator>            
-            <span style={{maxWidth: '10ch', overflowWrap: 'break-word', display: 'inline-block'}}>{props.goal.title}</span>
+            <span className='goalTitle'>{props.goal.title}</span>
             <IconButton style={{float: 'inline-end', padding: '5px'}} onClick={() => setTimeboxesListShown(!timeboxesListShown)}>
                 <ExpandMoreIcon></ExpandMoreIcon>
             </IconButton>

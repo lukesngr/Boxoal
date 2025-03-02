@@ -191,3 +191,9 @@
         display: none;
     }
 }
+
+.goalTitle {
+    max-width: 9ch; 
+    overflow-wrap: break-word; 
+    display: inline-block;
+}
