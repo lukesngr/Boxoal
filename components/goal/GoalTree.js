@@ -58,11 +58,9 @@ export function GoalTree(props) {
         >
             <DialogTitle 
                 sx={{ 
-                    display: 'flex', 
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
                     background: 'white',
-                    padding: '20px'
+                    padding: '20px',
+                    textAlign: 'center',
                 }}
             >
                 <Typography 
@@ -71,13 +69,14 @@ export function GoalTree(props) {
                         fontSize: '35px', 
                         color: 'black',
                         marginTop: '10px',
+                        display: 'inline-block'
                     }}
                 >
                     Goal Tree
                 </Typography>
                 <IconButton 
                     onClick={props.close}
-                    sx={{ marginTop: '5px' }}
+                    sx={{ marginTop: '5px', float: 'inline-end' }}
                 >
                     <CloseIcon />
                 </IconButton>
@@ -88,7 +87,8 @@ export function GoalTree(props) {
                     display: 'flex', 
                     justifyContent: 'center',
                     alignItems: 'center',
-                    padding: '0 20px'
+                    padding: '0 20px',
+                    textAlign: 'center'
                 }}
             >
                 {maxNumberOfGoals > 1 && (
