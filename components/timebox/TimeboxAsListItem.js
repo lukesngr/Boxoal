@@ -12,7 +12,7 @@ export default function TimeboxAsListItem(props) {
     const noPreviousRecording = thereIsNoRecording(props.data.recordedTimeBoxes, props.data.reoccuring, date, time);
     return (
         <>  
-        {editTimeboxShown && <EditTimeboxForm back={() => setEditTimeboxShown(false)} data={props.data} previousRecording={noPreviousRecording}></EditTimeboxForm>}
+        {editTimeboxShown && <EditTimeboxForm back={() => setEditTimeboxShown(false)} data={props.data} previousRecording={!noPreviousRecording}></EditTimeboxForm>}
         <div className="timeboxListItem" >          
             <span className='timeboxListItemTitle'>{props.data.title}</span>
             

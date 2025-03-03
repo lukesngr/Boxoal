@@ -188,6 +188,7 @@
 }
 
 .goalTitle {
+    margin-left: 10px;
     max-width: calc((100% - 170px)* 0.848 + 2.6em); 
     overflow-wrap: break-word; 
     display: inline-block;
@@ -205,3 +206,15 @@
     }
 }
 
+.timeboxListItem {
+    background-color: rgb(197, 194, 124);
+    border-top: 1px solid rgba(0, 0, 0, 0.54);
+    min-height: 34px;
+}
+
+.timeboxListItemTitle {
+    max-width: calc((100% - 141px)* 0.96 + 2.8em); 
+    overflow-wrap: break-word; 
+    display: inline-block;
+    margin-left: 60px;
+}
