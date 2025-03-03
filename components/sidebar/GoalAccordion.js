@@ -10,7 +10,7 @@ export default function GoalAccordion(props) {
     const [goalShown, setGoalShown] = useState(false);
     
     
-    return (
+    return (!props.goal.active ? <></> : (
     <>  
         <EditGoalForm visible={goalShown} close={() => setGoalShown(false)} data={props.goal}></EditGoalForm>
         <div className="goalAccordion" >
@@ -26,5 +26,5 @@ export default function GoalAccordion(props) {
             
         </div>
         {timeboxesListShown && props.goal.timeboxes.map((timebox, index) => (<p key={index}>{timebox.title}</p>))}
-    </>)
+    </>))
 }
