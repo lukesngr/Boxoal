@@ -16,7 +16,7 @@ export default function RecordedTimeBoxOverlay(props) {
             <div key={index} className="recordedTimeBox" style={{
                 width: headerWidth+"px", 
                 height: `${Number(recordedBox.recordingBoxHeight)}px`, 
-                transform: `translate(${(headerWidth*dayIndex+timeboxColWidth)-14}px, ${Number(recordedBox.marginToRecording)+3}px)`}}>{recordedBox.title}</div>
+                transform: `translate(${(headerWidth*dayIndex+timeboxColWidth)-14}px, ${Number(recordedBox.marginToRecording)}px)`}}>{recordedBox.title}</div>
             )})}
         </div>
         )
