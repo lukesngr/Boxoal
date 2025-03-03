@@ -44,7 +44,7 @@ export default function EditGoalForm(props) {
             id: props.data.id,
             completed,
             completedOn: new Date().toISOString(),
-            active: true
+            active: !completed
         })
         .then(async () => {
             props.close();
