@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { getMaxNumberOfGoals } from "../modules/coreLogic";
-import { GoalTreeNode } from "../components/goals/GoalTreeNode";
-import AddGoalToTree from "../components/goals/AddGoalToTree";
+import { getMaxNumberOfGoals } from "@/modules/coreLogic";
+import GoalTreeNode from "./GoalTreeNode";
+import AddGoalToTree from "./AddGoalToTree";
 
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
