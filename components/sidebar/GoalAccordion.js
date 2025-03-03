@@ -4,6 +4,8 @@ import GoalProgressIndicator from '../goal/GoalProgressIndicator';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useState } from 'react';
 import EditGoalForm from '../goal/EditGoalForm';
+import Timebox from '../timebox/Timebox';
+import TimeboxAsListItem from '../timebox/TimeboxAsListItem';
 
 export default function GoalAccordion(props) {
     const [timeboxesListShown, setTimeboxesListShown] = useState(false);
@@ -25,6 +27,6 @@ export default function GoalAccordion(props) {
             
             
         </div>
-        {timeboxesListShown && props.goal.timeboxes.map((timebox, index) => (<p key={index}>{timebox.title}</p>))}
+        {timeboxesListShown && props.goal.timeboxes.map((timebox, index) => <TimeboxAsListItem key={index} data={timebox}></TimeboxAsListItem>)}
     </>))
 }
