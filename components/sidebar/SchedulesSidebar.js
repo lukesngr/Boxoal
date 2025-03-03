@@ -31,12 +31,10 @@ export default function SchedulesSidebar(props) {
         <div className={isSideBarMobile ? ("mobileSideBar") : ("col-2")} 
         id={expanded ? ('animateToAppear') : ('animateToDisappear')}>
             <div className="schedulesSidebar">
-                <Paper sx={{borderRadius: '0px', backgroundColor: '#C5C27C'}} elevation={2} >
                 <h1 className="sidebarHeading">{schedule.title} 
                     <IconButton onClick={() => setExpanded(false)} className='minimizeButton'>
                         <ArrowLeftIcon></ArrowLeftIcon>
                     </IconButton></h1>
-                </Paper>
                 {schedule.goals.map((goal, index) => (<GoalAccordion key={index} goal={goal}></GoalAccordion>))}
             </div>
         </div>
