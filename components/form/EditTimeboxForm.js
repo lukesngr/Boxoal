@@ -204,11 +204,14 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
                                 }
                             }}
                         >
-                            {goals.map((goal) => (
-                                <MenuItem key={goal.id} value={String(goal.id)}>
-                                    {goal.title}
-                                </MenuItem>
-                            ))}
+                            {goals.map((goal) => {
+                                if(goal.active) {
+                                    return (
+                                    <MenuItem key={goal.id} value={goal.id}>
+                                        {goal.title}
+                                    </MenuItem>
+                                    )
+                            }})}
                         </Select>
                     </FormControl>
 

@@ -177,11 +177,14 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                                 }
                             }}
                         >
-                            {goals.map((goal) => (
-                                <MenuItem key={goal.id} value={goal.id}>
-                                    {goal.title}
-                                </MenuItem>
-                            ))}
+                            {goals.map((goal) => {
+                                if(goal.active) {
+                                    return (
+                                    <MenuItem key={goal.id} value={goal.id}>
+                                        {goal.title}
+                                    </MenuItem>
+                                    )
+                            }})}
                         </Select>
                     </FormControl>
 
