@@ -46,12 +46,14 @@ export default function SchedulesSidebar(props) {
         id={expanded ? ('animateToAppear') : ('animateToDisappear')}>
             <div className="schedulesSidebar">
                 <h1 className="sidebarHeading">{schedule.title} 
-                    <IconButton onClick={() => setSkillTreeOpen(true)} >
-                        <ParkIcon></ParkIcon>
-                    </IconButton>
+                    
                     <IconButton onClick={() => dispatch({type: 'expanded/set', payload: !expanded})} className='minimizeButton'>
                         <ArrowLeftIcon></ArrowLeftIcon>
-                    </IconButton></h1>
+                    </IconButton>
+                    <IconButton onClick={() => setSkillTreeOpen(true)} className='minimizeButton'>
+                        <ParkIcon></ParkIcon>
+                    </IconButton>
+                    </h1>
 
                 {schedule.goals.map((goal, index) => (<GoalAccordion key={index} goal={goal}></GoalAccordion>))}
                 <Button variant="contained"  disableElevation 
