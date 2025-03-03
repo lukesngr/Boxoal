@@ -13,11 +13,14 @@ import { IconButton, Button } from '@mui/material';
 import {Paper} from '@mui/material';
 import GoalAccordion from './GoalAccordion';
 import CreateGoalForm from '../form/CreateGoalForm';
+import ParkIcon from '@mui/icons-material/Park';
+import { GoalTree } from '../goal/GoalTree';
 
 export default function SchedulesSidebar(props) {
     const dispatch = useDispatch();
     const [isSideBarMobile, setIsSideBarMobile] = useState(true);
     const [createGoalModalOpen, setCreateGoalModalOpen] = useState(false);
+    const [skillTreeOpen, setSkillTreeOpen] = useState(false);
     const {scheduleIndex} = useSelector(state => state.profile.value);
     const expanded = useSelector(state => state.expanded.value);
     let schedule = props.data[scheduleIndex];
@@ -43,9 +46,13 @@ export default function SchedulesSidebar(props) {
         id={expanded ? ('animateToAppear') : ('animateToDisappear')}>
             <div className="schedulesSidebar">
                 <h1 className="sidebarHeading">{schedule.title} 
-                    <IconButton onClick={() => setExpanded(false)} className='minimizeButton'>
+                    <IconButton onClick={() => setSkillTreeOpen(true)} >
+                        <ParkIcon></ParkIcon>
+                    </IconButton>
+                    <IconButton onClick={() => dispatch({type: 'expanded/set', payload: !expanded})} className='minimizeButton'>
                         <ArrowLeftIcon></ArrowLeftIcon>
                     </IconButton></h1>
+
                 {schedule.goals.map((goal, index) => (<GoalAccordion key={index} goal={goal}></GoalAccordion>))}
                 <Button variant="contained"  disableElevation 
                     sx={{backgroundColor: 'black', color: 'white', width: '100%', borderRadius: '0px'}} 
@@ -54,5 +61,6 @@ export default function SchedulesSidebar(props) {
             </div>
         </div>
         <CreateGoalForm visible={createGoalModalOpen} active={true} line={highestActiveIndex+1} close={() => setCreateGoalModalOpen(false)} id={schedule.id}  goals={schedule.goals}></CreateGoalForm>
+        {skillTreeOpen && <GoalTree data={schedule} close={() => setSkillTreeOpen(false)}></GoalTree>}
         </>)
 }
