@@ -8,7 +8,7 @@ import EditGoalForm from '../goal/EditGoalForm';
 export default function GoalAccordion(props) {
     const [timeboxesListShown, setTimeboxesListShown] = useState(false);
     const [goalShown, setGoalShown] = useState(false);
-    console.log(props.goal)
+    
     
     return (
     <>  

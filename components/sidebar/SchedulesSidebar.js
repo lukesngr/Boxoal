@@ -12,6 +12,7 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { IconButton, Button } from '@mui/material';
 import {Paper} from '@mui/material';
 import GoalAccordion from './GoalAccordion';
+import CreateGoalForm from '../form/CreateGoalForm';
 
 export default function SchedulesSidebar(props) {
     const dispatch = useDispatch();
@@ -28,6 +29,15 @@ export default function SchedulesSidebar(props) {
         setIsSideBarMobile(smallerThanLargeBreakpoint);
     }, [smallerThanLargeBreakpoint])
 
+    
+    let highestActiveIndex = 0;
+
+    for(let i = 0; i < schedule.goals.length; i++) {
+        if(schedule.goals[i].active && schedule.goals[i].partOfLine > highestActiveIndex) {
+            highestActiveIndex = schedule.goals[i].partOfLine;
+        }
+    }
+
     return (<>
         <div className={isSideBarMobile ? ("mobileSideBar") : ("col-2")} 
         id={expanded ? ('animateToAppear') : ('animateToDisappear')}>
@@ -43,5 +53,6 @@ export default function SchedulesSidebar(props) {
                 >Create Goal</Button>
             </div>
         </div>
+        <CreateGoalForm visible={createGoalModalOpen} active={true} line={highestActiveIndex+1} close={() => setCreateGoalModalOpen(false)} id={schedule.id}  goals={schedule.goals}></CreateGoalForm>
         </>)
 }
