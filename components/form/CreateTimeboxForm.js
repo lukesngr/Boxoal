@@ -30,9 +30,9 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const { scheduleID, wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
     const { timeboxes, goals } = useSelector(state => state.scheduleData.value);
     
-    
+    const activeGoals = goals.filter(goal => goal.active);
     const [description, setDescription] = useState("");
-    const [goalSelected, setGoalSelected] = useState(goals.length === 0 ? -1 : goals[0].id);
+    const [goalSelected, setGoalSelected] = useState(String(goals.length == 0 ? -1 : activeGoals[0].id));
     
     const [moreOptionsVisible, setMoreOptionsVisible] = useState(false);
     const [reoccurFrequency, setReoccurFrequency] = useState("no");
@@ -177,14 +177,12 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                                 }
                             }}
                         >
-                            {goals.map((goal) => {
-                                if(goal.active) {
-                                    return (
+                            {activeGoals.map((goal) => (
                                     <MenuItem key={goal.id} value={goal.id}>
                                         {goal.title}
                                     </MenuItem>
                                     )
-                            }})}
+                            )}
                         </Select>
                     </FormControl>
 
