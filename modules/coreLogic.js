@@ -71,6 +71,8 @@ export function getProgressWithGoal(timeboxes) {
         }
     });
 
+    percentage = percentage * 100;
+
     return Math.round(percentage);
 }
 
