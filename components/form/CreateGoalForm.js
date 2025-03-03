@@ -1,41 +1,147 @@
-import { useState } from "react";
-import axios from "axios";
-import { queryClient } from '../../pages/_app';
-import {toast} from "react-toastify";
+import { useState } from 'react';
+import axios from 'axios';
+import dayjs from 'dayjs';
+import serverIP from '../../modules/serverIP';
+import { queryClient } from '../../modules/queryClient.js';
+import { getMaxNumberOfGoals } from '../../modules/coreLogic.js';
+import Alert from '../base/Alert';
+import { muiFormControlStyle } from "../../modules/muiStyles";
+
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 export default function CreateGoalForm(props) {
-    const [name, setName] = useState("");
-    const [priority, setPriority] = useState(1);
-    const [targetDate, setTargetDate] = useState(new Date().toISOString());
+    const [title, setTitle] = useState("");
+    const [priority, setPriority] = useState("1");
+    const [targetDate, setTargetDate] = useState(dayjs());
+    const [alert, setAlert] = useState({ open: false, title: "", message: "" });
+    
+    let goalsCompleted = props.goals.reduce((count, item) => item.completed ? count + 1 : count, 0);
+    let goalsNotCompleted = props.goals.length - goalsCompleted;
+    let maxNumberOfGoals = getMaxNumberOfGoals(goalsCompleted);
 
-    function handleSubmit(event) {
-        event.preventDefault();
-        axios.post('/api/createGoal', {
-            name,
-            priority: parseInt(priority), //damn thing won't convert auto even with number input
-            targetDate: new Date(targetDate).toISOString(),
-            schedule: {
-                connect: {id: props.id}
-            } 
-        }).then(function() {
-            queryClient.refetchQueries();
-            toast.success("Added goal!", {
-                position: toast.POSITION.TOP_RIGHT,
+    function createGoal() {
+        if (maxNumberOfGoals > goalsNotCompleted || !props.active) {
+            axios.post(serverIP + '/createGoal', {
+                title,
+                priority: parseInt(priority),
+                targetDate: targetDate.toISOString(),
+                schedule: {
+                    connect: {
+                        id: props.id
+                    }
+                },
+                completed: false,
+                completedOn: new Date().toISOString(),
+                partOfLine: props.line,
+                active: props.active
+            })
+            .then(async () => {
+                props.close();
+                setAlert({ open: true, title: "Timebox", message: "Created goal!" });
+                await queryClient.refetchQueries();
+            })
+            .catch(function(error) {
+                props.close();
+                setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+                console.log(error);
             });
-        }).catch(function(error) {
-            toast.error("Error occurred please try again or contact developer");
-            console.log(error); 
-        })
+        } else {
+            setAlert({ open: true, title: "Error", message: "Please complete more goals and we will unlock more goal slots for you!" });
+        }
     }
+
     return (
-        <form onSubmit={handleSubmit}>
-            <label>Name: </label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} required></input><br />
-            <label>Priority: </label>
-            <input type="number" min={1} value={priority} onChange={(e) => setPriority(e.target.value)} required></input><br />
-            <label>Target Date: </label>
-            <input type="datetime-local" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} required></input><br />
-            <button type="submit">Create Goal</button>
-        </form>
-    )
+        <>
+            <Dialog
+                open={props.visible}
+                onClose={props.close}
+                PaperProps={{
+                    style: {
+                        backgroundColor: '#C5C27C',
+                        borderRadius: '15px'
+                    }
+                }}
+                BackdropProps={{
+                    style: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        backdropFilter: 'none'
+                    }
+                }}
+            >
+                <DialogTitle sx={{ color: 'white' }}>Create Goal</DialogTitle>
+                <DialogContent>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
+                        <TextField
+                            label="Title"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            variant="standard"
+                            data-testid="createGoalTitle"
+                            sx={{
+                                backgroundColor: 'white',
+                                '& .MuiInput-underline:before': {
+                                    borderBottomColor: 'black'
+                                }
+                            }}
+                        />
+
+                        <TextField
+                            label="Priority (1-10)"
+                            value={priority}
+                            onChange={(e) => setPriority(e.target.value)}
+                            variant="standard"
+                            sx={{
+                                backgroundColor: 'white',
+                                '& .MuiInput-underline:before': {
+                                    borderBottomColor: 'black'
+                                }
+                            }}
+                        />
+                        
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <div style={{backgroundColor: 'white', padding: '7px'}}>
+                                <DatePicker
+                                    label="Target Date"
+                                    value={targetDate}
+                                    onChange={(newValue) => {
+                                        setTargetDate(newValue);
+                                    }}
+                                />
+                            </div>
+                        </LocalizationProvider>
+                    </div>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={props.close} sx={{ color: 'white' }}>
+                        Close
+                    </Button>
+                    <Button
+                        onClick={createGoal}
+                        variant="contained"
+                        data-testid="createGoalButton"
+                        sx={{
+                            backgroundColor: 'white',
+                            color: 'black',
+                            '&:hover': {
+                                backgroundColor: 'black',
+                                color: 'white'
+                            }
+                        }}
+                    >
+                        Create
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            
+            <Alert alert={alert} setAlert={setAlert} />
+        </>
+    );
 }
