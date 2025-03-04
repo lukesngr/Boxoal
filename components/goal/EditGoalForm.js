@@ -28,13 +28,6 @@ export default function EditGoalForm(props) {
     const [targetDate, setTargetDate] = useState(dayjs(props.data.targetDate));
     const [completed, setCompleted] = useState(props.data.completed);
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
-    
-    /*useEffect(() => {
-        setTitle(data.title);
-        setPriority(""+data.priority);
-        setTargetDate(dayjs(data.targetDate));
-        setCompleted(data.completed);
-    }, [props.data]);*/
 
     function updateGoal() {
         axios.put(serverIP+'/updateGoal', {
@@ -58,7 +51,7 @@ export default function EditGoalForm(props) {
         });
 
         if(completed) {
-            axios.get(serverIP+'/setNextGoalToActive').then(async () => {
+            axios.get(serverIP+'/setNextGoalToActive', {line: props.data.partOfLine}).then(async () => {
                 await queryClient.refetchQueries();
             }).catch(function(error) {
                 console.log(error);
