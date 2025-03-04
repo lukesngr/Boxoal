@@ -55,8 +55,51 @@ export default function SignedInNav({username}) {
         <AppBar position="static">
         <Container maxWidth="xl">
             <Toolbar disableGutters>
-                <Box sx={{display: 'flex', mr: 1}}>
+                <Box sx={{display: { xs: 'flex', md: 'flex' }, mr: 1}}>
                     <NavbarIcon />
+                </Box>
+                <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                    <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleOpenNavMenu}
+                    color="inherit"
+                    >
+                    <MenuIcon />
+                    </IconButton>
+                    <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorElNav}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                    }}
+                    open={Boolean(anchorElNav)}
+                    onClose={handleCloseNavMenu}
+                    sx={{ display: { xs: 'block', md: 'none' } }}
+                    >
+                        <MenuItem key={"Timeboxes"} onClick={handleCloseNavMenu}>
+                            <a style={{color: 'black', textDecoration: 'none'}} href="/myschedules"><Typography sx={{ textAlign: 'center' }}>Timeboxes</Typography></a>
+                        </MenuItem>
+                    </Menu>
+            
+                </Box>
+                <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                    <Button
+                        key={"Timeboxes"}
+                        onClick={handleCloseNavMenu}
+                        sx={{ my: 2, color: 'white', display: 'block' }}
+                        href="/myschedules"
+                    >
+                        Timeboxes
+                    </Button>
                 </Box>
                 <Box sx={{ ml: 'auto', flexGrow: 0 }}>
                     <Tooltip title="Open settings">
