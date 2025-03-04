@@ -8,7 +8,8 @@ import serverIP from "@/modules/serverIP";
 import axios from "axios";
 import { getProgressWithGoal } from "@/modules/coreLogic";
 import '../styles/dashboard.scss';
-import { LinearProgress } from "@mui/material";
+import { Card, LinearProgress, Paper } from "@mui/material";
+import { getStatistics } from "@/modules/boxCalculations";
 
 export default function Dashboard({user}) {
 
@@ -47,12 +48,27 @@ export default function Dashboard({user}) {
         recordedTimeboxes = dataForSchedule.recordedTimeboxes;
     }
 
+    let {averageTimeOverBy, averageTimeStartedOffBy, percentagePredictedStart, percentageCorrectTime, percentageRescheduled} = getStatistics(recordedTimeboxes);
+
     return (<>
         <SignedInNav username={username}></SignedInNav>
         <div style={{height: '100%', paddingLeft: '20%', paddingTop: '10%', paddingRight: '20%'}}>
             <h1 className="welcomeTitle">Welcome Back</h1>
             <h1 className="levelTitle">Lvl {goalsCompleted}</h1>
             <LinearProgress variant="determinate" value={averageProgress} />
+            <div class="container">
+            <div class="row">
+                <div class="col">
+                 <Paper style={{backgroundColor: '#C5C27C', height: 'fit-content', width: '80%', marginTop: 30, marginHorizontal: 30}} elevation={4}>
+                     <p>Average Time Over By</p>
+                     <h1>{averageTimeOverBy}</h1>
+                </Paper>
+                </div>
+                <div class="col">
+                One of three columns
+                </div>
+            </div>
+            </div>
         </div>
         </>)
 }
