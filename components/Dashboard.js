@@ -67,7 +67,10 @@ export default function Dashboard({user}) {
                 </Paper>
                 </div>
                 <div class="col">
-                One of three columns
+                <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2 }} className="statPaper" elevation={4}>
+                     <p>{averageTimeStartedOffBy > 0 ? "Time Average Recordings Are Late By" : "Time On Average Recordings Are Early By"}</p>
+                     <h1>{averageTimeStartedOffBy > 0 ? averageTimeStartedOffBy.toFixed(2) : -averageTimeStartedOffBy.toFixed(2)}min</h1>
+                </Paper>
                 </div>
             </div>
             </div>
