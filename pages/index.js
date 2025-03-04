@@ -6,6 +6,8 @@ import LandingPage from "@/components/LandingPage";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useRouter } from "next/router";
 import Alert from "@/components/base/Alert";
+import Dashboard from "@/components/Dashboard";
+import Loading from "@/components/base/Loading";
 
 export default function Home() {
 
@@ -17,18 +19,18 @@ export default function Home() {
         context.user,
       ]);
 
-    useEffect(() => {
-        if(authStatus == 'authenticated') {
-            router.push('/myschedules');
-        }
-    }, [authStatus])
-
-    return (
-    <>
-        <Alert alert={alert} setAlert={setAlert}/>
-        {componentDisplayed == "landing" && <LandingPage setAlert={setAlert} setComponentDisplayed={setComponentDisplayed} />}
-        {componentDisplayed == "signIn" && <SignInCard setAlert={setAlert} setComponentDisplayed={setComponentDisplayed} />}
-        {componentDisplayed == "createAccount" && <CreateAccountCard setAlert={setAlert} setComponentDisplayed={setComponentDisplayed} />}
-        {componentDisplayed == "forgotPassword" && <ForgotPasswordCard setAlert={setAlert} setComponentDisplayed={setComponentDisplayed} />}
-    </>)
+    if(authStatus == 'configuring' || authStatus == "idle") {
+             return <Loading />
+    }else if(authStatus == "authenticated") {
+            return <Dashboard user={user} />
+    }else if(authStatus == "unauthenticated") {
+        return (
+            <>
+                <Alert alert={alert} setAlert={setAlert}/>
+                {componentDisplayed == "landing" && <LandingPage setAlert={setAlert} setComponentDisplayed={setComponentDisplayed} />}
+                {componentDisplayed == "signIn" && <SignInCard setAlert={setAlert} setComponentDisplayed={setComponentDisplayed} />}
+                {componentDisplayed == "createAccount" && <CreateAccountCard setAlert={setAlert} setComponentDisplayed={setComponentDisplayed} />}
+                {componentDisplayed == "forgotPassword" && <ForgotPasswordCard setAlert={setAlert} setComponentDisplayed={setComponentDisplayed} />}
+        </>)
+    }
 }
