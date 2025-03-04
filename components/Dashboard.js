@@ -7,6 +7,7 @@ import Loading from "./base/Loading";
 import serverIP from "@/modules/serverIP";
 import axios from "axios";
 import { getProgressWithGoal } from "@/modules/coreLogic";
+import '../styles/dashboard.scss';
 
 export default function Dashboard({user}) {
 
@@ -48,8 +49,8 @@ export default function Dashboard({user}) {
     return (<>
         <SignedInNav username={username}></SignedInNav>
         <div style={{backgroundColor: '#D9D9D9', height: '100%', paddingLeft: '20%', paddingTop: '10%', paddingRight: '20%'}}>
-            <h1 style={{fontFamily: 'KameronRegular', fontSize: 30, color: 'black', textAlign: 'center', marginTop: 30}}>Welcome Back</h1>
-            <h1 style={{fontFamily: 'KameronRegular', fontSize: 20, color: 'black', marginTop: 20, marginLeft: 30}}>Lvl {goalsCompleted}</h1>
+            <h1 className="welcomeTitle">Welcome Back</h1>
+            <h1 className="levelTitle">Lvl {goalsCompleted}</h1>
         </div>
         </>)
 }
