@@ -56,6 +56,14 @@ export default function EditGoalForm(props) {
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             console.log(error);
         });
+
+        if(completed) {
+            axios.get(serverIP+'/setNextGoalToActive').then(async () => {
+                await queryClient.refetchQueries();
+            }).catch(function(error) {
+                console.log(error);
+            })
+        };
     }
     
     function deleteGoal() {
