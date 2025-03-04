@@ -11,7 +11,6 @@ import '../styles/dashboard.scss';
 import { Card, LinearProgress, Paper } from "@mui/material";
 import { getStatistics } from "@/modules/boxCalculations";
 import { PieChart } from "@mui/x-charts";
-import { ResponsiveChartContainer } from "@mui/x-charts";
 
 export default function Dashboard({user}) {
 
@@ -76,17 +75,7 @@ export default function Dashboard({user}) {
                 </div>
                 <div class="row">
                     <div class="col">
-                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, height: '500px'}} elevation={4}>
-                        <ResponsiveChartContainer
-                            series={[
-                                {
-                                data: [
-                                    { id: 0, value: percentagePredictedStart*100, label: 'Predicted Start' },
-                                    { id: 1, value: (1-percentagePredictedStart)*100, label: 'Not Predicted Start' },
-                                ],
-                                },
-                            ]}
-                            >
+                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} elevation={4}>
                             <PieChart
                                 margin={{ top: 0, bottom: 25, left: 10, right: 10 }}
                                 series={[
@@ -97,7 +86,7 @@ export default function Dashboard({user}) {
                                     ],
                                     },
                                 ]}
-                                width={300}
+                                width={250}
                                 height={500}
                                 slotProps={{
                                     legend: {
@@ -107,11 +96,10 @@ export default function Dashboard({user}) {
                                     }
                                 }}
                                 />
-                        </ResponsiveChartContainer>
                         </Paper>
                     </div>
                     <div class="col">
-                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, width: 'fit-content' }} elevation={4}>
+                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} elevation={4}>
                             <PieChart
                                 margin={{ top: 0, bottom: 25, left: 10, right: 10 }}
                                 series={[
@@ -122,7 +110,7 @@ export default function Dashboard({user}) {
                                     ],
                                     },
                                 ]}
-                                width={300}
+                                width={250}
                                 height={500}
                                 slotProps={{
                                     legend: {
@@ -135,7 +123,7 @@ export default function Dashboard({user}) {
                         </Paper>
                     </div>
                     <div class="col">
-                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, width: 'fit-content'  }} elevation={4}>
+                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'  }} elevation={4}>
                             <PieChart
                                 margin={{ top: 0, bottom: 25, left: 10, right: 10 }}
                                 series={[
@@ -146,7 +134,7 @@ export default function Dashboard({user}) {
                                     ],
                                     },
                                 ]}
-                                width={300}
+                                width={250}
                                 height={500}
                                 slotProps={{
                                     legend: {
