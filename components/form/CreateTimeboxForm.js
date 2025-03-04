@@ -32,7 +32,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     
     const activeGoals = goals.filter(goal => goal.active);
     const [description, setDescription] = useState("");
-    const [goalSelected, setGoalSelected] = useState(String(goals.length == 0 ? -1 : activeGoals[0].id));
+    const [goalSelected, setGoalSelected] = useState(String(activeGoals.length == 0 ? -1 : activeGoals[0].id));
     
     const [moreOptionsVisible, setMoreOptionsVisible] = useState(false);
     const [reoccurFrequency, setReoccurFrequency] = useState("no");
