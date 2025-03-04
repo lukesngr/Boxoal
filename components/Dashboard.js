@@ -2,6 +2,11 @@ import SignedInNav from "./nav/SignedInNav";
 import { useDispatch } from "react-redux";
 import { useProfile } from "../hooks/useProfile";
 import { useQuery } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
+import Loading from "./base/Loading";
+import serverIP from "@/modules/serverIP";
+import axios from "axios";
+import { getProgressWithGoal } from "@/modules/coreLogic";
 
 export default function Dashboard({user}) {
 
@@ -14,7 +19,7 @@ export default function Dashboard({user}) {
     useProfile(userId, dispatch);
 
     const {status, data, error, refetch} = useQuery({
-        queryKey: ["schedule"], 
+        queryKey: ["scheduleForDash"], 
         queryFn: async () => {
             const response = await axios.get(serverIP+"/getSchedules", { params: {
                 userUUID: userId
