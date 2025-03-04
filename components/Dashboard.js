@@ -11,7 +11,7 @@ import '../styles/dashboard.scss';
 import { Card, LinearProgress, Paper } from "@mui/material";
 import { getStatistics } from "@/modules/boxCalculations";
 import { PieChart } from "@mui/x-charts";
-import { Stack } from "@mui/material";
+import { ResponsiveChartContainer } from "@mui/x-charts";
 
 export default function Dashboard({user}) {
 
@@ -74,9 +74,19 @@ export default function Dashboard({user}) {
                     </div>
                     
                 </div>
-                </div> 
-                <Stack direction="row" spacing={2}>
-                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, width: 'fit-content' }} elevation={4}>
+                <div class="row">
+                    <div class="col">
+                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, height: '500px'}} elevation={4}>
+                        <ResponsiveChartContainer
+                            series={[
+                                {
+                                data: [
+                                    { id: 0, value: percentagePredictedStart*100, label: 'Predicted Start' },
+                                    { id: 1, value: (1-percentagePredictedStart)*100, label: 'Not Predicted Start' },
+                                ],
+                                },
+                            ]}
+                            >
                             <PieChart
                                 margin={{ top: 0, bottom: 25, left: 10, right: 10 }}
                                 series={[
@@ -97,7 +107,10 @@ export default function Dashboard({user}) {
                                     }
                                 }}
                                 />
+                        </ResponsiveChartContainer>
                         </Paper>
+                    </div>
+                    <div class="col">
                         <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, width: 'fit-content' }} elevation={4}>
                             <PieChart
                                 margin={{ top: 0, bottom: 25, left: 10, right: 10 }}
@@ -120,6 +133,8 @@ export default function Dashboard({user}) {
                                 }}
                                 />
                         </Paper>
+                    </div>
+                    <div class="col">
                         <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, width: 'fit-content'  }} elevation={4}>
                             <PieChart
                                 margin={{ top: 0, bottom: 25, left: 10, right: 10 }}
@@ -142,7 +157,9 @@ export default function Dashboard({user}) {
                                 }}
                                 />
                         </Paper>
-                </Stack>
+                    </div>
+                </div>
+            </div>
         </div>
         </>)
 }
