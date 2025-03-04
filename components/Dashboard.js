@@ -50,6 +50,8 @@ export default function Dashboard({user}) {
 
     let {averageTimeOverBy, averageTimeStartedOffBy, percentagePredictedStart, percentageCorrectTime, percentageRescheduled} = getStatistics(recordedTimeboxes);
 
+
+
     return (<>
         <SignedInNav username={username}></SignedInNav>
         <div style={{height: '100%', paddingLeft: '20%', paddingTop: '10%', paddingRight: '20%'}}>
@@ -60,8 +62,8 @@ export default function Dashboard({user}) {
             <div class="row">
                 <div class="col">
                  <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2 }} className="statPaper" elevation={4}>
-                     <p>Average Time Over By</p>
-                     <h1>{averageTimeOverBy}</h1>
+                     <p>{averageTimeOverBy > 0 ? "Time On Average Recordings Are Over By" : "Time On Average Recordings Are Under By"}</p>
+                     <h1>{averageTimeOverBy > 0 ? averageTimeOverBy.toFixed(2) : -averageTimeOverBy.toFixed(2)}min</h1>
                 </Paper>
                 </div>
                 <div class="col">
