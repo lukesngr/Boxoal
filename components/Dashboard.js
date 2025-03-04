@@ -59,7 +59,7 @@ export default function Dashboard({user}) {
             <div class="container">
             <div class="row">
                 <div class="col">
-                 <Paper style={{backgroundColor: '#C5C27C', height: 'fit-content', width: '80%', marginTop: 30, marginHorizontal: 30}} elevation={4}>
+                 <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2 }} className="statPaper" elevation={4}>
                      <p>Average Time Over By</p>
                      <h1>{averageTimeOverBy}</h1>
                 </Paper>
