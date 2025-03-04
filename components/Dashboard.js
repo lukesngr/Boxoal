@@ -10,6 +10,7 @@ import { getProgressWithGoal } from "@/modules/coreLogic";
 import '../styles/dashboard.scss';
 import { Card, LinearProgress, Paper } from "@mui/material";
 import { getStatistics } from "@/modules/boxCalculations";
+import { PieChart } from "@mui/x-charts";
 
 export default function Dashboard({user}) {
 
@@ -50,8 +51,6 @@ export default function Dashboard({user}) {
 
     let {averageTimeOverBy, averageTimeStartedOffBy, percentagePredictedStart, percentageCorrectTime, percentageRescheduled} = getStatistics(recordedTimeboxes);
 
-
-
     return (<>
         <SignedInNav username={username}></SignedInNav>
         <div style={{height: '100%', paddingLeft: '20%', paddingTop: '10%', paddingRight: '20%'}}>
@@ -76,15 +75,75 @@ export default function Dashboard({user}) {
                 </div>
                 <div class="row">
                     <div class="col">
-                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2 }} elevation={4}>
+                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, width: 'fit-content' }} elevation={4}>
+                            <PieChart
+                                margin={{ top: 0, bottom: 25, left: 10, right: 10 }}
+                                series={[
+                                    {
+                                    data: [
+                                        { id: 0, value: percentagePredictedStart*100, label: 'Predicted Start' },
+                                        { id: 1, value: (1-percentagePredictedStart)*100, label: 'Not Predicted Start' },
+                                    ],
+                                    },
+                                ]}
+                                width={300}
+                                height={500}
+                                slotProps={{
+                                    legend: {
+                                    direction: 'row',
+                                    position: { vertical: 'bottom', horizontal: 'middle' },
+                                    
+                                    }
+                                }}
+                                />
                         </Paper>
                     </div>
                     <div class="col">
-                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2 }} elevation={4}>
+                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, width: 'fit-content' }} elevation={4}>
+                            <PieChart
+                                margin={{ top: 0, bottom: 25, left: 10, right: 10 }}
+                                series={[
+                                    {
+                                    data: [
+                                        { id: 0, value: percentageCorrectTime*100, label: 'Predicted Time' },
+                                        { id: 1, value: (1-percentageCorrectTime)*100, label: 'Not Predicted Time' },
+                                    ],
+                                    },
+                                ]}
+                                width={300}
+                                height={500}
+                                slotProps={{
+                                    legend: {
+                                    direction: 'row',
+                                    position: { vertical: 'bottom', horizontal: 'middle' },
+                                    
+                                    }
+                                }}
+                                />
                         </Paper>
                     </div>
                     <div class="col">
-                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2 }} elevation={4}>
+                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, width: 'fit-content'  }} elevation={4}>
+                            <PieChart
+                                margin={{ top: 0, bottom: 25, left: 10, right: 10 }}
+                                series={[
+                                    {
+                                    data: [
+                                        { id: 0, value: percentageCorrectTime*100, label: 'Rescheduled' },
+                                        { id: 1, value: (1-percentageCorrectTime)*100, label: 'Not Rescheduled' },
+                                    ],
+                                    },
+                                ]}
+                                width={300}
+                                height={500}
+                                slotProps={{
+                                    legend: {
+                                    direction: 'row',
+                                    position: { vertical: 'bottom', horizontal: 'middle' },
+                                    
+                                    }
+                                }}
+                                />
                         </Paper>
                     </div>
                 </div>
