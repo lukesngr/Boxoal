@@ -59,20 +59,35 @@ export default function Dashboard({user}) {
             <h1 className="levelTitle">Lvl {goalsCompleted}</h1>
             <LinearProgress variant="determinate" value={averageProgress} />
             <div class="container">
-            <div class="row">
-                <div class="col">
-                 <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2 }} className="statPaper" elevation={4}>
-                     <p>{averageTimeOverBy > 0 ? "Time On Average Recordings Are Over By" : "Time On Average Recordings Are Under By"}</p>
-                     <h1>{averageTimeOverBy > 0 ? averageTimeOverBy.toFixed(2) : -averageTimeOverBy.toFixed(2)}min</h1>
-                </Paper>
+                <div class="row">
+                    <div class="col">
+                    <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2 }} className="statPaper" elevation={4}>
+                        <p>{averageTimeOverBy > 0 ? "Time On Average Recordings Are Over By" : "Time On Average Recordings Are Under By"}</p>
+                        <h1>{averageTimeOverBy > 0 ? averageTimeOverBy.toFixed(2) : -averageTimeOverBy.toFixed(2)}min</h1>
+                    </Paper>
+                    </div>
+                    <div class="col">
+                    <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2 }} className="statPaper" elevation={4}>
+                        <p>{averageTimeStartedOffBy > 0 ? "Time Average Recordings Are Late By" : "Time On Average Recordings Are Early By"}</p>
+                        <h1>{averageTimeStartedOffBy > 0 ? averageTimeStartedOffBy.toFixed(2) : -averageTimeStartedOffBy.toFixed(2)}min</h1>
+                    </Paper>
+                    </div>
+                    
                 </div>
-                <div class="col">
-                <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2 }} className="statPaper" elevation={4}>
-                     <p>{averageTimeStartedOffBy > 0 ? "Time Average Recordings Are Late By" : "Time On Average Recordings Are Early By"}</p>
-                     <h1>{averageTimeStartedOffBy > 0 ? averageTimeStartedOffBy.toFixed(2) : -averageTimeStartedOffBy.toFixed(2)}min</h1>
-                </Paper>
+                <div class="row">
+                    <div class="col">
+                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2 }} elevation={4}>
+                        </Paper>
+                    </div>
+                    <div class="col">
+                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2 }} elevation={4}>
+                        </Paper>
+                    </div>
+                    <div class="col">
+                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2 }} elevation={4}>
+                        </Paper>
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
         </>)
