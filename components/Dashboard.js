@@ -78,6 +78,7 @@ export default function Dashboard({user}) {
                     <div class="col">
                         <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} elevation={4}>
                             <PieChart
+                                colors={['black', '#4fd1cf']}
                                 margin={{ top: 0, bottom: 25, left: 10, right: 10 }}
                                 series={[
                                     {
@@ -102,6 +103,7 @@ export default function Dashboard({user}) {
                     <div class="col">
                         <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} elevation={4}>
                             <PieChart
+                                colors={['black', '#4fd1cf']}
                                 margin={{ top: 0, bottom: 25, left: 10, right: 10 }}
                                 series={[
                                     {
@@ -127,11 +129,12 @@ export default function Dashboard({user}) {
                         <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'  }} elevation={4}>
                             <PieChart
                                 margin={{ top: 0, bottom: 25, left: 10, right: 10 }}
+                                colors={['black', '#4fd1cf']}
                                 series={[
                                     {
                                     data: [
-                                        { id: 0, value: percentageCorrectTime*100, label: 'Rescheduled' },
-                                        { id: 1, value: (1-percentageCorrectTime)*100, label: 'Not Rescheduled' },
+                                        { id: 0, value: percentageRescheduled*100, label: 'Rescheduled' },
+                                        { id: 1, value: (1-percentageRescheduled)*100, label: 'Not Rescheduled' },
                                     ],
                                     },
                                 ]}
