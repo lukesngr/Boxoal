@@ -24,6 +24,6 @@ export default function useActiveOverlay() {
         }
         
         return () => { dispatch(resetActiveOverlayInterval()); };
-    }, [overlayDimensions, timeboxRecording])
+    }, [overlayDimensions, timeboxRecording, profile])
     return;
 }
