@@ -98,25 +98,16 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
 
     function safeSetNumberOfBoxes(number) {
         let amountOfBoxes;
-        if (number !== '') {
-            try {
-                amountOfBoxes = Number(number);
-            } catch(e) {
-                amountOfBoxes = 1;
-            }
+        try {
+            amountOfBoxes = Number(number);
+        } catch(e) {
+            amountOfBoxes = 1;
+        }
 
-            if (amountOfBoxes > maxNumberOfBoxes) {
-                setNumberOfBoxes('1');
-                setAlert({
-                    open: true,
-                    title: "Error",
-                    message: "You cannot create a timebox that exceeds the number of boxes in the schedule"
-                });
-            } else {
-                setNumberOfBoxes(String(amountOfBoxes));
-            }
+        if (amountOfBoxes > maxNumberOfBoxes) {
+            setNumberOfBoxes('1');
         } else {
-            setNumberOfBoxes('');
+            setNumberOfBoxes(String(amountOfBoxes));
         }
     }
 

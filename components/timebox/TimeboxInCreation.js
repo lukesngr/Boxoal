@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export default function TimeboxInCreation({date, time, day}) {
     const [createTimeboxFormVisible, setCreateTimeboxFormVisible] = useState(false);
-    const [numberOfBoxes, setNumberOfBoxes] = useState('');
+    const [numberOfBoxes, setNumberOfBoxes] = useState('0');
     const [title, setTitle] = useState("");
     function getHeightForBoxes (numberOfBoxes) { 
         if (numberOfBoxes === '') {
