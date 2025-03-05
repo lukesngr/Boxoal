@@ -12,6 +12,7 @@ import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SettingsDialog from "../SettingsDialog";
+import ViewSidebarIcon from '@mui/icons-material/ViewSidebar';
 
 export default function TimeboxHeading({data}) {
 
@@ -44,6 +45,9 @@ export default function TimeboxHeading({data}) {
                 <IconButton onClick={() => setSettingDialogVisible(!settingDialogVisible)}>
                   <SettingsIcon sx={{color: 'black'}} fontSize="medium"></SettingsIcon>
                 </IconButton>
+                {!expanded && <IconButton onClick={() => dispatch({type: 'expanded/set', payload: true})}>
+                  <ViewSidebarIcon sx={{color: 'black'}} fontSize="medium"></ViewSidebarIcon>
+                  </IconButton>}
                 {datePickerVisible && <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <ThemeProvider theme={theme}>
                         <StaticDatePicker sx={{position: "absolute", zIndex: 999, left: '50%'}} displayStaticWrapperAs="desktop"
@@ -53,7 +57,6 @@ export default function TimeboxHeading({data}) {
                         }}></StaticDatePicker>
                     </ThemeProvider>
                 </LocalizationProvider>}
-                {!expanded && <FontAwesomeIcon className="sideBarExpandBtn ml-1" icon={faCog} onClick={() => {}}></FontAwesomeIcon>}
                 
             </h1><SettingsDialog visible={settingDialogVisible} hideDialog={() => setSettingDialogVisible(false)} data={data}/>
             </>

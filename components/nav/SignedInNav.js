@@ -55,7 +55,7 @@ export default function SignedInNav({username}) {
         <AppBar position="static">
         <Container maxWidth="xl">
             <Toolbar disableGutters>
-                <Box sx={{display: { xs: 'flex', md: 'flex' }, mr: 1}}>
+                <Box>
                     <NavbarIcon />
                 </Box>
                 <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
