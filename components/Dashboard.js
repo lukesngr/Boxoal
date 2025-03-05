@@ -50,7 +50,7 @@ export default function Dashboard({user}) {
         recordedTimeboxes = dataForSchedule.recordedTimeboxes;
     }
 
-    let {averageTimeOverBy, averageTimeStartedOffBy, percentagePredictedStart, percentageCorrectTime, percentageRescheduled} = useMemo(() => getStatistics(recordedTimeboxes), [recordedTimeboxes]);
+    let {averageTimeOverBy, averageTimeStartedOffBy, percentagePredictedStart, percentageCorrectTime, percentageRescheduled} = getStatistics(recordedTimeboxes);
 
     return (<>
         <SignedInNav username={username}></SignedInNav>
