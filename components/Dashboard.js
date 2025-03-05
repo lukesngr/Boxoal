@@ -11,6 +11,7 @@ import '../styles/dashboard.scss';
 import { Card, LinearProgress, Paper } from "@mui/material";
 import { getStatistics } from "@/modules/boxCalculations";
 import { PieChart } from "@mui/x-charts";
+import { useMemo } from "react";
 
 export default function Dashboard({user}) {
 
@@ -23,7 +24,7 @@ export default function Dashboard({user}) {
     useProfile(userId, dispatch);
 
     const {status, data, error, refetch} = useQuery({
-        queryKey: ["scheduleForDash"], 
+        queryKey: ["schedule"], 
         queryFn: async () => {
             const response = await axios.get(serverIP+"/getSchedules", { params: {
                 userUUID: userId
@@ -38,7 +39,7 @@ export default function Dashboard({user}) {
 
     if(data.length != 0) {
         let dataForSchedule = data[scheduleIndex]
-        goalsCompleted = dataForSchedule.goals.reduce((count, item) => item.completed ? count + 1 : count, 0);
+        goalsCompleted = dataForSchedule.goals.reduce((count, item) => item.completed ? count + 1 : count, 0); //no tradeoff for making this faster
         
         for(let goal of dataForSchedule.goals) {
             if(!goal.completed) {
@@ -49,7 +50,7 @@ export default function Dashboard({user}) {
         recordedTimeboxes = dataForSchedule.recordedTimeboxes;
     }
 
-    let {averageTimeOverBy, averageTimeStartedOffBy, percentagePredictedStart, percentageCorrectTime, percentageRescheduled} = getStatistics(recordedTimeboxes);
+    let {averageTimeOverBy, averageTimeStartedOffBy, percentagePredictedStart, percentageCorrectTime, percentageRescheduled} = useMemo(() => getStatistics(recordedTimeboxes), recordedTimeboxes);
 
     return (<>
         <SignedInNav username={username}></SignedInNav>
