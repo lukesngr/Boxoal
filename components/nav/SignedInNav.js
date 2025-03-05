@@ -95,7 +95,7 @@ export default function SignedInNav({username}) {
                     <Button
                         key={"Timeboxes"}
                         onClick={handleCloseNavMenu}
-                        sx={{ my: 2, color: 'black', display: 'block' }}
+                        sx={{ my: 2, color: 'black', display: 'block', '&:hover': {color: 'white'},}}
                         href="/myschedules"
                     >
                         Timeboxes
