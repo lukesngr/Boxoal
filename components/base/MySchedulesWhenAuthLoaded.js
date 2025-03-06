@@ -19,7 +19,7 @@ export default function MySchedulesWhenAuthLoaded({user}) {
     const {status, data, error, refetch} = useQuery({
         queryKey: ["schedule"], 
         queryFn: async () => {
-            const response = await axios.get(serverIP+"/getSchedules", { params: {
+            const response = await axios.get("/api/getSchedules", { params: {
                 userUUID: userId
             }});
             return response.data;

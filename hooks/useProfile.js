@@ -9,7 +9,7 @@ export function useProfile(userId, dispatch) {
     const {status, data, error, refetch} = useQuery({
         queryKey: ["XP"], 
         queryFn: async () => {
-            const response = await axios.get(serverIP+"/getProfile", { params: {userUUID: userId}});
+            const response = await axios.get("/api/getProfile", { params: {userUUID: userId}});
             return response.data;
         },
         enabled: true
