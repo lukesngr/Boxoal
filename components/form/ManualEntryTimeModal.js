@@ -21,7 +21,7 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID,
     const [recordedEndTime, setRecordedEndTime] = useState(dayjs(data.endTime));
 
     function submitManualEntry() {
-        axios.post(serverIP+'/createRecordedTimebox', {
+        axios.post('/api/createRecordedTimebox', {
             recordedStartTime: recordedStartTime.toDate(), 
             recordedEndTime: recordedEndTime.toDate(),
             timeBox: {connect: {id: data.id}}, 

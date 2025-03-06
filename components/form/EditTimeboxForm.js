@@ -74,7 +74,7 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
             }
         }
 
-        axios.put(serverIP + '/updateTimeBox', updateData)
+        axios.put('/api/updateTimeBox', updateData)
             .then(async () => {
                 setAlert({
                     open: true,
@@ -94,7 +94,7 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
     }
 
     function deleteTimeBox() {
-        axios.post(serverIP + '/deleteTimebox', {
+        axios.post('/api/deleteTimebox', {
             id: data.id
         })
             .then(async () => {
@@ -116,7 +116,7 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
     }
 
     function clearRecording() {
-        axios.post(serverIP + '/clearRecording', {
+        axios.post('/api/clearRecording', {
             id: data.id
         })
             .then(async () => {

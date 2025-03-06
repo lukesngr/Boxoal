@@ -75,7 +75,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             data["reoccuring"] = { create: { reoccurFrequency: "daily" } };
         }
 
-        axios.post(serverIP + '/createTimebox', data)
+        axios.post('/api/createTimebox', data)
             .then(async () => {
                 close();
                 setAlert({

@@ -29,7 +29,7 @@ export default function CreateGoalForm(props) {
 
     function createGoal() {
         if (maxNumberOfGoals > goalsNotCompleted || !props.active) {
-            axios.post(serverIP + '/createGoal', {
+            axios.post('/api/createGoal', {
                 title,
                 priority: parseInt(priority),
                 targetDate: targetDate.toISOString(),

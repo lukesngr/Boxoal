@@ -30,7 +30,7 @@ export default function EditGoalForm(props) {
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
 
     function updateGoal() {
-        axios.put(serverIP+'/updateGoal', {
+        axios.put('/api/updateGoal', {
             title,
             priority: parseInt(priority),
             targetDate: targetDate.toISOString(),
@@ -51,7 +51,7 @@ export default function EditGoalForm(props) {
         });
 
         if(completed) {
-            axios.get(serverIP+'/setNextGoalToActive', {line: props.data.partOfLine}).then(async () => {
+            axios.get('/api/setNextGoalToActive', {line: props.data.partOfLine}).then(async () => {
                 await queryClient.refetchQueries();
             }).catch(function(error) {
                 console.log(error);
@@ -60,7 +60,7 @@ export default function EditGoalForm(props) {
     }
     
     function deleteGoal() {
-        axios.post(serverIP+'/deleteGoal', {
+        axios.post('/api/deleteGoal', {
             id: props.data.id
         })
         .then(async () => {   

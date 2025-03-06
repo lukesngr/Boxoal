@@ -19,7 +19,7 @@ export default function CreateScheduleForm({ open, onClose }) {
     
     async function createSchedule() {
         try {
-            await axios.post(serverIP + '/createSchedule', {
+            await axios.post('/api/createSchedule', {
                 title,
                 userUUID: user.userId,
             });

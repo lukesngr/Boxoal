@@ -47,7 +47,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
         }});
         dispatch(setActiveOverlayInterval());
         
-        axios.post(serverIP + '/createRecordedTimebox', {
+        axios.post('/api/createRecordedTimebox', {
             recordedStartTime: recordedStartTime, 
             recordedEndTime: new Date(), 
             timeBox: { connect: { id: data.id } }, 

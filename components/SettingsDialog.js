@@ -40,7 +40,7 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
         const wakeupTimeAsText = wakeupTime.format('HH:mm');
         const convertedBackBoxSizeNumber = Number(boxSizeNumber);
         
-        axios.put(serverIP + '/updateProfile', {
+        axios.put('/api/updateProfile', {
             scheduleIndex: (scheduleIndex - 1),
             scheduleID: data[scheduleIndex - 1].id,
             boxSizeUnit,
