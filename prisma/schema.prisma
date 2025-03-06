@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x"]
 }
 
 datasource db {
@@ -13,12 +14,8 @@ datasource db {
 
 model Schedule {
   id                Int               @id @default(autoincrement())
-  boxSizeNumber     Int
-  name              String
-  boxSizeUnit       String
-  endDate           String
-  wakeupTime        String
-  userEmail         String
+  title             String
+  userUUID          String
   goals             Goal[]
   timeboxes         TimeBox[]
   recordedTimeboxes RecordedTimeBox[]
@@ -27,7 +24,11 @@ model Schedule {
 model Goal {
   id         Int       @id @default(autoincrement())
   priority   Int
-  name       String
+  title      String
+  completed  Boolean
+  completedOn DateTime
+  active     Boolean
+  partOfLine Int
   targetDate DateTime
   timeboxes  TimeBox[]
   schedule   Schedule? @relation(fields: [scheduleID], references: [id])
@@ -42,6 +43,7 @@ model TimeBox {
   color             String
   startTime         DateTime          @db.Timestamptz
   endTime           DateTime          @db.Timestamptz
+  goalPercentage    Int
   reoccuring        Reoccuring?       @relation(fields: [reoccuringID], references: [id])
   reoccuringID      Int?
   goal              Goal?             @relation(fields: [goalID], references: [id])
@@ -68,9 +70,11 @@ model RecordedTimeBox {
   scheduleID        Int?
 }
 
-model CompletedHabit {
-  id                Int               @id @default(autoincrement())
-  userEmail         String
-  title             String
-  date              DateTime
+model Profile {
+  userUUID          String  @id
+  boxSizeUnit       String
+  boxSizeNumber     Int
+  wakeupTime        String
+  scheduleID        Int
+  scheduleIndex     Int
 }
