@@ -1,19 +1,22 @@
 import prisma from "@/modules/prismaClient";
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
+  if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const data = req.body;
-    await prisma.timeBox.create({
-      data: data,
+    const data = req.query;
+    console.log(data);
+    const points = await prisma.profile.findUnique({
+      where: {
+        userUUID: data.userUUID,
+      }
     });
-    res.status(200).json({ message: 'TimeBox created successfully' });
+    res.json(points);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
-    console.log(error);
   } finally {
     await prisma.$disconnect();
   }

@@ -23,15 +23,9 @@ export default async function handler(req, res) {
       }
     }
 
-    await prisma.timeBox.delete({
-      where: {
-        id: data.id
-      }
-    });
-
-    res.status(200).json({ message: 'TimeBox deleted successfully' });
+    res.status(200).json({ message: 'Recording cleared successfully' });
   } catch (error) {
-    console.error('Error deleting timebox:', error);
+    console.error('Error clearing recording:', error);
 
     res.status(500).json({ error: 'Internal Server Error' });
   } finally {
