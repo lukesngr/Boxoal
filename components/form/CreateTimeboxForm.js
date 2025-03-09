@@ -42,58 +42,62 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     let transformPercentages = ['25%', '35%', '45%', '55%', '30%', '40%', '50%'];
 
     const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxes, time, date);
+    console.log(goalSelected);
 
     function handleSubmit() {
-        if (goalSelected === -1) {
+        if (goalSelected == -1) {
             setAlert({
                 open: true,
                 title: "Error",
                 message: "Please create a goal before creating a timebox"
             });
             return;
-        }
+        }else{
 
-        let startTime = convertToDayjs(time, date).utc().format();
-        let endTime = convertToDayjs(addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes), date).utc().format();
-        let color = listOfColors[Math.floor(Math.random() * listOfColors.length)];
+            console.log(goalSelected)
 
-        let data = {
-            title,
-            description,
-            startTime,
-            endTime,
-            numberOfBoxes: parseInt(numberOfBoxes),
-            color,
-            schedule: { connect: { id: scheduleID } },
-            goal: { connect: { id: parseInt(goalSelected) } },
-            goalPercentage: parseInt(goalPercentage)
-        };
+            let startTime = convertToDayjs(time, date).utc().format();
+            let endTime = convertToDayjs(addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes), date).utc().format();
+            let color = listOfColors[Math.floor(Math.random() * listOfColors.length)];
 
-        if (reoccurFrequency === "weekly") {
-            data["reoccuring"] = { create: { reoccurFrequency: "weekly", weeklyDay: weeklyDay } };
-        } else if (reoccurFrequency === "daily") {
-            data["reoccuring"] = { create: { reoccurFrequency: "daily" } };
-        }
+            let data = {
+                title,
+                description,
+                startTime,
+                endTime,
+                numberOfBoxes: parseInt(numberOfBoxes),
+                color,
+                schedule: { connect: { id: scheduleID } },
+                goal: { connect: { id: parseInt(goalSelected) } },
+                goalPercentage: parseInt(goalPercentage)
+            };
 
-        axios.post('/api/createTimebox', data)
-            .then(async () => {
-                close();
-                setAlert({
-                    open: true,
-                    title: "Timebox",
-                    message: "Added timebox!"
+            if (reoccurFrequency === "weekly") {
+                data["reoccuring"] = { create: { reoccurFrequency: "weekly", weeklyDay: weeklyDay } };
+            } else if (reoccurFrequency === "daily") {
+                data["reoccuring"] = { create: { reoccurFrequency: "daily" } };
+            }
+
+            axios.post('/api/createTimebox', data)
+                .then(async () => {
+                    close();
+                    setAlert({
+                        open: true,
+                        title: "Timebox",
+                        message: "Added timebox!"
+                    });
+                    await queryClient.refetchQueries();
+                })
+                .catch(function(error) {
+                    close();
+                    setAlert({
+                        open: true,
+                        title: "Error",
+                        message: "An error occurred, please try again or contact the developer"
+                    });
+                    console.log(error);
                 });
-                await queryClient.refetchQueries();
-            })
-            .catch(function(error) {
-                close();
-                setAlert({
-                    open: true,
-                    title: "Error",
-                    message: "An error occurred, please try again or contact the developer"
-                });
-                console.log(error);
-            });
+        }
     }
 
     function safeSetNumberOfBoxes(number) {
