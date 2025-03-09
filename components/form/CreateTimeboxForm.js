@@ -94,6 +94,11 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                     });
                     console.log(error);
                 });
+
+            setTitle('');
+            setDescription('');
+            setNumberOfBoxes('0');
+            
         }
     }
 
