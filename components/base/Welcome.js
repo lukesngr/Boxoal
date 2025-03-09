@@ -36,13 +36,9 @@ export default function Welcome() {
                 subheader="Tutorial video"
             />
             <CardContent>
-                <div
-                    style={{
-                        width: '600px',
-                        height: '400px',
-                        backgroundColor: 'black',
-                    }}
-                />
+                <video controls width="600">
+                    <source src="/tutorial.mp4" type="video/mp4" />
+                </video>
             </CardContent>
             <CardHeader
                 title="Instructions"
