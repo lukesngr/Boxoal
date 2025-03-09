@@ -29,7 +29,7 @@ export default function MySchedulesWhenAuthLoaded({user}) {
 
     if(status === 'loading') return <Loading />
     if(status === 'error') return <p>Error: {error.message}</p>
-    return <Welcome></Welcome>
+    if(data.length == 0) return <Welcome></Welcome>
 
     return (<>
         <SignedInNav username={username} />
