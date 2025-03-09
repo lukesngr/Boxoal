@@ -42,7 +42,6 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     let transformPercentages = ['25%', '35%', '45%', '55%', '30%', '40%', '50%'];
 
     const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxes, time, date);
-    console.log(goalSelected);
 
     function handleSubmit() {
         if (goalSelected == -1) {
@@ -53,8 +52,6 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             });
             return;
         }else{
-
-            console.log(goalSelected)
 
             let startTime = convertToDayjs(time, date).utc().format();
             let endTime = convertToDayjs(addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes), date).utc().format();
