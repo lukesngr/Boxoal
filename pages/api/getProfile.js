@@ -7,7 +7,6 @@ export default async function handler(req, res) {
 
   try {
     const data = req.query;
-    console.log(data);
     const points = await prisma.profile.findUnique({
       where: {
         userUUID: data.userUUID,
