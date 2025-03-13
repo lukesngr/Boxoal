@@ -14,9 +14,10 @@ import Loading from "./Loading";
 export default function MySchedulesWhenAuthLoaded({user}) {
     const dispatch = useDispatch();
     let {userId, username} = user;
+    let placeholderWhileScheduleLoading = [{title: "No schedules found", goals: [], recordedTimeboxes: [], timeboxes: []}];
     useProfile(userId, dispatch);
 
-    const {status, data, error, refetch} = useQuery({
+    let {status, data, error, refetch} = useQuery({
         queryKey: ["schedule"], 
         queryFn: async () => {
             const response = await axios.get("/api/getSchedules", { params: {
@@ -27,7 +28,7 @@ export default function MySchedulesWhenAuthLoaded({user}) {
         enabled: true
     })
 
-    if(status === 'loading') return <Loading />
+    if(status === 'loading') {data = placeholderWhileScheduleLoading;}
     if(status === 'error') return <p>Error: {error.message}</p>
     if(data.length == 0) return <Welcome></Welcome>
 
