@@ -1,7 +1,4 @@
 import { useContext, useState } from "react";
-import { ScheduleContext } from "../schedule/ScheduleContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar, faCog } from "@fortawesome/free-solid-svg-icons";
 import { StaticDatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';

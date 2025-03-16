@@ -1,9 +1,6 @@
 import '../../styles/schedulessidebar.scss';
 
-import CreateScheduleModal from '../modal/CreateScheduleModal';
 import { useContext, useEffect, useState } from 'react';
-import { ScheduleContext } from '../schedule/ScheduleContext';
-import ScheduleSidebarButton from './ScheduleSidebarButton';
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight, faWindowMinimize } from '@fortawesome/free-solid-svg-icons';
