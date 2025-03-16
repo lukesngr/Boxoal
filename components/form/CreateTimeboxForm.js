@@ -77,6 +77,9 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
 
             axios.post('/api/createTimebox', data)
                 .then(async () => {
+                    setTitle('');
+                    setDescription('');
+                    setNumberOfBoxes('0');
                     close();
                     setAlert({
                         open: true,
@@ -86,6 +89,9 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                     await queryClient.refetchQueries();
                 })
                 .catch(function(error) {
+                    setTitle('');
+                    setDescription('');
+                    setNumberOfBoxes('0');
                     close();
                     setAlert({
                         open: true,
@@ -95,9 +101,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                     console.log(error);
                 });
 
-            setTitle('');
-            setDescription('');
-            setNumberOfBoxes('0');
+            
             
         }
     }
