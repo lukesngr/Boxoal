@@ -52,6 +52,7 @@ model TimeBox {
   schedule          Schedule?         @relation(fields: [scheduleID], references: [id])
   scheduleID        Int?
   recordedTimeBoxes RecordedTimeBox[]
+  isTimeblock       Boolean?
 }
 
 model Reoccuring {
