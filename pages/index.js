@@ -22,7 +22,11 @@ export default function Home() {
     if(authStatus == 'configuring' || authStatus == "idle") {
              return <Loading />
     }else if(authStatus == "authenticated") {
+        if(user.userId) {
             return <Dashboard user={user} />
+        }else{
+            router.reload();
+        }
     }else if(authStatus == "unauthenticated") {
         return (
             <>
