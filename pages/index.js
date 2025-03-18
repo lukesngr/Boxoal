@@ -19,16 +19,14 @@ export default function Home() {
         context.user,
       ]);
 
-    useEffect(() => {
-        if(authStatus == "authenticated" && user.userId == undefined) {
-            router.reload();
-        }
-    }, [authStatus, user]);
-
     if(authStatus == 'configuring' || authStatus == "idle") {
              return <Loading />
     }else if(authStatus == "authenticated") {
+        if(typeof user === "undefined") {
+            router.reload();
+        }else{
             return <Dashboard user={user} />
+        }
     }else if(authStatus == "unauthenticated") {
         return (
             <>
