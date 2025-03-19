@@ -53,7 +53,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     }
 
     function handleSubmit() {
-        if (goalSelected == -1) {
+        if (goalSelected == -1 && !isTimeblock) {
             setAlert({
                 open: true,
                 title: "Error",
@@ -64,7 +64,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
 
             let startTime = convertToDayjs(time, date).utc().format();
             let endTime = convertToDayjs(addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes), date).utc().format();
-            let color = listOfColors[Math.floor(Math.random() * listOfColors.length)];
+            let color = isTimeblock ? ('black') : (listOfColors[Math.floor(Math.random() * listOfColors.length)]);
 
             let data = {
                 title,
