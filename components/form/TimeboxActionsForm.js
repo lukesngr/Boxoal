@@ -109,7 +109,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                         <Button onClick={closeModal} sx={{ color: 'white' }}>
                             Close
                         </Button>
-                        {noPreviousRecording && timeboxIsntRecording && (
+                        {noPreviousRecording && timeboxIsntRecording && !data.isTimeblock && (
                             <>
                                 <Button
                                     onClick={() => setManualEntryModalShown(true)}
@@ -143,7 +143,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                                 </Button>
                             </>
                         )}
-                        {noPreviousRecording && timeboxIsRecording && (
+                        {noPreviousRecording && timeboxIsRecording && !data.isTimeblock && (
                             <Button
                                 onClick={stopRecording}
                                 variant="contained"
