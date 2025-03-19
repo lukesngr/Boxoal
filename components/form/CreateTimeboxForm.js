@@ -74,9 +74,13 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                 numberOfBoxes: parseInt(numberOfBoxes),
                 color,
                 schedule: { connect: { id: scheduleID } },
-                goal: { connect: { id: parseInt(goalSelected) } },
+                
                 goalPercentage: parseInt(goalPercentage)
             };
+
+            if (!isTimeblock) {
+                data["goal"] = { connect: { id: goalSelected } };
+            }
 
             if (reoccurFrequency === "weekly") {
                 data["reoccuring"] = { create: { reoccurFrequency: "weekly", weeklyDay: weeklyDay } };
