@@ -137,6 +137,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                 }
             }}
             hideBackdrop={true}
+            disableScrollLock={true}
         >
             <DialogTitle sx={{ color: 'white' }}>Create Timebox</DialogTitle>
             <DialogContent>
