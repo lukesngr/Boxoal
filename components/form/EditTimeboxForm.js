@@ -47,7 +47,10 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxes, time, date);
 
     function closeModal() {
-        dispatch({ type: 'modalVisible/set', payload: { visible: false, props: {} } });
+        setTitle('');
+        setDescription('');
+        setNumberOfBoxes('0');
+        back();
     }
 
     function updateTimeBox() {
@@ -60,9 +63,12 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
             startTime: data.startTime,
             endTime,
             numberOfBoxes: parseInt(numberOfBoxes),
-            goal: { connect: { id: parseInt(goalSelected) } },
             goalPercentage: parseInt(goalPercentage)
         };
+
+        if (!data.isTimeblock) {
+            data["goal"] = { connect: { id: goalSelected } };
+        }
 
         if (reoccurFrequency === "weekly") {
             updateData["reoccuring"] = { create: { reoccurFrequency: "weekly", weeklyDay: parseInt(weeklyDay) } };
@@ -192,7 +198,7 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
                         sx={muiInputStyle}
                     />
 
-                    <FormControl variant="standard" sx={muiFormControlStyle}>
+                    {data.isTimeblock && <FormControl variant="standard" sx={muiFormControlStyle}>
                         <InputLabel>Goal</InputLabel>
                         <Select
                             value={goalSelected}
@@ -213,7 +219,7 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
                                     )
                             }})}
                         </Select>
-                    </FormControl>
+                    </FormControl>}
 
                     <FormControl variant="standard" sx={muiFormControlStyle}>
                         <InputLabel>Reoccurring</InputLabel>
@@ -255,17 +261,17 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
                         </FormControl>
                     )}
 
-                    <TextField
+                    {data.isTimeblock && <TextField
                         label="Percentage of Goal"
                         value={goalPercentage}
                         onChange={(e) => setGoalPercentage(e.target.value)}
                         variant="standard"
                         sx={muiInputStyle}
-                    />
+                    />}
                 </div>
             </DialogContent>
             <DialogActions>
-                <Button onClick={back} sx={{ color: 'white' }}>
+                <Button onClick={closeModal} sx={{ color: 'white' }}>
                     Back
                 </Button>
                 <Button
