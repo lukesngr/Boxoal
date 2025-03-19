@@ -198,7 +198,7 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
                         sx={muiInputStyle}
                     />
 
-                    {data.isTimeblock && <FormControl variant="standard" sx={muiFormControlStyle}>
+                    {!data.isTimeblock && <FormControl variant="standard" sx={muiFormControlStyle}>
                         <InputLabel>Goal</InputLabel>
                         <Select
                             value={goalSelected}
@@ -261,7 +261,7 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
                         </FormControl>
                     )}
 
-                    {data.isTimeblock && <TextField
+                    {!data.isTimeblock && <TextField
                         label="Percentage of Goal"
                         value={goalPercentage}
                         onChange={(e) => setGoalPercentage(e.target.value)}
