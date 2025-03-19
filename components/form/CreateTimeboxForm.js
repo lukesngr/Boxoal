@@ -74,6 +74,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                 numberOfBoxes: parseInt(numberOfBoxes),
                 color,
                 schedule: { connect: { id: scheduleID } },
+                isTimeblock,
                 
                 goalPercentage: parseInt(goalPercentage)
             };
