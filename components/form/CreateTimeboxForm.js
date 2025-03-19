@@ -45,6 +45,13 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
 
     const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxes, time, date);
 
+    function closeModal() {
+        setTitle('');
+        setDescription('');
+        setNumberOfBoxes('0');
+        close();
+    }
+
     function handleSubmit() {
         if (goalSelected == -1) {
             setAlert({
@@ -79,10 +86,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
 
             axios.post('/api/createTimebox', data)
                 .then(async () => {
-                    setTitle('');
-                    setDescription('');
-                    setNumberOfBoxes('0');
-                    close();
+                    closeModal();
                     setAlert({
                         open: true,
                         title: "Timebox",
@@ -91,10 +95,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                     await queryClient.refetchQueries();
                 })
                 .catch(function(error) {
-                    setTitle('');
-                    setDescription('');
-                    setNumberOfBoxes('0');
-                    close();
+                    closeModal();
                     setAlert({
                         open: true,
                         title: "Error",
@@ -127,7 +128,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
         <Alert alert={alert} setAlert={setAlert}/>
         <Dialog
             open={visible}
-            onClose={close}
+            onClose={closeModal}
             PaperProps={{
                 style: {
                     backgroundColor: '#C5C27C',
@@ -263,7 +264,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                 </div>
             </DialogContent>
             <DialogActions>
-                <Button onClick={close} sx={{ color: 'white' }}>
+                <Button onClick={closeModal} sx={{ color: 'white' }}>
                     Close
                 </Button>
                 <Button
