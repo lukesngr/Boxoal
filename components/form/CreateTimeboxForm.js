@@ -22,6 +22,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Collapse from '@mui/material/Collapse';
 import { muiFormControlStyle, muiInputStyle } from '@/modules/muiStyles.js';
 import Alert from '../base/Alert.js';
+import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 
 const listOfColors = ["#00E3DD", "#00C5E6", "#00A4E7", "#0081DC", "#1E5ABF", "#348D9D", "#67D6FF"]
 
@@ -33,6 +34,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const activeGoals = goals.filter(goal => goal.active);
     const [description, setDescription] = useState("");
     const [goalSelected, setGoalSelected] = useState(String(activeGoals.length == 0 ? -1 : activeGoals[0].id));
+    const [isTimeblock, setIsTimeBlock] = useState(false);
     
     const [moreOptionsVisible, setMoreOptionsVisible] = useState(false);
     const [reoccurFrequency, setReoccurFrequency] = useState("no");
@@ -138,6 +140,25 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
         >
             <DialogTitle sx={{ color: 'white' }}>Create Timebox</DialogTitle>
             <DialogContent>
+                <ToggleButtonGroup
+                    color="primary"
+                    value={isTimeblock}
+                    exclusive
+                    onChange={(event, newMode) => {console.log(newMode); setIsTimeBlock(newMode)}}
+                    >
+                    <ToggleButton sx={{'&.Mui-selected': { backgroundColor: 'black', color: 'white',  
+                        '&:hover': {
+                            backgroundColor: 'black',
+                            color: 'white',
+                        }, 
+                    }}} value={false}>Timebox</ToggleButton>
+                    <ToggleButton sx={{'&.Mui-selected': { backgroundColor: 'black', color: 'white',  
+                        '&:hover': {
+                            backgroundColor: 'black',
+                            color: 'white',
+                        }, 
+                    }}} value={true}>Timeblock</ToggleButton>
+                </ToggleButtonGroup>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
                     <TextField
                         label="Title"
@@ -166,7 +187,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                         sx={muiInputStyle}
                     />
 
-                    <FormControl variant="standard" sx={muiFormControlStyle}>
+                    {!isTimeblock && <FormControl variant="standard" sx={muiFormControlStyle}>
                         <InputLabel>Goal</InputLabel>
                         <Select
                             value={goalSelected}
@@ -185,7 +206,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                                     )
                             )}
                         </Select>
-                    </FormControl>
+                    </FormControl>}
 
                     <Collapse in={moreOptionsVisible}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -229,13 +250,13 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                                 </FormControl>
                             )}
 
-                            <TextField
+                            {!isTimeblock && <TextField
                                 label="Percentage of Goal"
                                 value={goalPercentage}
                                 onChange={(e) => setGoalPercentage(e.target.value)}
                                 variant="standard"
                                 sx={muiInputStyle}
-                            />
+                            />}
                         </div>
                     </Collapse>
                 </div>
