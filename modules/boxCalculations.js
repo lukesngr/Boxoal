@@ -151,7 +151,7 @@ export function getPercentageOfBoxSizeFilled(boxSizeUnit, boxSizeNumber, startTi
 
 export function filterTimeGridBasedOnSpace(timeGridFilteredByDate, boxSizeUnit, boxSizeNumber, time) {
     let times = Object.keys(timeGridFilteredByDate);
-    let endTime = addBoxesToTime(boxSizeUnit, boxSizeNumber, time, 1, '6/9');
+    let endTime = addBoxesToTime(boxSizeUnit, boxSizeNumber, time, 1, '6/9')[0];
     let filteredTimes = [];
     let i = 0;
     for(i = 0; i < times.length; i++) {
