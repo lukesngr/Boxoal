@@ -88,7 +88,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                     onClose={closeModal}
                     PaperProps={{
                         style: {
-                            backgroundColor: '#C5C27C',
+                            backgroundColor: '#875F9A',
                             borderRadius: '15px'
                         }
                     }}

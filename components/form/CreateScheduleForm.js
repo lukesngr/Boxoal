@@ -49,7 +49,7 @@ export default function CreateScheduleForm({ open, onClose }) {
             onClose={onClose}
             PaperProps={{
                 style: {
-                    backgroundColor: '#C5C27C',
+                    backgroundColor: '#875F9A',
                     borderRadius: '15px'
                 }
             }}

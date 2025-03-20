@@ -18,7 +18,7 @@ export default function TimeboxHeading({data}) {
       palette: {
         mode: 'dark',
         primary: {
-          main: '#C5C27C',
+          main: '#875F9A',
         },
         secondary: {
           main: '#e21919',

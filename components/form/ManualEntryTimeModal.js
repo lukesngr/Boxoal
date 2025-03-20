@@ -63,7 +63,7 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID,
                 onClose={close}
                 PaperProps={{
                     style: {
-                        backgroundColor: '#C5C27C',
+                        backgroundColor: '#875F9A',
                         borderRadius: '15px'
                     }
                 }}

@@ -136,7 +136,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             onClose={closeModal}
             PaperProps={{
                 style: {
-                    backgroundColor: '#C5C27C',
+                    backgroundColor: '#875F9A',
                     borderRadius: '15px',
                     position: 'absolute',
                     left: transformPercentages[day], 

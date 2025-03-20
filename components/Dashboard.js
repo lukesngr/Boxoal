@@ -74,19 +74,19 @@ export default function Dashboard({user}) {
             <div class="container">
                 <div class="row">
                     <div class="col">
-                    <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2 }} className="statPaper" elevation={4}>
+                    <Paper sx={{backgroundColor: '#875F9A', marginTop: 2 }} className="statPaper" elevation={4}>
                         <p>{averageTimeOverBy > 0 ? "Time On Average Recordings Are Over By" : "Time On Average Recordings Are Under By"}</p>
                         <h1>{averageTimeOverBy > 0 ? averageTimeOverBy.toFixed(2) : -averageTimeOverBy.toFixed(2)}min</h1>
                     </Paper>
                     </div>
                     <div class="col">
-                    <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2 }} className="statPaper" elevation={4}>
+                    <Paper sx={{backgroundColor: '#875F9A', marginTop: 2 }} className="statPaper" elevation={4}>
                         <p>{averageTimeStartedOffBy > 0 ? "Time Average Recordings Are Late By" : "Time On Average Recordings Are Early By"}</p>
                         <h1>{averageTimeStartedOffBy > 0 ? averageTimeStartedOffBy.toFixed(2) : -averageTimeStartedOffBy.toFixed(2)}min</h1>
                     </Paper>
                     </div>
                     <div class="col">
-                    <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2 }} className="statPaper" elevation={4}>
+                    <Paper sx={{backgroundColor: '#875F9A', marginTop: 2 }} className="statPaper" elevation={4}>
                         <p>Hours Available In Day</p>
                         <h1>{hoursLeftInDay}hr</h1>
                     </Paper>
@@ -94,7 +94,7 @@ export default function Dashboard({user}) {
                 </div>
                 <div class="row">
                     <div class="col">
-                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} elevation={4}>
+                        <Paper sx={{backgroundColor: '#875F9A', marginTop: 2, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} elevation={4}>
                             <PieChart
                                 colors={['black', '#4fd1cf']}
                                 margin={{ top: 0, bottom: 25, left: 10, right: 10 }}
@@ -119,7 +119,7 @@ export default function Dashboard({user}) {
                         </Paper>
                     </div>
                     <div class="col">
-                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} elevation={4}>
+                        <Paper sx={{backgroundColor: '#875F9A', marginTop: 2, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} elevation={4}>
                             <PieChart
                                 colors={['black', '#4fd1cf']}
                                 margin={{ top: 0, bottom: 25, left: 10, right: 10 }}
@@ -144,7 +144,7 @@ export default function Dashboard({user}) {
                         </Paper>
                     </div>
                     <div class="col">
-                        <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'  }} elevation={4}>
+                        <Paper sx={{backgroundColor: '#875F9A', marginTop: 2, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'  }} elevation={4}>
                             <PieChart
                                 margin={{ top: 0, bottom: 25, left: 10, right: 10 }}
                                 colors={['black', '#4fd1cf']}

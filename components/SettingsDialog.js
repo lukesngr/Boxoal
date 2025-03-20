@@ -72,7 +72,7 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                 onClose={hideDialog}
                 PaperProps={{
                     style: {
-                        backgroundColor: '#C5C27C',
+                        backgroundColor: '#875F9A',
                         borderRadius: '15px'
                     }
                 }}

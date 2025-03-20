@@ -65,7 +65,7 @@ export default function CreateGoalForm(props) {
                 onClose={props.close}
                 PaperProps={{
                     style: {
-                        backgroundColor: '#C5C27C',
+                        backgroundColor: '#875F9A',
                         borderRadius: '15px'
                     }
                 }}
