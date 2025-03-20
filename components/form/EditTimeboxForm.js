@@ -170,7 +170,7 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
                 }
             }}
         >
-            <DialogTitle sx={{ color: 'white' }}>Edit Timebox</DialogTitle>
+            <DialogTitle sx={{ color: 'white' }}>Edit {data.isTimeblock ? "Timeblock" : "Timebox"}</DialogTitle>
             <DialogContent>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
                     <TextField

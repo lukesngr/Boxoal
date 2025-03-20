@@ -12,7 +12,7 @@ export default function NormalTimeBox(props) {
         <TimeboxActionsForm visible={timeboxActionsFormVisible} closeModal={() => setTimeboxActionsFormVisible(false)} data={props.data} date={props.date} time={props.time}></TimeboxActionsForm>
         <div style={{height: '100%'}} onClick={() => setTimeboxActionsFormVisible(true)}>
             <div style={{height: `${calculatedHeight}`, backgroundColor: props.data.color, zIndex: 999, position: 'relative'}} id="timeBox" data-testid="normalTimeBox">    
-                <span className="timeboxText" style={props.data.isTimeblock ? ({color: 'white'}) : ({color: 'white'})}>{props.data.title}</span>
+                <span className="timeboxText" style={props.data.isTimeblock ? ({color: 'white'}) : ({color: 'black'})}>{props.data.title}</span>
             </div>
         </div>
     </>)

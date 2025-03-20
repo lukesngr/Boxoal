@@ -102,7 +102,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                     <DialogTitle sx={{ color: 'white' }}>{data.title}</DialogTitle>
                     <DialogContent>
                         <Typography sx={{ color: 'white' }}>
-                            Actions for "{data.title}" timebox
+                            Actions for "{data.title}" {data.isTimeblock ? "timeblock" : "timebox"}
                         </Typography>
                     </DialogContent>
                     <DialogActions>

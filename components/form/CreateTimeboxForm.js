@@ -91,22 +91,22 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
 
             axios.post('/api/createTimebox', data)
                 .then(async () => {
-                    closeModal();
                     setAlert({
                         open: true,
                         title: "Timebox",
                         message: "Added timebox!"
                     });
                     await queryClient.refetchQueries();
+                    closeModal();
                 })
                 .catch(function(error) {
-                    closeModal();
                     setAlert({
                         open: true,
                         title: "Error",
                         message: "An error occurred, please try again or contact the developer"
                     });
                     console.log(error);
+                    closeModal();
                 });
 
             
@@ -145,7 +145,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             hideBackdrop={true}
             disableScrollLock={true}
         >
-            <DialogTitle sx={{ color: 'white' }}>Create Timebox</DialogTitle>
+            <DialogTitle sx={{ color: 'white' }}>Create {isTimeblock ? "Timeblock" : "Timebox"}</DialogTitle>
             <DialogContent>
                 <ToggleButtonGroup
                     color="primary"
