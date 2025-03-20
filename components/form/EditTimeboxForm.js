@@ -54,7 +54,7 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
     }
 
     function updateTimeBox() {
-        let endTime = convertToDayjs(addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes), date).utc().format();
+        let endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
 
         let updateData = {
             id: data.id,

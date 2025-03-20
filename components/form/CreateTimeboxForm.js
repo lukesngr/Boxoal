@@ -63,7 +63,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
         }else{
 
             let startTime = convertToDayjs(time, date).utc().format();
-            let endTime = convertToDayjs(addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes), date).utc().format();
+            let endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
             let color = isTimeblock ? ('black') : (listOfColors[Math.floor(Math.random() * listOfColors.length)]);
 
             let data = {
