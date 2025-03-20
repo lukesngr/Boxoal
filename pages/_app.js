@@ -24,7 +24,7 @@ export const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#c5c27c',
+      main: '#875F9A',
     },
     secondary: {
       main: '#f50057',
@@ -39,17 +39,16 @@ function BoxAlc({ Component, pageProps: { session, ...pageProps} }) {
   
   return (
     <Authenticator.Provider>
-    <ThemeProvider theme={theme}>
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-      <SessionProvider session={session}>
-          <Component {...pageProps} />
-      </SessionProvider>
-      </Provider>
-      <ReactQueryDevtools />
-      <ToastContainer />
-    </QueryClientProvider>
-    </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          <Provider store={store}>
+            <SessionProvider session={session}>
+                <Component {...pageProps} />
+            </SessionProvider>
+            </Provider>
+          <ToastContainer />
+        </QueryClientProvider>
+      </ThemeProvider>
     </Authenticator.Provider>
   );
 }
