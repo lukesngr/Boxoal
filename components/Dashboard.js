@@ -21,6 +21,7 @@ export default function Dashboard({user}) {
     let recordedTimeboxes = [];
     let averageProgress = 0;
     let goalsCompleted = 0;
+    let hoursLeftInDay = 24;
     useProfile(userId, dispatch);
 
     const {status, data, error, refetch} = useQuery({
@@ -49,15 +50,15 @@ export default function Dashboard({user}) {
         if(dataForSchedule.goals.length != 0) { averageProgress = averageProgress / dataForSchedule.goals.length; }
         recordedTimeboxes = dataForSchedule.recordedTimeboxes;
 
-        let hoursLeftInDay = 24;
+        
         for(let timebox of dataForSchedule.timeboxes) {
-            if(timebox.isTimeblock) {
+            let isSameDate = (new Date(timebox.startTime).getDate() == new Date().getDate()) && (new Date(timebox.startTime).getMonth() == new Date().getMonth()) && (new Date(timebox.startTime).getFullYear() == new Date().getFullYear());
+            let isReoccuringDaily = timebox.reoccuring != null && timebox.reoccuring.reoccurFrequency === "daily";
+            if(timebox.isTimeblock && (isSameDate || isReoccuringDaily)) {
                 let hoursConversionDivider = 3600000;
                 hoursLeftInDay -= ((new Date(timebox.endTime) - new Date(timebox.startTime)) / hoursConversionDivider);
             }   
         }
-        
-        console.log(hoursLeftInDay);
     }
 
     let {averageTimeOverBy, averageTimeStartedOffBy, percentagePredictedStart, percentageCorrectTime, percentageRescheduled} = getStatistics(recordedTimeboxes);
@@ -82,7 +83,12 @@ export default function Dashboard({user}) {
                         <h1>{averageTimeStartedOffBy > 0 ? averageTimeStartedOffBy.toFixed(2) : -averageTimeStartedOffBy.toFixed(2)}min</h1>
                     </Paper>
                     </div>
-                    
+                    <div class="col">
+                    <Paper sx={{backgroundColor: '#C5C27C', marginTop: 2 }} className="statPaper" elevation={4}>
+                        <p>Hours Available In Day</p>
+                        <h1>{hoursLeftInDay}hr</h1>
+                    </Paper>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col">
