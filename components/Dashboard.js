@@ -87,7 +87,7 @@ export default function Dashboard({user}) {
                     </div>
                     <div class="col">
                     <Paper sx={{backgroundColor: '#875F9A', marginTop: 2 }} className="statPaper" elevation={4}>
-                        <p>Hours Available In Day</p>
+                        <p>Hours Available Today</p>
                         <h1>{hoursLeftInDay}hr</h1>
                     </Paper>
                     </div>
