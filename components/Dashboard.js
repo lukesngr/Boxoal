@@ -54,7 +54,9 @@ export default function Dashboard({user}) {
         for(let timebox of dataForSchedule.timeboxes) {
             let isSameDate = (new Date(timebox.startTime).getDate() == new Date().getDate()) && (new Date(timebox.startTime).getMonth() == new Date().getMonth()) && (new Date(timebox.startTime).getFullYear() == new Date().getFullYear());
             let isReoccuringDaily = timebox.reoccuring != null && timebox.reoccuring.reoccurFrequency === "daily";
-            if(timebox.isTimeblock && (isSameDate || isReoccuringDaily)) {
+            let isReoccuringWeeklyAndToday = timebox.reoccuring != null && timebox.reoccuring.reoccurFrequency === "weekly" && timebox.reoccuring.weeklyDay == new Date().getDay();
+            let isReoccuringDailyOrWeeklyAndToday = isReoccuringDaily || isReoccuringWeeklyAndToday;
+            if(timebox.isTimeblock && (isSameDate || isReoccuringDailyOrWeeklyAndToday)) {
                 let hoursConversionDivider = 3600000;
                 hoursLeftInDay -= ((new Date(timebox.endTime) - new Date(timebox.startTime)) / hoursConversionDivider);
             }   
