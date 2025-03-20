@@ -104,8 +104,9 @@ export function calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber
     return maxNumberOfBoxes;
 }
 
-export function addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes) {
+export function addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date) {
     let [timeHours, timeMinutes] = time.split(":").map(function(num) { return parseInt(num); });
+    let [day, month] = date.split("/").map(function(num) { return parseInt(num); });
     let endHours = timeHours;
     let endMinutes = timeMinutes;
 
@@ -116,6 +117,7 @@ export function addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes) 
             if(endMinutes >= 60) {
                 if(endHours == 23) {
                     endHours = 0;
+                    day += 1;
                 }else{
                     endHours += 1;
                 }
@@ -126,14 +128,16 @@ export function addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes) 
         endHours += numberOfBoxes * boxSizeNumber;
         if(endHours >= 24) {
             endHours = endHours - 24;
+            day += 1;
         }
     }
 
-    return `${endHours}:${endMinutes < 10 ? '0' : ''}${endMinutes}`;
+    return [`${endHours}:${endMinutes < 10 ? '0' : ''}${endMinutes}`, `${day}/${month}`];
 }
 
 export function getPercentageOfBoxSizeFilled(boxSizeUnit, boxSizeNumber, startTime, endTime) {
     const minuteConversionDivisor = 60000;
+    console.log(startTime.valueOf(), endTime.valueOf(), startTime, endTime);
     let minutesOfTimeBox = (endTime.valueOf() - startTime.valueOf()) / minuteConversionDivisor;
     let percentageOfBoxSizeFilled =  0;
 
