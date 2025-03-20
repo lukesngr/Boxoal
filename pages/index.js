@@ -23,7 +23,7 @@ export default function Home() {
              return <Loading />
     }else if(authStatus == "authenticated") {
         if(typeof user === "undefined") {
-            router.reload();
+            router.reload(); //shit hacky fix to problem with amazon cognito
         }else{
             return <Dashboard user={user} />
         }
