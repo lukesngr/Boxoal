@@ -48,6 +48,16 @@ export default function Dashboard({user}) {
         }
         if(dataForSchedule.goals.length != 0) { averageProgress = averageProgress / dataForSchedule.goals.length; }
         recordedTimeboxes = dataForSchedule.recordedTimeboxes;
+
+        let hoursLeftInDay = 24;
+        for(let timebox of dataForSchedule.timeboxes) {
+            if(timebox.isTimeblock) {
+                let hoursConversionDivider = 3600000;
+                hoursLeftInDay -= ((new Date(timebox.endTime) - new Date(timebox.startTime)) / hoursConversionDivider);
+            }   
+        }
+        
+        console.log(hoursLeftInDay);
     }
 
     let {averageTimeOverBy, averageTimeStartedOffBy, percentagePredictedStart, percentageCorrectTime, percentageRescheduled} = getStatistics(recordedTimeboxes);
