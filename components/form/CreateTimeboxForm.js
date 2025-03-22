@@ -9,6 +9,7 @@ import { dayToName } from '../../modules/dateCode.js';
 import { convertToDayjs } from '../../modules/formatters.js';
 import { calculateMaxNumberOfBoxes, addBoxesToTime } from '@/modules/boxCalculations.js';
 
+import Stack from '@mui/material/Stack';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -38,7 +39,8 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     
     const [moreOptionsVisible, setMoreOptionsVisible] = useState(false);
     const [reoccuring, setReoccuring] = useState(false);
-    const [weeklyDay, setWeeklyDay] = useState('0');
+    const [startOfDayRange, setStartOfDayRange] = useState('0');
+    const [endOfDayRange, setEndOfDayRange] = useState('6');
     const [goalPercentage, setGoalPercentage] = useState('0');
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     let transformPercentages = ['35%', '45%', '55%', '65%', '40%', '50%', '55%'];
@@ -217,7 +219,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
 
                     <Collapse in={moreOptionsVisible}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                            <FormControl variant="standard" sx={muiFormControlStyle}>
+                            <FormControl variant="standard" sx={{...muiFormControlStyle, flexGrow: 1}}>
                                 <InputLabel>Reoccurring</InputLabel>
                                 <Select
                                     value={reoccuring}
@@ -235,26 +237,47 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                             </FormControl>
 
                             {reoccuring && (
-                                <FormControl variant="standard" sx={muiFormControlStyle}>
-                                    <InputLabel>Reoccurring Day</InputLabel>
-                                    <Select
-                                        value={weeklyDay}
-                                        onChange={(e) => setWeeklyDay(e.target.value)}
-                                        sx={{
-                                            backgroundColor: 'white',
-                                            '& .MuiInput-underline:before': {
-                                                borderBottomColor: 'black'
-                                            }
-                                        }}
-                                    >
-                                        {dayToName.map((day, index) => (
-                                            <MenuItem key={index} value={index}>
-                                                {day}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            )}
+                                <Stack direction="row" spacing={2}>
+                                    <FormControl variant="standard" sx={muiFormControlStyle}>
+                                        <InputLabel>Start Day</InputLabel>
+                                        <Select
+                                            value={startOfDayRange}
+                                            onChange={(e) => setStartOfDayRange(e.target.value)}
+                                            sx={{
+                                                backgroundColor: 'white',
+                                                '& .MuiInput-underline:before': {
+                                                    borderBottomColor: 'black'
+                                                }
+                                            }}
+                                        >
+                                            {dayToName.map((day, index) => (
+                                                <MenuItem key={index} value={index}>
+                                                    {day}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                    <p>to</p>
+                                    <FormControl variant="standard" sx={{ ...muiFormControlStyle, flexGrow: 1 }}>
+                                        <InputLabel>End Day</InputLabel>
+                                        <Select
+                                            value={endOfDayRange}
+                                            onChange={(e) => setEndOfDayRange(e.target.value)}
+                                            sx={{
+                                                backgroundColor: 'white',
+                                                '& .MuiInput-underline:before': {
+                                                    borderBottomColor: 'black'
+                                                }
+                                            }}
+                                        >
+                                            {dayToName.map((day, index) => (
+                                                <MenuItem key={index} value={index}>
+                                                    {day}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Stack>)}
 
                             {!isTimeblock && <TextField
                                 label="Percentage of Goal"
