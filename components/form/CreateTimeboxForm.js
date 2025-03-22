@@ -37,7 +37,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const [isTimeblock, setIsTimeBlock] = useState(false);
     
     const [moreOptionsVisible, setMoreOptionsVisible] = useState(false);
-    const [reoccurFrequency, setReoccurFrequency] = useState("no");
+    const [reoccuring, setReoccuring] = useState(false);
     const [weeklyDay, setWeeklyDay] = useState('0');
     const [goalPercentage, setGoalPercentage] = useState('0');
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
@@ -220,8 +220,8 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                             <FormControl variant="standard" sx={muiFormControlStyle}>
                                 <InputLabel>Reoccurring</InputLabel>
                                 <Select
-                                    value={reoccurFrequency}
-                                    onChange={(e) => setReoccurFrequency(e.target.value)}
+                                    value={reoccuring}
+                                    onChange={(e) => setReoccuring(e.target.value)}
                                     sx={{
                                         backgroundColor: 'white',
                                         '& .MuiInput-underline:before': {
@@ -229,13 +229,12 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                                         }
                                     }}
                                 >
-                                    <MenuItem value="no">No</MenuItem>
-                                    <MenuItem value="daily">Daily</MenuItem>
-                                    <MenuItem value="weekly">Weekly</MenuItem>
+                                    <MenuItem value={false}>No</MenuItem>
+                                    <MenuItem value={true}>Yes</MenuItem>
                                 </Select>
                             </FormControl>
 
-                            {reoccurFrequency === 'weekly' && (
+                            {reoccuring && (
                                 <FormControl variant="standard" sx={muiFormControlStyle}>
                                     <InputLabel>Reoccurring Day</InputLabel>
                                     <Select
