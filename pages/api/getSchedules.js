@@ -52,8 +52,8 @@ export default async function handler(req, res) {
                 reoccuring: {
                   select: {
                     id: true,
-                    reoccurFrequency: true,
-                    weeklyDay: true
+                    startOfDayRange: true,
+                    endOfDayRange: true,
                   }
                 },
                 goalPercentage: true,
@@ -93,8 +93,8 @@ export default async function handler(req, res) {
             reoccuring: {
               select: {
                 id: true,
-                reoccurFrequency: true,
-                weeklyDay: true
+                startOfDayRange: true,
+                endOfDayRange: true,
               }
             },
             goalPercentage: true
