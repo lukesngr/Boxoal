@@ -24,7 +24,7 @@ export default function Timebox(props) {
     let marginFromTop = 0;
     let numberOfBoxesInSpace = 0;
     let boxesInsideSpace = [];
-
+    
     if(timeboxGrid) { 
         if(timeboxGrid[date]) {
             boxesInsideSpace = filterTimeGridBasedOnSpace(timeboxGrid[date], profile.boxSizeUnit, profile.boxSizeNumber, props.time);
