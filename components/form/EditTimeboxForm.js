@@ -59,11 +59,11 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
         };
 
         if(!data.isTimeblock) {
-            data["goal"] = { connect: { id: goalSelected } };
+            updateData["goal"] = { connect: { id: goalSelected } };
         }
 
         if(reoccuring) {
-            data["reoccuring"] = { create: { startOfDayRange, endOfDayRange } };
+            updateData["reoccuring"] = { create: { startOfDayRange, endOfDayRange } };
         } 
 
         axios.put('/api/updateTimeBox', updateData)
