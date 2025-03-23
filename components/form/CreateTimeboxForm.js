@@ -23,7 +23,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Collapse from '@mui/material/Collapse';
 import { muiFormControlStyle, muiInputStyle } from '@/modules/muiStyles.js';
 import Alert from '../base/Alert.js';
-import { ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { ToggleButton, ToggleButtonGroup, Slider, Typography } from '@mui/material';
 
 const listOfColors = ["#00E3DD", "#00C5E6", "#00A4E7", "#0081DC", "#1E5ABF", "#348D9D", "#67D6FF"]
 
@@ -114,21 +114,6 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
         }
     }
 
-    function safeSetNumberOfBoxes(number) {
-        let amountOfBoxes;
-        try {
-            amountOfBoxes = Number(number);
-        } catch(e) {
-            amountOfBoxes = 1;
-        }
-
-        if (amountOfBoxes > maxNumberOfBoxes) {
-            setNumberOfBoxes('1');
-        } else {
-            setNumberOfBoxes(String(amountOfBoxes));
-        }
-    }
-
     return (<>
         <Alert alert={alert} setAlert={setAlert}/>
         <Dialog
@@ -184,15 +169,17 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                         data-testid="createTimeboxDescription"
                         sx={muiInputStyle}
                     />
+                    <div>
+                    <Typography sx={{color: 'white'}}>Number Of Boxes</Typography>
 
-                    <TextField
-                        label="Number of Boxes"
-                        value={numberOfBoxes}
-                        onChange={(e) => safeSetNumberOfBoxes(e.target.value)}
-                        variant="standard"
-                        data-testid="createTimeboxBoxes"
-                        sx={muiInputStyle}
+                    <Slider value={parseInt(numberOfBoxes)} 
+                            onChange={(e) => setNumberOfBoxes(e.target.value)}
+                            min={0}
+                            max={maxNumberOfBoxes}
+                            valueLabelDisplay="auto"
+                            sx={{ color: 'white' }}
                     />
+                    </div>
 
                     {!isTimeblock && <FormControl variant="standard" sx={muiFormControlStyle}>
                         <InputLabel>Goal</InputLabel>
