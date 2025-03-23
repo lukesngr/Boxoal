@@ -11,6 +11,6 @@ export default function useTimeboxGridRedux(schedule, selectedDate) {
     
     useEffect(() => {
         dispatch({type: 'timeboxGrid/set', payload: generateTimeBoxGrid(schedule, selectedDate)});
-    }, [schedule]);
+    }, [schedule, selectedDate]);
 
 }
