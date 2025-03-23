@@ -217,7 +217,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
 
                     <Collapse in={moreOptionsVisible}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                            <FormControl variant="standard" sx={{...muiFormControlStyle, flexGrow: 1}}>
+                            <FormControl variant="standard" sx={muiFormControlStyle}>
                                 <InputLabel>Reoccurring</InputLabel>
                                 <Select
                                     value={reoccuring}
@@ -236,7 +236,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
 
                             {reoccuring && (
                                 <Stack direction="row" spacing={2}>
-                                    <FormControl variant="standard" sx={muiFormControlStyle}>
+                                    <FormControl variant="standard" sx={{ ...muiFormControlStyle, flexGrow: 1 }}>
                                         <InputLabel>Start Day</InputLabel>
                                         <Select
                                             value={startOfDayRange}
