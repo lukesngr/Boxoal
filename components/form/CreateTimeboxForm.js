@@ -31,6 +31,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const dispatch = useDispatch();
     const { scheduleID, wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
     const { timeboxes, goals } = useSelector(state => state.scheduleData.value);
+    const timeboxGrid = useSelector(state => state.timeboxGrid.value);
     
     const activeGoals = goals.filter(goal => goal.active);
     const [description, setDescription] = useState("");
@@ -45,7 +46,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     let transformPercentages = ['35%', '45%', '55%', '65%', '40%', '50%', '55%'];
 
-    const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxes, time, date);
+    const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
 
     function closeModal() {
         setTitle('');

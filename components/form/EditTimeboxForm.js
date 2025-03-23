@@ -32,12 +32,13 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
     const [goalPercentage, setGoalPercentage] = useState(String(data.goalPercentage));
     const [startOfDayRange, setStartOfDayRange] = useState(0);
     const [endOfDayRange, setEndOfDayRange] = useState(6);
+    const timeboxGrid = useSelector(state => state.timeboxGrid.value);
 
     const {wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
     const { timeboxes, goals } = useSelector(state => state.scheduleData.value);
 
     let [time, date] = convertToTimeAndDate(data.startTime);
-    let maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxes, time, date);
+    let maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
 
     function closeModal() {
         setTitle('');
