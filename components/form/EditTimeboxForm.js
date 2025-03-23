@@ -5,6 +5,7 @@ import serverIP from "../../modules/serverIP";
 import { queryClient } from '../../modules/queryClient.js';
 import { convertToTimeAndDate, convertToDayjs } from "../../modules/formatters.js";
 import { addBoxesToTime, calculateMaxNumberOfBoxes } from "../../modules/boxCalculations.js";
+import { Slider } from "@mui/material";
 import { dayToName } from "../../modules/dateCode";
 import { Stack } from "@mui/material";
 import Dialog from '@mui/material/Dialog';
@@ -128,22 +129,7 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
                 console.log(error);
             });
     }
-
-    function safeSetNumberOfBoxes(number) {
-        let amountOfBoxes;
-        try {
-            amountOfBoxes = Number(number);
-        } catch(e) {
-            amountOfBoxes = 1;
-        }
-
-        if (amountOfBoxes > maxNumberOfBoxes) {
-            setNumberOfBoxes('1');
-        } else {
-            setNumberOfBoxes(String(amountOfBoxes));
-        }
-    }
-
+    
     return (<>
         <Alert alert={alert} setAlert={setAlert}/>
         <Dialog
@@ -159,6 +145,17 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
             <DialogTitle sx={{ color: 'white' }}>Edit {data.isTimeblock ? "Timeblock" : "Timebox"}</DialogTitle>
             <DialogContent>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
+                    <div>
+                        <Typography sx={{color: 'white'}}>Number Of Boxes</Typography>
+
+                        <Slider value={parseInt(numberOfBoxes)} 
+                                onChange={(e) => setNumberOfBoxes(e.target.value)}
+                                min={0}
+                                max={maxNumberOfBoxes}
+                                valueLabelDisplay="auto"
+                                sx={{ color: 'white', marginLeft: '10px', width: '90%' }}
+                        />
+                    </div>
                     <TextField
                         label="Title"
                         value={title}
@@ -172,14 +169,6 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
                         label="Description"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        variant="standard"
-                        sx={muiInputStyle}
-                    />
-
-                    <TextField
-                        label="Number of Boxes"
-                        value={numberOfBoxes}
-                        onChange={(e) => safeSetNumberOfBoxes(e.target.value)}
                         variant="standard"
                         sx={muiInputStyle}
                     />
