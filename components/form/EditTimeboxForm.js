@@ -5,7 +5,7 @@ import serverIP from "../../modules/serverIP";
 import { queryClient } from '../../modules/queryClient.js';
 import { convertToTimeAndDate, convertToDayjs } from "../../modules/formatters.js";
 import { addBoxesToTime, calculateMaxNumberOfBoxes } from "../../modules/boxCalculations.js";
-import { Slider } from "@mui/material";
+import { Slider, Typography } from "@mui/material";
 import { dayToName } from "../../modules/dateCode";
 import { Stack } from "@mui/material";
 import Dialog from '@mui/material/Dialog';
@@ -129,7 +129,7 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
                 console.log(error);
             });
     }
-    
+
     return (<>
         <Alert alert={alert} setAlert={setAlert}/>
         <Dialog

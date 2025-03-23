@@ -39,8 +39,8 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     
     const [moreOptionsVisible, setMoreOptionsVisible] = useState(false);
     const [reoccuring, setReoccuring] = useState(false);
-    const [startOfDayRange, setStartOfDayRange] = useState('0');
-    const [endOfDayRange, setEndOfDayRange] = useState('6');
+    const [startOfDayRange, setStartOfDayRange] = useState(0);
+    const [endOfDayRange, setEndOfDayRange] = useState(6);
     const [goalPercentage, setGoalPercentage] = useState('0');
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     let transformPercentages = ['35%', '45%', '55%', '65%', '40%', '50%', '55%'];
