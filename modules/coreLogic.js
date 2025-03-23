@@ -32,16 +32,13 @@ export function generateTimeBoxGrid(schedule, selectedDate) {
     schedule.timeboxes.forEach(function (element) { //for each timebox
         const [time, date] = convertToTimeAndDate(element.startTime); //convert the datetime to a time and date e.g. format hh:mm dd/mm
         if(element.reoccuring != null) {
-            if(element.reoccuring.reoccurFrequency === "daily") {
-                for(let i = 0; i < 7; i++) {
-                    let currentDate = dayjs(selectedDate).day(i).format('D/M');
-                    if (!Object.hasOwn(timeBoxGrid, currentDate)) { timeBoxGrid[currentDate] = {}; } //if date key not in map than set empty map to date key
-                    timeBoxGrid[currentDate][time] = element; //lookup date key and set the map inside it to key of time with value of the element itself
-                }
-            }else if(element.reoccuring.reoccurFrequency === "weekly") {
-                let currentDate = dayjs(selectedDate).day(element.reoccuring.weeklyDay).format('D/M');
+            let startOfDayRange = element.reoccuring.startOfDayRange < element.reoccuring.endOfDayRange ? element.reoccuring.startOfDayRange : element.reoccuring.endOfDayRange;
+            let endOfDayRange = element.reoccuring.startOfDayRange < element.reoccuring.endOfDayRange ? element.reoccuring.endOfDayRange : element.reoccuring.startOfDayRange;
+             while(startOfDayRange <= endOfDayRange) {
+                let currentDate = dayjs(selectedDate).day(startOfDayRange).format('D/M');
                 if (!Object.hasOwn(timeBoxGrid, currentDate)) { timeBoxGrid[currentDate] = {}; } //if date key not in map than set empty map to date key
                 timeBoxGrid[currentDate][time] = element; //lookup date key and set the map inside it to key of time with value of the element itself
+                startOfDayRange++;
             }
         }else{
             if(!Object.hasOwn(timeBoxGrid, date)) { timeBoxGrid[date] = {}; } //if date key not in map than set empty map to date key
