@@ -137,7 +137,6 @@ export function addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, 
 
 export function getPercentageOfBoxSizeFilled(boxSizeUnit, boxSizeNumber, startTime, endTime) {
     const minuteConversionDivisor = 60000;
-    console.log(startTime.valueOf(), endTime.valueOf(), startTime, endTime);
     let minutesOfTimeBox = (endTime.valueOf() - startTime.valueOf()) / minuteConversionDivisor;
     let percentageOfBoxSizeFilled =  0;
 
