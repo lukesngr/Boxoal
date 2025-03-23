@@ -85,11 +85,9 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                 data["goal"] = { connect: { id: goalSelected } };
             }
 
-            if (reoccurFrequency === "weekly") {
-                data["reoccuring"] = { create: { reoccurFrequency: "weekly", weeklyDay: weeklyDay } };
-            } else if (reoccurFrequency === "daily") {
-                data["reoccuring"] = { create: { reoccurFrequency: "daily" } };
-            }
+            if (reoccuring) {
+                data["reoccuring"] = { create: { startOfDayRange, endOfDayRange } };
+            } 
 
             axios.post('/api/createTimebox', data)
                 .then(async () => {
