@@ -47,7 +47,7 @@ export default function TimeboxHeading({data}) {
                   </IconButton>}
                 {datePickerVisible && <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <ThemeProvider theme={theme}>
-                        <StaticDatePicker sx={{position: "absolute", zIndex: 999, left: '50%'}} displayStaticWrapperAs="desktop"
+                        <StaticDatePicker sx={{position: "absolute", zIndex: 1000, left: '50%'}} displayStaticWrapperAs="desktop"
                         openTo="day" value={selectedDate} onChange={(newValue) => {
                           dispatch({type: 'selectedDate/set', payload: newValue})
                           setDatePickerVisible(false);
