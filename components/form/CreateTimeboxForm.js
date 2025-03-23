@@ -152,6 +152,17 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                     }}} value={true}>Timeblock</ToggleButton>
                 </ToggleButtonGroup>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
+                    <div>
+                        <Typography sx={{color: 'white'}}>Number Of Boxes</Typography>
+
+                        <Slider value={parseInt(numberOfBoxes)} 
+                                onChange={(e) => setNumberOfBoxes(e.target.value)}
+                                min={0}
+                                max={maxNumberOfBoxes}
+                                valueLabelDisplay="auto"
+                                sx={{ color: 'white', marginLeft: '10px', width: '90%' }}
+                        />
+                    </div>
                     <TextField
                         label="Title"
                         value={title}
@@ -169,17 +180,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                         data-testid="createTimeboxDescription"
                         sx={muiInputStyle}
                     />
-                    <div>
-                    <Typography sx={{color: 'white'}}>Number Of Boxes</Typography>
-
-                    <Slider value={parseInt(numberOfBoxes)} 
-                            onChange={(e) => setNumberOfBoxes(e.target.value)}
-                            min={0}
-                            max={maxNumberOfBoxes}
-                            valueLabelDisplay="auto"
-                            sx={{ color: 'white' }}
-                    />
-                    </div>
+                   
 
                     {!isTimeblock && <FormControl variant="standard" sx={muiFormControlStyle}>
                         <InputLabel>Goal</InputLabel>
