@@ -82,22 +82,27 @@ export function calculateRemainderTimeBetweenTwoTimes(time1, time2, boxSizeUnit,
 
 }
 
-export function calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxes, time, date) {
+export function calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date) {
+    let timeSeparated = time.split(":").map(function(num) { return parseInt(num); });
+    let wakeUpTimeSeparated = wakeupTime.split(":").map(function(num) { return parseInt(num); });
     let currentTime = convertToDayjs(time, date);
     let maxNumberOfBoxes = 0;
-
-    for(let i = 0; i < timeboxes.length; i++) { //for each time box
-        let timeboxStartTime = dayjs(timeboxes[i].startTime);
-
-        if(currentTime.isBefore(timeboxStartTime)) { //if timebox occurs after the time of a timebox
-            maxNumberOfBoxes = calculateBoxesBetweenTwoTimes(currentTime, timeboxStartTime, boxSizeUnit, boxSizeNumber);
-            break;
+    
+    if(Object.hasOwn(timeboxGrid, date)) {
+        let times = Object.keys(timeboxGrid[date]);
+        console.log(times, timeSeparated);
+        for(let i = 0; i < times.length; i++) { //for each time box
+            let [gridTimeboxTimeHours, gridTimeboxTimeMinutes] = times[i].split(":").map(function(num) { return parseInt(num); });
+            console.log(timeSeparated, gridTimeboxTimeHours);
+            if(timeSeparated[0] < gridTimeboxTimeHours || (timeSeparated[0] == gridTimeboxTimeHours && timeSeparated[1] < gridTimeboxTimeMinutes)) {
+                maxNumberOfBoxes = calculateBoxesBetweenTwoTimes(currentTime, convertToDayjs(times[i], date), boxSizeUnit, boxSizeNumber);
+                break;
+            }
         }
     }
 
     if(maxNumberOfBoxes <= 0) {
-        let timeSeparated = time.split(":").map(function(num) { return parseInt(num); });
-        let wakeUpTimeSeparated = wakeupTime.split(":").map(function(num) { return parseInt(num); });
+        
         maxNumberOfBoxes = calculateMaxNumberOfBoxesAfterTimeIfEmpty(boxSizeUnit, boxSizeNumber, timeSeparated, wakeUpTimeSeparated);
     }
 
