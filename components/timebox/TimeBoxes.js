@@ -24,7 +24,6 @@ export default function TimeBoxes(props) {
     const gridContainerRef = useRef(null);
     const headerContainerRef = useRef(null);
     const timeboxColumnRef = useRef(null);
-    schedule.timeboxes = useMemo(() => filterTimeboxesBasedOnWeekRange(schedule.timeboxes, selectedDate), [schedule.timeboxes, selectedDate]); //filter timeboxes based on week range
     const dayToName = getArrayOfDayDateDayNameAndMonthForHeaders(selectedDate); //get all info to make headers look nice
     const listOfTimes = returnTimesSeperatedForSchedule(profile); //get times that go down each row
     let currentDay = getCurrentDay();
