@@ -142,6 +142,8 @@ export default function EditTimeboxForm({ data, back, previousRecording }) {
                     borderRadius: '15px'
                 }
             }}
+            hideBackdrop={true}
+            disableScrollLock={true}
         >
             <DialogTitle sx={{ color: 'white' }}>Edit {data.isTimeblock ? "Timeblock" : "Timebox"}</DialogTitle>
             <DialogContent>
