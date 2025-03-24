@@ -90,10 +90,8 @@ export function calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber
     
     if(Object.hasOwn(timeboxGrid, date)) {
         let times = Object.keys(timeboxGrid[date]);
-        console.log(times, timeSeparated);
         for(let i = 0; i < times.length; i++) { //for each time box
             let [gridTimeboxTimeHours, gridTimeboxTimeMinutes] = times[i].split(":").map(function(num) { return parseInt(num); });
-            console.log(timeSeparated, gridTimeboxTimeHours);
             if(timeSeparated[0] < gridTimeboxTimeHours || (timeSeparated[0] == gridTimeboxTimeHours && timeSeparated[1] < gridTimeboxTimeMinutes)) {
                 maxNumberOfBoxes = calculateBoxesBetweenTwoTimes(currentTime, convertToDayjs(times[i], date), boxSizeUnit, boxSizeNumber);
                 break;
