@@ -22,7 +22,6 @@ import Alert from "../base/Alert";
 import { muiFormControlStyle, muiInputStyle } from '@/modules/muiStyles.js';
 
 export default function EditTimeboxForm({ data, back, previousRecording, numberOfBoxesSetterAndGetter }) {
-    const dispatch = useDispatch();
     const [title, setTitle] = useState(data.title);
     const [description, setDescription] = useState(data.description);
     const [numberOfBoxes, setNumberOfBoxes] = numberOfBoxesSetterAndGetter;
@@ -30,8 +29,8 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const [reoccuring, setReoccuring] = useState(data.reoccuring != null);
     const [goalPercentage, setGoalPercentage] = useState(String(data.goalPercentage));
-    const [startOfDayRange, setStartOfDayRange] = useState(0);
-    const [endOfDayRange, setEndOfDayRange] = useState(6);
+    const [startOfDayRange, setStartOfDayRange] = useState(data.reoccuring != null ? (data.reoccuring.startOfDayRange) : 0);
+    const [endOfDayRange, setEndOfDayRange] = useState(data.reoccuring != null ? data.reoccuring.endOfDayRange : 0);
     const timeboxGrid = useSelector(state => state.timeboxGrid.value);
 
     const {wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
