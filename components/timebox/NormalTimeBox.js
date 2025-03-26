@@ -1,13 +1,16 @@
 import { useSelector } from "react-redux";
-import { getPercentageOfBoxSizeFilled } from "@/modules/boxCalculations";
+import { addBoxesToTime, getPercentageOfBoxSizeFilled } from "@/modules/boxCalculations";
 import TimeboxActionsForm from "../form/TimeboxActionsForm";
 import { useState } from "react";
+import { convertToTimeAndDate, convertToDayjs } from "@/modules/formatters";
 
 export default function NormalTimeBox(props) {
     const {boxSizeNumber, boxSizeUnit} = useSelector(state => state.profile.value);
     const [timeboxActionsFormVisible, setTimeboxActionsFormVisible] = useState(false);
-    const [numberOfBoxes, setNumberOfBoxes] = useState(String(data.numberOfBoxes));
-    let percentageOfBoxSizeFilled = getPercentageOfBoxSizeFilled(boxSizeUnit, boxSizeNumber, new Date(props.data.startTime), new Date(props.data.endTime));
+    const [numberOfBoxes, setNumberOfBoxes] = useState(String(props.data.numberOfBoxes));
+    let [time, date] = convertToTimeAndDate(props.data.startTime);
+    let endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
+    let percentageOfBoxSizeFilled = getPercentageOfBoxSizeFilled(boxSizeUnit, boxSizeNumber, new Date(props.data.startTime), new Date(endTime));
     let calculatedHeight = `calc(${(Number(percentageOfBoxSizeFilled*100))}% + ${Number((percentageOfBoxSizeFilled-1)*2)}px)`
     return (<>
         <TimeboxActionsForm 
