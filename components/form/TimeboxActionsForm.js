@@ -15,7 +15,7 @@ import ManualEntryTimeModal from "./ManualEntryTimeModal";
 import Alert from "../base/Alert";
 import Dialog from '@mui/material/Dialog';
 
-export default function TimeboxActionsForm({ visible, data, date, time, closeModal }) {
+export default function TimeboxActionsForm({ visible, data, date, time, closeModal, numberOfBoxes }) {
     const timeboxRecording = useSelector(state => state.timeboxRecording.value);
     const { boxSizeUnit, boxSizeNumber, scheduleID } = useSelector(state => state.profile.value);
     const dispatch = useDispatch();
@@ -81,6 +81,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                     previousRecording={!noPreviousRecording} 
                     back={() => setShowEditTimeboxForm(false)}
                     setAlert={setAlert}
+                    numberOfBoxesSetterAndGetter={numberOfBoxes}
                 />
             ) : (
                 <Dialog

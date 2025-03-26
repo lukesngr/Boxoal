@@ -21,11 +21,11 @@ import InputLabel from '@mui/material/InputLabel';
 import Alert from "../base/Alert";
 import { muiFormControlStyle, muiInputStyle } from '@/modules/muiStyles.js';
 
-export default function EditTimeboxForm({ data, back, previousRecording }) {
+export default function EditTimeboxForm({ data, back, previousRecording, numberOfBoxesSetterAndGetter }) {
     const dispatch = useDispatch();
     const [title, setTitle] = useState(data.title);
     const [description, setDescription] = useState(data.description);
-    const [numberOfBoxes, setNumberOfBoxes] = useState(String(data.numberOfBoxes));
+    const [numberOfBoxes, setNumberOfBoxes] = numberOfBoxesSetterAndGetter;
     const [goalSelected, setGoalSelected] = useState(data.goalID);
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const [reoccuring, setReoccuring] = useState(data.reoccuring != null);
