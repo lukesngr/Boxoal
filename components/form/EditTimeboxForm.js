@@ -42,7 +42,6 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
     function closeModal() {
         setTitle('');
         setDescription('');
-        setNumberOfBoxes('0');
         back();
     }
 
