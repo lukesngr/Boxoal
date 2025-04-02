@@ -5,7 +5,7 @@ import serverIP from "../../modules/serverIP";
 import { queryClient } from '../../modules/queryClient.js';
 import { convertToTimeAndDate, convertToDayjs } from "../../modules/formatters.js";
 import { addBoxesToTime, calculateMaxNumberOfBoxes } from "../../modules/boxCalculations.js";
-import { Slider, Typography } from "@mui/material";
+import { Slider, Typography, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { dayToName } from "../../modules/dateCode";
 import { Stack } from "@mui/material";
 import Dialog from '@mui/material/Dialog';
@@ -28,6 +28,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
     const [goalSelected, setGoalSelected] = useState(data.goalID);
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const [reoccuring, setReoccuring] = useState(data.reoccuring != null);
+    const [isTimeblock, setIsTimeBlock] = useState(data.isTimeblock);
     const [goalPercentage, setGoalPercentage] = useState(String(data.goalPercentage));
     const [startOfDayRange, setStartOfDayRange] = useState(data.reoccuring != null ? (data.reoccuring.startOfDayRange) : 0);
     const [endOfDayRange, setEndOfDayRange] = useState(data.reoccuring != null ? data.reoccuring.endOfDayRange : 0);
@@ -49,6 +50,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
         let endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
 
         let updateData = {
+            isTimeblock,
             id: data.id,
             title,
             description,
@@ -58,7 +60,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
             goalPercentage: parseInt(goalPercentage)
         };
 
-        if(!data.isTimeblock) {
+        if(isTimeblock) {
             updateData["goal"] = { connect: { id: goalSelected } };
         }
 
@@ -146,6 +148,25 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
             <DialogTitle sx={{ color: 'white' }}>Edit {data.isTimeblock ? "Timeblock" : "Timebox"}</DialogTitle>
             <DialogContent>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
+                    <ToggleButtonGroup
+                        color="primary"
+                        value={isTimeblock}
+                        exclusive
+                        onChange={(event, newMode) => {console.log(newMode); setIsTimeBlock(newMode)}}
+                        >
+                        <ToggleButton sx={{'&.Mui-selected': { backgroundColor: 'black', color: 'white',  
+                            '&:hover': {
+                                backgroundColor: 'black',
+                                color: 'white',
+                            }, 
+                        }}} value={false}>Timebox</ToggleButton>
+                        <ToggleButton sx={{'&.Mui-selected': { backgroundColor: 'black', color: 'white',  
+                            '&:hover': {
+                                backgroundColor: 'black',
+                                color: 'white',
+                            }, 
+                        }}} value={true}>Timeblock</ToggleButton>
+                    </ToggleButtonGroup>
                     <div>
                         <Typography sx={{color: 'white'}}>Number Of Boxes</Typography>
 
