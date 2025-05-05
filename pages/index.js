@@ -8,26 +8,29 @@ import { useRouter } from "next/router";
 import Alert from "@/components/base/Alert";
 import Dashboard from "@/components/Dashboard";
 import Loading from "@/components/base/Loading";
+import { getCurrentUser } from "@aws-amplify/auth";
 
 export default function Home() {
 
     const router = useRouter();
     const [componentDisplayed, setComponentDisplayed] = useState("landing");
     const [alert, setAlert] = useState({open: false, title: "", message: ""});
-    const { authStatus, user } = useAuthenticator((context) => [
-        context.authStatus,
-        context.user,
-      ]);
-
-    if(authStatus == 'configuring' || authStatus == "idle") {
-             return <Loading />
-    }else if(authStatus == "authenticated") {
-        if(typeof user === "undefined") {
-            router.reload(); //shit hacky fix to problem with amazon cognito
-        }else{
-            return <Dashboard user={user} />
+    const [user, setUser] = useState(-1);
+    async function getLoginInfo() { 
+        try {
+            let userDetails = await getCurrentUser();
+            setUser(userDetails);
+        } catch(error) {
+            console.log(error);
         }
-    }else if(authStatus == "unauthenticated") {
+    }
+    useEffect(()=> {
+        getLoginInfo();
+    }, []);
+
+    if(user != -1) {
+        return <Dashboard user={user} />
+    }else {
         return (
             <>
                 <Alert alert={alert} setAlert={setAlert}/>
