@@ -55,6 +55,7 @@ export default function SignedInNav({username}) {
         <AppBar position="static">
         <Container maxWidth="xl">
             <Toolbar disableGutters>
+                <title>Boxoal</title>
                 <Box>
                     <NavbarIcon />
                 </Box>

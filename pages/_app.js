@@ -44,7 +44,6 @@ function BoxAlc({ Component, pageProps: { session, ...pageProps} }) {
         <QueryClientProvider client={queryClient}>
           <Provider store={store}>
             <SessionProvider session={session}>
-                <title>Boxoal</title>
                 <Component {...pageProps} />
             </SessionProvider>
             </Provider>
