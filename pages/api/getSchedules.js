@@ -7,6 +7,12 @@ export default async function handler(req, res) {
 
   try {
     const data = req.query;
+
+    if (!data.userUUID || typeof data.userUUID !== 'string') {
+            return res.status(400).json({ 
+                error: 'userUUID is required' 
+             });
+    }
     const schedules = await prisma.schedule.findMany({
       where: {
         userUUID: data.userUUID,
