@@ -1,25 +1,36 @@
 .statisticsHeading {
     font-family: var(--koulen-font);
+    font-size: 1.2em;
+    color: white;
+    text-align: center;
 }
 
 .statPaper {
     
-    height: 'fit-content'; 
+    height: 90%; 
     width: '80%'; 
     margin-top: 30;
-    padding-top: 20%;
-    padding-bottom: 20%;
-}
-
-.statPaper p {
-    font-size: 1.5em;
-    color: rgba(0, 0, 0, 0.54);
-    text-align: center;
+    padding-top: 10%;
+    padding-bottom: 2%;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 .statPaper h1 {
     font-size: 3em;
-    color: black;
+    color: #6145B5;
     margin-top: 20px;
     text-align: center;
+    font-family: var(--digital-font);
+}
+
+.statisticsBackground {
+    background-color: black;
+}
+
+.statisticsUnit {
+    text-align: right;
+    font-family: var(--koulen-font);
+    font-size: 1.2em;
+    color: white;
 }

@@ -18,19 +18,29 @@ export default function Statistics({recordedTimeboxes, timeboxes}) {
                     <div class="col">
                     <Paper sx={{backgroundColor: '#875F9A', marginTop: 2 }} className="statPaper" elevation={4} square>
                         <p className="statisticsHeading">Average Recordings Are {averageTimeOverBy > 0 ? "Over" : "Under"} By</p>
-                        <h1>{averageTimeOverBy > 0 ? averageTimeOverBy.toFixed(2) : -averageTimeOverBy.toFixed(2)}min</h1>
+                        <div className="statisticsBackground">
+                            <h1>{averageTimeOverBy > 0 ? averageTimeOverBy.toFixed(2) : -averageTimeOverBy.toFixed(2)}</h1>
+                            
+                        </div>
+                        <p className="statisticsUnit">minutes</p>
                     </Paper>
                     </div>
                     <div class="col">
-                    <Paper sx={{backgroundColor: '#875F9A', marginTop: 2 }} className="statPaper" elevation={4}>
-                        <p>Average Recordings Are {averageTimeStartedOffBy > 0 ? "Late" : "Early"} By</p>
-                        <h1>{averageTimeStartedOffBy > 0 ? averageTimeStartedOffBy.toFixed(2) : -averageTimeStartedOffBy.toFixed(2)}min</h1>
+                    <Paper sx={{backgroundColor: '#875F9A', marginTop: 2 }} className="statPaper" elevation={4} square>
+                        <p className="statisticsHeading">Average Recordings Are {averageTimeStartedOffBy > 0 ? "Late" : "Early"} By</p>
+                        <div className="statisticsBackground">
+                            <h1>{averageTimeStartedOffBy > 0 ? averageTimeStartedOffBy.toFixed(2) : -averageTimeStartedOffBy.toFixed(2)}</h1>
+                        </div>
+                        <p className="statisticsUnit">minutes</p>
                     </Paper>
                     </div>
                     <div class="col">
-                    <Paper sx={{backgroundColor: '#875F9A', marginTop: 2 }} className="statPaper" elevation={4}>
-                        <p>Hours Available Today</p>
-                        <h1>{hoursLeftToday}hr</h1>
+                    <Paper sx={{backgroundColor: '#875F9A', marginTop: 2 }} className="statPaper" elevation={4} square>
+                        <p className="statisticsHeading">Hours Available Today</p>
+                        <div className="statisticsBackground">
+                            <h1>{hoursLeftToday}</h1>
+                        </div>
+                        <p className="statisticsUnit">hours</p>
                     </Paper>
                     </div>
                 </div>
