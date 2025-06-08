@@ -16,6 +16,7 @@ import Button from '@mui/material/Button';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import styles from '@/styles/muiStyles';
 
 export default function CreateGoalForm(props) {
     const [title, setTitle] = useState("");
@@ -63,20 +64,9 @@ export default function CreateGoalForm(props) {
             <Dialog
                 open={props.visible}
                 onClose={props.close}
-                PaperProps={{
-                    style: {
-                        backgroundColor: '#875F9A',
-                        borderRadius: '15px'
-                    }
-                }}
-                BackdropProps={{
-                    style: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                        backdropFilter: 'none'
-                    }
-                }}
+                PaperProps={styles.paperProps}
             >
-                <DialogTitle sx={{ color: 'white' }}>Create Goal</DialogTitle>
+                <DialogTitle sx={{ color: 'white' }} className='dialogTitle'>Create Goal</DialogTitle>
                 <DialogContent>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
                         <TextField

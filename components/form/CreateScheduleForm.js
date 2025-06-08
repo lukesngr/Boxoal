@@ -11,6 +11,7 @@ import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Alert from "../base/Alert";
+import styles from "@/styles/muiStyles";
 
 export default function CreateScheduleForm({ open, onClose }) {
     const [title, setTitle] = useState("");
@@ -47,12 +48,7 @@ export default function CreateScheduleForm({ open, onClose }) {
         <Dialog 
             open={open} 
             onClose={onClose}
-            PaperProps={{
-                style: {
-                    backgroundColor: '#875F9A',
-                    borderRadius: '15px'
-                }
-            }}
+            PaperProps={styles.paperProps}
         >
             <DialogTitle sx={{ color: 'white' }}>
                 Create Schedule

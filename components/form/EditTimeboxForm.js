@@ -20,6 +20,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Alert from "../base/Alert";
 import { muiFormControlStyle, muiInputStyle } from '@/modules/muiStyles.js';
+import styles from "@/styles/muiStyles";
 
 export default function EditTimeboxForm({ data, back, previousRecording, numberOfBoxesSetterAndGetter }) {
     const [title, setTitle] = useState(data.title);
@@ -136,12 +137,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
         <Dialog
             open={true}
             onClose={closeModal}
-            PaperProps={{
-                style: {
-                    backgroundColor: '#875F9A',
-                    borderRadius: '15px'
-                }
-            }}
+            PaperProps={styles.paperProps}
             hideBackdrop={true}
             disableScrollLock={true}
         >

@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useEffect } from "react";
 import MySchedulesWhenAuthLoaded from "@/components/base/MySchedulesWhenAuthLoaded";
+import '../styles/base.scss';
 
 export default function MySchedules() {
     const router = useRouter();

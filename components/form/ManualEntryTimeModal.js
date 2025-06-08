@@ -15,6 +15,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Stack from '@mui/material/Stack';
+import styles from "@/styles/muiStyles";
 
 export default function ManualEntryTimeModal({ visible, close, data, scheduleID, setAlert }) {
     const [recordedStartTime, setRecordedStartTime] = useState(dayjs(data.startTime));
@@ -61,12 +62,7 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID,
             <Dialog
                 open={visible}
                 onClose={close}
-                PaperProps={{
-                    style: {
-                        backgroundColor: '#875F9A',
-                        borderRadius: '15px'
-                    }
-                }}
+                PaperProps={styles.paperProps}
             >
                 <DialogTitle sx={{ color: 'white' }}>Manual Entry Of Recorded Time</DialogTitle>
                 <DialogContent>
