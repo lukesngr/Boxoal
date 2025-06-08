@@ -1,5 +1,6 @@
 import { convertToDayjs } from "./formatters";
 import dayjs from "dayjs";
+import { useSelector } from "react-redux";
 
 export function getHeightForBoxes(numberOfBoxes) { return `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)` }
 
@@ -201,12 +202,17 @@ export function findSmallestTimeBoxLengthInSpace(timeboxGridFilteredByDate, time
     return smallestTimeboxLength;
 } 
 
-export function getStatistics(recordedTimeboxes) {
+export function getStatistics(recordedTimeboxes, timeboxes) {
+    const {wakeupTime} = useSelector((state) => state.profile.value);
     let reschedules = 0;
     let minutesOverBy = 0;
     let averageTimeStartedOffBy = 0;
     let timeboxesThatMatchPredictedStart = 0;
     let timeboxesThatMatchCorrectTime = 0;
+    let today = dayjs()
+    let nextDayWakeup = convertToDayjs(wakeupTime, (today.date()+1)+'/'+(today.month()+1));
+    let hoursLeftToday = (nextDayWakeup.toDate() - today.toDate()) / hoursConversionDivisor;
+
     for(let i = 0; i < recordedTimeboxes.length; i++) {
         let recordedTimebox = recordedTimeboxes[i];
         let recordedTimeboxStartTime = new Date(recordedTimebox.recordedStartTime);
@@ -249,5 +255,28 @@ export function getStatistics(recordedTimeboxes) {
         percentageCorrectTime = 0;
         percentageRescheduled = 0;
     }
-    return {averageTimeOverBy, averageTimeStartedOffBy, percentagePredictedStart, percentageCorrectTime, percentageRescheduled};
+
+    for(let timebox of timeboxes) {
+
+        let isSameDay = dayjs(timebox.startTime).isSameOrAfter(today, 'date') && dayjs(timebox.startTime).isBefore(nextDayWakeup);
+        let isReoccuringDaily = timebox.reoccuring != null && timebox.reoccuring.reoccurFrequency === "daily";
+        let isReoccuringWeeklyAndToday = timebox.reoccuring != null && timebox.reoccuring.reoccurFrequency === "weekly" && timebox.reoccuring.weeklyDay == today.day();
+        let isReoccuringDailyOrWeeklyAndToday = isReoccuringDaily || isReoccuringWeeklyAndToday;
+
+        if(timebox.isTimeblock && (isSameDay || isReoccuringDailyOrWeeklyAndToday)) {
+            if(dayjs(timebox.startTime).isSameOrAfter(today)) {
+                if(dayjs(timebox.endTime).isAfter(nextDayWakeup)) {
+                    hoursLeftToday -= ((nextDayWakeup.toDate() - new Date(timebox.startTime)) / hoursConversionDivisor)
+                }else{
+                    hoursLeftToday -= ((new Date(timebox.endTime) - new Date(timebox.startTime)) / hoursConversionDivisor)
+                }
+            }else if(dayjs(timebox.endTime).isAfter(today)) {
+                hoursLeftToday -= ((new Date(timebox.endTime) - new Date()) / hoursConversionDivisor)
+            }
+        }   
+    }
+
+    hoursLeftToday = Math.round(hoursLeftToday)
+
+    return {averageTimeOverBy, averageTimeStartedOffBy, percentagePredictedStart, percentageCorrectTime, percentageRescheduled, hoursLeftToday};
 }
