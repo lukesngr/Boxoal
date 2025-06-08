@@ -1,6 +1,10 @@
-import { convertToDayjs } from "./formatters";
-import dayjs from "dayjs";
 import { useSelector } from "react-redux";
+import { convertToDayjs } from "./formatters";
+var isSameOrAfter = require("dayjs/plugin/isSameOrAfter");
+dayjs.extend(isSameOrAfter);
+import dayjs from "dayjs";
+
+var hoursConversionDivisor = 3600000;
 
 export function getHeightForBoxes(numberOfBoxes) { return `calc(${(numberOfBoxes * 100)}% + ${(numberOfBoxes - 1) * 2}px)` }
 
