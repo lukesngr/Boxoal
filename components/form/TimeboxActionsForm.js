@@ -14,6 +14,7 @@ import EditTimeboxForm from "./EditTimeboxForm";
 import ManualEntryTimeModal from "./ManualEntryTimeModal";
 import Alert from "../base/Alert";
 import Dialog from '@mui/material/Dialog';
+import styles from '@/styles/muiStyles.js';
 
 export default function TimeboxActionsForm({ visible, data, date, time, closeModal, numberOfBoxes }) {
     const timeboxRecording = useSelector(state => state.timeboxRecording.value);
@@ -87,18 +88,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                 <Dialog
                     open={visible}
                     onClose={closeModal}
-                    PaperProps={{
-                        style: {
-                            backgroundColor: '#875F9A',
-                            borderRadius: '15px'
-                        }
-                    }}
-                    BackdropProps={{
-                        style: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                            backdropFilter: 'none'
-                        }
-                    }}
+                    PaperProps={styles.paperProps}
                 >
                     <DialogTitle sx={{ color: 'white' }}>{data.title}</DialogTitle>
                     <DialogContent>

@@ -21,6 +21,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { muiFormControlStyle } from "../../modules/muiStyles";
+import styles from '@/styles/muiStyles.js';
 
 export default function EditGoalForm(props) {
     const [title, setTitle] = useState(props.data.title);
@@ -80,12 +81,7 @@ export default function EditGoalForm(props) {
             <Dialog
                 open={props.visible}
                 onClose={props.close}
-                PaperProps={{
-                    style: {
-                        backgroundColor: '#875F9A',
-                        borderRadius: '15px'
-                    }
-                }}
+                PaperProps={styles.paperProps}
             >
                 <DialogTitle sx={{ color: 'white' }}>Edit Goal</DialogTitle>
                 <DialogContent>
