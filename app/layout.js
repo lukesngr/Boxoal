@@ -1,7 +1,9 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
+import localFont from 'next/font/local';
 
 const inter = Inter({ subsets: ['latin'] })
+
 
 export const metadata = {
   title: 'Boxoal',
@@ -18,7 +20,7 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <title>Boxoal</title>
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} `}>{children}</body>
     </html>
   )
 }

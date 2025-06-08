@@ -25,6 +25,7 @@ configureAmplify();
 
 const Kameron = localFont({src: '../public/KameronRegular.ttf', variable: '--kameron-font'});
 const Koulen = localFont({src: '../public/Koulen-Regular.ttf', variable: '--koulen-font'});
+const digital = localFont({src: '../public/digital-7.ttf', variable: '--digital-font'});
 
 export const theme = createTheme({
   palette: {
@@ -58,7 +59,7 @@ function BoxAlc({ Component, pageProps: { session, ...pageProps} }) {
         <QueryClientProvider client={queryClient}>
           <Provider store={store}>
             <SessionProvider session={session}>
-                <div className={`${Kameron.className} ${Koulen.className}`}>
+                <div className={`${Kameron.variable} ${Koulen.variable} ${digital.variable}`}>
                   <Component {...pageProps} />
                 </div>
             </SessionProvider>
