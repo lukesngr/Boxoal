@@ -13,6 +13,8 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import { queryClient } from "@/modules/queryClient";
 import Head from 'next/head'
 import { useState } from "react";
+import localFont from 'next/font/local'
+
 import dayjs from "dayjs";
 var utc = require("dayjs/plugin/utc");
 var isSameOrBefore = require('dayjs/plugin/isSameOrBefore')
@@ -20,6 +22,9 @@ dayjs.extend(isSameOrBefore)
 dayjs.extend(utc)
 
 configureAmplify();
+
+const Kameron = localFont({src: '../public/KameronRegular.ttf', variable: '--kameron-font'});
+const Koulen = localFont({src: '../public/Koulen-Regular.ttf', variable: '--koulen-font'});
 
 export const theme = createTheme({
   palette: {
@@ -53,7 +58,9 @@ function BoxAlc({ Component, pageProps: { session, ...pageProps} }) {
         <QueryClientProvider client={queryClient}>
           <Provider store={store}>
             <SessionProvider session={session}>
-                <Component {...pageProps} />
+                <div className={`${Kameron.className} ${Koulen.className}`}>
+                  <Component {...pageProps} />
+                </div>
             </SessionProvider>
             </Provider>
           <ToastContainer />

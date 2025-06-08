@@ -1,7 +1,9 @@
 import { getStatistics } from "@/modules/boxCalculations";
 import { Paper } from "@mui/material";
 import { PieChart } from "@mui/x-charts";
+import { Koulen } from "next/font/google";
 import { useMemo } from "react";
+import '../styles/statistics.scss'
 
 export default function Statistics({recordedTimeboxes, timeboxes}) {
     let {averageTimeOverBy, 
@@ -14,8 +16,8 @@ export default function Statistics({recordedTimeboxes, timeboxes}) {
         <div class="container" style={{paddingLeft: 0, paddingRight: 0}}>
                 <div class="row">
                     <div class="col">
-                    <Paper sx={{backgroundColor: '#875F9A', marginTop: 2 }} className="statPaper" elevation={4}>
-                        <p>Average Recordings Are {averageTimeOverBy > 0 ? "Over" : "Under"} By</p>
+                    <Paper sx={{backgroundColor: '#875F9A', marginTop: 2 }} className="statPaper" elevation={4} square>
+                        <p className="statisticsHeading">Average Recordings Are {averageTimeOverBy > 0 ? "Over" : "Under"} By</p>
                         <h1>{averageTimeOverBy > 0 ? averageTimeOverBy.toFixed(2) : -averageTimeOverBy.toFixed(2)}min</h1>
                     </Paper>
                     </div>
