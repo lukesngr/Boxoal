@@ -10,7 +10,8 @@ export default async function handler(req, res) {
 
     await prisma.schedule.delete({
       where: {
-        id: data.id
+        id: data.id,
+        userUUID: data.userUUID
       },
       include: {
         timeboxes: true,

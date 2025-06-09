@@ -14,6 +14,8 @@ import ParkIcon from '@mui/icons-material/Park';
 import { GoalTree } from '../goal/GoalTree';
 import CreateScheduleForm from '../form/CreateScheduleForm';
 import AddIcon from '@mui/icons-material/Add';
+import SettingsIcon from '@mui/icons-material/Settings';
+import UpdateScheduleForm from '../form/UpdateScheduleForm';
 
 export default function SchedulesSidebar(props) {
     const dispatch = useDispatch();
@@ -21,6 +23,7 @@ export default function SchedulesSidebar(props) {
     const [createGoalModalOpen, setCreateGoalModalOpen] = useState(false);
     const [skillTreeOpen, setSkillTreeOpen] = useState(false);
     const [createScheduleDialogOpen, setCreateScheduleDialogOpen] = useState(false);
+    const [updateScheduleDialogOpen, setUpdateScheduleDialogOpen] = useState(false);
     const {scheduleIndex} = useSelector(state => state.profile.value);
     const expanded = useSelector(state => state.expanded.value);
     let schedule = props.data[scheduleIndex];
@@ -56,6 +59,9 @@ export default function SchedulesSidebar(props) {
                     <IconButton onClick={() => setCreateScheduleDialogOpen(true)} className='minimizeButton'>
                         <AddIcon></AddIcon>
                     </IconButton>
+                    <IconButton onClick={() => setUpdateScheduleDialogOpen(true)} className='minimizeButton'>
+                        <SettingsIcon></SettingsIcon>
+                    </IconButton>
                     </h1>
 
                 {schedule.goals.map((goal, index) => (<GoalAccordion key={index} goal={goal}></GoalAccordion>))}
@@ -67,6 +73,7 @@ export default function SchedulesSidebar(props) {
         </div>
         <CreateScheduleForm open={createScheduleDialogOpen} onClose={() => setCreateScheduleDialogOpen(false)}></CreateScheduleForm>
         <CreateGoalForm visible={createGoalModalOpen} active={true} line={highestActiveIndex+1} close={() => setCreateGoalModalOpen(false)} id={schedule.id}  goals={schedule.goals}></CreateGoalForm>
+        <UpdateScheduleForm open={updateScheduleDialogOpen} onClose={() => setUpdateScheduleDialogOpen(false)} oldTitle={schedule.title} id={schedule.id}></UpdateScheduleForm>
         {skillTreeOpen && <GoalTree data={schedule} close={() => setSkillTreeOpen(false)}></GoalTree>}
         </>)
 }

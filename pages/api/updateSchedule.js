@@ -10,6 +10,7 @@ export default async function handler(req, res) {
     await prisma.schedule.update({
       where: {
         id: data.id,
+        userUUID: data.userUUID
       },
       data: data,
     });
