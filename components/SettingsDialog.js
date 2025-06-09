@@ -66,6 +66,36 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
         hideDialog();
     }
 
+    function safeSetBoxSizeNumber(number) {
+        let boxSizeNumber;
+        
+        if(number != '') {
+            
+            boxSizeNumber = Number(number)
+            if(Number.isNaN(boxSizeNumber)) {
+                boxSizeNumber = 1;
+            }
+            
+        
+            if(boxSizeUnit == "min") {
+                if(boxSizeNumber > 59){
+                    boxSizeNumber = 59;
+                }else if(boxSizeNumber < 0) {
+                    boxSizeNumber = 0;
+                }
+            }else if(boxSizeUnit == "hr") {
+                while((24 % boxSizeNumber) > 0) {
+                    boxSizeNumber--;
+                }
+                setBoxSizeNumber(boxSizeNumber);
+            }
+
+            setBoxSizeNumber(String(boxSizeNumber));
+        }else{
+            setBoxSizeNumber('');
+        }
+    }
+
     return (
         <>
             <Dialog
@@ -95,7 +125,7 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                         <TextField
                             label="Timebox Duration"
                             value={boxSizeNumber}
-                            onChange={(e) => setBoxSizeNumber(e.target.value)}
+                            onChange={(e) => safeSetBoxSizeNumber(e.target.value)}
                             variant="standard"
                             sx={muiInputStyle}
                         />

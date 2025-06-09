@@ -15,6 +15,7 @@ import ManualEntryTimeModal from "./ManualEntryTimeModal";
 import Alert from "../base/Alert";
 import Dialog from '@mui/material/Dialog';
 import styles from '@/styles/muiStyles.js';
+import { muiActionButton, muiNonActionButton } from '@/modules/muiStyles.js';
 
 export default function TimeboxActionsForm({ visible, data, date, time, closeModal, numberOfBoxes }) {
     const timeboxRecording = useSelector(state => state.timeboxRecording.value);
@@ -90,62 +91,39 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                     onClose={closeModal}
                     PaperProps={styles.paperProps}
                 >
-                    <DialogTitle sx={{ color: 'white' }}>{data.title}</DialogTitle>
+                    <DialogTitle className='dialogTitle'>{data.title}</DialogTitle>
                     <DialogContent>
-                        <Typography sx={{ color: 'white' }}>
+                        <Typography sx={{ color: 'white', fontFamily: 'Kameron, san-serif' }}>
                             Actions for "{data.title}" {data.isTimeblock ? "timeblock" : "timebox"}
                         </Typography>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={closeModal} sx={{ color: 'white' }}>
-                            Close
-                        </Button>
+                        
                         {noPreviousRecording && timeboxIsntRecording && !data.isTimeblock && (
                             <>
-                                <Button
-                                    onClick={() => setManualEntryModalShown(true)}
-                                    variant="contained"
-                                    sx={{
-                                        backgroundColor: 'white',
-                                        color: 'black',
-                                        marginRight: 1,
-                                        '&:hover': {
-                                            backgroundColor: 'black',
-                                            color: 'white'
-                                        }
-                                    }}
-                                >
-                                    Time Entry
-                                </Button>
                                 <Button
                                     onClick={startRecording}
                                     variant="contained"
                                     data-testid="recordButton"
-                                    sx={{
-                                        backgroundColor: 'white',
-                                        color: 'black',
-                                        '&:hover': {
-                                            backgroundColor: 'black',
-                                            color: 'white'
-                                        }
-                                    }}
+                                    sx={muiActionButton}
                                 >
                                     Record
                                 </Button>
+                                <Button
+                                    onClick={() => setManualEntryModalShown(true)}
+                                    variant="contained"
+                                    sx={muiActionButton}
+                                >
+                                    Time Entry
+                                </Button>
+                                
                             </>
                         )}
                         {noPreviousRecording && timeboxIsRecording && !data.isTimeblock && (
                             <Button
                                 onClick={stopRecording}
                                 variant="contained"
-                                sx={{
-                                    backgroundColor: 'white',
-                                    color: 'black',
-                                    '&:hover': {
-                                        backgroundColor: 'black',
-                                        color: 'white'
-                                    }
-                                }}
+                                sx={muiActionButton}
                             >
                                 Stop Recording
                             </Button>
@@ -155,19 +133,14 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                                 onClick={() => setShowEditTimeboxForm(true)}
                                 variant="contained"
                                 data-testid="editTimebox"
-                                sx={{
-                                    backgroundColor: 'white',
-                                    color: 'black',
-                                    marginLeft: 1,
-                                    '&:hover': {
-                                        backgroundColor: 'black',
-                                        color: 'white'
-                                    }
-                                }}
+                                sx={muiActionButton}
                             >
                                 Edit
                             </Button>
                         )}
+                        <Button onClick={closeModal} sx={muiNonActionButton}>
+                            Close
+                        </Button>
                     </DialogActions>
                 </Dialog>
             )}

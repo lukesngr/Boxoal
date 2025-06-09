@@ -16,6 +16,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Stack from '@mui/material/Stack';
 import styles from "@/styles/muiStyles";
+import { muiActionButton, muiDatePicker, muiInputStyle, muiNonActionButton } from "@/modules/muiStyles";
 
 export default function ManualEntryTimeModal({ visible, close, data, scheduleID, setAlert }) {
     const [recordedStartTime, setRecordedStartTime] = useState(dayjs(data.startTime));
@@ -64,36 +65,29 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID,
                 onClose={close}
                 PaperProps={styles.paperProps}
             >
-                <DialogTitle sx={{ color: 'white' }}>Manual Entry Of Recorded Time</DialogTitle>
+                <DialogTitle className="dialogTitle">Manual Entry Of Recorded Time</DialogTitle>
                 <DialogContent>
                     <Stack spacing={2} sx={{ mt: 2 }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <div style={{backgroundColor: 'white', padding: '7px'}}>
-                            <DateTimePicker label="Start Time" value={recordedStartTime} onChange={(newValue) => setRecordedStartTime(newValue)} />
+                            <DateTimePicker label="Start Time" value={recordedStartTime} onChange={(newValue) => setRecordedStartTime(newValue)} sx={muiDatePicker}/>
                         </div>
                         <div style={{backgroundColor: 'white', padding: '7px'}}>
-                            <DateTimePicker label="End Time" value={recordedEndTime} onChange={(newValue) => setRecordedEndTime(newValue)}/>
+                            <DateTimePicker label="End Time" value={recordedEndTime} onChange={(newValue) => setRecordedEndTime(newValue)} sx={muiDatePicker}/>
                         </div>
                         </LocalizationProvider>
                     </Stack>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={close} sx={{ color: 'white' }}>
-                        Close
-                    </Button>
                     <Button
                         onClick={submitManualEntry}
                         variant="contained"
-                        sx={{
-                            backgroundColor: 'white',
-                            color: 'black',
-                            '&:hover': {
-                                backgroundColor: 'black',
-                                color: 'white'
-                            }
-                        }}
+                        sx={muiActionButton}
                     >
                         Enter
+                    </Button>
+                    <Button onClick={close} sx={muiNonActionButton}>
+                        Close
                     </Button>
                 </DialogActions>
             </Dialog>

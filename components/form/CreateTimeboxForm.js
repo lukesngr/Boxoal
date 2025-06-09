@@ -84,7 +84,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             };
 
             if (!isTimeblock) {
-                data["goal"] = { connect: { id: goalSelected } };
+                data["goal"] = { connect: { id: Number(goalSelected) } };
             }
 
             if (reoccuring) {

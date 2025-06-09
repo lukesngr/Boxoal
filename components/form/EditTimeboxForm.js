@@ -19,7 +19,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Alert from "../base/Alert";
-import { muiFormControlStyle, muiInputStyle } from '@/modules/muiStyles.js';
+import { muiActionButton, muiFormControlStyle, muiInputStyle, muiToggleButtonStyle } from '@/modules/muiStyles.js';
 import styles from "@/styles/muiStyles";
 
 export default function EditTimeboxForm({ data, back, previousRecording, numberOfBoxesSetterAndGetter }) {
@@ -141,39 +141,32 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
             hideBackdrop={true}
             disableScrollLock={true}
         >
-            <DialogTitle sx={{ color: 'white' }}>Edit {data.isTimeblock ? "Timeblock" : "Timebox"}</DialogTitle>
+            <DialogTitle className="dialogTitle">Edit {data.isTimeblock ? "Timeblock" : "Timebox"}</DialogTitle>
             <DialogContent>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
-                    <ToggleButtonGroup
-                        color="primary"
-                        value={isTimeblock}
-                        exclusive
-                        onChange={(event, newMode) => {console.log(newMode); setIsTimeBlock(newMode)}}
-                        >
-                        <ToggleButton sx={{'&.Mui-selected': { backgroundColor: 'black', color: 'white',  
-                            '&:hover': {
-                                backgroundColor: 'black',
-                                color: 'white',
-                            }, 
-                        }}} value={false}>Timebox</ToggleButton>
-                        <ToggleButton sx={{'&.Mui-selected': { backgroundColor: 'black', color: 'white',  
-                            '&:hover': {
-                                backgroundColor: 'black',
-                                color: 'white',
-                            }, 
-                        }}} value={true}>Timeblock</ToggleButton>
-                    </ToggleButtonGroup>
+                    
                     <div>
-                        <Typography sx={{color: 'white'}}>Number Of Boxes</Typography>
+                        <Typography className="numberOfBoxesLabel">Number Of Boxes</Typography>
 
                         <Slider value={parseInt(numberOfBoxes)} 
                                 onChange={(e) => setNumberOfBoxes(e.target.value)}
                                 min={0}
                                 max={maxNumberOfBoxes}
                                 valueLabelDisplay="auto"
-                                sx={{ color: 'white', marginLeft: '10px', width: '90%' }}
+                                sx={{ color: 'white', marginLeft: '10px', width: '90%', paddingBottom: '0px' }}
                         />
                     </div>
+                    <ToggleButtonGroup
+                        color="primary"
+                        value={isTimeblock}
+                        exclusive
+                        onChange={(event, newMode) => {setIsTimeBlock(newMode)}}
+                        sx={{'& .MuiToggleButton-root': {borderRadius: 0}}}
+                        fullWidth
+                        >
+                        <ToggleButton sx={muiToggleButtonStyle} value={false}>Timebox</ToggleButton>
+                        <ToggleButton sx={muiToggleButtonStyle} value={true}>Timeblock</ToggleButton>
+                    </ToggleButtonGroup>
                     <TextField
                         label="Title"
                         value={title}
@@ -196,12 +189,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                         <Select
                             value={goalSelected}
                             onChange={(e) => setGoalSelected(e.target.value)}
-                            sx={{
-                                backgroundColor: 'white',
-                                '& .MuiInput-underline:before': {
-                                    borderBottomColor: 'black'
-                                }
-                            }}
+                            sx={muiInputStyle}
                         >
                             {goals.map((goal) => {
                                 if(goal.active) {
@@ -219,12 +207,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                         <Select
                             value={reoccuring}
                             onChange={(e) => setReoccuring(e.target.value)}
-                            sx={{
-                                backgroundColor: 'white',
-                                '& .MuiInput-underline:before': {
-                                    borderBottomColor: 'black'
-                                }
-                            }}
+                            sx={muiInputStyle}
                         >
                             <MenuItem value={false}>No</MenuItem>
                             <MenuItem value={true}>Yes</MenuItem>
@@ -238,12 +221,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                                 <Select
                                     value={startOfDayRange}
                                     onChange={(e) => setStartOfDayRange(e.target.value)}
-                                    sx={{
-                                        backgroundColor: 'white',
-                                        '& .MuiInput-underline:before': {
-                                            borderBottomColor: 'black'
-                                        }
-                                    }}
+                                    sx={muiInputStyle}
                                 >
                                     {dayToName.map((day, index) => (
                                         <MenuItem key={index} value={index}>
@@ -258,12 +236,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                                 <Select
                                     value={endOfDayRange}
                                     onChange={(e) => setEndOfDayRange(e.target.value)}
-                                    sx={{
-                                        backgroundColor: 'white',
-                                        '& .MuiInput-underline:before': {
-                                            borderBottomColor: 'black'
-                                        }
-                                    }}
+                                    sx={muiInputStyle}
                                 >
                                     {dayToName.map((day, index) => (
                                         <MenuItem key={index} value={index}>
@@ -284,21 +257,18 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                 </div>
             </DialogContent>
             <DialogActions>
-                <Button onClick={closeModal} sx={{ color: 'white' }}>
-                    Back
+                <Button
+                    onClick={updateTimeBox}
+                    variant="contained"
+                    sx={muiActionButton}
+                >
+                    Update
                 </Button>
                 <Button
                     onClick={deleteTimeBox}
                     variant="contained"
                     data-testid="deleteTimebox"
-                    sx={{
-                        backgroundColor: 'white',
-                        color: 'black',
-                        '&:hover': {
-                            backgroundColor: 'black',
-                            color: 'white'
-                        }
-                    }}
+                    sx={muiActionButton}
                 >
                     Delete
                 </Button>
@@ -307,31 +277,13 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                         onClick={clearRecording}
                         variant="contained"
                         data-testid="clearRecording"
-                        sx={{
-                            backgroundColor: 'white',
-                            color: 'black',
-                            '&:hover': {
-                                backgroundColor: 'black',
-                                color: 'white'
-                            }
-                        }}
+                        sx={muiActionButton}
                     >
                         Clear Recording
                     </Button>
                 )}
-                <Button
-                    onClick={updateTimeBox}
-                    variant="contained"
-                    sx={{
-                        backgroundColor: 'white',
-                        color: 'black',
-                        '&:hover': {
-                            backgroundColor: 'black',
-                            color: 'white'
-                        }
-                    }}
-                >
-                    Update
+                <Button onClick={closeModal} sx={{ color: 'white' }}>
+                    Back
                 </Button>
             </DialogActions>
         </Dialog>
