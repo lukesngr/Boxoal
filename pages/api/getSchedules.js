@@ -33,6 +33,7 @@ export default async function handler(req, res) {
             completedOn: true,
             active: true,
             partOfLine: true,
+            objectUUID: true,
             timeboxes: {
               orderBy: {
                 startTime: 'asc'

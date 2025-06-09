@@ -48,33 +48,34 @@ export default function SchedulesSidebar(props) {
     
 
     return (<>
-        <div className={isSideBarMobile ? ("mobileSideBar") : ("col-2")} 
-        id={expanded ? ('animateToAppear') : ('animateToDisappear')}>
-            <div className="schedulesSidebar">
-                <h1 className="sidebarHeading">{schedule.title} 
-                    
-                    <IconButton onClick={() => dispatch({type: 'expanded/set', payload: !expanded})} className='minimizeButton'>
-                        <ArrowLeftIcon></ArrowLeftIcon>
-                    </IconButton>
-                    <IconButton onClick={() => setSkillTreeOpen(true)} className='minimizeButton'>
-                        <ParkIcon></ParkIcon>
-                    </IconButton>
-                    <IconButton onClick={() => setCreateScheduleDialogOpen(true)} className='minimizeButton'>
-                        <AddIcon></AddIcon>
-                    </IconButton>
-                    <IconButton onClick={() => setUpdateScheduleDialogOpen(true)} className='minimizeButton'>
-                        <SettingsIcon></SettingsIcon>
-                    </IconButton>
-                    </h1>
-
-                {schedule.goals.map((goal, index) => (<GoalAccordion key={index} goal={goal}></GoalAccordion>))}
-                <Button variant="contained"  disableElevation 
-                    sx={{backgroundColor: 'black', color: 'white', width: '100%', borderRadius: '0px'}} 
-                    onClick={() => setCreateGoalModalOpen(true)} 
-                >Create Goal</Button>
-            </div>
-        </div>
         <QueryClientProvider client={queryClient}>
+            <div className={isSideBarMobile ? ("mobileSideBar") : ("col-2")} 
+            id={expanded ? ('animateToAppear') : ('animateToDisappear')}>
+                <div className="schedulesSidebar">
+                    <h1 className="sidebarHeading">{schedule.title} 
+                        
+                        <IconButton onClick={() => dispatch({type: 'expanded/set', payload: !expanded})} className='minimizeButton'>
+                            <ArrowLeftIcon></ArrowLeftIcon>
+                        </IconButton>
+                        <IconButton onClick={() => setSkillTreeOpen(true)} className='minimizeButton'>
+                            <ParkIcon></ParkIcon>
+                        </IconButton>
+                        <IconButton onClick={() => setCreateScheduleDialogOpen(true)} className='minimizeButton'>
+                            <AddIcon></AddIcon>
+                        </IconButton>
+                        <IconButton onClick={() => setUpdateScheduleDialogOpen(true)} className='minimizeButton'>
+                            <SettingsIcon></SettingsIcon>
+                        </IconButton>
+                        </h1>
+
+                    {schedule.goals.map((goal, index) => (<GoalAccordion key={index} goal={goal}></GoalAccordion>))}
+                    <Button variant="contained"  disableElevation 
+                        sx={{backgroundColor: 'black', color: 'white', width: '100%', borderRadius: '0px'}} 
+                        onClick={() => setCreateGoalModalOpen(true)} 
+                    >Create Goal</Button>
+                </div>
+            </div>
+        
             <CreateScheduleForm open={createScheduleDialogOpen} onClose={() => setCreateScheduleDialogOpen(false)}></CreateScheduleForm>
             <CreateGoalForm visible={createGoalModalOpen} active={true} line={highestActiveIndex+1} close={() => setCreateGoalModalOpen(false)} id={schedule.id}  goals={schedule.goals}></CreateGoalForm>
             <UpdateScheduleForm open={updateScheduleDialogOpen} onClose={() => setUpdateScheduleDialogOpen(false)} oldTitle={schedule.title} id={schedule.id}></UpdateScheduleForm>

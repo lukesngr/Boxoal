@@ -64,7 +64,6 @@ function BoxAlc({ Component, pageProps: { session, ...pageProps} }) {
                 </div>
             </SessionProvider>
             </Provider>
-          <ToastContainer />
         </QueryClientProvider>
       </ThemeProvider>
     </Authenticator.Provider>
