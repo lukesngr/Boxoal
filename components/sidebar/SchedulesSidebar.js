@@ -16,6 +16,8 @@ import CreateScheduleForm from '../form/CreateScheduleForm';
 import AddIcon from '@mui/icons-material/Add';
 import SettingsIcon from '@mui/icons-material/Settings';
 import UpdateScheduleForm from '../form/UpdateScheduleForm';
+import { QueryClientProvider } from 'react-query';
+import { queryClient } from '@/modules/queryClient';
 
 export default function SchedulesSidebar(props) {
     const dispatch = useDispatch();
@@ -72,9 +74,11 @@ export default function SchedulesSidebar(props) {
                 >Create Goal</Button>
             </div>
         </div>
-        <CreateScheduleForm open={createScheduleDialogOpen} onClose={() => setCreateScheduleDialogOpen(false)}></CreateScheduleForm>
-        <CreateGoalForm visible={createGoalModalOpen} active={true} line={highestActiveIndex+1} close={() => setCreateGoalModalOpen(false)} id={schedule.id}  goals={schedule.goals}></CreateGoalForm>
-        <UpdateScheduleForm open={updateScheduleDialogOpen} onClose={() => setUpdateScheduleDialogOpen(false)} oldTitle={schedule.title} id={schedule.id}></UpdateScheduleForm>
+        <QueryClientProvider client={queryClient}>
+            <CreateScheduleForm open={createScheduleDialogOpen} onClose={() => setCreateScheduleDialogOpen(false)}></CreateScheduleForm>
+            <CreateGoalForm visible={createGoalModalOpen} active={true} line={highestActiveIndex+1} close={() => setCreateGoalModalOpen(false)} id={schedule.id}  goals={schedule.goals}></CreateGoalForm>
+            <UpdateScheduleForm open={updateScheduleDialogOpen} onClose={() => setUpdateScheduleDialogOpen(false)} oldTitle={schedule.title} id={schedule.id}></UpdateScheduleForm>
+        </QueryClientProvider>
         {skillTreeOpen && <GoalTree data={schedule} close={() => setSkillTreeOpen(false)}></GoalTree>}
         </>)
 }

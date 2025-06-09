@@ -17,43 +17,71 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import styles from '@/styles/muiStyles';
+import { useMutation } from 'react-query';
+import { useProfile } from '@/hooks/useProfile';
+import { useSelector } from 'react-redux';
 
 export default function CreateGoalForm(props) {
     const [title, setTitle] = useState("");
     const [priority, setPriority] = useState("1");
     const [targetDate, setTargetDate] = useState(dayjs());
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
+    const {scheduleIndex} = useSelector(state => state.profile.value);
     
     let goalsCompleted = props.goals.reduce((count, item) => item.completed ? count + 1 : count, 0);
     let goalsNotCompleted = props.goals.length - goalsCompleted;
     let maxNumberOfGoals = getMaxNumberOfGoals(goalsCompleted);
 
-    function createGoal() {
-        if (maxNumberOfGoals > goalsNotCompleted || !props.active) {
-            axios.post('/api/createGoal', {
-                title,
-                priority: parseInt(priority),
-                targetDate: targetDate.toISOString(),
-                schedule: {
-                    connect: {
-                        id: props.id
-                    }
-                },
-                completed: false,
-                completedOn: new Date().toISOString(),
-                partOfLine: props.line,
-                active: props.active
-            })
-            .then(async () => {
-                props.close();
-                setAlert({ open: true, title: "Timebox", message: "Created goal!" });
-                await queryClient.refetchQueries();
-            })
-            .catch(function(error) {
-                props.close();
-                setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
-                console.log(error);
+    const createGoalMutation = useMutation({
+        mutationFn: (goalData) => axios.post('/api/createGoal', goalData),
+        onMutate: async (goalData) => {
+            await queryClient.cancelQueries(['schedule']); 
+            
+            const previousGoals = queryClient.getQueryData(['schedule']);
+            
+            queryClient.setQueryData(['schedule'], (old) => {
+                if (!old) return old;
+                let copyOfOld = structuredClone(old);
+                copyOfOld[scheduleIndex].goals.push({...goalData, timeboxes: []});
+                console.log(copyOfOld)
+                return copyOfOld;
             });
+            
+            
+            return { previousGoals };
+        },
+        onSuccess: () => {
+            props.close();
+            setAlert({ open: true, title: "Timebox", message: "Created goal!" });
+            queryClient.invalidateQueries(['schedule']); // Refetch to get real data
+        },
+        onError: (error, goalData, context) => {
+            queryClient.setQueryData(['schedule'], context.previousGoals);
+            props.close();
+            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            queryClient.invalidateQueries(['schedule']);
+        }
+    }, queryClient);
+    
+    function createGoal() {
+        let goalData = {
+            title,
+            priority: parseInt(priority),
+            targetDate: targetDate.toISOString(),
+            schedule: {
+                connect: {
+                    id: props.id
+                }
+            },
+            completed: false,
+            completedOn: new Date().toISOString(),
+            partOfLine: props.line,
+            active: props.active,
+            objectUUID: crypto.randomUUID()
+        }
+
+        if (maxNumberOfGoals > goalsNotCompleted || !props.active) {
+            createGoalMutation.mutate(goalData);
         } else {
             setAlert({ open: true, title: "Error", message: "Please complete more goals and we will unlock more goal slots for you!" });
         }
