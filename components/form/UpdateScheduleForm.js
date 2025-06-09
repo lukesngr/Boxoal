@@ -14,12 +14,17 @@ import Alert from "../base/Alert";
 import styles from "@/styles/muiStyles";
 import { muiActionButton, muiInputStyle, muiNonActionButton } from "@/modules/muiStyles";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 export default function UpdateScheduleForm({ oldTitle, id, open, onClose }) {
     const [title, setTitle] = useState(oldTitle);
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const { user } = useAuthenticator();
     const profile = useSelector(state => state.profile.value);
+
+    useEffect(() => {
+        setTitle(oldTitle);
+    }, [oldTitle]);
     
     async function updateSchedule() {
         try {
