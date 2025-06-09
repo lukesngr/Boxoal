@@ -8,7 +8,7 @@ import serverIP from '../../modules/serverIP.js';
 import { dayToName } from '../../modules/dateCode.js';
 import { convertToDayjs } from '../../modules/formatters.js';
 import { calculateMaxNumberOfBoxes, addBoxesToTime } from '@/modules/boxCalculations.js';
-
+import { useMutation } from 'react-query';
 import Stack from '@mui/material/Stack';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -47,6 +47,44 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     let transformPercentages = ['35%', '45%', '55%', '65%', '40%', '50%', '55%'];
 
     const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
+    const {scheduleIndex} = useSelector(state => state.profile.value);
+
+    const createTimeboxMutation = useMutation({
+        mutationFn: (timeboxData) => axios.post('/api/createTimebox', timeboxData),
+        onMutate: async (timeboxData) => {
+            await queryClient.cancelQueries(['schedule']); 
+            
+            const previousSchedule = queryClient.getQueryData(['schedule']);
+            
+            queryClient.setQueryData(['schedule'], (old) => {
+                if (!old) return old;
+                let copyOfOld = structuredClone(old);
+                copyOfOld[scheduleIndex].timeboxes.push({...timeboxData, recordedTimeBoxes: []});
+                let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
+                copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.push({...timeboxData, recordedTimeBoxes: []})
+                console.log(copyOfOld)
+                return copyOfOld;
+            });
+            
+            
+            return { previousSchedule };
+        },
+        onSuccess: () => {
+            setAlert({
+                open: true,
+                title: "Timebox",
+                message: "Added timebox!"
+            });
+            queryClient.invalidateQueries(['schedule']); // Refetch to get real data
+            closeModal();
+        },
+        onError: (error, goalData, context) => {
+            queryClient.setQueryData(['schedule'], context.previousGoals);
+            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            queryClient.invalidateQueries(['schedule']);
+            closeModal();
+        }
+    });
 
     function closeModal() {
         setTitle('');
@@ -78,7 +116,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                 color,
                 schedule: { connect: { id: scheduleID } },
                 isTimeblock,
-                
+                objectUUID: crypto.randomUUID(),
                 goalPercentage: parseInt(goalPercentage)
             };
 
@@ -90,28 +128,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                 data["reoccuring"] = { create: { startOfDayRange, endOfDayRange } };
             } 
 
-            axios.post('/api/createTimebox', data)
-                .then(async () => {
-                    setAlert({
-                        open: true,
-                        title: "Timebox",
-                        message: "Added timebox!"
-                    });
-                    await queryClient.refetchQueries();
-                    closeModal();
-                })
-                .catch(function(error) {
-                    setAlert({
-                        open: true,
-                        title: "Error",
-                        message: "An error occurred, please try again or contact the developer"
-                    });
-                    console.log(error);
-                    closeModal();
-                });
-
-            
-            
+            createTimeboxMutation.mutate(data);
         }
     }
 

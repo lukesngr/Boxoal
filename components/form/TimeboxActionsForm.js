@@ -24,7 +24,6 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
     const [manualEntryModalShown, setManualEntryModalShown] = useState(false);
     const [showEditTimeboxForm, setShowEditTimeboxForm] = useState(false);
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
-    
     const noPreviousRecording = thereIsNoRecording(data.recordedTimeBoxes, data.reoccuring, date, time);
     const timeboxIsntRecording = timeboxRecording.timeboxID === -1;
     const timeboxIsRecording = timeboxRecording.timeboxID === data.id && timeboxRecording.timeboxDate === date;
