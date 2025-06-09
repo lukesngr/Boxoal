@@ -3,6 +3,8 @@ import { addBoxesToTime, getPercentageOfBoxSizeFilled } from "@/modules/boxCalcu
 import TimeboxActionsForm from "../form/TimeboxActionsForm";
 import { useEffect, useState } from "react";
 import { convertToTimeAndDate, convertToDayjs } from "@/modules/formatters";
+import { QueryClientProvider } from "react-query";
+import { queryClient } from "@/modules/queryClient";
 
 export default function NormalTimeBox(props) {
     const {boxSizeNumber, boxSizeUnit} = useSelector(state => state.profile.value);
@@ -12,10 +14,12 @@ export default function NormalTimeBox(props) {
     let endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
     let percentageOfBoxSizeFilled = getPercentageOfBoxSizeFilled(boxSizeUnit, boxSizeNumber, new Date(props.data.startTime), new Date(endTime));
     let calculatedHeight = `calc(${(Number(percentageOfBoxSizeFilled*100))}% + ${Number((percentageOfBoxSizeFilled-1)*2)}px)`
+    
     useEffect(() => {
         setNumberOfBoxes(String(props.data.numberOfBoxes));
     }, [props.data.numberOfBoxes]);
     return (<>
+    <QueryClientProvider client={queryClient}>
         <TimeboxActionsForm 
             visible={timeboxActionsFormVisible} 
             closeModal={() => setTimeboxActionsFormVisible(false)} 
@@ -28,5 +32,6 @@ export default function NormalTimeBox(props) {
                 <span className="timeboxText" style={props.data.isTimeblock ? ({color: 'white'}) : ({color: 'black'})}>{props.data.title}</span>
             </div>
         </div>
+    </QueryClientProvider>
     </>)
 }

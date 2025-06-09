@@ -50,6 +50,7 @@ export default async function handler(req, res) {
                 color: true,
                 id: true,
                 isTimeblock: true,
+                objectUUID: true,
                 recordedTimeBoxes: {
                   select: {
                     id: true,
@@ -88,6 +89,7 @@ export default async function handler(req, res) {
             color: true,
             id: true,
             isTimeblock: true,
+            objectUUID: true,
             recordedTimeBoxes: {
               select: {
                 id: true,

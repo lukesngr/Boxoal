@@ -21,6 +21,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Alert from "../base/Alert";
 import { muiActionButton, muiFormControlStyle, muiInputStyle, muiToggleButtonStyle } from '@/modules/muiStyles.js';
 import styles from "@/styles/muiStyles";
+import { useMutation } from "react-query";
 
 export default function EditTimeboxForm({ data, back, previousRecording, numberOfBoxesSetterAndGetter }) {
     const [title, setTitle] = useState(data.title);
@@ -34,10 +35,10 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
     const [startOfDayRange, setStartOfDayRange] = useState(data.reoccuring != null ? (data.reoccuring.startOfDayRange) : 0);
     const [endOfDayRange, setEndOfDayRange] = useState(data.reoccuring != null ? data.reoccuring.endOfDayRange : 0);
     const timeboxGrid = useSelector(state => state.timeboxGrid.value);
-
+    console.log(data);
     const {wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
     const { timeboxes, goals } = useSelector(state => state.scheduleData.value);
-
+    const {scheduleIndex} = useSelector(state => state.profile.value);
     let [time, date] = convertToTimeAndDate(data.startTime);
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
 
@@ -46,6 +47,78 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
         setDescription('');
         back();
     }
+
+    const updateTimeboxMutation = useMutation({
+        mutationFn: (timeboxData) => axios.put('/api/updateTimeBox', timeboxData),
+        onMutate: async (timeboxData) => {
+            await queryClient.cancelQueries(['schedule']); 
+            
+            const previousSchedule = queryClient.getQueryData(['schedule']);
+            
+            queryClient.setQueryData(['schedule'], (old) => {
+                if (!old) return old;
+                let copyOfOld = structuredClone(old);
+                let timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
+                copyOfOld[scheduleIndex].timeboxes[timeboxIndex] = {...timeboxData, recordedTimeBoxes: []};
+                let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
+                let timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
+                copyOfOld[scheduleIndex].goals[goalIndex].timeboxes[timeboxGoalIndex] = {...timeboxData, recordedTimeBoxes: []};
+                return copyOfOld;
+            });
+            
+            
+            return { previousSchedule };
+        },
+        onSuccess: () => {
+            setAlert({
+                    open: true,
+                    title: "Timebox",
+                    message: "Updated timebox!"
+            });
+            queryClient.invalidateQueries(['schedule']); // Refetch to get real data
+        },
+        onError: (error, goalData, context) => {
+            queryClient.setQueryData(['schedule'], context.previousGoals);
+            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            queryClient.invalidateQueries(['schedule']);
+        }
+    });
+
+    const deleteTimeboxMutation = useMutation({
+        mutationFn: (objectUUID) => axios.post('/api/deleteTimebox', {objectUUID: objectUUID}),
+        onMutate: async (objectUUID) => {
+            await queryClient.cancelQueries(['schedule']); 
+            
+            const previousSchedule = queryClient.getQueryData(['schedule']);
+            
+            queryClient.setQueryData(['schedule'], (old) => {
+                if (!old) return old;
+                let copyOfOld = structuredClone(old);
+                let timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == objectUUID);
+                copyOfOld[scheduleIndex].timeboxes.splice(timeboxIndex, 1);
+                let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
+                let timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == objectUUID);
+                copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.splice(timeboxGoalIndex, 1);
+                return copyOfOld;
+            });
+            
+            
+            return { previousSchedule };
+        },
+        onSuccess: () => {
+            setAlert({
+                open: true,
+                title: "Timebox",
+                message: "Deleted timebox!"
+            });
+            queryClient.invalidateQueries(['schedule']); // Refetch to get real data
+        },
+        onError: (error, goalData, context) => {
+            queryClient.setQueryData(['schedule'], context.previousGoals);
+            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            queryClient.invalidateQueries(['schedule']);
+        }
+    });
 
     function updateTimeBox() {
         let endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
@@ -69,45 +142,11 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
             updateData["reoccuring"] = { create: { startOfDayRange, endOfDayRange } };
         } 
 
-        axios.put('/api/updateTimeBox', updateData)
-            .then(async () => {
-                setAlert({
-                    open: true,
-                    title: "Timebox",
-                    message: "Updated timebox!"
-                });
-                await queryClient.refetchQueries();
-            })
-            .catch(function(error) {
-                setAlert({
-                    open: true,
-                    title: "Error",
-                    message: "An error occurred, please try again or contact the developer"
-                });
-                console.log(error);
-            });
+        updateTimeboxMutation.mutate(updateData);
     }
 
     function deleteTimeBox() {
-        axios.post('/api/deleteTimebox', {
-            id: data.id
-        })
-            .then(async () => {
-                setAlert({
-                    open: true,
-                    title: "Timebox",
-                    message: "Deleted timebox!"
-                });
-                await queryClient.refetchQueries();
-            })
-            .catch(function(error) {
-                setAlert({
-                    open: true,
-                    title: "Error",
-                    message: "An error occurred, please try again or contact the developer"
-                });
-                console.log(error);
-            });
+        deleteTimeboxMutation.mutate(data.objectUUID);
     }
 
     function clearRecording() {
