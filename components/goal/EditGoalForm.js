@@ -22,6 +22,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { muiActionButton, muiDatePicker, muiFormControlStyle, muiInputStyle, muiNonActionButton } from "../../modules/muiStyles";
 import styles from '@/styles/muiStyles.js';
+import { useMutation } from 'react-query';
+import { useSelector } from 'react-redux';
 
 export default function EditGoalForm(props) {
     const [title, setTitle] = useState(props.data.title);
@@ -29,27 +31,52 @@ export default function EditGoalForm(props) {
     const [targetDate, setTargetDate] = useState(dayjs(props.data.targetDate));
     const [completed, setCompleted] = useState(props.data.completed);
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
+    const {scheduleIndex} = useSelector(state => state.profile.value);
+
+    const updateGoalMutation = useMutation({
+        mutationFn: (goalData) => axios.put('/api/updateGoal', goalData),
+        onMutate: async (goalData) => {
+            await queryClient.cancelQueries(['schedule']); 
+            
+            const previousGoals = queryClient.getQueryData(['schedule']);
+            
+            queryClient.setQueryData(['schedule'], (old) => {
+                if (!old) return old;
+                let copyOfOld = structuredClone(old);
+                let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.objectUUID == props.data.objectUUID);
+                copyOfOld[scheduleIndex].goals[goalIndex] = {...goalData, timeboxes: copyOfOld[scheduleIndex].goals[goalIndex].timeboxes};
+                console.log(copyOfOld)
+                return copyOfOld;
+            });
+            
+            
+            return { previousGoals };
+        },
+        onSuccess: () => {
+            props.close();
+            setAlert({ open: true, title: "Timebox", message: "Updated goal!" });
+            queryClient.invalidateQueries(['schedule']); // Refetch to get real data
+        },
+        onError: (error, goalData, context) => {
+            queryClient.setQueryData(['schedule'], context.previousGoals);
+            props.close();
+            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            queryClient.invalidateQueries(['schedule']);
+        }
+    });
 
     function updateGoal() {
-        axios.put('/api/updateGoal', {
+        let goalData = {
             title,
             priority: parseInt(priority),
             targetDate: targetDate.toISOString(),
-            id: props.data.id,
+            objectUUID: props.data.objectUUID,
             completed,
             completedOn: new Date().toISOString(),
             active: !completed
-        })
-        .then(async () => {
-            props.close();
-            setAlert({ open: true, title: "Timebox", message: "Updated goal!" });
-            await queryClient.refetchQueries();
-        })
-        .catch(function(error) {
-            props.close();
-            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
-            console.log(error);
-        });
+        }
+        
+        updateGoalMutation.mutate(goalData);
 
         if(completed) {
             axios.get('/api/setNextGoalToActive', {line: props.data.partOfLine}).then(async () => {

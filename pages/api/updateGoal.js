@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     const data = req.body;
     await prisma.goal.update({
       where: {
-        id: data.id,
+        objectUUID: data.objectUUID,
       },
       data: data,
     });
