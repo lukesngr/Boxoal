@@ -13,11 +13,13 @@ import Button from '@mui/material/Button';
 import Alert from "../base/Alert";
 import styles from "@/styles/muiStyles";
 import { muiActionButton, muiInputStyle, muiNonActionButton } from "@/modules/muiStyles";
+import { useSelector } from "react-redux";
 
 export default function UpdateScheduleForm({ oldTitle, id, open, onClose }) {
     const [title, setTitle] = useState(oldTitle);
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const { user } = useAuthenticator();
+    const profile = useSelector(state => state.profile.value);
     
     async function updateSchedule() {
         try {
@@ -45,18 +47,24 @@ export default function UpdateScheduleForm({ oldTitle, id, open, onClose }) {
     }
 
     async function deleteSchedule() {
+        let scheduleBefore = (profile.scheduleIndex-1);
         try {
-            await axios.post('/api/deleteSchedule', {
+             axios.post('/api/deleteSchedule', {
                 userUUID: user.userId,
                 id: id
-            });
-            onClose();
-            setAlert({
-                open: true,
-                title: "Timebox",
-                message: "Deleted schedule!"
-            });
-            await queryClient.refetchQueries();
+            }).then(() => {
+                onClose();
+                if(profile.scheduleIndex > 0) {
+                    dispatch({type: 'profile/set', payload: {...profile, scheduleIndex: scheduleBefore}});
+                }
+                setAlert({
+                    open: true,
+                    title: "Timebox",
+                    message: "Deleted schedule!"
+                });
+                queryClient.refetchQueries();
+            })
+            
         } catch (error) {
             onClose();
             setAlert({
@@ -66,6 +74,7 @@ export default function UpdateScheduleForm({ oldTitle, id, open, onClose }) {
             });
             console.log(error);
         }
+        dispatch
     }
 
     return (

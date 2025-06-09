@@ -9,7 +9,6 @@ import axios from "axios";
 import { getProgressWithGoal } from "@/modules/coreLogic";
 import '../styles/dashboard.scss';
 import { Card, LinearProgress, Paper } from "@mui/material";
-
 import Statistics from "./Statistics";
 
 export default function Dashboard({user}) {
