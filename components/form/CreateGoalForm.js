@@ -5,7 +5,7 @@ import serverIP from '../../modules/serverIP';
 import { queryClient } from '../../modules/queryClient.js';
 import { getMaxNumberOfGoals } from '../../modules/coreLogic.js';
 import Alert from '../base/Alert';
-import { muiFormControlStyle } from "../../modules/muiStyles";
+import { muiActionButton, muiDatePicker, muiFormControlStyle, muiInputStyle, muiNonActionButton } from "../../modules/muiStyles";
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -75,12 +75,7 @@ export default function CreateGoalForm(props) {
                             onChange={(e) => setTitle(e.target.value)}
                             variant="standard"
                             data-testid="createGoalTitle"
-                            sx={{
-                                backgroundColor: 'white',
-                                '& .MuiInput-underline:before': {
-                                    borderBottomColor: 'black'
-                                }
-                            }}
+                            sx={muiInputStyle}
                         />
 
                         <TextField
@@ -88,12 +83,7 @@ export default function CreateGoalForm(props) {
                             value={priority}
                             onChange={(e) => setPriority(e.target.value)}
                             variant="standard"
-                            sx={{
-                                backgroundColor: 'white',
-                                '& .MuiInput-underline:before': {
-                                    borderBottomColor: 'black'
-                                }
-                            }}
+                            sx={muiInputStyle}
                         />
                         
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -104,30 +94,25 @@ export default function CreateGoalForm(props) {
                                     onChange={(newValue) => {
                                         setTargetDate(newValue);
                                     }}
+                                    sx={muiDatePicker}
                                 />
                             </div>
                         </LocalizationProvider>
                     </div>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={props.close} sx={{ color: 'white' }}>
-                        Close
-                    </Button>
                     <Button
                         onClick={createGoal}
                         variant="contained"
                         data-testid="createGoalButton"
-                        sx={{
-                            backgroundColor: 'white',
-                            color: 'black',
-                            '&:hover': {
-                                backgroundColor: 'black',
-                                color: 'white'
-                            }
-                        }}
+                        sx={muiActionButton}
                     >
                         Create
                     </Button>
+                    <Button onClick={props.close} sx={muiNonActionButton}>
+                        Close
+                    </Button>
+                    
                 </DialogActions>
             </Dialog>
             

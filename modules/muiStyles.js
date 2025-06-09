@@ -17,7 +17,35 @@ let muiInputStyle = { backgroundColor: 'white',
         borderBottomColor: 'black'
     },
     '& .MuiInputLabel-root.Mui-focused': {
-        color: 'black'
+        color: 'black',
+    },
+    '& .MuiInput-input': {
+        fontFamily: 'Kameron',
+        fontSize: 20
     }
 };
-export {muiFormControlStyle, muiInputStyle};
+
+let muiActionButton = {
+    backgroundColor: 'white',
+    color: 'black',
+    fontFamily: 'Koulen',
+    fontSize: 15,
+    borderRadius: 0,
+    '&:hover': {
+        backgroundColor: 'black',
+        color: 'white'
+    }
+}
+
+let muiNonActionButton = {
+    color: 'white',
+    fontFamily: 'Koulen',
+    fontSize: 15,
+}
+
+let muiDatePicker = {
+    '& .MuiInputBase-input': {
+      fontFamily: 'Kameron',
+      fontSize: 20
+    }}
+export {muiFormControlStyle, muiInputStyle, muiActionButton, muiNonActionButton, muiDatePicker};
