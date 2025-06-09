@@ -23,7 +23,8 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { muiFormControlStyle } from "@/modules/muiStyles";
+import { muiActionButton, muiFormControlStyle, muiInputStyle, muiNonActionButton } from "@/modules/muiStyles";
+import styles from "@/styles/muiStyles";
 
 export default function SettingsDialog({ visible, hideDialog, data }) {
     const { user } = useAuthenticator();
@@ -70,14 +71,9 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
             <Dialog
                 open={visible}
                 onClose={hideDialog}
-                PaperProps={{
-                    style: {
-                        backgroundColor: '#875F9A',
-                        borderRadius: '15px'
-                    }
-                }}
+                PaperProps={styles.paperProps}
             >
-                <DialogTitle sx={{ color: 'white' }}>Settings</DialogTitle>
+                <DialogTitle sx={{ color: 'white' }} className="dialogTitle">Settings</DialogTitle>
                 <DialogContent>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
 
@@ -86,12 +82,7 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                             <Select
                                 value={scheduleIndex}
                                 onChange={(e) => setScheduleIndex(e.target.value)}
-                                sx={{
-                                    backgroundColor: 'white',
-                                    '& .MuiInput-underline:before': {
-                                        borderBottomColor: 'black'
-                                    }
-                                }}
+                                sx={muiInputStyle}
                             >
                                 {data && data.map((schedule, index) => (
                                     <MenuItem key={index} value={index + 1}>
@@ -106,15 +97,7 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                             value={boxSizeNumber}
                             onChange={(e) => setBoxSizeNumber(e.target.value)}
                             variant="standard"
-                            sx={{
-                                backgroundColor: 'white',
-                                '& .MuiInput-underline:before': {
-                                    borderBottomColor: 'black'
-                                },
-                                '& .MuiInputLabel-root': {
-                                    color: 'black'
-                                }
-                            }}
+                            sx={muiInputStyle}
                         />
 
                         <FormControl variant="standard" sx={muiFormControlStyle}>
@@ -122,12 +105,7 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                             <Select
                                 value={boxSizeUnit}
                                 onChange={(e) => setBoxSizeUnit(e.target.value)}
-                                sx={{
-                                    backgroundColor: 'white',
-                                    '& .MuiInput-underline:before': {
-                                        borderBottomColor: 'black'
-                                    }
-                                }}
+                                sx={muiInputStyle}
                             >
                                 <MenuItem value="min">Min</MenuItem>
                                 <MenuItem value="hr">Hour</MenuItem>
@@ -143,15 +121,7 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                                     setWakeupTime(newValue);
                                     setTimePickerOpen(false);
                                 }}
-                                sx={{
-                                    
-                                    '& .MuiInput-underline:before': {
-                                        borderBottomColor: 'black'
-                                    },
-                                    '& .MuiInputLabel-root': {
-                                        color: 'black'
-                                    }
-                                }}
+                                sx={muiInputStyle}
                             />
                             </div>
                         </LocalizationProvider>
@@ -161,18 +131,11 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                     <Button
                         onClick={updateProfile}
                         variant="contained"
-                        sx={{
-                            backgroundColor: 'white',
-                            color: 'black',
-                            '&:hover': {
-                                backgroundColor: 'black',
-                                color: 'white'
-                            }
-                        }}
+                        sx={muiActionButton}
                     >
                         Update
                     </Button>
-                    <Button onClick={hideDialog} sx={{ color: 'white' }}>
+                    <Button onClick={hideDialog} sx={muiNonActionButton}>
                         Exit
                     </Button>
                 </DialogActions>

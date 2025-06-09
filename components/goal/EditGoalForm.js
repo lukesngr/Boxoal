@@ -20,7 +20,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { muiFormControlStyle } from "../../modules/muiStyles";
+import { muiActionButton, muiDatePicker, muiFormControlStyle, muiInputStyle, muiNonActionButton } from "../../modules/muiStyles";
 import styles from '@/styles/muiStyles.js';
 
 export default function EditGoalForm(props) {
@@ -83,7 +83,7 @@ export default function EditGoalForm(props) {
                 onClose={props.close}
                 PaperProps={styles.paperProps}
             >
-                <DialogTitle sx={{ color: 'white' }}>Edit Goal</DialogTitle>
+                <DialogTitle sx={{ color: 'white' }} className='dialogTitle'>Edit Goal</DialogTitle>
                 <DialogContent>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
                         <TextField
@@ -91,12 +91,7 @@ export default function EditGoalForm(props) {
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             variant="standard"
-                            sx={{
-                                backgroundColor: 'white',
-                                '& .MuiInput-underline:before': {
-                                    borderBottomColor: 'black'
-                                }
-                            }}
+                            sx={muiInputStyle}
                         />
 
                         <TextField
@@ -104,12 +99,7 @@ export default function EditGoalForm(props) {
                             value={priority}
                             onChange={(e) => setPriority(e.target.value)}
                             variant="standard"
-                            sx={{
-                                backgroundColor: 'white',
-                                '& .MuiInput-underline:before': {
-                                    borderBottomColor: 'black'
-                                }
-                            }}
+                            sx={muiInputStyle}
                         />
                         
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -121,6 +111,7 @@ export default function EditGoalForm(props) {
                                         setTargetDate(newValue);
                                         setDatePickerOpen(false);
                                     }}
+                                    sx={muiDatePicker}
                                 />
                             </div>
                         </LocalizationProvider>
@@ -131,12 +122,7 @@ export default function EditGoalForm(props) {
                             <Select
                                 value={completed}
                                 onChange={(e) => setCompleted(e.target.value)}
-                                sx={{
-                                    backgroundColor: 'white',
-                                    '& .MuiInput-underline:before': {
-                                        borderBottomColor: 'black'
-                                    }
-                                }}
+                                sx={muiInputStyle}
                             >
                                 <MenuItem value={false}>False</MenuItem>
                                 <MenuItem value={true}>True</MenuItem>
@@ -145,36 +131,25 @@ export default function EditGoalForm(props) {
                     </div>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={props.close} sx={{ color: 'white' }}>
-                        Close
-                    </Button>
-                    <Button 
-                        onClick={deleteGoal} 
-                        sx={{ color: 'white' }}
-                    >
-                        Delete
-                    </Button>
                     <Button
                         onClick={updateGoal}
                         variant="contained"
-                        sx={{
-                            backgroundColor: 'white',
-                            color: 'black',
-                            '&:hover': {
-                                backgroundColor: 'black',
-                                color: 'white'
-                            }
-                        }}
+                        sx={muiActionButton}
                     >
                         Update
+                    </Button>
+                    <Button 
+                        onClick={deleteGoal} 
+                        sx={muiNonActionButton}
+                    >
+                        Delete
+                    </Button>
+                    <Button onClick={props.close} sx={muiNonActionButton}>
+                        Close
                     </Button>
                 </DialogActions>
             </Dialog>
 
-            
-                    
-                
-            
             <Alert alert={alert} setAlert={setAlert} />
         </>
     );

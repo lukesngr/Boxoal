@@ -3,7 +3,7 @@ let styles = {
     {
         style: {
             backgroundColor: '#875F9A',
-            borderRadius: '15px'
+            borderRadius: '0px'
         }
     }}
 

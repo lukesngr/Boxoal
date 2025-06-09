@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'Koulen';
+    src: url('/Koulen-Regular.ttf');
+}
+
 .dialogTitle {
-    font-family: var(--koulen-font) !important;
+    font-family: 'Koulen' !important;
+    font-size: 1.5em !important;
 }
