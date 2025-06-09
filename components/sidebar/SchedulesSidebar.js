@@ -12,12 +12,15 @@ import GoalAccordion from './GoalAccordion';
 import CreateGoalForm from '../form/CreateGoalForm';
 import ParkIcon from '@mui/icons-material/Park';
 import { GoalTree } from '../goal/GoalTree';
+import CreateScheduleForm from '../form/CreateScheduleForm';
+import AddIcon from '@mui/icons-material/Add';
 
 export default function SchedulesSidebar(props) {
     const dispatch = useDispatch();
     const [isSideBarMobile, setIsSideBarMobile] = useState(true);
     const [createGoalModalOpen, setCreateGoalModalOpen] = useState(false);
     const [skillTreeOpen, setSkillTreeOpen] = useState(false);
+    const [createScheduleDialogOpen, setCreateScheduleDialogOpen] = useState(false);
     const {scheduleIndex} = useSelector(state => state.profile.value);
     const expanded = useSelector(state => state.expanded.value);
     let schedule = props.data[scheduleIndex];
@@ -50,6 +53,9 @@ export default function SchedulesSidebar(props) {
                     <IconButton onClick={() => setSkillTreeOpen(true)} className='minimizeButton'>
                         <ParkIcon></ParkIcon>
                     </IconButton>
+                    <IconButton onClick={() => setCreateScheduleDialogOpen(true)} className='minimizeButton'>
+                        <AddIcon></AddIcon>
+                    </IconButton>
                     </h1>
 
                 {schedule.goals.map((goal, index) => (<GoalAccordion key={index} goal={goal}></GoalAccordion>))}
@@ -59,6 +65,7 @@ export default function SchedulesSidebar(props) {
                 >Create Goal</Button>
             </div>
         </div>
+        <CreateScheduleForm open={createScheduleDialogOpen} onClose={() => setCreateScheduleDialogOpen(false)}></CreateScheduleForm>
         <CreateGoalForm visible={createGoalModalOpen} active={true} line={highestActiveIndex+1} close={() => setCreateGoalModalOpen(false)} id={schedule.id}  goals={schedule.goals}></CreateGoalForm>
         {skillTreeOpen && <GoalTree data={schedule} close={() => setSkillTreeOpen(false)}></GoalTree>}
         </>)
