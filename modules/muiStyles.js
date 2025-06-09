@@ -48,4 +48,20 @@ let muiDatePicker = {
       fontFamily: 'Kameron',
       fontSize: 20
     }}
-export {muiFormControlStyle, muiInputStyle, muiActionButton, muiNonActionButton, muiDatePicker};
+
+let muiToggleButtonStyle = {
+   '&:not(.Mui-selected)': {
+       backgroundColor: 'white',
+       color: 'black'
+   },
+   '&.Mui-selected': { 
+       backgroundColor: 'black', 
+       color: 'white',  
+       '&:hover': {
+           backgroundColor: 'black',
+           color: 'white',
+       }, 
+   }
+}
+
+export {muiFormControlStyle, muiInputStyle, muiActionButton, muiNonActionButton, muiDatePicker, muiToggleButtonStyle};

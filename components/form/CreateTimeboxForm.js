@@ -21,7 +21,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Collapse from '@mui/material/Collapse';
-import { muiFormControlStyle, muiInputStyle } from '@/modules/muiStyles.js';
+import { muiActionButton, muiFormControlStyle, muiInputStyle, muiNonActionButton, muiToggleButtonStyle } from '@/modules/muiStyles.js';
 import Alert from '../base/Alert.js';
 import { ToggleButton, ToggleButtonGroup, Slider, Typography } from '@mui/material';
 
@@ -143,31 +143,19 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                                 min={0}
                                 max={maxNumberOfBoxes}
                                 valueLabelDisplay="auto"
-                                sx={{ color: 'white', marginLeft: '10px', width: '90%' }}
+                                sx={{ color: 'white', marginLeft: '10px', width: '90%', paddingBottom: '0px' }}
                         />
                     </div>
-                        <ToggleButtonGroup
-                        color="primary"
-                        value={isTimeblock}
-                        exclusive
-                        onChange={(event, newMode) => setIsTimeBlock(newMode)}
-                        sx={{'& .MuiToggleButton-root': {
-      borderRadius: 0
-    }}}
-                        fullWidth
-                        >
-                        <ToggleButton sx={{'&.Mui-selected': { backgroundColor: 'black', color: 'white',  
-                            '&:hover': {
-                                backgroundColor: 'black',
-                                color: 'white',
-                            }, 
-                        }}} value={false}>Timebox</ToggleButton>
-                        <ToggleButton sx={{'&.Mui-selected': { backgroundColor: 'black', color: 'white',  
-                            '&:hover': {
-                                backgroundColor: 'black',
-                                color: 'white',
-                            }, 
-                        }}} value={true}>Timeblock</ToggleButton>
+                    <ToggleButtonGroup
+                    color="primary"
+                    value={isTimeblock}
+                    exclusive
+                    onChange={(event, newMode) => setIsTimeBlock(newMode)}
+                    sx={{'& .MuiToggleButton-root': {borderRadius: 0}}}
+                    fullWidth
+                    >
+                        <ToggleButton sx={muiToggleButtonStyle} value={false}>Timebox</ToggleButton>
+                        <ToggleButton sx={muiToggleButtonStyle} value={true}>Timeblock</ToggleButton>
                     </ToggleButtonGroup>
                     <TextField
                         label="Title"
@@ -186,19 +174,12 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                         data-testid="createTimeboxDescription"
                         sx={muiInputStyle}
                     />
-                   
-
                     {!isTimeblock && <FormControl variant="standard" sx={muiFormControlStyle}>
                         <InputLabel>Goal</InputLabel>
                         <Select
                             value={goalSelected}
                             onChange={(e) => setGoalSelected(e.target.value)}
-                            sx={{
-                                backgroundColor: 'white',
-                                '& .MuiInput-underline:before': {
-                                    borderBottomColor: 'black'
-                                }
-                            }}
+                            sx={muiInputStyle}
                         >
                             {activeGoals.map((goal) => (
                                     <MenuItem key={goal.id} value={goal.id}>
@@ -216,12 +197,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                                 <Select
                                     value={reoccuring}
                                     onChange={(e) => setReoccuring(e.target.value)}
-                                    sx={{
-                                        backgroundColor: 'white',
-                                        '& .MuiInput-underline:before': {
-                                            borderBottomColor: 'black'
-                                        }
-                                    }}
+                                    sx={muiInputStyle}
                                 >
                                     <MenuItem value={false}>No</MenuItem>
                                     <MenuItem value={true}>Yes</MenuItem>
@@ -235,12 +211,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                                         <Select
                                             value={startOfDayRange}
                                             onChange={(e) => setStartOfDayRange(e.target.value)}
-                                            sx={{
-                                                backgroundColor: 'white',
-                                                '& .MuiInput-underline:before': {
-                                                    borderBottomColor: 'black'
-                                                }
-                                            }}
+                                            sx={muiInputStyle}
                                         >
                                             {dayToName.map((day, index) => (
                                                 <MenuItem key={index} value={index}>
@@ -255,12 +226,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                                         <Select
                                             value={endOfDayRange}
                                             onChange={(e) => setEndOfDayRange(e.target.value)}
-                                            sx={{
-                                                backgroundColor: 'white',
-                                                '& .MuiInput-underline:before': {
-                                                    borderBottomColor: 'black'
-                                                }
-                                            }}
+                                            sx={muiInputStyle}
                                         >
                                             {dayToName.map((day, index) => (
                                                 <MenuItem key={index} value={index}>
@@ -283,29 +249,22 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                 </div>
             </DialogContent>
             <DialogActions>
-                <Button onClick={closeModal} sx={{ color: 'white' }}>
-                    Close
-                </Button>
-                <Button
-                    onClick={() => setMoreOptionsVisible(!moreOptionsVisible)}
-                    sx={{ color: 'white' }}
-                >
-                    {moreOptionsVisible ? 'Less Options' : 'More Options'}
-                </Button>
                 <Button
                     onClick={handleSubmit}
                     variant="contained"
                     data-testid="createTimebox"
-                    sx={{
-                        backgroundColor: 'white',
-                        color: 'black',
-                        '&:hover': {
-                            backgroundColor: 'black',
-                            color: 'white'
-                        }
-                    }}
+                    sx={muiActionButton}
                 >
                     Create
+                </Button>
+                <Button
+                    onClick={() => setMoreOptionsVisible(!moreOptionsVisible)}
+                    sx={muiNonActionButton}
+                >
+                    {moreOptionsVisible ? 'Less Options' : 'More Options'}
+                </Button>
+                <Button onClick={closeModal} sx={muiNonActionButton}>
+                    Close
                 </Button>
             </DialogActions>
         </Dialog>
