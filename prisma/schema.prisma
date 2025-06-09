@@ -34,6 +34,7 @@ model Goal {
   timeboxes  TimeBox[]
   schedule   Schedule? @relation(fields: [scheduleID], references: [id])
   scheduleID Int?
+  objectUUID String
 }
 
 model TimeBox {
@@ -53,6 +54,7 @@ model TimeBox {
   scheduleID        Int?
   recordedTimeBoxes RecordedTimeBox[]
   isTimeblock       Boolean?
+  objectUUID String
 }
 
 model Reoccuring {

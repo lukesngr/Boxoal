@@ -19,7 +19,7 @@ export default function Dashboard({user}) {
     let recordedTimeboxes = [];
     let averageProgress = 0;
     let goalsCompleted = 0;
-    let dataForSchedule;
+    let dataForSchedule = {timeboxes: [], recordedTimeboxes: []};
     useProfile(userId, dispatch);
 
     const {status, data, error, refetch} = useQuery({
@@ -35,6 +35,8 @@ export default function Dashboard({user}) {
 
     if(status === 'loading') return <Loading />
     if(status === 'error') return <p>Error: {error.message}</p>
+
+    console.log(data)
 
     if(data.length != 0) {
         dataForSchedule = data[scheduleIndex]
