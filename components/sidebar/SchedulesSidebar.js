@@ -43,6 +43,7 @@ export default function SchedulesSidebar(props) {
             highestActiveIndex = schedule.goals[i].partOfLine;
         }
     }
+    
 
     return (<>
         <div className={isSideBarMobile ? ("mobileSideBar") : ("col-2")} 

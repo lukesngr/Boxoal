@@ -37,7 +37,6 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const [description, setDescription] = useState("");
     const [goalSelected, setGoalSelected] = useState(String(activeGoals.length == 0 ? "" : activeGoals[0].id));
     const [isTimeblock, setIsTimeBlock] = useState(false);
-    console.log(activeGoals.length, activeGoals, goalSelected)
     
     const [moreOptionsVisible, setMoreOptionsVisible] = useState(false);
     const [reoccuring, setReoccuring] = useState(false);
