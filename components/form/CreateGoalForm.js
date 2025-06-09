@@ -66,7 +66,7 @@ export default function CreateGoalForm(props) {
                 onClose={props.close}
                 PaperProps={styles.paperProps}
             >
-                <DialogTitle sx={{ color: 'white' }} className='dialogTitle'>Create Goal</DialogTitle>
+                <DialogTitle className='dialogTitle'>Create Goal</DialogTitle>
                 <DialogContent>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
                         <TextField

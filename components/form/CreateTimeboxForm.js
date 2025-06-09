@@ -131,30 +131,12 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             hideBackdrop={true}
             disableScrollLock={true}
         >
-            <DialogTitle sx={{ color: 'white' }}>Create {isTimeblock ? "Timeblock" : "Timebox"}</DialogTitle>
+            <DialogTitle className='dialogTitle'>Create {isTimeblock ? "Timeblock" : "Timebox"}</DialogTitle>
             <DialogContent>
-                <ToggleButtonGroup
-                    color="primary"
-                    value={isTimeblock}
-                    exclusive
-                    onChange={(event, newMode) => {console.log(newMode); setIsTimeBlock(newMode)}}
-                    >
-                    <ToggleButton sx={{'&.Mui-selected': { backgroundColor: 'black', color: 'white',  
-                        '&:hover': {
-                            backgroundColor: 'black',
-                            color: 'white',
-                        }, 
-                    }}} value={false}>Timebox</ToggleButton>
-                    <ToggleButton sx={{'&.Mui-selected': { backgroundColor: 'black', color: 'white',  
-                        '&:hover': {
-                            backgroundColor: 'black',
-                            color: 'white',
-                        }, 
-                    }}} value={true}>Timeblock</ToggleButton>
-                </ToggleButtonGroup>
+                
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
                     <div>
-                        <Typography sx={{color: 'white'}}>Number Of Boxes</Typography>
+                        <Typography className='numberOfBoxesLabel'>Number Of Boxes</Typography>
 
                         <Slider value={parseInt(numberOfBoxes)} 
                                 onChange={(e) => setNumberOfBoxes(e.target.value)}
@@ -164,6 +146,29 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                                 sx={{ color: 'white', marginLeft: '10px', width: '90%' }}
                         />
                     </div>
+                        <ToggleButtonGroup
+                        color="primary"
+                        value={isTimeblock}
+                        exclusive
+                        onChange={(event, newMode) => setIsTimeBlock(newMode)}
+                        sx={{'& .MuiToggleButton-root': {
+      borderRadius: 0
+    }}}
+                        fullWidth
+                        >
+                        <ToggleButton sx={{'&.Mui-selected': { backgroundColor: 'black', color: 'white',  
+                            '&:hover': {
+                                backgroundColor: 'black',
+                                color: 'white',
+                            }, 
+                        }}} value={false}>Timebox</ToggleButton>
+                        <ToggleButton sx={{'&.Mui-selected': { backgroundColor: 'black', color: 'white',  
+                            '&:hover': {
+                                backgroundColor: 'black',
+                                color: 'white',
+                            }, 
+                        }}} value={true}>Timeblock</ToggleButton>
+                    </ToggleButtonGroup>
                     <TextField
                         label="Title"
                         value={title}

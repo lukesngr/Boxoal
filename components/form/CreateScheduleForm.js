@@ -12,6 +12,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Alert from "../base/Alert";
 import styles from "@/styles/muiStyles";
+import { muiActionButton, muiInputStyle, muiNonActionButton } from "@/modules/muiStyles";
 
 export default function CreateScheduleForm({ open, onClose }) {
     const [title, setTitle] = useState("");
@@ -50,7 +51,7 @@ export default function CreateScheduleForm({ open, onClose }) {
             onClose={onClose}
             PaperProps={styles.paperProps}
         >
-            <DialogTitle sx={{ color: 'white' }}>
+            <DialogTitle className="dialogTitle">
                 Create Schedule
             </DialogTitle>
             <DialogContent>
@@ -60,37 +61,20 @@ export default function CreateScheduleForm({ open, onClose }) {
                     variant="standard"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    sx={{
-                        backgroundColor: 'white',
-                        '& .MuiInput-underline:before': {
-                            borderBottomColor: 'black'
-                        },
-                        '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
-                            borderBottomColor: 'black'
-                        },
-                        '& .MuiInputLabel-root': {
-                            color: 'black'
-                        },
-                    }}
+                    sx={muiInputStyle}
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose} sx={{ color: 'white' }}>
-                    Close
-                </Button>
+                
                 <Button 
                     onClick={createSchedule}
                     variant="contained"
-                    sx={{ 
-                        backgroundColor: 'white',
-                        color: 'black',
-                        '&:hover': {
-                            backgroundColor: 'black',
-                            color: 'white'
-                        }
-                    }}
+                    sx={muiActionButton}
                 >
                     Create
+                </Button>
+                <Button onClick={onClose} sx={muiNonActionButton}>
+                    Close
                 </Button>
             </DialogActions>
         </Dialog>
