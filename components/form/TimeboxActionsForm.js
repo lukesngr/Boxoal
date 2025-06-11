@@ -62,13 +62,13 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                 return { previousSchedule };
             },
             onSuccess: () => {
+                closeModal();
                 setAlert({
                     open: true,
                     title: "Timebox",
                     message: "Added recorded timebox!"
                 });
                 queryClient.invalidateQueries(['schedule']); // Refetch to get real data
-                closeModal();
             },
             onError: (error, goalData, context) => {
                 queryClient.setQueryData(['schedule'], context.previousGoals);
