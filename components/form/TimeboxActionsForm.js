@@ -15,6 +15,7 @@ import ManualEntryTimeModal from "./ManualEntryTimeModal";
 import Alert from "../base/Alert";
 import Dialog from '@mui/material/Dialog';
 import styles from '@/styles/muiStyles.js';
+import { useMutation } from 'react-query';
 import { muiActionButton, muiNonActionButton } from '@/modules/muiStyles.js';
 
 export default function TimeboxActionsForm({ visible, data, date, time, closeModal, numberOfBoxes }) {
@@ -27,6 +28,56 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
     const noPreviousRecording = thereIsNoRecording(data.recordedTimeBoxes, data.reoccuring, date, time);
     const timeboxIsntRecording = timeboxRecording.timeboxID === -1;
     const timeboxIsRecording = timeboxRecording.timeboxID === data.id && timeboxRecording.timeboxDate === date;
+    const {scheduleIndex} = useSelector(state => state.profile.value);
+    console.log(data);
+
+    const createRecordingMutation = useMutation({
+            mutationFn: (recordingData) => axios.post('/api/createRecordedTimebox', recordingData),
+            onMutate: async (recordingData) => {
+                await queryClient.cancelQueries(['schedule']); 
+                
+                const previousSchedule = queryClient.getQueryData(['schedule']);
+                
+                queryClient.setQueryData(['schedule'], (old) => {
+                    if (!old) return old;
+                    //recordedTimeBoxes in schedule
+                    let copyOfOld = structuredClone(old);
+                    let recordingDataCopy = structuredClone(recordingData);
+                    recordingDataCopy.timeBox = data
+                    copyOfOld[scheduleIndex].recordedTimeboxes.push(recordingDataCopy);
+
+                    //recordedTimeboxes in timeboxes
+                    let timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
+                    copyOfOld[scheduleIndex].timeboxes[timeboxIndex].recordedTimeBoxes.push(recordingDataCopy);
+
+                    //recordedTimeBoxes in goals
+                    let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(data.goalID));
+                    let timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
+                    
+                    copyOfOld[scheduleIndex].goals[goalIndex].timeboxes[timeboxGoalIndex].recordedTimeBoxes.push(recordingDataCopy);
+                    return copyOfOld;
+                });
+                
+                
+                return { previousSchedule };
+            },
+            onSuccess: () => {
+                setAlert({
+                    open: true,
+                    title: "Timebox",
+                    message: "Added recorded timebox!"
+                });
+                queryClient.invalidateQueries(['schedule']); // Refetch to get real data
+                closeModal();
+            },
+            onError: (error, goalData, context) => {
+                queryClient.setQueryData(['schedule'], context.previousGoals);
+                setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+                queryClient.invalidateQueries(['schedule']);
+                console.log(error);
+                closeModal();
+            }
+        });
 
     async function startRecording() {
         // Start recording logic for web version
@@ -48,30 +99,14 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
         }});
         dispatch(setActiveOverlayInterval());
         
-        axios.post('/api/createRecordedTimebox', {
+        let recordingData = {
             recordedStartTime: recordedStartTime, 
             recordedEndTime: new Date(), 
-            timeBox: { connect: { id: data.id } }, 
-            schedule: { connect: { id: scheduleID } }
-        })
-        .then(async () => {
-            closeModal();
-            setAlert({
-                open: true,
-                title: "Timebox",
-                message: "Added recorded timebox!"
-            });
-            await queryClient.refetchQueries();
-        })
-        .catch(function(error) {
-            closeModal();
-            setAlert({
-                open: true,
-                title: "Error",
-                message: "An error occurred, please try again or contact the developer"
-            });
-            console.log(error); 
-        });
+            timeBox: { connect: { id: data.id, objectUUID: data.objectUUID } }, 
+            schedule: { connect: { id: scheduleID } },
+            objectUUID: crypto.randomUUID(),
+        };
+        createRecordingMutation.mutate(recordingData);
     }
     
     return (

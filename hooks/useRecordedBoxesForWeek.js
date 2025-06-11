@@ -29,10 +29,10 @@ export default function useRecordedBoxesForWeek(dayToName, recordedTimeboxes) {
                 }
 
                 let eitherIsNotZero = !(marginToRecording == 0 || recordingBoxHeight == 0); //due to overlay dimensions not being set at right time
-                let notAlreadyInCache = !recordingBoxesForDay.some(item => item.id === element.id); //if not already in cache
+                let notAlreadyInCache = !recordingBoxesForDay.some(item => item.objectUUID === element.objectUUID); //if not already in cache
 
                 if(eitherIsNotZero && notAlreadyInCache) { //if not already in malleableBoxes push it to it
-                    recordingBoxesForDay.push({timeBox: element.timeBox, id: element.id, recordingBoxHeight, marginToRecording, title: element.timeBox.title});
+                    recordingBoxesForDay.push({timeBox: element.timeBox, objectUUID: element.objectUUID, recordingBoxHeight, marginToRecording, title: element.timeBox.title});
                 }
             });
         }
