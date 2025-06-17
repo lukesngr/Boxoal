@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "RecordedTimeBox" ALTER COLUMN "recordedStartTime" SET DATA TYPE TIMESTAMPTZ,
+ALTER COLUMN "recordedEndTime" SET DATA TYPE TIMESTAMPTZ;

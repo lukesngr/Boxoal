@@ -24,6 +24,7 @@
     "@mui/x-date-pickers": "^6.18.6",
     "@prisma/client": "^5.9.0",
     "@reduxjs/toolkit": "^2.2.2",
+    "@sentry/nextjs": "^9.29.0",
     "@tanstack/react-query-devtools": "^4.32.6",
     "axios": "^1.4.0",
     "bootstrap": "^5.3.1",
