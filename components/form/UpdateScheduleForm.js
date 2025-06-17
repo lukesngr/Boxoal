@@ -3,6 +3,7 @@ import { useState } from "react";
 import serverIP from "../../modules/serverIP";
 import { queryClient } from "@/modules/queryClient";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import { useMutation } from "react-query";
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -16,15 +17,15 @@ import { muiActionButton, muiInputStyle, muiNonActionButton } from "@/modules/mu
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 
-export default function UpdateScheduleForm({ oldTitle, id, open, onClose }) {
-    const [title, setTitle] = useState(oldTitle);
+export default function UpdateScheduleForm({ schedule, open, onClose }) {
+    const [title, setTitle] = useState(schedule.title);
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const { user } = useAuthenticator();
     const profile = useSelector(state => state.profile.value);
 
     useEffect(() => {
-        setTitle(oldTitle);
-    }, [oldTitle]);
+        setTitle(schedule.title);
+    }, [schedule.title]);
 
     const updateScheduleMutation = useMutation({
         mutationFn: (scheduleData) => axios.put('/api/updateSchedule', scheduleData),
@@ -44,7 +45,7 @@ export default function UpdateScheduleForm({ oldTitle, id, open, onClose }) {
             return { previousSchedule };
         },
         onSuccess: () => {
-            closeModal();
+            onClose();
             setAlert({
                 open: true,
                 title: "Timebox",
@@ -57,7 +58,7 @@ export default function UpdateScheduleForm({ oldTitle, id, open, onClose }) {
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             queryClient.invalidateQueries(['schedule']);
             console.log(error);
-            closeModal();
+            onClose();
         }
     });
 
@@ -104,7 +105,7 @@ export default function UpdateScheduleForm({ oldTitle, id, open, onClose }) {
        updateScheduleMutation.mutate({
                 title,
                 userUUID: user.userId,
-                id: id
+                id: schedule.id
         });
     }
 
@@ -112,7 +113,7 @@ export default function UpdateScheduleForm({ oldTitle, id, open, onClose }) {
         
         deleteScheduleMutation.mutate({
                 userUUID: user.userId,
-                id: id
+                id: schedule.id
         });
             
     }

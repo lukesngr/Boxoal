@@ -78,7 +78,7 @@ export default function SchedulesSidebar(props) {
         
             <CreateScheduleForm open={createScheduleDialogOpen} onClose={() => setCreateScheduleDialogOpen(false)}></CreateScheduleForm>
             <CreateGoalForm visible={createGoalModalOpen} active={true} line={highestActiveIndex+1} close={() => setCreateGoalModalOpen(false)} id={schedule.id}  goals={schedule.goals}></CreateGoalForm>
-            <UpdateScheduleForm open={updateScheduleDialogOpen} onClose={() => setUpdateScheduleDialogOpen(false)} oldTitle={schedule.title} id={schedule.id}></UpdateScheduleForm>
+            <UpdateScheduleForm open={updateScheduleDialogOpen} onClose={() => setUpdateScheduleDialogOpen(false)} schedule={schedule}></UpdateScheduleForm>
         </QueryClientProvider>
         {skillTreeOpen && <GoalTree data={schedule} close={() => setSkillTreeOpen(false)}></GoalTree>}
         </>)
