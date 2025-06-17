@@ -25,61 +25,96 @@ export default function UpdateScheduleForm({ oldTitle, id, open, onClose }) {
     useEffect(() => {
         setTitle(oldTitle);
     }, [oldTitle]);
-    
-    async function updateSchedule() {
-        try {
-            await axios.put('/api/updateSchedule', {
-                title,
-                userUUID: user.userId,
-                id: id
+
+    const updateScheduleMutation = useMutation({
+        mutationFn: (scheduleData) => axios.put('/api/updateSchedule', scheduleData),
+        onMutate: async (scheduleData) => {
+            await queryClient.cancelQueries(['schedule']); 
+            
+            const previousSchedule = queryClient.getQueryData(['schedule']);
+            
+            queryClient.setQueryData(['schedule'], (old) => {
+                if (!old) return old;
+                let copyOfOld = structuredClone(old);
+                copyOfOld[profile.scheduleIndex].title = scheduleData.title; 
+                return copyOfOld;
             });
-            onClose();
+            
+            
+            return { previousSchedule };
+        },
+        onSuccess: () => {
+            closeModal();
             setAlert({
                 open: true,
                 title: "Timebox",
                 message: "Updated schedule!"
             });
-            await queryClient.refetchQueries();
-        } catch (error) {
+            queryClient.invalidateQueries(['schedule']); // Refetch to get real data
+        },
+        onError: (error, scheduleData, context) => {
+            queryClient.setQueryData(['schedule'], context.previousGoals);
+            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            queryClient.invalidateQueries(['schedule']);
+            console.log(error);
+            closeModal();
+        }
+    });
+
+    const deleteScheduleMutation = useMutation({
+        mutationFn: (scheduleData) => axios.post('/api/deleteSchedule', scheduleData),
+        onMutate: async (scheduleData) => {
+            await queryClient.cancelQueries(['schedule']); 
+            
+            const previousSchedule = queryClient.getQueryData(['schedule']);
+            
+            queryClient.setQueryData(['schedule'], (old) => {
+                if (!old) return old;
+                let copyOfOld = structuredClone(old);
+                copyOfOld.splice(profile.scheduleIndex, 1); 
+                return copyOfOld;
+            });
+            
+            
+            return { previousSchedule };
+        },
+        onSuccess: () => {
+            let scheduleBefore = (profile.scheduleIndex-1);
+            if(profile.scheduleIndex > 0) {
+                    dispatch({type: 'profile/set', payload: {...profile, scheduleIndex: scheduleBefore}});
+            }
             onClose();
             setAlert({
                 open: true,
-                title: "Error",
-                message: "An error occurred, please try again or contact the developer"
+                title: "Timebox",
+                message: "Delete schedule!"
             });
+            queryClient.invalidateQueries(['schedule']); // Refetch to get real data
+        },
+        onError: (error, scheduleData, context) => {
+            queryClient.setQueryData(['schedule'], context.previousGoals);
+            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            queryClient.invalidateQueries(['schedule']);
             console.log(error);
+            onClose();
         }
+    });
+    
+    async function updateSchedule() {
+       updateScheduleMutation.mutate({
+                title,
+                userUUID: user.userId,
+                id: id
+        });
     }
 
     async function deleteSchedule() {
-        let scheduleBefore = (profile.scheduleIndex-1);
-        try {
-             axios.post('/api/deleteSchedule', {
+        
+        deleteScheduleMutation.mutate({
                 userUUID: user.userId,
                 id: id
-            }).then(() => {
-                onClose();
-                if(profile.scheduleIndex > 0) {
-                    dispatch({type: 'profile/set', payload: {...profile, scheduleIndex: scheduleBefore}});
-                }
-                setAlert({
-                    open: true,
-                    title: "Timebox",
-                    message: "Deleted schedule!"
-                });
-                queryClient.refetchQueries();
-            })
+        });
             
-        } catch (error) {
-            onClose();
-            setAlert({
-                open: true,
-                title: "Error",
-                message: "An error occurred, please try again or contact the developer"
-            });
-            console.log(error);
-        }
-        dispatch
     }
 
     return (
