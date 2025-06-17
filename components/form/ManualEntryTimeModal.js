@@ -5,6 +5,8 @@ import serverIP from "../../modules/serverIP";
 import { queryClient } from '../../modules/queryClient.js';
 import { convertToTimeAndDate } from "../../modules/formatters.js";
 import dayjs from 'dayjs';
+import { useMutation } from "react-query";
+import { useSelector } from "react-redux";
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -21,41 +23,65 @@ import { muiActionButton, muiDatePicker, muiInputStyle, muiNonActionButton } fro
 export default function ManualEntryTimeModal({ visible, close, data, scheduleID, setAlert }) {
     const [recordedStartTime, setRecordedStartTime] = useState(dayjs(data.startTime));
     const [recordedEndTime, setRecordedEndTime] = useState(dayjs(data.endTime));
+    const {scheduleIndex} = useSelector(state => state.profile.value);
 
-    function submitManualEntry() {
-        axios.post('/api/createRecordedTimebox', {
-            recordedStartTime: recordedStartTime.toDate(), 
-            recordedEndTime: recordedEndTime.toDate(),
-            timeBox: {connect: {id: data.id}}, 
-            schedule: {connect: {id: scheduleID}}
-        }).then(async () => {
-            close();
+    const createRecordingMutation = useMutation({
+        mutationFn: (recordingData) => axios.post('/api/createRecordedTimebox', recordingData),
+        onMutate: async (recordingData) => {
+            await queryClient.cancelQueries(['schedule']); 
+            
+            const previousSchedule = queryClient.getQueryData(['schedule']);
+            
+            queryClient.setQueryData(['schedule'], (old) => {
+                if (!old) return old;
+                //recordedTimeBoxes in schedule
+                let copyOfOld = structuredClone(old);
+                let recordingDataCopy = structuredClone(recordingData);
+                recordingDataCopy.timeBox = data
+                copyOfOld[scheduleIndex].recordedTimeboxes.push(recordingDataCopy);
+
+                //recordedTimeboxes in timeboxes
+                let timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
+                copyOfOld[scheduleIndex].timeboxes[timeboxIndex].recordedTimeBoxes.push(recordingDataCopy);
+
+                //recordedTimeBoxes in goals
+                let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(data.goalID));
+                let timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
+                
+                copyOfOld[scheduleIndex].goals[goalIndex].timeboxes[timeboxGoalIndex].recordedTimeBoxes.push(recordingDataCopy);
+                return copyOfOld;
+            });
+            
+            
+            return { previousSchedule };
+        },
+        onSuccess: () => {
+            closeModal();
             setAlert({
                 open: true,
-                title: "Timebox", 
+                title: "Timebox",
                 message: "Added recorded timebox!"
             });
-            await queryClient.refetchQueries();
-        }).catch(function(error) {
-            close();
-            setAlert({
-                open: true,
-                title: "Error", 
-                message: "An error occurred, please try again or contact the developer"
-            });
-            console.log(error.message); 
-        });
-        
-        let [date, time] = convertToTimeAndDate(data.startTime);
-        let timeboxTitle = data.title;
-        let timebox = {
-            ...data, 
-            recordedTimeBoxes: [{
-                recordedStartTime: recordedStartTime.toDate(), 
-                recordedEndTime: recordedEndTime.toDate(), 
-                title: timeboxTitle
-            }]
+            queryClient.invalidateQueries(['schedule']); // Refetch to get real data
+        },
+        onError: (error, goalData, context) => {
+            queryClient.setQueryData(['schedule'], context.previousGoals);
+            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            queryClient.invalidateQueries(['schedule']);
+            console.log(error);
+            closeModal();
+        }
+    });
+
+    function submitManualEntry() {
+       let recordingData = {
+            recordedStartTime: recordedStartTime.toDate(), 
+            recordedEndTime: recordedEndTime.toDate(), 
+            timeBox: { connect: { id: data.id, objectUUID: data.objectUUID } }, 
+            schedule: { connect: { id: scheduleID } },
+            objectUUID: crypto.randomUUID(),
         };
+        createRecordingMutation.mutate(recordingData);
     }
 
     return (

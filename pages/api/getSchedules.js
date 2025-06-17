@@ -54,6 +54,7 @@ export default async function handler(req, res) {
                 recordedTimeBoxes: {
                   select: {
                     id: true,
+                    objectUUID: true,
                     timeBox: { select: { id: true, title: true, description: true }}
                   }
                 },
@@ -95,6 +96,7 @@ export default async function handler(req, res) {
                 id: true,
                 recordedStartTime: true,
                 timeBoxID: true,
+                objectUUID: true,
                 timeBox: { select: { title: true, description: true }}
               }
             },
@@ -123,6 +125,7 @@ export default async function handler(req, res) {
             id: true,
             recordedStartTime: true,
             recordedEndTime: true,
+            objectUUID: true,
             timeBox: {
               select: {
                 id: true, 

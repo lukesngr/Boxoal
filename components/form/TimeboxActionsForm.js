@@ -29,7 +29,6 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
     const timeboxIsntRecording = timeboxRecording.timeboxID === -1;
     const timeboxIsRecording = timeboxRecording.timeboxID === data.id && timeboxRecording.timeboxDate === date;
     const {scheduleIndex} = useSelector(state => state.profile.value);
-    console.log(data);
 
     const createRecordingMutation = useMutation({
             mutationFn: (recordingData) => axios.post('/api/createRecordedTimebox', recordingData),
