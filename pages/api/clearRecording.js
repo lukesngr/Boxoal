@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     const data = req.body;
 
     const recordedTimeBoxes = await prisma.timeBox.findUnique({
-      where: { id: data.id, recordedTimeBoxes: { some: {} } },
+      where: { objectUUID: data.objectUUID, recordedTimeBoxes: { some: {} } },
       select: { recordedTimeBoxes: { select: { id: true } } }
     });
 

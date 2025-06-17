@@ -35,7 +35,6 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
     const [startOfDayRange, setStartOfDayRange] = useState(data.reoccuring != null ? (data.reoccuring.startOfDayRange) : 0);
     const [endOfDayRange, setEndOfDayRange] = useState(data.reoccuring != null ? data.reoccuring.endOfDayRange : 0);
     const timeboxGrid = useSelector(state => state.timeboxGrid.value);
-    console.log(data);
     const {wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
     const { timeboxes, goals } = useSelector(state => state.scheduleData.value);
     const {scheduleIndex} = useSelector(state => state.profile.value);
