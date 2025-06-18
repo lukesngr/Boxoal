@@ -80,6 +80,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
+            Sentry.captureException(error);
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             Sentry.captureException(error);
             queryClient.invalidateQueries(['schedule']);
