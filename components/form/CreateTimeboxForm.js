@@ -63,7 +63,6 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                 copyOfOld[scheduleIndex].timeboxes.push({...timeboxData, recordedTimeBoxes: []});
                 let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
                 copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.push({...timeboxData, recordedTimeBoxes: []})
-                console.log(copyOfOld)
                 return copyOfOld;
             });
             
@@ -81,8 +80,8 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
-            Sentry.captureException(error);
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            Sentry.captureException(error);
             queryClient.invalidateQueries(['schedule']);
             closeModal();
         }
@@ -110,7 +109,6 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             let color = isTimeblock ? ('black') : (listOfColors[Math.floor(Math.random() * listOfColors.length)]);
 
             let data = {
-                title,
                 description,
                 startTime,
                 endTime,
@@ -159,7 +157,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
 
                         <Slider value={parseInt(numberOfBoxes)} 
                                 onChange={(e) => setNumberOfBoxes(e.target.value)}
-                                min={0}
+                                min={1}
                                 max={maxNumberOfBoxes}
                                 valueLabelDisplay="auto"
                                 sx={{ color: 'white', marginLeft: '10px', width: '90%', paddingBottom: '0px' }}

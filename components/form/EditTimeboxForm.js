@@ -62,6 +62,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                 let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
                 let timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
                 copyOfOld[scheduleIndex].goals[goalIndex].timeboxes[timeboxGoalIndex] = {...timeboxData, recordedTimeBoxes: []};
+                console.log(timeboxData)
                 return copyOfOld;
             });
             
@@ -188,7 +189,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
 
                         <Slider value={parseInt(numberOfBoxes)} 
                                 onChange={(e) => setNumberOfBoxes(e.target.value)}
-                                min={0}
+                                min={1}
                                 max={maxNumberOfBoxes}
                                 valueLabelDisplay="auto"
                                 sx={{ color: 'white', marginLeft: '10px', width: '90%', paddingBottom: '0px' }}
