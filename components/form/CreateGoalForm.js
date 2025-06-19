@@ -20,6 +20,7 @@ import styles from '@/styles/muiStyles';
 import { useMutation } from 'react-query';
 import { useProfile } from '@/hooks/useProfile';
 import { useSelector } from 'react-redux';
+import * as Sentry from "@sentry/nextjs";
 
 export default function CreateGoalForm(props) {
     const [title, setTitle] = useState("");
@@ -60,6 +61,7 @@ export default function CreateGoalForm(props) {
             props.close();
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             queryClient.invalidateQueries(['schedule']);
+            Sentry.captureException(error);
         }
     });
     

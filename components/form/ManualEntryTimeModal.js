@@ -7,7 +7,7 @@ import { convertToTimeAndDate } from "../../modules/formatters.js";
 import dayjs from 'dayjs';
 import { useMutation } from "react-query";
 import { useSelector } from "react-redux";
-
+import * as Sentry from "@sentry/nextjs";
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -68,7 +68,7 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID,
             queryClient.setQueryData(['schedule'], context.previousGoals);
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             queryClient.invalidateQueries(['schedule']);
-            console.log(error);
+            Sentry.captureException(error);
             closeModal();
         }
     });

@@ -16,6 +16,7 @@ import styles from "@/styles/muiStyles";
 import { muiActionButton, muiInputStyle, muiNonActionButton } from "@/modules/muiStyles";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import * as Sentry from "@sentry/nextjs";
 
 export default function UpdateScheduleForm({ schedule, open, onClose }) {
     const [title, setTitle] = useState(schedule.title);
@@ -96,7 +97,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
             queryClient.setQueryData(['schedule'], context.previousGoals);
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             queryClient.invalidateQueries(['schedule']);
-            console.log(error);
+            Sentry.captureException(error);
             onClose();
         }
     });

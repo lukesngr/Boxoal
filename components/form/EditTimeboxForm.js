@@ -22,6 +22,7 @@ import Alert from "../base/Alert";
 import { muiActionButton, muiFormControlStyle, muiInputStyle, muiToggleButtonStyle } from '@/modules/muiStyles.js';
 import styles from "@/styles/muiStyles";
 import { useMutation } from "react-query";
+import * as Sentry from "@sentry/nextjs";
 
 export default function EditTimeboxForm({ data, back, previousRecording, numberOfBoxesSetterAndGetter }) {
     const [title, setTitle] = useState(data.title);
@@ -114,6 +115,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
+            Sentry.captureException(error);
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             queryClient.invalidateQueries(['schedule']);
         }

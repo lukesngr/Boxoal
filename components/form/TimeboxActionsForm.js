@@ -17,6 +17,7 @@ import Dialog from '@mui/material/Dialog';
 import styles from '@/styles/muiStyles.js';
 import { useMutation } from 'react-query';
 import { muiActionButton, muiNonActionButton } from '@/modules/muiStyles.js';
+import * as Sentry from "@sentry/nextjs";
 
 export default function TimeboxActionsForm({ visible, data, date, time, closeModal, numberOfBoxes }) {
     const timeboxRecording = useSelector(state => state.timeboxRecording.value);
@@ -73,7 +74,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                 queryClient.setQueryData(['schedule'], context.previousGoals);
                 setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
                 queryClient.invalidateQueries(['schedule']);
-                console.log(error);
+                Sentry.captureException(error);
                 closeModal();
             }
         });
