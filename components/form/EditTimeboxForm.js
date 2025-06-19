@@ -40,7 +40,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
     const {scheduleIndex} = useSelector(state => state.profile.value);
     let [time, date] = convertToTimeAndDate(data.startTime);
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
-
+    console.log(data);
     function closeModal() {
         setTitle('');
         setDescription('');
@@ -62,7 +62,6 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                 let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
                 let timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
                 copyOfOld[scheduleIndex].goals[goalIndex].timeboxes[timeboxGoalIndex] = {...timeboxData, recordedTimeBoxes: []};
-                console.log(timeboxData)
                 return copyOfOld;
             });
             
@@ -75,7 +74,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                     title: "Timebox",
                     message: "Updated timebox!"
             });
-            queryClient.invalidateQueries(['schedule']); // Refetch to get real data
+            //queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
@@ -127,6 +126,8 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
             isTimeblock,
             id: data.id,
             title,
+            color: data.color,
+            objectUUID: data.objectUUID,
             description,
             startTime: data.startTime,
             endTime,
