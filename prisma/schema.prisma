@@ -46,7 +46,6 @@ model TimeBox {
   color             String
   startTime         DateTime          @db.Timestamptz
   endTime           DateTime          @db.Timestamptz
-  goalPercentage    Int
   reoccuring        Reoccuring?       @relation(fields: [reoccuringID], references: [id])
   reoccuringID      Int?
   goal              Goal?             @relation(fields: [goalID], references: [id])
