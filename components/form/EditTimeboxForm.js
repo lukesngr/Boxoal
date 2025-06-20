@@ -74,10 +74,11 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                     title: "Timebox",
                     message: "Updated timebox!"
             });
-            //queryClient.invalidateQueries(['schedule']); // Refetch to get real data
+            queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
+            Sentry.captureException(error);
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             queryClient.invalidateQueries(['schedule']);
         }
