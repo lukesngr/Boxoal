@@ -65,7 +65,6 @@ export default async function handler(req, res) {
                     endOfDayRange: true,
                   }
                 },
-                goalPercentage: true,
                 goalID: true
               },
             }
@@ -108,7 +107,6 @@ export default async function handler(req, res) {
                 endOfDayRange: true,
               }
             },
-            goalPercentage: true
           }
         },
         recordedTimeboxes: {

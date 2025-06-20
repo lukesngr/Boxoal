@@ -43,7 +43,6 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const [reoccuring, setReoccuring] = useState(false);
     const [startOfDayRange, setStartOfDayRange] = useState(0);
     const [endOfDayRange, setEndOfDayRange] = useState(6);
-    const [goalPercentage, setGoalPercentage] = useState('0');
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     let transformPercentages = ['35%', '45%', '55%', '65%', '40%', '50%', '55%'];
 
@@ -117,7 +116,6 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                 schedule: { connect: { id: scheduleID } },
                 isTimeblock,
                 objectUUID: crypto.randomUUID(),
-                goalPercentage: parseInt(goalPercentage)
             };
 
             if (!isTimeblock) {
@@ -254,13 +252,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                                     </FormControl>
                                 </Stack>)}
 
-                            {!isTimeblock && <TextField
-                                label="Percentage of Goal"
-                                value={goalPercentage}
-                                onChange={(e) => setGoalPercentage(e.target.value)}
-                                variant="standard"
-                                sx={muiInputStyle}
-                            />}
+                            
                         </div>
                     </Collapse>
                 </div>

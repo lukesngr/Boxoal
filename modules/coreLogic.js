@@ -60,11 +60,7 @@ export function getProgressWithGoal(timeboxes) {
 
     timeboxes.forEach(element => {
         if(element.recordedTimeBoxes.length > 0) {
-            if(element.goalPercentage == 0) {
-                percentage += (1/timeboxes.length);
-            }else{
-                percentage += element.goalPercentage;
-            }
+            percentage += (1/timeboxes.length);
         }
     });
 

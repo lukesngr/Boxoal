@@ -32,7 +32,6 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const [reoccuring, setReoccuring] = useState(data.reoccuring != null);
     const [isTimeblock, setIsTimeBlock] = useState(data.isTimeblock);
-    const [goalPercentage, setGoalPercentage] = useState(String(data.goalPercentage));
     const [startOfDayRange, setStartOfDayRange] = useState(data.reoccuring != null ? (data.reoccuring.startOfDayRange) : 0);
     const [endOfDayRange, setEndOfDayRange] = useState(data.reoccuring != null ? data.reoccuring.endOfDayRange : 0);
     const timeboxGrid = useSelector(state => state.timeboxGrid.value);
@@ -41,7 +40,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
     const {scheduleIndex} = useSelector(state => state.profile.value);
     let [time, date] = convertToTimeAndDate(data.startTime);
     let maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
-    console.log(data);
+   
     function closeModal() {
         setTitle('');
         setDescription('');
@@ -134,7 +133,6 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
             startTime: data.startTime,
             endTime,
             numberOfBoxes: parseInt(numberOfBoxes),
-            goalPercentage: parseInt(goalPercentage)
         };
 
         if(isTimeblock) {
@@ -288,14 +286,6 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                                 </Select>
                             </FormControl>
                         </Stack>)}
-
-                    {!data.isTimeblock && <TextField
-                        label="Percentage of Goal"
-                        value={goalPercentage}
-                        onChange={(e) => setGoalPercentage(e.target.value)}
-                        variant="standard"
-                        sx={muiInputStyle}
-                    />}
                 </div>
             </DialogContent>
             <DialogActions>
