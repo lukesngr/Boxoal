@@ -58,7 +58,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
             queryClient.setQueryData(['schedule'], context.previousGoals);
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             queryClient.invalidateQueries(['schedule']);
-            console.log(error);
+            Sentry.captureException(error);
             onClose();
         }
     });

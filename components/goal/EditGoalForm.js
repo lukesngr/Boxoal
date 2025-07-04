@@ -24,6 +24,7 @@ import { muiActionButton, muiDatePicker, muiFormControlStyle, muiInputStyle, mui
 import styles from '@/styles/muiStyles.js';
 import { useMutation } from 'react-query';
 import { useSelector } from 'react-redux';
+import * as Sentry from "@sentry/nextjs";
 
 export default function EditGoalForm(props) {
     const [title, setTitle] = useState(props.data.title);
@@ -45,7 +46,6 @@ export default function EditGoalForm(props) {
                 let copyOfOld = structuredClone(old);
                 let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.objectUUID == props.data.objectUUID);
                 copyOfOld[scheduleIndex].goals[goalIndex] = {...goalData, timeboxes: copyOfOld[scheduleIndex].goals[goalIndex].timeboxes};
-                console.log(copyOfOld)
                 return copyOfOld;
             });
             
@@ -60,6 +60,7 @@ export default function EditGoalForm(props) {
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
             props.close();
+            Sentry.captureException(error);
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             queryClient.invalidateQueries(['schedule']);
         }
