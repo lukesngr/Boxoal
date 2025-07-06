@@ -94,6 +94,7 @@ export default async function handler(req, res) {
               select: {
                 id: true,
                 recordedStartTime: true,
+                recordedEndTime: true,
                 timeBoxID: true,
                 objectUUID: true,
                 timeBox: { select: { title: true, description: true }}
