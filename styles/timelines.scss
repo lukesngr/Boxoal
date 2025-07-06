@@ -1,0 +1,29 @@
+.timelineBar {
+    height: 40px;
+    width: 100%;
+    background: white;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
+
+.timelineRecordingBar {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    grid-column: 1;
+    grid-row: 1;
+    z-index: 2;
+    border: 1px solid red;
+    background-image: url(/recordingbox.svg);
+    background-repeat: repeat;
+}
+
+.timelineTimeboxBar {
+    width: 80%;
+    height: 100%;
+    background-color: black;
+    grid-column: 1;
+    grid-row: 1;
+    z-index: 1;
+}
