@@ -20,23 +20,24 @@ export default function TimelineRecording({timeboxStart, timeboxEnd, recordingSt
   
   let recordingBlockWidth = Math.round(((recordingEndTime - recordingStartTime) / totalDurationInEpoch)*100);
   let timeboxBlockWidth = Math.round(((timeboxEndTime - timeboxStartTime) / totalDurationInEpoch)*100);
-  console.log(recordingBlockWidth, timeboxBlockWidth);
+  let startInEpoch = Math.min(recordingStartTime, timeboxStartTime);
+  let recordingMargin = Math.round(((recordingStartTime - startInEpoch) / totalDurationInEpoch)*100);
+  let timeboxMargin = Math.round(((timeboxStartTime - startInEpoch) / totalDurationInEpoch)*100);
 
   return (
     <div className="timeline-container">
       <div className="timelineBar">
           <div 
             className="timelineRecordingBar"
-            style={{ width: `${recordingBlockWidth}%` }}
+            style={{ width: `${recordingBlockWidth}%`, marginLeft: `${recordingMargin}%` }}
           />
         
           <div 
             className="timelineTimeboxBar"
-            style={{ width: `${timeboxBlockWidth}%` }}
+            style={{ width: `${timeboxBlockWidth}%`, marginLeft: `${timeboxMargin}%` }}
           />
       </div>
       
-      {/* Duration label */}
       <div className="duration-label">
         {totalDuration}
       </div>
