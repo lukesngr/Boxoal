@@ -76,6 +76,7 @@
     font-size: medium;
     background-color: red;
     overflow: hidden;
+    pointer-events: none;
 }
 
 @media only screen and (max-width: 992px) {

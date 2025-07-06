@@ -153,7 +153,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
 
     function clearRecording() {
         axios.post('/api/clearRecording', {
-            id: data.id
+            objectUUID: data.objectUUID
         })
             .then(async () => {
                 setAlert({
