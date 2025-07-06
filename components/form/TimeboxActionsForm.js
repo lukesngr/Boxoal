@@ -18,6 +18,7 @@ import styles from '@/styles/muiStyles.js';
 import { useMutation } from 'react-query';
 import { muiActionButton, muiNonActionButton } from '@/modules/muiStyles.js';
 import * as Sentry from "@sentry/nextjs";
+import TimelineRecording from '../timebox/TimelineRecording.js';
 
 export default function TimeboxActionsForm({ visible, data, date, time, closeModal, numberOfBoxes }) {
     const timeboxRecording = useSelector(state => state.timeboxRecording.value);
@@ -30,6 +31,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
     const timeboxIsntRecording = timeboxRecording.timeboxID === -1;
     const timeboxIsRecording = timeboxRecording.timeboxID === data.id && timeboxRecording.timeboxDate === date;
     const {scheduleIndex} = useSelector(state => state.profile.value);
+    console.log(data);
 
     const createRecordingMutation = useMutation({
             mutationFn: (recordingData) => axios.post('/api/createRecordedTimebox', recordingData),
@@ -130,6 +132,10 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                         <Typography sx={{ color: 'white', fontFamily: 'Kameron, san-serif' }}>
                             Actions for "{data.title}" {data.isTimeblock ? "timeblock" : "timebox"}
                         </Typography>
+                        {!noPreviousRecording && <TimelineRecording timeboxStart={data.startTime}
+                            timeboxEnd={data.endTime}
+                            recordingStart={data.recordedTimeBoxes[0].recordedStartTime}
+                            recordingEnd={data.recordedTimeBoxes[0].recordedEndTime}></TimelineRecording>}
                     </DialogContent>
                     <DialogActions>
                         
