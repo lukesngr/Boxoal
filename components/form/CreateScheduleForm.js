@@ -39,7 +39,7 @@ export default function CreateScheduleForm({ open, onClose }) {
                 title: "Error",
                 message: "An error occurred, please try again or contact the developer"
             });
-            Sentry.captureException(error);
+            
         }
     }
 

@@ -78,7 +78,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
-            Sentry.captureException(error);
+            
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             queryClient.invalidateQueries(['schedule']);
         }
@@ -115,7 +115,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
-            Sentry.captureException(error);
+            
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             queryClient.invalidateQueries(['schedule']);
         }

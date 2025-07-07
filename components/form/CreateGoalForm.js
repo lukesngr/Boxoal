@@ -61,7 +61,7 @@ export default function CreateGoalForm(props) {
             props.close();
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             queryClient.invalidateQueries(['schedule']);
-            Sentry.captureException(error);
+            
         }
     });
     

@@ -68,7 +68,7 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID,
             queryClient.setQueryData(['schedule'], context.previousGoals);
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             queryClient.invalidateQueries(['schedule']);
-            Sentry.captureException(error);
+            
             closeModal();
         }
     });

@@ -60,7 +60,7 @@ export default function EditGoalForm(props) {
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
             props.close();
-            Sentry.captureException(error);
+            
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             queryClient.invalidateQueries(['schedule']);
         }
