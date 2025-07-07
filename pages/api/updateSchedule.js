@@ -1,4 +1,5 @@
 import prisma from "@/modules/prismaClient";
+import * as Sentry from "@sentry/nextjs";
 
 export default async function handler(req, res) {
   if (req.method !== 'PUT') {
@@ -17,9 +18,9 @@ export default async function handler(req, res) {
 
     res.status(200).json({ message: 'Schedule updated successfully' });
   } catch (error) {
-    console.error('Error updating schedule:', error);
+    Sentry.captureException(error);
 
-    res.status(500).json({ error: error });
+    res.status(500).json({ error: 'Internal Server Error' });
   } finally {
     await prisma.$disconnect();
   }

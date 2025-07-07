@@ -1,4 +1,5 @@
 import prisma from "@/modules/prismaClient";
+import * as Sentry from "@sentry/nextjs";
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -12,8 +13,8 @@ export default async function handler(req, res) {
     });
     res.status(200).json({ message: 'Created goal successfully' });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: error.message });
+    Sentry.captureException(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   } finally {
     await prisma.$disconnect();
   }
