@@ -11,6 +11,9 @@ import axios from "axios";
 import Welcome from "./Welcome";
 import SignedInNav from "../nav/SignedInNav";
 import Loading from "./Loading";
+import Erroring from "./Erroring";
+import * as Sentry from '@sentry/nextjs';
+
 export default function MySchedulesWhenAuthLoaded({user}) {
     const dispatch = useDispatch();
     let {userId, username} = user;
@@ -29,7 +32,10 @@ export default function MySchedulesWhenAuthLoaded({user}) {
     })
 
     if(status === 'loading') {data = placeholderWhileScheduleLoading;}
-    if(status === 'error') return <p>Error: {error.message}</p>
+    if(status === 'error') {
+        Sentry.captureException(error);
+        return <Erroring></Erroring>
+    }
     if(data.length == 0) return <Welcome></Welcome>
 
     return (<>
