@@ -129,7 +129,8 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                     <DialogTitle className='dialogTitle'>{data.title}</DialogTitle>
                     <DialogContent>
                         <Typography sx={{ color: 'white', fontFamily: 'Kameron, san-serif' }}>
-                            Actions for "{data.title}" {data.isTimeblock ? "timeblock" : "timebox"}
+                            {noPreviousRecording ? (`Actions for ${data.title} ${data.isTimeblock ? "timeblock" : "timebox"}`) :
+                            ("Timebox and recording comparison")}
                         </Typography>
                         {!noPreviousRecording && <TimelineRecording timeboxStart={data.startTime}
                             timeboxEnd={data.endTime}
