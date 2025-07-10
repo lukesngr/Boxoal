@@ -25,7 +25,6 @@ model Schedule {
 
 model Goal {
   id         Int       @id @default(autoincrement())
-  priority   Int
   title      String
   completed  Boolean
   completedOn DateTime
