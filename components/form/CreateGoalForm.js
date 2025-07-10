@@ -24,7 +24,6 @@ import * as Sentry from "@sentry/nextjs";
 
 export default function CreateGoalForm(props) {
     const [title, setTitle] = useState("");
-    const [priority, setPriority] = useState("1");
     const [targetDate, setTargetDate] = useState(dayjs());
     const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const {scheduleIndex} = useSelector(state => state.profile.value);
@@ -68,7 +67,6 @@ export default function CreateGoalForm(props) {
     function createGoal() {
         let goalData = {
             title,
-            priority: parseInt(priority),
             targetDate: targetDate.toISOString(),
             schedule: {
                 connect: {
@@ -105,14 +103,6 @@ export default function CreateGoalForm(props) {
                             onChange={(e) => setTitle(e.target.value)}
                             variant="standard"
                             data-testid="createGoalTitle"
-                            sx={muiInputStyle}
-                        />
-
-                        <TextField
-                            label="Priority (1-10)"
-                            value={priority}
-                            onChange={(e) => setPriority(e.target.value)}
-                            variant="standard"
                             sx={muiInputStyle}
                         />
                         

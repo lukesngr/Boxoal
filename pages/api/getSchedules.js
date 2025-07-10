@@ -22,13 +22,9 @@ export default async function handler(req, res) {
         id: true,
         title: true,
         goals: {
-          orderBy: {
-            priority: 'asc'
-          },
           select: {
             id: true,
             title: true,
-            priority: true,
             targetDate: true,
             completed: true,
             completedOn: true,
