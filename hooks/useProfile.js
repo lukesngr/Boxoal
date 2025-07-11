@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useEffect } from "react";
+
 export function useProfile(userId, dispatch) {
 
     const {status, data, error, refetch} = useQuery({
