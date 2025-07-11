@@ -1,6 +1,6 @@
 
 import dayjs from 'dayjs';
-import { getStatistics, findSmallestTimeBoxLengthInSpace, getPercentageOfBoxSizeFilled, calculateMaxNumberOfBoxesAfterTimeIfEmpty, calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoTimes, calculateRemainderTimeBetweenTwoTimes, addBoxesToTime, getHeightForBoxes } from '../../modules/boxCalculations';
+import { getStatistics, findSmallestTimeBoxLengthInSpace, getPercentageOfBoxSizeFilled, calculateMaxNumberOfBoxesAfterTimeIfEmpty, calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoTimes, calculateRemainderTimeBetweenTwoTimes, addBoxesToTime, getHeightForBoxes, filterTimeGridBasedOnSpace, getMarginFromTopOfTimebox } from '../../modules/boxCalculations';
 
 // Mock useSelector for getStatistics tests
 jest.mock('react-redux', () => ({
@@ -412,7 +412,20 @@ describe('getStatistics', () => {
         "timeBox": {"description": "P's test", "id": 16, "title": "P's test", 'startTime': '2024-11-29T04:30:00.000Z', 'endTime': '2024-11-29T05:30:00.000Z'}}];
       const timeboxes = [{"description": "P's test", "id": 16, "title": "P's test", 'startTime': '2024-11-29T04:30:00.000Z', 'endTime': '2024-11-29T05:30:00.000Z'}];
       const result = getStatistics(recordedTimeboxes, timeboxes);
-      expect(result).toEqual({averageTimeOverBy: 0, averageTimeStartedOffBy: 30, percentagePredictedStart: 0, percentageCorrectTime: 1, percentageRescheduled: 1, hoursLeftToday: 18});
+      
+      // Calculate expected hoursLeftToday dynamically
+      const today = dayjs();
+      const nextDayWakeup = dayjs().add(1, 'day').hour(8).minute(30).second(0).millisecond(0);
+      const expectedHoursLeftToday = Math.round((nextDayWakeup.toDate() - today.toDate()) / 3600000);
+      
+      expect(result).toEqual({
+        averageTimeOverBy: 0, 
+        averageTimeStartedOffBy: 30, 
+        percentagePredictedStart: 0, 
+        percentageCorrectTime: 1, 
+        percentageRescheduled: 1, 
+        hoursLeftToday: expectedHoursLeftToday
+      });
       });
     });
 })
@@ -436,5 +449,105 @@ describe('getHeightForBoxes', () => {
   test('calculates height for 0 boxes', () => {
     const result = getHeightForBoxes(0);
     expect(result).toBe('calc(0% + -2px)');
+  });
+});
+
+describe('filterTimeGridBasedOnSpace', () => {
+  test('filters times within the specified time range - minute based', () => {
+    const timeGrid = {
+      '10:00': { id: 1, title: 'Meeting 1' },
+      '10:15': { id: 2, title: 'Meeting 2' },
+      '10:30': { id: 3, title: 'Meeting 3' },
+      '10:45': { id: 4, title: 'Meeting 4' },
+      '11:00': { id: 5, title: 'Meeting 5' }
+    };
+    
+    const result = filterTimeGridBasedOnSpace(timeGrid, 'min', 30, '10:15');
+    expect(result).toEqual(['10:15', '10:30']);
+  });
+
+  test('filters times within the specified time range - hour based', () => {
+    const timeGrid = {
+      '08:00': { id: 1, title: 'Meeting 1' },
+      '09:00': { id: 2, title: 'Meeting 2' },
+      '10:00': { id: 3, title: 'Meeting 3' },
+      '11:00': { id: 4, title: 'Meeting 4' },
+      '12:00': { id: 5, title: 'Meeting 5' }
+    };
+    
+    const result = filterTimeGridBasedOnSpace(timeGrid, 'hr', 2, '09:00');
+    expect(result).toEqual(['09:00', '10:00']);
+  });
+
+  test('handles empty timeGrid', () => {
+    const result = filterTimeGridBasedOnSpace({}, 'min', 15, '10:00');
+    expect(result).toEqual([]);
+  });
+
+  test('handles no matches in time range', () => {
+    const timeGrid = {
+      '08:00': { id: 1, title: 'Meeting 1' },
+      '12:00': { id: 2, title: 'Meeting 2' }
+    };
+    
+    const result = filterTimeGridBasedOnSpace(timeGrid, 'min', 30, '10:00');
+    expect(result).toEqual([]);
+  });
+
+  test('handles time at exact boundary', () => {
+    const timeGrid = {
+      '10:00': { id: 1, title: 'Meeting 1' },
+      '10:15': { id: 2, title: 'Meeting 2' },
+      '10:30': { id: 3, title: 'Meeting 3' }
+    };
+    
+    const result = filterTimeGridBasedOnSpace(timeGrid, 'min', 15, '10:00');
+    expect(result).toEqual(['10:00']);
+  });
+
+  test('handles single time slot', () => {
+    const timeGrid = {
+      '10:15': { id: 1, title: 'Meeting 1' }
+    };
+    
+    const result = filterTimeGridBasedOnSpace(timeGrid, 'min', 30, '10:00');
+    expect(result).toEqual(['10:15']);
+  });
+});
+
+describe('getMarginFromTopOfTimebox', () => {
+  test('calculates margin for minute-based timebox', () => {
+    const result = getMarginFromTopOfTimebox('min', 15, '10:00', '10:05', 60);
+    expect(result).toBe(20); // 5 minutes difference, 5/15 * 60 = 20, positive because start is after timebox
+  });
+
+  test('calculates margin for hour-based timebox', () => {
+    const result = getMarginFromTopOfTimebox('hr', 1, '10:00', '10:30', 60);
+    expect(result).toBe(30); // 30 minutes difference, 30/60 * 60 = 30, positive because start is after timebox
+  });
+
+  test('calculates negative margin when start is before timebox', () => {
+    const result = getMarginFromTopOfTimebox('min', 15, '10:15', '10:00', 60);
+    expect(result).toBe(-60); // 15 minutes difference, 15/15 * 60 = 60, negative because start is before timebox
+  });
+
+  test('calculates zero margin when times are equal', () => {
+    const result = getMarginFromTopOfTimebox('min', 15, '10:00', '10:00', 60);
+    expect(result).toBe(0);
+  });
+
+  test('handles different timebox heights', () => {
+    const result = getMarginFromTopOfTimebox('min', 30, '10:00', '10:15', 120);
+    expect(result).toBe(60); // 15 minutes difference, 15/30 * 120 = 60, positive
+  });
+
+  test('handles hour-based with partial hours', () => {
+    const result = getMarginFromTopOfTimebox('hr', 2, '10:00', '11:00', 100);
+    expect(result).toBe(50); // 1 hour difference, 1/2 * 100 = 50, positive
+  });
+
+  test('handles minute crossover to next hour', () => {
+    const result = getMarginFromTopOfTimebox('min', 15, '10:45', '11:00', 60);
+    expect(result).toBe(60); // 15 minutes difference, 15/15 * 60 = 60, positive
   });
 });

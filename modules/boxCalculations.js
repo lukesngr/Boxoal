@@ -1,7 +1,9 @@
 import { useSelector } from "react-redux";
 import { convertToDayjs } from "./formatters";
 var isSameOrAfter = require("dayjs/plugin/isSameOrAfter");
+var utc = require('dayjs/plugin/utc');
 dayjs.extend(isSameOrAfter);
+dayjs.extend(utc);
 import dayjs from "dayjs";
 
 var hoursConversionDivisor = 3600000;
