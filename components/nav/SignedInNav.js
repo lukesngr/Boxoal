@@ -20,6 +20,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { signOut } from '@aws-amplify/auth';
 import { Router, useRouter } from 'next/router';
+import * as Sentry from '@sentry/nextjs';
 
 const pages = ['Timeboxes'];
 
@@ -47,8 +48,12 @@ export default function SignedInNav({username}) {
     };
 
     async function logout() {
-        await signOut();
-        router.push('/');
+        try {
+            await signOut();
+            window.location.reload();
+        } catch (error) {
+            Sentry.captureException(error);
+        }
     }
 
     return (
