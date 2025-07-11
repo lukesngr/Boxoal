@@ -127,7 +127,7 @@ export default function SignedInNav({username}) {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                     >
-                        <MenuItem key={"Logout"} onClick={logout}>
+                        <MenuItem className="logoutButton" key={"Logout"} onClick={logout}>
                         <Typography sx={{ textAlign: 'center' }}>Logout</Typography>
                         </MenuItem>
                     </Menu>

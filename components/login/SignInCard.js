@@ -66,7 +66,7 @@ export default function SignInCard({setComponentDisplayed, setAlert}) {
                             }
                         />
                     </FormControl>
-                    <Button sx={{borderRadius: '10px', color: 'white'}} variant="contained" type="submit" onClick={login}>Sign In</Button>
+                    <Button className='loginButton' sx={{borderRadius: '10px', color: 'white'}} variant="contained" type="submit" onClick={login}>Sign In</Button>
                     <div className='alternateActions'>
                         <button className='forgetPasswordButton' onClick={() => setComponentDisplayed('forgotPassword')}>Forgot Password</button>
                         <button className='createAccountButton' onClick={() => setComponentDisplayed('createAccount')}>Create Account</button>
