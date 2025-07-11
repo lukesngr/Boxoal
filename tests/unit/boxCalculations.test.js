@@ -1,6 +1,13 @@
 
 import dayjs from 'dayjs';
-import { getStatistics, findSmallestTimeBoxLengthInSpace, getPercentageOfBoxSizeFilled, calculateMaxNumberOfBoxesAfterTimeIfEmpty, calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoTimes, calculateRemainderTimeBetweenTwoTimes, addBoxesToTime } from '../../modules/boxCalculations';
+import { getStatistics, findSmallestTimeBoxLengthInSpace, getPercentageOfBoxSizeFilled, calculateMaxNumberOfBoxesAfterTimeIfEmpty, calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoTimes, calculateRemainderTimeBetweenTwoTimes, addBoxesToTime, getHeightForBoxes } from '../../modules/boxCalculations';
+
+// Mock useSelector for getStatistics tests
+jest.mock('react-redux', () => ({
+  useSelector: jest.fn()
+}));
+
+const mockUseSelector = require('react-redux').useSelector;
 
 
 describe('Box Calculation Functions', () => {
@@ -33,34 +40,40 @@ describe('Box Calculation Functions', () => {
 
   describe('calculateMaxNumberOfBoxes', () => {
     test('handles empty schedule', () => {
-      const result = calculateMaxNumberOfBoxes('08:30', 'min', 15, [], '12:45', '1/1');
+      const result = calculateMaxNumberOfBoxes('08:30', 'min', 15, {}, '12:45', '1/1');
       expect(result).toBe(79);
     });
 
     test('handles schedule with one future timebox', () => {
-      const timeboxes = [{
-        startTime: '2025-01-01T14:00:00'
-      }];
-      const result = calculateMaxNumberOfBoxes('08:30', 'min', 15, timeboxes, '12:45', '1/1');
+      const timeboxGrid = {
+        '1/1': {
+          '14:00': { startTime: '2025-01-01T14:00:00' }
+        }
+      };
+      const result = calculateMaxNumberOfBoxes('08:30', 'min', 15, timeboxGrid, '12:45', '1/1');
       expect(result).toBe(5);
     });
 
     test('handles schedule with multiple timeboxes', () => {
-      const timeboxes = [
-        { startTime: '2025-01-01T14:00:00' },
-        { startTime: '2025-01-01T16:00:00' }
-      ];
-      const result = calculateMaxNumberOfBoxes('08:30', 'min', 15, timeboxes, '12:45', '1/1');
+      const timeboxGrid = {
+        '1/1': {
+          '14:00': { startTime: '2025-01-01T14:00:00' },
+          '16:00': { startTime: '2025-01-01T16:00:00' }
+        }
+      };
+      const result = calculateMaxNumberOfBoxes('08:30', 'min', 15, timeboxGrid, '12:45', '1/1');
       expect(result).toBe(5);
     });
 
     test('handles inbetween case with multiple timeboxes', () => {
-      const timeboxes = [
-        { startTime: '2025-01-01T14:00:00' },
-        { startTime: '2025-01-01T16:00:00' }
-      ];
-      const result = calculateMaxNumberOfBoxes('08:30', 'min', 15, timeboxes, '14:45', '1/1');
-      expect(result).toBe(5);
+      const timeboxGrid = {
+        '1/1': {
+          '14:00': { startTime: '2025-01-01T14:00:00' },
+          '16:00': { startTime: '2025-01-01T16:00:00' }
+        }
+      };
+      const result = calculateMaxNumberOfBoxes('08:30', 'min', 15, timeboxGrid, '14:45', '1/1');
+      expect(result).toBe(5); // Should return boxes until next timebox at 16:00
     });
   });
 
@@ -189,7 +202,7 @@ describe('Box Calculation Functions', () => {
 
   });
 
-  describe('calculateRemainderBoxesBetweenTwoTimes', () => {
+  describe('calculateRemainderTimeBetweenTwoTimes', () => {
     describe('minute-based calculations', () => {
       const boxSizeUnit = 'min';
 
@@ -263,21 +276,40 @@ describe('Box Calculation Functions', () => {
 
   describe('addBoxesToTime', () => {
     test('trying minutes', () => {
-      expect(addBoxesToTime('min', 15, "8:30", 1)).toBe("8:45");
+      const [time, date] = addBoxesToTime('min', 15, "8:30", 1, "1/1");
+      expect(time).toBe("8:45");
+      expect(date).toBe("1/1");
     });
 
     test('trying hours', () => {
-      expect(addBoxesToTime('hr', 1, "8:30", 1)).toBe("9:30");
+      const [time, date] = addBoxesToTime('hr', 1, "8:30", 1, "1/1");
+      expect(time).toBe("9:30");
+      expect(date).toBe("1/1");
     });
 
     test('making sure 24 hour time works in min', () => {
-      expect(addBoxesToTime('min', 30, "23:30", 1)).toBe("0:00");
+      const [time, date] = addBoxesToTime('min', 30, "23:30", 1, "1/1");
+      expect(time).toBe("0:00");
+      expect(date).toBe("2/1");
     });
 
     test('making sure 24 hour time works in hour', () => {
-      expect(addBoxesToTime('hr', 1, "23:30", 1)).toBe("0:30");
+      const [time, date] = addBoxesToTime('hr', 1, "23:30", 1, "1/1");
+      expect(time).toBe("0:30");
+      expect(date).toBe("2/1");
     });
 
+    test('returns next date when crossing midnight', () => {
+      const [time, date] = addBoxesToTime('hr', 2, "23:00", 1, "1/1");
+      expect(time).toBe("1:00");
+      expect(date).toBe("2/1");
+    });
+
+    test('returns same date when not crossing midnight', () => {
+      const [time, date] = addBoxesToTime('hr', 1, "10:00", 1, "1/1");
+      expect(time).toBe("11:00");
+      expect(date).toBe("1/1");
+    });
   });
 
 });
@@ -365,12 +397,44 @@ describe('findSmallestTimeBoxInSpace', () => {
 });
 
 describe('getStatistics', () => {
+  beforeEach(() => {
+    // Mock the useSelector hook to return a wakeupTime
+    mockUseSelector.mockReturnValue({ wakeupTime: '8:30' });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('getStatistics basic case', () => {
     test('returns correct rescheduleRate', () => {
       const recordedTimeboxes = [{"id": 59, "recordedEndTime": "2024-11-28T05:00:00.000Z", "recordedStartTime": "2024-11-28T04:00:00.000Z", 
         "timeBox": {"description": "P's test", "id": 16, "title": "P's test", 'startTime': '2024-11-29T04:30:00.000Z', 'endTime': '2024-11-29T05:30:00.000Z'}}];
-      const result = getStatistics(recordedTimeboxes);
-      expect(result).toEqual({averageTimeOverBy: 0, averageTimeStartedOffBy: 30, percentagePredictedStart: 0, percentageCorrectTime: 1, percentageRescheduled: 1});
+      const timeboxes = [{"description": "P's test", "id": 16, "title": "P's test", 'startTime': '2024-11-29T04:30:00.000Z', 'endTime': '2024-11-29T05:30:00.000Z'}];
+      const result = getStatistics(recordedTimeboxes, timeboxes);
+      expect(result).toEqual({averageTimeOverBy: 0, averageTimeStartedOffBy: 30, percentagePredictedStart: 0, percentageCorrectTime: 1, percentageRescheduled: 1, hoursLeftToday: 18});
       });
     });
 })
+
+describe('getHeightForBoxes', () => {
+  test('calculates height for 1 box', () => {
+    const result = getHeightForBoxes(1);
+    expect(result).toBe('calc(100% + 0px)');
+  });
+
+  test('calculates height for 2 boxes', () => {
+    const result = getHeightForBoxes(2);
+    expect(result).toBe('calc(200% + 2px)');
+  });
+
+  test('calculates height for 4 boxes', () => {
+    const result = getHeightForBoxes(4);
+    expect(result).toBe('calc(400% + 6px)');
+  });
+
+  test('calculates height for 0 boxes', () => {
+    const result = getHeightForBoxes(0);
+    expect(result).toBe('calc(0% + -2px)');
+  });
+});

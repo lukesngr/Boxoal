@@ -225,9 +225,8 @@ describe('calculateSizeOfRecordingOverlay', () => {
   };
 
   test('handles past recording', () => {
-    const day = { date: 14 };
-    const currentDate = dayjs().date(15);
-    const recordedStartTime = currentDate.subtract(1, 'day').toISOString();
+    const day = { date: dayjs().subtract(1, 'day').date() };
+    const recordedStartTime = dayjs().subtract(1, 'day').toISOString();
     const result = calculateSizeOfRecordingOverlay(
       '08:30',
       'min',
