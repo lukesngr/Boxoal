@@ -2,7 +2,7 @@ import '../../styles/timebox.scss';
 import '../../styles/addtimebox.scss';
 import NormalTimeBox from './NormalTimeBox';
 import { useDispatch, useSelector } from 'react-redux';
-import { filterTimeGridBasedOnSpace } from '@/modules/boxCalculations';
+import { getBoxesInsideTimeboxSpace } from '@/modules/boxCalculations';
 import { getMarginFromTopOfTimebox } from '@/modules/boxCalculations';
 import { findSmallestTimeBoxLengthInSpace } from '@/modules/boxCalculations';
 import { Icon } from '@aws-amplify/ui-react';
@@ -29,7 +29,7 @@ export default function Timebox(props) {
     console.log(timeboxGrid);
     if(timeboxGrid) { 
         if(timeboxGrid[date]) {
-            boxesInsideSpace = filterTimeGridBasedOnSpace(timeboxGrid[date], profile.boxSizeUnit, profile.boxSizeNumber, props.time);
+            boxesInsideSpace = getBoxesInsideTimeboxSpace(timeboxGrid[date], profile.boxSizeUnit, profile.boxSizeNumber, props.time);
             numberOfBoxesInSpace = boxesInsideSpace.length;
             
             if(timeboxGrid[date][props.time]) {
