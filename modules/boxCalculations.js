@@ -156,14 +156,15 @@ export function getPercentageOfBoxSizeFilled(boxSizeUnit, boxSizeNumber, startTi
     return percentageOfBoxSizeFilled;
 }
 
-export function getBoxesInsideTimeboxSpace(timeGridFilteredByDate, boxSizeUnit, boxSizeNumber, time) {
-    let times = Object.keys(timeGridFilteredByDate);
+export function getBoxesInsideTimeboxSpace(timeGridFilteredByDate, boxSizeUnit, boxSizeNumber, timeboxTime) {
+    let timeGridTimesAsArray = Object.keys(timeGridFilteredByDate);
     let endTime = addBoxesToTime(boxSizeUnit, boxSizeNumber, time, 1, '6/9')[0]; //can see the benefits of typescript like wtf do these parameters do, need to check my code
     let filteredTimes = [];
     let i = 0;
-    for(i = 0; i < times.length; i++) {
-        let startTimeAsDate = convertToDayjs(time, '1/1');
-        let timeAsDate = convertToDayjs(times[i], '1/1');
+
+    for(i = 0; i < timeGridTimesAsArray.length; i++) {
+        let startTimeAsDate = convertToDayjs(timeboxTime, '1/1');
+        let timeAsDate = convertToDayjs(timeGridTimesAsArray[i], '1/1');
         let endTimeAsDate = convertToDayjs(endTime, '1/1');
 
         if(timeAsDate >= startTimeAsDate && timeAsDate < endTimeAsDate) {
