@@ -121,17 +121,15 @@ export function addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, 
     let endMinutes = timeMinutes;
 
     if(boxSizeUnit == "min") {
-        for(let i = 0; i < numberOfBoxes; i++) {
-            endMinutes += boxSizeNumber;
+        endMinutes += boxSizeNumber*numberOfBoxes;
 
-            if(endMinutes >= 60) {
-                if(endHours == 23) {
-                    endHours = 0;
-                    day += 1;
-                }else{
-                    endHours += 1;
-                }
-                endMinutes -= 60;
+        if(endMinutes >= 60) {
+            endHours += Math.floor(endMinutes / 60); 
+            endMinutes = endMinutes % 60;
+
+            if(endHours > 23) {
+                day += Math.floor(endHours / 24);
+                endHours = endHours % 24;
             }
         }
     }else if(boxSizeUnit == "hr") {
