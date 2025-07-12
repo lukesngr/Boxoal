@@ -67,7 +67,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                 setAlert({
                     open: true,
                     title: "Timebox",
-                    message: "Added recorded timebox!"
+                    message: "Completed timebox!"
                 });
                 queryClient.invalidateQueries(['schedule']); // Refetch to get real data
             },
@@ -164,6 +164,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                                 onClick={stopRecording}
                                 variant="contained"
                                 sx={muiActionButton}
+                                className="stopRecordButton"
                             >
                                 Stop Recording
                             </Button>

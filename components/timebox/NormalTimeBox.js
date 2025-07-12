@@ -27,7 +27,7 @@ export default function NormalTimeBox(props) {
             date={props.date} 
             time={props.time}
             numberOfBoxes={[numberOfBoxes, setNumberOfBoxes]}></TimeboxActionsForm>
-        <div style={{height: '100%'}} onClick={() => setTimeboxActionsFormVisible(true)}>
+        <div style={{height: '100%'}} className={`${time}${date}TimeboxActionsForm`} onClick={() => setTimeboxActionsFormVisible(true)}>
             <div style={{height: `${calculatedHeight}`, backgroundColor: props.data.color, zIndex: 998, position: 'relative'}} id="timeBox" className="normalTimeBox">    
                 <span className="timeboxText" style={props.data.isTimeblock ? ({color: 'white'}) : ({color: 'black'})}>{props.data.title}</span>
             </div>
