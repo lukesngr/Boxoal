@@ -45,7 +45,8 @@ export default function Welcome() {
                 subheader="Create a schedule to get started"
             />
             <CardActions>
-                <Button 
+                <Button
+                    className="openCreateScheduleForm" 
                     variant="contained" 
                     onClick={() => setModalOpen(true)}
                 >

@@ -59,6 +59,7 @@ export default function CreateScheduleForm({ open, onClose }) {
                     autoFocus
                     label="Title"
                     variant="standard"
+                    className="createScheduleTitle"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     sx={muiInputStyle}
@@ -67,6 +68,7 @@ export default function CreateScheduleForm({ open, onClose }) {
             <DialogActions>
                 
                 <Button 
+                    className="createScheduleButton" 
                     onClick={createSchedule}
                     variant="contained"
                     sx={muiActionButton}

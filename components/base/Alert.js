@@ -2,7 +2,7 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText } from "@mui/mate
 
 export default function Alert({alert, setAlert}) {
     return (
-        <Dialog open={alert.open} onClose={() => setAlert({open: false, title: "", message: ""})}>
+        <Dialog className="errorAlert" open={alert.open} onClose={() => setAlert({open: false, title: "", message: ""})}>
             <DialogTitle>{alert.title}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
