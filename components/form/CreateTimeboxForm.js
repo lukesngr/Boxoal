@@ -88,22 +88,24 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                 message: "Added timebox!"
             });
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
-            closeModal();
+            closeModal(false);
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
             
             setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             queryClient.invalidateQueries(['schedule']);
-            closeModal();
+            closeModal(false);
         }
     });
 
-    function closeModal() {
+    function closeModal(exiting = true) {
         setTitle('');
         setDescription('');
         setNumberOfBoxes('0');
-        close();
+        if(exiting) {
+            close();
+        }
     }
 
     function handleSubmit() {
