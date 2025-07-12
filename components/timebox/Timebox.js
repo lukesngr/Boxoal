@@ -31,10 +31,12 @@ export default function Timebox(props) {
         if(timeboxGrid[date]) {
             boxesInsideSpace = filterTimeGridBasedOnSpace(timeboxGrid[date], profile.boxSizeUnit, profile.boxSizeNumber, props.time);
             numberOfBoxesInSpace = boxesInsideSpace.length;
-
+            
             if(timeboxGrid[date][props.time]) {
+                console.log('yoghee')
                 data = timeboxGrid[date][props.time];
             }else if(numberOfBoxesInSpace == 1) {
+                console.log('in no world should this be firing'+props.time+date)
                 marginFromTop = getMarginFromTopOfTimebox(profile.boxSizeUnit, profile.boxSizeNumber, props.time, boxesInsideSpace[0], timeboxHeight);
                 data = timeboxGrid[date][boxesInsideSpace[0]];
             }
