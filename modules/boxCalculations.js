@@ -163,11 +163,11 @@ export function getBoxesInsideTimeboxSpace(timeGridFilteredByDate, boxSizeUnit, 
     let i = 0;
 
     for(i = 0; i < timeGridTimesAsArray.length; i++) {
-        let startTimeAsDate = convertToDayjs(timeboxTime, '1/1');
-        let timeAsDate = convertToDayjs(timeGridTimesAsArray[i], '1/1');
-        let endTimeAsDate = convertToDayjs(endTime, '1/1');
+        let timeboxTimeAsDayJS = convertToDayjs(timeboxTime, '1/1');
+        let currentTimegridTime = convertToDayjs(timeGridTimesAsArray[i], '1/1');
+        let endOfTimeboxSpace = convertToDayjs(endTime, '1/1');
 
-        if(timeAsDate >= startTimeAsDate && timeAsDate < endTimeAsDate) {
+        if(currentTimegridTime >= timeboxTimeAsDayJS && currentTimegridTime < endOfTimeboxSpace) {
             filteredTimes.push(times[i]);
         }
     }
