@@ -3,7 +3,7 @@ import CreateTimeboxForm from "../form/CreateTimeboxForm";
 import { useState } from "react";
 import { queryClient } from "@/modules/queryClient";
 
-export default function TimeboxInCreation({date, time, day}) {
+export default function TimeboxInCreation({date, time, day, setAlert}) {
     const [createTimeboxFormVisible, setCreateTimeboxFormVisible] = useState(false);
     const [numberOfBoxes, setNumberOfBoxes] = useState('0');
     const [title, setTitle] = useState("");
@@ -26,7 +26,9 @@ export default function TimeboxInCreation({date, time, day}) {
             setNumberOfBoxes={setNumberOfBoxes}
             day={day}
             title={title} 
-            setTitle={setTitle}>
+            setTitle={setTitle}
+            setAlert={setAlert} >
+               
         </CreateTimeboxForm>
         </QueryClientProvider>
         <div className={`${time}${date}TimeboxCreationForm`} onClick={() => setCreateTimeboxFormVisible(true)} style={{height: '100%'}}>

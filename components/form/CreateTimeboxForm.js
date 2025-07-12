@@ -28,7 +28,7 @@ import * as Sentry from "@sentry/nextjs";
 
 const listOfColors = ["#00E3DD", "#00C5E6", "#00A4E7", "#0081DC", "#1E5ABF", "#348D9D", "#67D6FF"]
 
-export default function CreateTimeboxForm({ visible, time, date, close, numberOfBoxes, setNumberOfBoxes, day, title, setTitle }) {
+export default function CreateTimeboxForm({ visible, time, date, close, numberOfBoxes, setNumberOfBoxes, day, title, setTitle, setAlert }) {
     const dispatch = useDispatch();
     const { scheduleID, wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
     const { timeboxes, goals } = useSelector(state => state.scheduleData.value);
@@ -50,7 +50,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const [reoccuring, setReoccuring] = useState(false);
     const [startOfDayRange, setStartOfDayRange] = useState(0);
     const [endOfDayRange, setEndOfDayRange] = useState(6);
-    const [alert, setAlert] = useState({ open: false, title: "", message: "" });
+   
     let transformPercentages = ['35%', '45%', '55%', '65%', '40%', '50%', '55%'];
 
     const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
@@ -82,20 +82,21 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             return { previousSchedule };
         },
         onSuccess: () => {
-            
-            queryClient.invalidateQueries(['schedule']); // Refetch to get real data
             setAlert({
                 open: true,
                 title: "Timebox",
                 message: "Added timebox!"
             });
-            closeModal(true);
+            queryClient.invalidateQueries(['schedule']); // Refetch to get real data
+            
+            //closeModal(true);
         },
         onError: (error, goalData, context) => {
+            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             queryClient.setQueryData(['schedule'], context.previousGoals);
             
             queryClient.invalidateQueries(['schedule']);
-            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            
             //closeModal(true);
         }
     });
@@ -148,7 +149,6 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     }
 
     return (<>
-        <Alert alert={alert} setAlert={setAlert}/>
         <Dialog
             open={visible}
             onClose={closeModal}

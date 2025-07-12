@@ -1,5 +1,6 @@
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
 import { muiNonActionButton } from "@/modules/muiStyles";
+import { useEffect } from "react";
 
 export default function Alert({alert, setAlert}) {
     return (
