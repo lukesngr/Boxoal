@@ -102,7 +102,7 @@ export default function CreateGoalForm(props) {
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             variant="standard"
-                            data-testid="createGoalTitle"
+                            className="createGoalTitle"
                             sx={muiInputStyle}
                         />
                         
@@ -124,7 +124,7 @@ export default function CreateGoalForm(props) {
                     <Button
                         onClick={createGoal}
                         variant="contained"
-                        data-testid="createGoalButton"
+                        className="createGoalButton"
                         sx={muiActionButton}
                     >
                         Create

@@ -94,7 +94,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     }
 
     function handleSubmit() {
-        if (goalSelected == -1 && !isTimeblock) {
+        if (goalSelected == "" && !isTimeblock) {
             setAlert({
                 open: true,
                 title: "Error",
@@ -177,7 +177,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         variant="standard"
-                        data-testid="createTimeboxTitle"
+                        className="createTimeboxTitle"
                         sx={muiInputStyle}
                     />
 
@@ -186,7 +186,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         variant="standard"
-                        data-testid="createTimeboxDescription"
+                        className="createTimeboxDescription"
                         sx={muiInputStyle}
                     />
                     {!isTimeblock && <FormControl variant="standard" sx={muiFormControlStyle}>
@@ -261,7 +261,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                 <Button
                     onClick={handleSubmit}
                     variant="contained"
-                    data-testid="createTimebox"
+                    className="createTimebox"
                     sx={muiActionButton}
                 >
                     Create

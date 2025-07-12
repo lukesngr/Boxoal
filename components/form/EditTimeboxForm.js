@@ -213,7 +213,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         variant="standard"
-                        data-testid="editTitle"
+                        className="editTitle"
                         sx={muiInputStyle}
                     />
 
@@ -300,7 +300,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                 <Button
                     onClick={deleteTimeBox}
                     variant="contained"
-                    data-testid="deleteTimebox"
+                    className="deleteTimebox"
                     sx={muiActionButton}
                 >
                     Delete
@@ -309,7 +309,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                     <Button
                         onClick={clearRecording}
                         variant="contained"
-                        data-testid="clearRecording"
+                        className="clearRecording"
                         sx={muiActionButton}
                     >
                         Clear Recording

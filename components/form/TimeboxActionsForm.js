@@ -144,7 +144,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                                 <Button
                                     onClick={startRecording}
                                     variant="contained"
-                                    data-testid="recordButton"
+                                    className="recordButton"
                                     sx={muiActionButton}
                                 >
                                     Record
@@ -172,7 +172,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                             <Button
                                 onClick={() => setShowEditTimeboxForm(true)}
                                 variant="contained"
-                                data-testid="editTimebox"
+                                className="editTimebox"
                                 sx={muiActionButton}
                             >
                                 Edit
