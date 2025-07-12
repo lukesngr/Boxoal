@@ -43,7 +43,6 @@ export default function CreateGoalForm(props) {
                 if (!old) return old;
                 let copyOfOld = structuredClone(old);
                 copyOfOld[scheduleIndex].goals.push({...goalData, timeboxes: []});
-                console.log(copyOfOld)
                 return copyOfOld;
             });
             

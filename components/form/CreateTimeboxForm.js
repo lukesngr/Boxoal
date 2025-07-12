@@ -82,25 +82,26 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             return { previousSchedule };
         },
         onSuccess: () => {
+            
+            queryClient.invalidateQueries(['schedule']); // Refetch to get real data
             setAlert({
                 open: true,
                 title: "Timebox",
                 message: "Added timebox!"
             });
-            queryClient.invalidateQueries(['schedule']); // Refetch to get real data
-            closeModal(false);
+            closeModal(true);
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
             
-            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
             queryClient.invalidateQueries(['schedule']);
-            closeModal(false);
+            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            //closeModal(true);
         }
     });
 
-    function closeModal(exiting = true) {
-        setTitle('');
+    function closeModal(exiting = false) {
+        setTitle(''); //due to react maintaing internal state of components
         setDescription('');
         setNumberOfBoxes('0');
         if(exiting) {
