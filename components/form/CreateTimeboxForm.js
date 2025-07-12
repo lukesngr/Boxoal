@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -48,6 +48,12 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
 
     const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
     const {scheduleIndex} = useSelector(state => state.profile.value);
+
+    useEffect(() => {
+        if(visible) {
+            setNumberOfBoxes('1');
+        }
+    }, [visible])
 
     const createTimeboxMutation = useMutation({
         mutationFn: (timeboxData) => axios.post('/api/createTimebox', timeboxData),
@@ -272,7 +278,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                 >
                     {moreOptionsVisible ? 'Less Options' : 'More Options'}
                 </Button>
-                <Button onClick={closeModal} sx={muiNonActionButton}>
+                <Button className='closeCreateTimeboxButton' onClick={closeModal} sx={muiNonActionButton}>
                     Close
                 </Button>
             </DialogActions>

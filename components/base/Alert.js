@@ -1,4 +1,5 @@
-import { Dialog, DialogTitle, DialogContent, DialogContentText } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
+import { muiNonActionButton } from "@/modules/muiStyles";
 
 export default function Alert({alert, setAlert}) {
     return (
@@ -8,6 +9,9 @@ export default function Alert({alert, setAlert}) {
                 <DialogContentText>
                 {alert.message}
                 </DialogContentText>
+                <DialogActions>
+                    <Button className="errorCloseButton" onClick={() => setAlert({open: false, title: "", message: ""})} sx={muiNonActionButton}>Close</Button>
+                </DialogActions>
             </DialogContent>
         </Dialog>
     )

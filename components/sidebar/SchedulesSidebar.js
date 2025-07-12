@@ -69,7 +69,7 @@ export default function SchedulesSidebar(props) {
                         </h1>
 
                     {schedule.goals.map((goal, index) => (<GoalAccordion key={index} goal={goal}></GoalAccordion>))}
-                    <Button variant="contained"  disableElevation 
+                    <Button variant="contained"  disableElevation className="openCreateGoalForm"
                         sx={{backgroundColor: 'black', color: 'white', width: '100%', borderRadius: '0px'}} 
                         onClick={() => setCreateGoalModalOpen(true)} 
                     >Create Goal</Button>
