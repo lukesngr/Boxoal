@@ -90,6 +90,28 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
         dispatch(resetActiveOverlayInterval());
     }
 
+     function clearRecording() {
+            axios.post('/api/clearRecording', {
+                objectUUID: data.objectUUID
+            })
+                .then(async () => {
+                    setAlert({
+                        open: true,
+                        title: "Timebox",
+                        message: "Cleared recording!"
+                    });
+                    await queryClient.refetchQueries();
+                })
+                .catch(function(error) {
+                    setAlert({
+                        open: true,
+                        title: "Error",
+                        message: "An error occurred, please try again or contact the developer"
+                    });
+                    console.log(error);
+                });
+    }
+
     async function stopRecording() {
         // Stop recording logic for web version
         let recordedStartTime = new Date(timeboxRecording.recordingStartTime);
@@ -159,6 +181,12 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                                 
                             </>
                         )}
+                        {!noPreviousRecording && 
+                        (<Button
+                            onClick={clearRecording}
+                            variant="contained"
+                            className="clearRecording"
+                            sx={muiActionButton}>Clear Recording</Button>)}
                         {noPreviousRecording && timeboxIsRecording && !data.isTimeblock && (
                             <Button
                                 onClick={stopRecording}

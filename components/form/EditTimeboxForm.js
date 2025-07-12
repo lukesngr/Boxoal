@@ -151,28 +151,6 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
         deleteTimeboxMutation.mutate(data.objectUUID);
     }
 
-    function clearRecording() {
-        axios.post('/api/clearRecording', {
-            objectUUID: data.objectUUID
-        })
-            .then(async () => {
-                setAlert({
-                    open: true,
-                    title: "Timebox",
-                    message: "Cleared recording!"
-                });
-                await queryClient.refetchQueries();
-            })
-            .catch(function(error) {
-                setAlert({
-                    open: true,
-                    title: "Error",
-                    message: "An error occurred, please try again or contact the developer"
-                });
-                console.log(error);
-            });
-    }
-
     return (<>
         <Alert alert={alert} setAlert={setAlert}/>
         <Dialog
@@ -305,16 +283,6 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                 >
                     Delete
                 </Button>
-                {previousRecording && (
-                    <Button
-                        onClick={clearRecording}
-                        variant="contained"
-                        className="clearRecording"
-                        sx={muiActionButton}
-                    >
-                        Clear Recording
-                    </Button>
-                )}
                 <Button onClick={closeModal} sx={{ color: 'white' }}>
                     Back
                 </Button>
