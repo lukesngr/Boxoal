@@ -5,7 +5,7 @@ import { queryClient } from "@/modules/queryClient";
 
 export default function TimeboxInCreation({date, time, day}) {
     const [createTimeboxFormVisible, setCreateTimeboxFormVisible] = useState(false);
-    const [numberOfBoxes, setNumberOfBoxes] = useState('0');
+    const [numberOfBoxes, setNumberOfBoxes] = useState('1');
     const [title, setTitle] = useState("");
     function getHeightForBoxes (numberOfBoxes) { 
         if (numberOfBoxes === '') {
