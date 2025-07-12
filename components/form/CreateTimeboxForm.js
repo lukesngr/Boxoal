@@ -36,7 +36,14 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     
     const activeGoals = goals.filter(goal => goal.active);
     const [description, setDescription] = useState("");
-    const [goalSelected, setGoalSelected] = useState(String(activeGoals.length == 0 ? "" : activeGoals[0].id));
+
+    useEffect(() => {
+        if(activeGoals.length != 0) {
+            setGoalSelected(activeGoals[0].id);
+        }
+    }, [activeGoals])
+    
+    const [goalSelected, setGoalSelected] = useState("");
     const [isTimeblock, setIsTimeBlock] = useState(false);
     
     const [moreOptionsVisible, setMoreOptionsVisible] = useState(false);
@@ -114,6 +121,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             let color = isTimeblock ? ('black') : (listOfColors[Math.floor(Math.random() * listOfColors.length)]);
 
             let data = {
+                title,
                 description,
                 startTime,
                 endTime,
