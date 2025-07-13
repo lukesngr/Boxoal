@@ -26,17 +26,18 @@ export default function Timebox(props) {
     let marginFromTop = 0;
     let numberOfBoxesInSpace = 0;
     let boxesInsideSpace = [];
-    console.log(timeboxGrid);
+
     if(timeboxGrid) { 
         if(timeboxGrid[date]) {
+            console.log(timeboxGrid[date], profile.boxSizeUnit, profile.boxSizeNumber, props.time)
             boxesInsideSpace = getBoxesInsideTimeboxSpace(timeboxGrid[date], profile.boxSizeUnit, profile.boxSizeNumber, props.time);
             numberOfBoxesInSpace = boxesInsideSpace.length;
             
             if(timeboxGrid[date][props.time]) {
-                console.log(timeboxGrid[date][props.time])
+                console.log("in space", timeboxGrid[date][props.time]);
+                console.log(numberOfBoxesInSpace);
                 data = timeboxGrid[date][props.time];
             }else if(numberOfBoxesInSpace == 1) {
-                console.log(timeboxGrid[date][boxesInsideSpace[0]])
                 marginFromTop = getMarginFromTopOfTimebox(profile.boxSizeUnit, profile.boxSizeNumber, props.time, boxesInsideSpace[0], timeboxHeight);
                 data = timeboxGrid[date][boxesInsideSpace[0]];
             }
