@@ -63,7 +63,6 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                 return { previousSchedule };
             },
             onSuccess: () => {
-                closeModal();
                 setAlert({
                     open: true,
                     title: "Timebox",
@@ -75,8 +74,6 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                 queryClient.setQueryData(['schedule'], context.previousGoals);
                 setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
                 queryClient.invalidateQueries(['schedule']);
-                
-                closeModal();
             }
         });
 
