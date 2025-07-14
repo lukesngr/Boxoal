@@ -61,7 +61,7 @@ export default function AddGoalToTree(props) {
                 </Box>
             </Box>
             
-            <QueryClientProvider queryClient={queryClient}>
+            <QueryClientProvider client={queryClient}>
                 <CreateGoalForm 
                     visible={createGoalVisible} 
                     active={props.addNonActiveGoal} 
