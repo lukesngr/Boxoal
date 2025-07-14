@@ -45,7 +45,6 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const [goalSelected, setGoalSelected] = useState("");
     const [isTimeblock, setIsTimeBlock] = useState(false);
     
-    const [moreOptionsVisible, setMoreOptionsVisible] = useState(false);
     const [reoccuring, setReoccuring] = useState(false);
     const [startOfDayRange, setStartOfDayRange] = useState(0);
     const [endOfDayRange, setEndOfDayRange] = useState(6);
@@ -221,56 +220,54 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                         </Select>
                     </FormControl>}
 
-                    <Collapse in={moreOptionsVisible}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                            <FormControl variant="standard" sx={muiFormControlStyle}>
-                                <InputLabel>Reoccurring</InputLabel>
-                                <Select
-                                    value={reoccuring}
-                                    onChange={(e) => setReoccuring(e.target.value)}
-                                    sx={muiInputStyle}
-                                >
-                                    <MenuItem value={false}>No</MenuItem>
-                                    <MenuItem value={true}>Yes</MenuItem>
-                                </Select>
-                            </FormControl>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        <FormControl variant="standard" sx={muiFormControlStyle}>
+                            <InputLabel>Reoccurring</InputLabel>
+                            <Select
+                                value={reoccuring}
+                                onChange={(e) => setReoccuring(e.target.value)}
+                                sx={muiInputStyle}
+                            >
+                                <MenuItem value={false}>No</MenuItem>
+                                <MenuItem value={true}>Yes</MenuItem>
+                            </Select>
+                        </FormControl>
 
-                            {reoccuring && (
-                                <Stack direction="row" spacing={2}>
-                                    <FormControl variant="standard" sx={{ ...muiFormControlStyle, flexGrow: 1 }}>
-                                        <InputLabel>Start Day</InputLabel>
-                                        <Select
-                                            value={startOfDayRange}
-                                            onChange={(e) => setStartOfDayRange(e.target.value)}
-                                            sx={muiInputStyle}
-                                        >
-                                            {dayToName.map((day, index) => (
-                                                <MenuItem key={index} value={index}>
-                                                    {day}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                    <p>to</p>
-                                    <FormControl variant="standard" sx={{ ...muiFormControlStyle, flexGrow: 1 }}>
-                                        <InputLabel>End Day</InputLabel>
-                                        <Select
-                                            value={endOfDayRange}
-                                            onChange={(e) => setEndOfDayRange(e.target.value)}
-                                            sx={muiInputStyle}
-                                        >
-                                            {dayToName.map((day, index) => (
-                                                <MenuItem key={index} value={index}>
-                                                    {day}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                </Stack>)}
+                        {reoccuring && (
+                            <Stack direction="row" spacing={2}>
+                                <FormControl variant="standard" sx={{ ...muiFormControlStyle, flexGrow: 1 }}>
+                                    <InputLabel>Start Day</InputLabel>
+                                    <Select
+                                        value={startOfDayRange}
+                                        onChange={(e) => setStartOfDayRange(e.target.value)}
+                                        sx={muiInputStyle}
+                                    >
+                                        {dayToName.map((day, index) => (
+                                            <MenuItem key={index} value={index}>
+                                                {day}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                                <p>to</p>
+                                <FormControl variant="standard" sx={{ ...muiFormControlStyle, flexGrow: 1 }}>
+                                    <InputLabel>End Day</InputLabel>
+                                    <Select
+                                        value={endOfDayRange}
+                                        onChange={(e) => setEndOfDayRange(e.target.value)}
+                                        sx={muiInputStyle}
+                                    >
+                                        {dayToName.map((day, index) => (
+                                            <MenuItem key={index} value={index}>
+                                                {day}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Stack>)}
 
-                            
-                        </div>
-                    </Collapse>
+                        
+                    </div>
                 </div>
             </DialogContent>
             <DialogActions>
@@ -282,12 +279,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                 >
                     Create
                 </Button>
-                <Button
-                    onClick={() => setMoreOptionsVisible(!moreOptionsVisible)}
-                    sx={muiNonActionButton}
-                >
-                    {moreOptionsVisible ? 'Less Options' : 'More Options'}
-                </Button>
+                
                 <Button className='closeCreateTimeboxButton' onClick={closeModal} sx={muiNonActionButton}>
                     Close
                 </Button>
