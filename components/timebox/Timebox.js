@@ -34,8 +34,6 @@ export default function Timebox(props) {
             numberOfBoxesInSpace = boxesInsideSpace.length;
             
             if(timeboxGrid[date][props.time]) {
-                console.log("in space", timeboxGrid[date][props.time]);
-                console.log(numberOfBoxesInSpace);
                 data = timeboxGrid[date][props.time];
             }else if(numberOfBoxesInSpace == 1) {
                 marginFromTop = getMarginFromTopOfTimebox(profile.boxSizeUnit, profile.boxSizeNumber, props.time, boxesInsideSpace[0], timeboxHeight);
