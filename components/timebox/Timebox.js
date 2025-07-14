@@ -29,7 +29,7 @@ export default function Timebox(props) {
 
     if(timeboxGrid) { 
         if(timeboxGrid[date]) {
-            console.log(timeboxGrid[date], profile.boxSizeUnit, profile.boxSizeNumber, props.time)
+            
             boxesInsideSpace = getBoxesInsideTimeboxSpace(timeboxGrid[date], profile.boxSizeUnit, profile.boxSizeNumber, props.time);
             numberOfBoxesInSpace = boxesInsideSpace.length;
             
