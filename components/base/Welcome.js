@@ -9,6 +9,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import CreateScheduleForm from "../form/CreateScheduleForm";
 
 import '../../styles/cardInMiddle.scss';
+import Alert from "./Alert";
 
 export default function Welcome() {
     const [modalOpen, setModalOpen] = useState(false);
@@ -54,7 +55,7 @@ export default function Welcome() {
                 </Button>
             </CardActions>
         </Card>
-
+        <Alert></Alert>
         <CreateScheduleForm open={modalOpen} onClose={() => setModalOpen(false)}/>
     </div>
     );

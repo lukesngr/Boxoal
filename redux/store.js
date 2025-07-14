@@ -30,7 +30,7 @@ const rootReducer = combineReducers({
   daySelected: daySelectedReducer,
   modalVisible: modalVisibleReducer,
   expanded: expandedReducer,
-  alert, alertReducer
+  alert: alertReducer
 });
 
 export const store = configureStore({

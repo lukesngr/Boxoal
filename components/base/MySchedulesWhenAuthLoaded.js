@@ -41,5 +41,6 @@ export default function MySchedulesWhenAuthLoaded({user}) {
     return (<>
         <SignedInNav username={username} />
         <SchedulesView data={data}></SchedulesView>
+        <Alert></Alert>
     </>)
 }
