@@ -77,6 +77,7 @@ export function GoalTree(props) {
                 <IconButton 
                     onClick={props.close}
                     sx={{ marginTop: '5px', float: 'inline-end' }}
+                    className="closeGoalTree"
                 >
                     <CloseIcon />
                 </IconButton>

@@ -19,11 +19,12 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { muiActionButton, muiDatePicker, muiFormControlStyle, muiInputStyle, muiNonActionButton } from "../../modules/muiStyles";
+import { muiActionButton, muiDatePicker, muiFormControlStyle, muiInputStyle, muiNonActionButton, muiToggleButtonStyle } from "../../modules/muiStyles";
 import styles from '@/styles/muiStyles.js';
 import { useMutation } from 'react-query';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Sentry from "@sentry/nextjs";
+import { ToggleButtonGroup, ToggleButton } from '@mui/material';
 
 export default function EditGoalForm(props) {
     const dispatch = useDispatch();
@@ -116,6 +117,17 @@ export default function EditGoalForm(props) {
                 <DialogTitle sx={{ color: 'white' }} className='dialogTitle'>Edit Goal</DialogTitle>
                 <DialogContent>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
+                        <ToggleButtonGroup
+                            color="primary"
+                            value={completed}
+                            exclusive
+                            onChange={(event, newMode) => {setCompleted(newMode)}}
+                            sx={{'& .MuiToggleButton-root': {borderRadius: 0}}}
+                            fullWidth
+                            >
+                            <ToggleButton sx={muiToggleButtonStyle} value={false}>Not Completed</ToggleButton>
+                            <ToggleButton sx={muiToggleButtonStyle} className='goalCompletedButton' value={true}>Completed</ToggleButton>
+                        </ToggleButtonGroup>
                         <TextField
                             label="Title"
                             value={title}
@@ -138,19 +150,6 @@ export default function EditGoalForm(props) {
                                 />
                             </div>
                         </LocalizationProvider>
-                        
-                        
-                        <FormControl variant="standard"  sx={muiFormControlStyle}>
-                            <InputLabel>Completed</InputLabel>
-                            <Select
-                                value={completed}
-                                onChange={(e) => setCompleted(e.target.value)}
-                                sx={muiInputStyle}
-                            >
-                                <MenuItem value={false}>False</MenuItem>
-                                <MenuItem value={true}>True</MenuItem>
-                            </Select>
-                        </FormControl>
                     </div>
                 </DialogContent>
                 <DialogActions>
