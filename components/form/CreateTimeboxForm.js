@@ -229,7 +229,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                                 sx={muiInputStyle}
                             >
                                 <MenuItem value={false}>No</MenuItem>
-                                <MenuItem value={true}>Yes</MenuItem>
+                                <MenuItem className="turnReoccuringOn" value={true}>Yes</MenuItem>
                             </Select>
                         </FormControl>
 
