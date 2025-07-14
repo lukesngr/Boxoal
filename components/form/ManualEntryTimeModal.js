@@ -20,7 +20,8 @@ import Stack from '@mui/material/Stack';
 import styles from "@/styles/muiStyles";
 import { muiActionButton, muiDatePicker, muiInputStyle, muiNonActionButton } from "@/modules/muiStyles";
 
-export default function ManualEntryTimeModal({ visible, close, data, scheduleID, setAlert }) {
+export default function ManualEntryTimeModal({ visible, close, data, scheduleID }) {
+    const dispatch = useDispatch();
     const [recordedStartTime, setRecordedStartTime] = useState(dayjs(data.startTime));
     const [recordedEndTime, setRecordedEndTime] = useState(dayjs(data.endTime));
     const {scheduleIndex} = useSelector(state => state.profile.value);
@@ -56,20 +57,20 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID,
             return { previousSchedule };
         },
         onSuccess: () => {
-            closeModal();
-            setAlert({
+            close();
+            dispatch({type: 'alert/set', payload: {
                 open: true,
                 title: "Timebox",
                 message: "Added recorded timebox!"
-            });
+            }});
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
-            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
             queryClient.invalidateQueries(['schedule']);
             
-            closeModal();
+            close();
         }
     });
 

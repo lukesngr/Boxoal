@@ -12,7 +12,6 @@ import { thereIsNoRecording } from "../../modules/coreLogic";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import EditTimeboxForm from "./EditTimeboxForm";
 import ManualEntryTimeModal from "./ManualEntryTimeModal";
-import Alert from "../base/Alert";
 import Dialog from '@mui/material/Dialog';
 import styles from '@/styles/muiStyles.js';
 import { useMutation } from 'react-query';
@@ -26,7 +25,6 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
     const dispatch = useDispatch();
     const [manualEntryModalShown, setManualEntryModalShown] = useState(false);
     const [showEditTimeboxForm, setShowEditTimeboxForm] = useState(false);
-    const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const noPreviousRecording = thereIsNoRecording(data.recordedTimeBoxes, data.reoccuring, date, time);
     const timeboxIsntRecording = timeboxRecording.timeboxID === -1;
     const timeboxIsRecording = timeboxRecording.timeboxID === data.id && timeboxRecording.timeboxDate === date;
@@ -63,16 +61,16 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                 return { previousSchedule };
             },
             onSuccess: () => {
-                setAlert({
+                dispatch({type: 'alert/set', payload: {
                     open: true,
                     title: "Timebox",
                     message: "Completed timebox!"
-                });
+                }});
                 queryClient.invalidateQueries(['schedule']); // Refetch to get real data
             },
             onError: (error, goalData, context) => {
                 queryClient.setQueryData(['schedule'], context.previousGoals);
-                setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+                dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
                 queryClient.invalidateQueries(['schedule']);
             }
         });
@@ -92,19 +90,19 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                 objectUUID: data.objectUUID
             })
                 .then(async () => {
-                    setAlert({
+                    dispatch({type: 'alert/set', payload: {
                         open: true,
                         title: "Timebox",
                         message: "Cleared recording!"
-                    });
+                    }});
                     await queryClient.refetchQueries();
                 })
                 .catch(function(error) {
-                    setAlert({
+                    dispatch({type: 'alert/set', payload: {
                         open: true,
                         title: "Error",
                         message: "An error occurred, please try again or contact the developer"
-                    });
+                    }});
                     console.log(error);
                 });
     }
@@ -136,7 +134,6 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                     data={data} 
                     previousRecording={!noPreviousRecording} 
                     back={() => setShowEditTimeboxForm(false)}
-                    setAlert={setAlert}
                     numberOfBoxesSetterAndGetter={numberOfBoxes}
                 />
             ) : (
@@ -216,11 +213,9 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                 close={() => setManualEntryModalShown(false)}
                 data={data}
                 scheduleID={scheduleID}
-                setAlert={setAlert}
                 dispatch={dispatch}
             />
 
-            <Alert alert={alert} setAlert={setAlert}/>
         </>
     );
 }

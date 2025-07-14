@@ -11,13 +11,10 @@ import TimeboxInCreation from './TimeboxInCreation';
 import { IconButton } from '@mui/material';
 import axios from 'axios';
 import serverIP from '@/modules/serverIP';
-import Alert from '../base/Alert';
-import { useState } from 'react';
 
 export default function Timebox(props) {
 
     const dispatch = useDispatch();
-    const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const {headerWidth, timeboxHeight} = useSelector(state => state.overlayDimensions.value);
     const timeboxGrid = useSelector(state => state.timeboxGrid.value);
     const profile = useSelector(state => state.profile.value);
@@ -54,11 +51,10 @@ export default function Timebox(props) {
     }
     return (
     <div className={'col timeBox'}>
-        <Alert alert={alert} setAlert={setAlert}/>
         {numberOfBoxesInSpace < 2 ? (
             <>
             {numberOfBoxesInSpace == 1 && <NormalTimeBox marginFromTop={marginFromTop} data={data}></NormalTimeBox>}
-            {numberOfBoxesInSpace < 1 && <TimeboxInCreation setAlert={setAlert} day={props.day.day} date={date} time={props.time}></TimeboxInCreation>}
+            {numberOfBoxesInSpace < 1 && <TimeboxInCreation day={props.day.day} date={date} time={props.time}></TimeboxInCreation>}
             </>
         ) : (
             <IconButton onClick={expandSchedule}>

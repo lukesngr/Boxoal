@@ -3,7 +3,6 @@ import axios from 'axios';
 import { queryClient } from '../../modules/queryClient.js';
 import serverIP from '../../modules/serverIP';
 import dayjs from 'dayjs';
-import Alert from "../base/Alert";
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -23,14 +22,14 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { muiActionButton, muiDatePicker, muiFormControlStyle, muiInputStyle, muiNonActionButton } from "../../modules/muiStyles";
 import styles from '@/styles/muiStyles.js';
 import { useMutation } from 'react-query';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as Sentry from "@sentry/nextjs";
 
 export default function EditGoalForm(props) {
+    const dispatch = useDispatch();
     const [title, setTitle] = useState(props.data.title);
     const [targetDate, setTargetDate] = useState(dayjs(props.data.targetDate));
     const [completed, setCompleted] = useState(props.data.completed);
-    const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const {scheduleIndex} = useSelector(state => state.profile.value);
 
     const updateGoalMutation = useMutation({
@@ -53,14 +52,14 @@ export default function EditGoalForm(props) {
         },
         onSuccess: () => {
             props.close();
-            setAlert({ open: true, title: "Timebox", message: "Updated goal!" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Timebox", message: "Updated goal!" }});
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
             props.close();
             
-            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
             queryClient.invalidateQueries(['schedule']);
         }
     });
@@ -92,12 +91,12 @@ export default function EditGoalForm(props) {
         })
         .then(async () => {   
             props.close();
-            setAlert({ open: true, title: "Timebox", message: "Deleted goal!" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Timebox", message: "Deleted goal!" }});
             await queryClient.refetchQueries();
         })
         .catch(function(error) {
             props.close();
-            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
             console.log(error);
         });
     }
@@ -170,7 +169,6 @@ export default function EditGoalForm(props) {
                 </DialogActions>
             </Dialog>
 
-            <Alert alert={alert} setAlert={setAlert} />
         </>
     );
 }

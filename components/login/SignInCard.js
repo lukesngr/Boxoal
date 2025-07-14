@@ -7,8 +7,10 @@ import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 import { signIn } from 'aws-amplify/auth';
+import { useDispatch } from 'react-redux';
 
-export default function SignInCard({setComponentDisplayed, setAlert}) {
+export default function SignInCard({setComponentDisplayed}) {
+    const dispatch = useDispatch();
     const [showPassword, setShowPassword] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -20,7 +22,7 @@ export default function SignInCard({setComponentDisplayed, setAlert}) {
                 const result = await signIn({username, password});
                 console.log(result);
             } catch (error) {
-                setAlert({open: true, title: "Error", message: error.message});
+                dispatch({type: 'alert/set', payload: {open: true, title: "Error", message: error.message}});
             }
         }else if(username == ""){
             document.querySelector('#usernameInput').reportValidity();

@@ -12,8 +12,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { signUp } from 'aws-amplify/auth';
 import { confirmSignUp } from 'aws-amplify/auth';
+import { useDispatch } from 'react-redux';
 
-export default function CreateAccountCard({setComponentDisplayed, setAlert}) {
+export default function CreateAccountCard({setComponentDisplayed}) {
+    const dispatch = useDispatch();
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [confirmPasswordHidden, setConfirmPasswordHidden] = useState(true);
@@ -79,12 +81,11 @@ export default function CreateAccountCard({setComponentDisplayed, setAlert}) {
                 });
 
                 if(isSignUpComplete) {
-                    Alert.alert("Signed up, please login")
-                    setAlert({open: true, title: "Signed Up", message: "You have successfully signed up. Please login."});
+                    dispatch({type: 'alert/set', payload: {open: true, title: "Signed Up", message: "You have successfully signed up. Please login."}});
                     setComponentDisplayed("signIn");
                 }
             } catch (error) {
-                setAlert({open: true, title: "Error", message: error.message});
+                dispatch({type: 'alert/set', payload: {open: true, title: "Error", message: error.message}});
             }
 
             
@@ -109,7 +110,7 @@ export default function CreateAccountCard({setComponentDisplayed, setAlert}) {
                 document.querySelector('#confirmPasswordInput').reportValidity();
             } 
         }else if(!matchesPasswordPolicy.test(newPassword) || newPassword != confirmPassword) {
-            setAlert({open: true, title: "Error", message: "Please ensure your password meets the password policy requirements and that the passwords match"});
+            dispatch({type: 'alert/set', payload: {open: true, title: "Error", message: "Please ensure your password meets the password policy requirements and that the passwords match"}});
         }else{
             try{
                 const { isSignUpComplete, userId, nextStep } = await signUp({
@@ -123,7 +124,7 @@ export default function CreateAccountCard({setComponentDisplayed, setAlert}) {
                 });
 
                 if(isSignUpComplete) {
-                    setAlert({open: true, title: "Signed Up", message: "You have successfully signed up. Please login."});
+                    dispatch({type: 'alert/set', payload: {open: true, title: "Signed Up", message: "You have successfully signed up. Please login."}});
                     setComponentDisplayed("signIn");
                 }
 
@@ -131,7 +132,7 @@ export default function CreateAccountCard({setComponentDisplayed, setAlert}) {
                     setDetailsNotEntered(false);
                 }
             } catch (error) {
-                setAlert({open: true, title: "Error", message: error.message});
+                dispatch({type: 'alert/set', payload: {open: true, title: "Error", message: error.message}});
             }
         }
     }

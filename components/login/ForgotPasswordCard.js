@@ -10,8 +10,10 @@ import Button from '@mui/material/Button';
 import { set } from '@/redux/profile';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import { useDispatch } from 'react-redux';
 
-export default function ForgotPasswordCard({setComponentDisplayed, setAlert}) {
+export default function ForgotPasswordCard({setComponentDisplayed}) {
+    const dispatch = useDispatch();
     const [confirmPasswordHidden, setConfirmPasswordHidden] = useState(true);
     const [passwordHidden, setPasswordHidden] = useState(true);
     const [confirmationCode, setConfirmationCode] = useState("");
@@ -56,7 +58,7 @@ export default function ForgotPasswordCard({setComponentDisplayed, setAlert}) {
         if(username == "") {
             document.querySelector('#usernameInput').reportValidity();
         }else{
-            setAlert({open: true, title: "Code Sent", message: "Check your email for the code"});
+            dispatch({type: 'alert/set', payload: {open: true, title: "Code Sent", message: "Check your email for the code"}});
             try {
                 const output = await resetPassword({ username });
                 if(output.nextStep.resetPasswordStep == 'CONFIRM_RESET_PASSWORD_WITH_CODE') {
@@ -65,7 +67,7 @@ export default function ForgotPasswordCard({setComponentDisplayed, setAlert}) {
                     console.log(output.nextStep.resetPasswordStep);
                 }
             } catch (error) {
-                setAlert({open: true, title: "Error", message: error.message});
+                dispatch({type: 'alert/set', payload: {open: true, title: "Error", message: error.message}});
             }
         }
     }
@@ -84,15 +86,15 @@ export default function ForgotPasswordCard({setComponentDisplayed, setAlert}) {
                 document.querySelector('#confirmPasswordInput').reportValidity();
             } 
         }else if(!matchesPasswordPolicy.test(newPassword) || newPassword != confirmPassword) {
-            setAlert({open: true, title: "Error", message: "Please ensure your password meets the password policy requirements and that the passwords match"});
+            dispatch({type: 'alert/set', payload: {open: true, title: "Error", message: "Please ensure your password meets the password policy requirements and that the passwords match"}});
         }else{
 
             try {
                 await confirmResetPassword({ username, confirmationCode, newPassword});
-                setAlert({open: true, title: "Password Reset", message: "Your password has been reset. Please login with your new password."});
+                dispatch({type: 'alert/set', payload: {open: true, title: "Password Reset", message: "Your password has been reset. Please login with your new password."}});
                 setComponentDisplayed("signIn");
             }catch(error) {
-                setAlert({open: true, title: "Error", message: error.message});
+                dispatch({type: 'alert/set', payload: {open: true, title: "Error", message: error.message}});
             }
         }
         

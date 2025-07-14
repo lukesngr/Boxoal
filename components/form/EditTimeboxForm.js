@@ -18,18 +18,17 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import Alert from "../base/Alert";
 import { muiActionButton, muiFormControlStyle, muiInputStyle, muiToggleButtonStyle } from '@/modules/muiStyles.js';
 import styles from "@/styles/muiStyles";
 import { useMutation } from "react-query";
 import * as Sentry from "@sentry/nextjs";
 
 export default function EditTimeboxForm({ data, back, previousRecording, numberOfBoxesSetterAndGetter }) {
+    const dispatch = useDispatch();
     const [title, setTitle] = useState(data.title);
     const [description, setDescription] = useState(data.description);
     const [numberOfBoxes, setNumberOfBoxes] = numberOfBoxesSetterAndGetter;
     const [goalSelected, setGoalSelected] = useState(data.goalID);
-    const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const [reoccuring, setReoccuring] = useState(data.reoccuring != null);
     const [isTimeblock, setIsTimeBlock] = useState(data.isTimeblock);
     const [startOfDayRange, setStartOfDayRange] = useState(data.reoccuring != null ? (data.reoccuring.startOfDayRange) : 0);
@@ -69,17 +68,17 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
             return { previousSchedule };
         },
         onSuccess: () => {
-            setAlert({
+            dispatch({type: 'alert/set', payload: {
                     open: true,
                     title: "Timebox",
                     message: "Updated timebox!"
-            });
+            }});
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
             
-            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
             queryClient.invalidateQueries(['schedule']);
         }
     });
@@ -106,17 +105,17 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
             return { previousSchedule };
         },
         onSuccess: () => {
-            setAlert({
+            dispatch({type: 'alert/set', payload: {
                 open: true,
                 title: "Timebox",
                 message: "Deleted timebox!"
-            });
+            }});
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
             
-            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
             queryClient.invalidateQueries(['schedule']);
         }
     });
@@ -152,7 +151,6 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
     }
 
     return (<>
-        <Alert alert={alert} setAlert={setAlert}/>
         <Dialog
             open={true}
             onClose={closeModal}

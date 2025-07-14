@@ -4,7 +4,6 @@ import dayjs from 'dayjs';
 import serverIP from '../../modules/serverIP';
 import { queryClient } from '../../modules/queryClient.js';
 import { getMaxNumberOfGoals } from '../../modules/coreLogic.js';
-import Alert from '../base/Alert';
 import { muiActionButton, muiDatePicker, muiFormControlStyle, muiInputStyle, muiNonActionButton } from "../../modules/muiStyles";
 
 import Dialog from '@mui/material/Dialog';
@@ -19,13 +18,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import styles from '@/styles/muiStyles';
 import { useMutation } from 'react-query';
 import { useProfile } from '@/hooks/useProfile';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as Sentry from "@sentry/nextjs";
 
 export default function CreateGoalForm(props) {
+    const dispatch = useDispatch();
     const [title, setTitle] = useState("");
     const [targetDate, setTargetDate] = useState(dayjs());
-    const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const {scheduleIndex} = useSelector(state => state.profile.value);
     
     let goalsCompleted = props.goals.reduce((count, item) => item.completed ? count + 1 : count, 0);
@@ -51,13 +50,13 @@ export default function CreateGoalForm(props) {
         },
         onSuccess: () => {
             props.close();
-            setAlert({ open: true, title: "Timebox", message: "Created goal!" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Timebox", message: "Created goal!" }});
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
             props.close();
-            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
             queryClient.invalidateQueries(['schedule']);
             
         }
@@ -82,7 +81,7 @@ export default function CreateGoalForm(props) {
         if (maxNumberOfGoals > goalsNotCompleted || !props.active) {
             createGoalMutation.mutate(goalData);
         } else {
-            setAlert({ open: true, title: "Error", message: "Please complete more goals and we will unlock more goal slots for you!" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "Please complete more goals and we will unlock more goal slots for you!" }});
         }
     }
 
@@ -135,7 +134,6 @@ export default function CreateGoalForm(props) {
                 </DialogActions>
             </Dialog>
             
-            <Alert alert={alert} setAlert={setAlert} />
         </>
     );
 }
