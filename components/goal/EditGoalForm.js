@@ -117,6 +117,7 @@ export default function EditGoalForm(props) {
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             variant="standard"
+                            className='updateGoalTitle'
                             sx={muiInputStyle}
                         />
                         
@@ -153,6 +154,7 @@ export default function EditGoalForm(props) {
                         onClick={updateGoal}
                         variant="contained"
                         sx={muiActionButton}
+                        className='updateGoalButton'
                     >
                         Update
                     </Button>

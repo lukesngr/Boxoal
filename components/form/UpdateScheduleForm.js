@@ -136,6 +136,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
                     label="Title"
                     variant="standard"
                     value={title}
+                    className="updateScheduleTitle"
                     onChange={(e) => setTitle(e.target.value)}
                     sx={muiInputStyle}
                 />
@@ -146,6 +147,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
                     onClick={updateSchedule}
                     variant="contained"
                     sx={muiActionButton}
+                    className="updateScheduleButton"
                 >
                     Update
                 </Button>

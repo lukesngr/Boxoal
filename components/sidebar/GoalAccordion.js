@@ -21,7 +21,7 @@ export default function GoalAccordion(props) {
             <IconButton style={{float: 'inline-end', padding: '5px'}} onClick={() => setTimeboxesListShown(!timeboxesListShown)}>
                 <ExpandMoreIcon></ExpandMoreIcon>
             </IconButton>
-            <IconButton style={{float: 'inline-end', padding: '5px'}} onClick={() => setGoalShown(true)}>
+            <IconButton style={{float: 'inline-end', padding: '5px'}} className='openUpdateGoalButton' onClick={() => setGoalShown(true)}>
                 <SettingsIcon></SettingsIcon>
             </IconButton>
             
