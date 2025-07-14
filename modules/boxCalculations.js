@@ -5,6 +5,7 @@ var utc = require('dayjs/plugin/utc');
 dayjs.extend(isSameOrAfter);
 dayjs.extend(utc);
 import dayjs from "dayjs";
+import { timeboxGrid } from "@/redux/timeboxGrid";
 
 var hoursConversionDivisor = 3600000;
 
@@ -166,8 +167,8 @@ export function getBoxesInsideTimeboxSpace(timeGridFilteredByDate, boxSizeUnit, 
         let timeboxTimeAsDayJS = convertToDayjs(timeboxTime, '1/1');
         let currentTimegridTime = convertToDayjs(timeGridTimesAsArray[i], '1/1');
         let endOfTimeboxSpace = convertToDayjs(endTime, '1/1');
-
-        if(currentTimegridTime >= timeboxTimeAsDayJS && currentTimegridTime <= endOfTimeboxSpace) {
+        console.log(timeboxGrid)
+        if(currentTimegridTime.isSameOrAfter(timeboxTimeAsDayJS, 'minute') && currentTimegridTime.isBefore(endOfTimeboxSpace, 'minute')) {
             filteredTimes.push(timeGridTimesAsArray[i]);
         }
     }
