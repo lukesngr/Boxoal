@@ -271,6 +271,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                 <Button
                     onClick={updateTimeBox}
                     variant="contained"
+                    className="updateTimeboxButton"
                     sx={muiActionButton}
                 >
                     Update
