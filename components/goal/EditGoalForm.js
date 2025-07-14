@@ -98,6 +98,12 @@ export default function EditGoalForm(props) {
             props.close();
             dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
         });
+
+        axios.get('/api/setNextGoalToActive', {line: props.data.partOfLine}).then(async () => {
+            await queryClient.refetchQueries();
+        }).catch(function(error) {
+            console.log(error);
+        })
     }
 
     return (
