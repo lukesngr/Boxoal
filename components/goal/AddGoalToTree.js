@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Box from '@mui/material/Box';
 import CreateGoalForm from "../form/CreateGoalForm";
+import { QueryClientProvider } from "react-query";
+import { queryClient } from "@/modules/queryClient";
 
 export default function AddGoalToTree(props) {
     let size = 70; 
@@ -21,6 +23,7 @@ export default function AddGoalToTree(props) {
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Box 
                     component="div" 
+                    className="addGoalToTree"
                     onClick={() => setCreateGoalVisible(true)}
                     sx={{ 
                         cursor: 'pointer',
@@ -58,14 +61,16 @@ export default function AddGoalToTree(props) {
                 </Box>
             </Box>
             
-            <CreateGoalForm 
-                visible={createGoalVisible} 
-                active={props.addNonActiveGoal} 
-                line={props.line} 
-                close={() => setCreateGoalVisible(false)} 
-                id={scheduleID}  
-                goals={props.goals}
-            />
+            <QueryClientProvider queryClient={queryClient}>
+                <CreateGoalForm 
+                    visible={createGoalVisible} 
+                    active={props.addNonActiveGoal} 
+                    line={props.line} 
+                    close={() => setCreateGoalVisible(false)} 
+                    id={scheduleID}  
+                    goals={props.goals}
+                />
+            </QueryClientProvider>
         </>
     );
 }
