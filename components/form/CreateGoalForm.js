@@ -26,10 +26,10 @@ export default function CreateGoalForm(props) {
     const [title, setTitle] = useState("");
     const [targetDate, setTargetDate] = useState(dayjs());
     const {scheduleIndex} = useSelector(state => state.profile.value);
-    
+    let activeGoals = props.goals.filter(item => item.active);
     let goalsCompleted = props.goals.reduce((count, item) => item.completed ? count + 1 : count, 0);
-    let goalsNotCompleted = props.goals.length - goalsCompleted;
-    let maxNumberOfGoals = getMaxNumberOfGoals(goalsCompleted);
+    let goalsNotCompleted = activeGoals.length - goalsCompleted;
+    let maxNumberOfGoalsAllowed = getMaxNumberOfGoals(goalsCompleted);
 
     const createGoalMutation = useMutation({
         mutationFn: (goalData) => axios.post('/api/createGoal', goalData),
@@ -78,7 +78,7 @@ export default function CreateGoalForm(props) {
             objectUUID: crypto.randomUUID()
         }
 
-        if (maxNumberOfGoals > goalsNotCompleted || !props.active) {
+        if (maxNumberOfGoalsAllowed > goalsNotCompleted || !props.active) {
             createGoalMutation.mutate(goalData);
         } else {
             dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "Please complete more goals and we will unlock more goal slots for you!" }});
