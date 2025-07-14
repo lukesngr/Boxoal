@@ -97,7 +97,6 @@ export default function EditGoalForm(props) {
         .catch(function(error) {
             props.close();
             dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
-            console.log(error);
         });
     }
 
@@ -160,6 +159,7 @@ export default function EditGoalForm(props) {
                     <Button 
                         onClick={deleteGoal} 
                         sx={muiNonActionButton}
+                        className='deleteGoal'
                     >
                         Delete
                     </Button>
