@@ -227,6 +227,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                                 value={reoccuring}
                                 onChange={(e) => setReoccuring(e.target.value)}
                                 sx={muiInputStyle}
+                                className="openReoccurring"
                             >
                                 <MenuItem value={false}>No</MenuItem>
                                 <MenuItem className="turnReoccuringOn" value={true}>Yes</MenuItem>
