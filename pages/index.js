@@ -14,7 +14,6 @@ export default function Home() {
 
     const router = useRouter();
     const [componentDisplayed, setComponentDisplayed] = useState("landing");
-    const [alert, setAlert] = useState({open: false, title: "", message: ""});
     const [user, setUser] = useState(-1);
     async function getLoginInfo() { 
         try {
@@ -33,11 +32,11 @@ export default function Home() {
     }else {
         return (
             <>
-                <Alert alert={alert} setAlert={setAlert}/>
-                {componentDisplayed == "landing" && <LandingPage setAlert={setAlert} setComponentDisplayed={setComponentDisplayed} />}
-                {componentDisplayed == "signIn" && <SignInCard setAlert={setAlert} setComponentDisplayed={setComponentDisplayed} />}
-                {componentDisplayed == "createAccount" && <CreateAccountCard setAlert={setAlert} setComponentDisplayed={setComponentDisplayed} />}
-                {componentDisplayed == "forgotPassword" && <ForgotPasswordCard setAlert={setAlert} setComponentDisplayed={setComponentDisplayed} />}
+                <Alert />
+                {componentDisplayed == "landing" && <LandingPage setComponentDisplayed={setComponentDisplayed} />}
+                {componentDisplayed == "signIn" && <SignInCard setComponentDisplayed={setComponentDisplayed} />}
+                {componentDisplayed == "createAccount" && <CreateAccountCard setComponentDisplayed={setComponentDisplayed} />}
+                {componentDisplayed == "forgotPassword" && <ForgotPasswordCard setComponentDisplayed={setComponentDisplayed} />}
         </>)
     }
 }
