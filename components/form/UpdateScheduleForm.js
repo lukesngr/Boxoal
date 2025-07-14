@@ -88,7 +88,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
             dispatch({type: 'alert/set', payload: {
                 open: true,
                 title: "Timebox",
-                message: "Delete schedule!"
+                message: "Deleted schedule!"
             }});
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
@@ -152,6 +152,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
                 <Button 
                     onClick={deleteSchedule}
                     variant="contained"
+                    className="deleteScheduleButton"
                     sx={muiActionButton}
                 >
                     Delete
