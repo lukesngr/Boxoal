@@ -18,6 +18,7 @@ export default function NormalTimeBox(props) {
     useEffect(() => {
         setNumberOfBoxes(String(props.data.numberOfBoxes));
     }, [props.data.numberOfBoxes]);
+    
     return (<>
     <QueryClientProvider client={queryClient}>
         <TimeboxActionsForm 

@@ -227,7 +227,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                             sx={muiInputStyle}
                         >
                             <MenuItem value={false}>No</MenuItem>
-                            <MenuItem value={true}>Yes</MenuItem>
+                            <MenuItem className="turnReoccuringOn" value={true}>Yes</MenuItem>
                         </Select>
                     </FormControl>
 
