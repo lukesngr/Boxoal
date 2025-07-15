@@ -1,9 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
-import serverIP from "../../modules/serverIP";
 import { queryClient } from "@/modules/queryClient";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import * as Sentry from "@sentry/nextjs";
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';

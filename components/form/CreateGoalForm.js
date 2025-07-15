@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import serverIP from '../../modules/serverIP';
 import { queryClient } from '../../modules/queryClient.js';
 import { getMaxNumberOfGoals } from '../../modules/coreLogic.js';
-import { muiActionButton, muiDatePicker, muiFormControlStyle, muiInputStyle, muiNonActionButton } from "../../modules/muiStyles";
+import { muiActionButton, muiDatePicker, muiInputStyle, muiNonActionButton } from "../../modules/muiStyles";
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -17,9 +16,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import styles from '@/styles/muiStyles';
 import { useMutation } from 'react-query';
-import { useProfile } from '@/hooks/useProfile';
 import { useSelector, useDispatch } from 'react-redux';
-import * as Sentry from "@sentry/nextjs";
 
 export default function CreateGoalForm(props) {
     const dispatch = useDispatch();
