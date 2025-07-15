@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import axios from 'axios';
 import { queryClient } from '../../modules/queryClient.js';
-import serverIP from '../../modules/serverIP.js';
 import { dayToName } from '../../modules/dateCode.js';
 import { convertToDayjs } from '../../modules/formatters.js';
 import { calculateMaxNumberOfBoxes, addBoxesToTime } from '@/modules/boxCalculations.js';
@@ -20,17 +17,15 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import Collapse from '@mui/material/Collapse';
 import { muiActionButton, muiFormControlStyle, muiInputStyle, muiNonActionButton, muiToggleButtonStyle } from '@/modules/muiStyles.js';
 import { ToggleButton, ToggleButtonGroup, Slider, Typography } from '@mui/material';
-import * as Sentry from "@sentry/nextjs";
 
 const listOfColors = ["#00E3DD", "#00C5E6", "#00A4E7", "#0081DC", "#1E5ABF", "#348D9D", "#67D6FF"]
 
 export default function CreateTimeboxForm({ visible, time, date, close, numberOfBoxes, setNumberOfBoxes, day, title, setTitle }) {
     const dispatch = useDispatch();
     const { scheduleID, wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
-    const { timeboxes, goals } = useSelector(state => state.scheduleData.value);
+    const { goals } = useSelector(state => state.scheduleData.value);
     const timeboxGrid = useSelector(state => state.timeboxGrid.value);
     
     const activeGoals = goals.filter(goal => goal.active);
@@ -40,7 +35,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
         if(activeGoals.length != 0) {
             setGoalSelected(activeGoals[0].id);
         }
-    }, [activeGoals])
+    }, [activeGoals, setNumberOfBoxes])
     
     const [goalSelected, setGoalSelected] = useState("");
     const [isTimeblock, setIsTimeBlock] = useState(false);
@@ -58,7 +53,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
         if(visible) {
             setNumberOfBoxes('1');
         }
-    }, [visible])
+    }, [visible, setNumberOfBoxes])
 
     const createTimeboxMutation = useMutation({
         mutationFn: (timeboxData) => axios.post('/api/createTimebox', timeboxData),

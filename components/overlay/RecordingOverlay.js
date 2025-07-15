@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { calculateSizeOfRecordingOverlay } from '../../modules/overlayFunctions';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
@@ -13,7 +13,7 @@ export default function RecordingOverlay(props) {
     const currentDate = dayjs();
     const overlayDate = currentDate.date(props.day.date).month(props.day.month-1);
 
-    function setRecordingOverlay() {
+    const setRecordingOverlay = useCallback(() => {
         const recordingOverlayArray = calculateSizeOfRecordingOverlay(
             wakeupTime, 
             boxSizeUnit, 
@@ -26,7 +26,7 @@ export default function RecordingOverlay(props) {
 
         setRecordingOverlayHeight(recordingOverlayArray[0]);
         setMarginFromTop(recordingOverlayArray[1]);
-    }
+    }, [wakeupTime, boxSizeUnit, boxSizeNumber, overlayDimensions, activeOverlayHeight, props.day, recordingStartTime]);
 
     useEffect(() => {
         if(timeboxID != -1 && dayjs(recordingStartTime).isSameOrBefore(overlayDate) && overlayDate.isSameOrBefore(currentDate)) {
@@ -36,7 +36,7 @@ export default function RecordingOverlay(props) {
         }else{
             setRecordingOverlayHeight("0px");
         }
-    }, [timeboxID]);
+    }, [timeboxID, currentDate, overlayDate, recordingStartTime, setRecordingOverlay]);
 
     return (
         <>

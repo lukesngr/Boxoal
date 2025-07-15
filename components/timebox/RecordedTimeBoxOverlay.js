@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import useRecordedBoxes from "../../hooks/useRecordedBoxesForWeek";
 import { useSelector } from "react-redux";
 

@@ -1,10 +1,9 @@
-import { Accordion, AccordionSummary, Typography, AccordionDetails, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import GoalProgressIndicator from '../goal/GoalProgressIndicator';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useState } from 'react';
 import EditGoalForm from '../goal/EditGoalForm';
-import Timebox from '../timebox/Timebox';
 import TimeboxAsListItem from '../timebox/TimeboxAsListItem';
 
 export default function GoalAccordion(props) {

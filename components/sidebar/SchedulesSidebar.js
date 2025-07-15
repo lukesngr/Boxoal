@@ -1,13 +1,10 @@
 import '../../styles/schedulessidebar.scss';
 
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faArrowRight, faWindowMinimize } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { IconButton, Button } from '@mui/material';
-import {Paper} from '@mui/material';
 import GoalAccordion from './GoalAccordion';
 import CreateGoalForm from '../form/CreateGoalForm';
 import ParkIcon from '@mui/icons-material/Park';
@@ -35,7 +32,7 @@ export default function SchedulesSidebar(props) {
     useEffect(() => {
         dispatch({type: 'expanded/set', payload: !smallerThanLargeBreakpoint});
         setIsSideBarMobile(smallerThanLargeBreakpoint);
-    }, [smallerThanLargeBreakpoint])
+    }, [smallerThanLargeBreakpoint, dispatch])
 
     
     let highestActiveIndex = 0;

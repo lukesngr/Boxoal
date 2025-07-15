@@ -1,18 +1,17 @@
-import React, { useRef, useState, useContext, useEffect, useMemo, createContext } from 'react';
+import React, { useRef, createContext } from 'react';
 import { returnTimesSeperatedForSchedule } from '@/modules/formatters';
 import GridHeader from './GridHeader';
 import '../../styles/timeboxes.scss';
 import { getCurrentDay } from "../../modules/untestableFunctions";
 import TimeboxHeading from './TimeboxHeading';
 import { useSelector } from 'react-redux';
-import { filterTimeboxesBasedOnWeekRange, getArrayOfDayDateDayNameAndMonthForHeaders, ifCurrentDay, ifEqualOrBeyondCurrentDay } from '@/modules/dateCode';
+import { getArrayOfDayDateDayNameAndMonthForHeaders } from '@/modules/dateCode';
 import useActiveOverlay from '@/hooks/useActiveOverlay';
 import useOverlayDimensions from '@/hooks/useOverlayDimensions';
 import { useScheduleSetter } from '@/hooks/useScheduleSetter';
 import useTimeboxGridRedux from '@/hooks/useTimeboxGridRedux';
 import { GridBody } from './GridBody';
 import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
-import GoalProgressIndicator from '../goal/GoalProgressIndicator';
 
 export const ScheduleDataContext = createContext();
 

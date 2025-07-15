@@ -5,17 +5,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getBoxesInsideTimeboxSpace } from '@/modules/boxCalculations';
 import { getMarginFromTopOfTimebox } from '@/modules/boxCalculations';
 import { findSmallestTimeBoxLengthInSpace } from '@/modules/boxCalculations';
-import { Icon } from '@aws-amplify/ui-react';
 import CalendarViewDayIcon from '@mui/icons-material/CalendarViewDay';
 import TimeboxInCreation from './TimeboxInCreation';
 import { IconButton } from '@mui/material';
 import axios from 'axios';
-import serverIP from '@/modules/serverIP';
 
 export default function Timebox(props) {
 
     const dispatch = useDispatch();
-    const {headerWidth, timeboxHeight} = useSelector(state => state.overlayDimensions.value);
+    const {timeboxHeight} = useSelector(state => state.overlayDimensions.value);
     const timeboxGrid = useSelector(state => state.timeboxGrid.value);
     const profile = useSelector(state => state.profile.value);
     const date = props.day.date+"/"+props.day.month;
@@ -42,10 +40,10 @@ export default function Timebox(props) {
     function expandSchedule() {
         const smallestTimeboxLength = findSmallestTimeBoxLengthInSpace(timeboxGrid[date], boxesInsideSpace);
         if(smallestTimeboxLength % 60 == 0) {
-            axios.post('/api/updateProfile', {...profile, boxSizeNumber: (smallestTimeboxLength / 60), boxSizeUnit: 'hr'}).catch(function(error) { console.log(error); });
+            axios.post('/api/updateProfile', {...profile, boxSizeNumber: (smallestTimeboxLength / 60), boxSizeUnit: 'hr'}).catch(function() { });
             dispatch({type: 'profile/set', payload: {...profile, boxSizeNumber: smallestTimeboxLength, boxSizeUnit: 'hr'}});
         }else{
-            axios.post('/api/updateProfile', {...profile, boxSizeNumber: smallestTimeboxLength, boxSizeUnit: 'min'}).catch(function(error) { console.log(error); });
+            axios.post('/api/updateProfile', {...profile, boxSizeNumber: smallestTimeboxLength, boxSizeUnit: 'min'}).catch(function() { });
             dispatch({type: 'profile/set', payload: {...profile, boxSizeNumber: smallestTimeboxLength, boxSizeUnit: 'min'}});
         }
     }

@@ -1,7 +1,7 @@
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import '../../styles/signin.scss';
-import {InputAdornment, FormControl, IconButton, Stack, Dialog, DialogTitle, DialogContent, DialogContentText} from '@mui/material';
+import {InputAdornment, FormControl, IconButton, Stack} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
@@ -19,8 +19,7 @@ export default function SignInCard({setComponentDisplayed}) {
         e.preventDefault();
         if(username !="" && password != ""){
             try {
-                const result = await signIn({username, password});
-                console.log(result);
+                await signIn({username, password});
             } catch (error) {
                 dispatch({type: 'alert/set', payload: {open: true, title: "Error", message: error.message}});
             }

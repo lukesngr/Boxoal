@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import serverIP from "../../modules/serverIP";
 import { queryClient } from '../../modules/queryClient.js';
 import { convertToTimeAndDate, convertToDayjs } from "../../modules/formatters.js";
 import { addBoxesToTime, calculateMaxNumberOfBoxes } from "../../modules/boxCalculations.js";
@@ -21,9 +20,8 @@ import InputLabel from '@mui/material/InputLabel';
 import { muiActionButton, muiFormControlStyle, muiInputStyle, muiToggleButtonStyle } from '@/modules/muiStyles.js';
 import styles from "@/styles/muiStyles";
 import { useMutation } from "react-query";
-import * as Sentry from "@sentry/nextjs";
 
-export default function EditTimeboxForm({ data, back, previousRecording, numberOfBoxesSetterAndGetter }) {
+export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGetter }) {
     const dispatch = useDispatch();
     const [title, setTitle] = useState(data.title);
     const [description, setDescription] = useState(data.description);
@@ -35,7 +33,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
     const [endOfDayRange, setEndOfDayRange] = useState(data.reoccuring != null ? data.reoccuring.endOfDayRange : 0);
     const timeboxGrid = useSelector(state => state.timeboxGrid.value);
     const {wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
-    const { timeboxes, goals } = useSelector(state => state.scheduleData.value);
+    const { goals } = useSelector(state => state.scheduleData.value);
     const {scheduleIndex} = useSelector(state => state.profile.value);
     const [time, date] = convertToTimeAndDate(data.startTime);
     const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);

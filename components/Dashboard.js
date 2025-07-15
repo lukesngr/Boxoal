@@ -4,11 +4,10 @@ import { useProfile } from "../hooks/useProfile";
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import Loading from "./base/Loading";
-import serverIP from "@/modules/serverIP";
 import axios from "axios";
 import { getProgressWithGoal } from "@/modules/coreLogic";
 import '../styles/dashboard.scss';
-import { Card, LinearProgress, Paper } from "@mui/material";
+import { LinearProgress } from "@mui/material";
 import Statistics from "./Statistics";
 
 export default function Dashboard({user}) {
@@ -16,13 +15,12 @@ export default function Dashboard({user}) {
     const dispatch = useDispatch();
     const {scheduleIndex} = useSelector(state => state.profile.value);
     const {userId, username} = user;
-    let recordedTimeboxes = [];
     let averageProgress = 0;
     let goalsCompleted = 0;
     let dataForSchedule = {timeboxes: [], recordedTimeboxes: []};
     useProfile(userId, dispatch);
 
-    const {status, data, error, refetch} = useQuery({
+    const {status, data, error} = useQuery({
         queryKey: ["schedule"], 
         queryFn: async () => {
             const response = await axios.get("/api/getSchedules", { params: {
@@ -36,7 +34,6 @@ export default function Dashboard({user}) {
     if(status === 'loading') return <Loading />
     if(status === 'error') return <p>Error: {error.message}</p>
 
-    console.log(data)
 
     if(data.length != 0) {
         dataForSchedule = data[scheduleIndex]
@@ -48,7 +45,6 @@ export default function Dashboard({user}) {
             }
         }
         if(dataForSchedule.goals.length != 0) { averageProgress = averageProgress / dataForSchedule.goals.length; }
-        recordedTimeboxes = dataForSchedule.recordedTimeboxes;
     }
 
     return (<>

@@ -15,7 +15,7 @@ export default function MySchedulesWhenAuthLoaded({user}) {
     const placeholderWhileScheduleLoading = [{title: "No schedules found", goals: [], recordedTimeboxes: [], timeboxes: []}];
     useProfile(userId, dispatch);
 
-    const {status, data, error, refetch} = useQuery({
+    const {status, data, error} = useQuery({
         queryKey: ["schedule"], 
         queryFn: async () => {
             const response = await axios.get("/api/getSchedules", { params: {
