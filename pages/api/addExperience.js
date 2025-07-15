@@ -8,7 +8,6 @@ export default async function handler(req, res) {
 
   try {
     const data = req.body;
-    console.log(data);
     
     const experienceRecord = await prisma.profile.findUnique({
       where: {

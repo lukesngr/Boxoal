@@ -3,24 +3,21 @@ import SignInCard  from "@/components/login/SignInCard";
 import CreateAccountCard from "@/components/login/CreateAccountCard";
 import ForgotPasswordCard from "@/components/login/ForgotPasswordCard";
 import LandingPage from "@/components/LandingPage";
-import { useAuthenticator } from "@aws-amplify/ui-react";
-import { useRouter } from "next/router";
 import Alert from "@/components/base/Alert";
 import Dashboard from "@/components/Dashboard";
-import Loading from "@/components/base/Loading";
 import { getCurrentUser } from "@aws-amplify/auth";
+import * as Sentry from "@sentry/nextjs";
 
 export default function Home() {
 
-    const router = useRouter();
     const [componentDisplayed, setComponentDisplayed] = useState("landing");
     const [user, setUser] = useState(-1);
     async function getLoginInfo() { 
         try {
-            let userDetails = await getCurrentUser();
+            const userDetails = await getCurrentUser();
             setUser(userDetails);
         } catch(error) {
-            console.log(error);
+            Sentry.captureException(error)
         }
     }
     useEffect(()=> {
