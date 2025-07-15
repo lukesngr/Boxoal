@@ -37,8 +37,8 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
     const {wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
     const { timeboxes, goals } = useSelector(state => state.scheduleData.value);
     const {scheduleIndex} = useSelector(state => state.profile.value);
-    let [time, date] = convertToTimeAndDate(data.startTime);
-    let maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
+    const [time, date] = convertToTimeAndDate(data.startTime);
+    const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
    
     function closeModal() {
         setTitle('');
@@ -55,11 +55,11 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
-                let timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
+                const copyOfOld = structuredClone(old);
+                const timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
                 copyOfOld[scheduleIndex].timeboxes[timeboxIndex] = {...timeboxData, recordedTimeBoxes: []};
-                let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
-                let timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
+                const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
+                const timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
                 copyOfOld[scheduleIndex].goals[goalIndex].timeboxes[timeboxGoalIndex] = {...timeboxData, recordedTimeBoxes: []};
                 return copyOfOld;
             });
@@ -92,11 +92,11 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
-                let timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == objectUUID);
+                const copyOfOld = structuredClone(old);
+                const timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == objectUUID);
                 copyOfOld[scheduleIndex].timeboxes.splice(timeboxIndex, 1);
-                let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
-                let timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == objectUUID);
+                const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
+                const timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == objectUUID);
                 copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.splice(timeboxGoalIndex, 1);
                 return copyOfOld;
             });
@@ -121,9 +121,9 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
     });
 
     function updateTimeBox() {
-        let endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
+        const endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
 
-        let updateData = {
+        const updateData = {
             isTimeblock,
             id: data.id,
             title,

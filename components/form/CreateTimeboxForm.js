@@ -49,7 +49,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const [startOfDayRange, setStartOfDayRange] = useState(0);
     const [endOfDayRange, setEndOfDayRange] = useState(6);
    
-    let transformPercentages = ['35%', '45%', '55%', '65%', '40%', '50%', '55%'];
+    const transformPercentages = ['35%', '45%', '55%', '65%', '40%', '50%', '55%'];
 
     const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
     const {scheduleIndex} = useSelector(state => state.profile.value);
@@ -69,9 +69,9 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
+                const copyOfOld = structuredClone(old);
                 copyOfOld[scheduleIndex].timeboxes.push({...timeboxData, recordedTimeBoxes: []});
-                let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
+                const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
                 copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.push({...timeboxData, recordedTimeBoxes: []})
                 return copyOfOld;
             });
@@ -118,11 +118,11 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             return;
         }else{
 
-            let startTime = convertToDayjs(time, date).utc().format();
-            let endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
-            let color = isTimeblock ? ('black') : (listOfColors[Math.floor(Math.random() * listOfColors.length)]);
+            const startTime = convertToDayjs(time, date).utc().format();
+            const endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
+            const color = isTimeblock ? ('black') : (listOfColors[Math.floor(Math.random() * listOfColors.length)]);
 
-            let data = {
+            const data = {
                 title,
                 description,
                 startTime,

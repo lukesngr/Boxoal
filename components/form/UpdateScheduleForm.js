@@ -36,7 +36,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
+                const copyOfOld = structuredClone(old);
                 copyOfOld[profile.scheduleIndex].title = scheduleData.title; 
                 return copyOfOld;
             });
@@ -71,7 +71,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
+                const copyOfOld = structuredClone(old);
                 copyOfOld.splice(profile.scheduleIndex, 1); 
                 return copyOfOld;
             });
@@ -80,7 +80,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
             return { previousSchedule };
         },
         onSuccess: () => {
-            let scheduleBefore = (profile.scheduleIndex-1);
+            const scheduleBefore = (profile.scheduleIndex-1);
             if(profile.scheduleIndex > 0) {
                     dispatch({type: 'profile/set', payload: {...profile, scheduleIndex: scheduleBefore}});
             }

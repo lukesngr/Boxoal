@@ -4,7 +4,7 @@ import RecordingOverlay from '../overlay/RecordingOverlay';
 import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
 import { getCurrentDate, ifCurrentDay, ifEqualOrBeyondCurrentDay } from '../../modules/untestableFunctions';
 export default function GridHeader({headerContainerRef, dayToName}) {
-    let currentDate = getCurrentDate();
+    const currentDate = getCurrentDate();
     return (
         <div className="row">
             <div className="col-1"></div>

@@ -28,9 +28,9 @@ export default function SchedulesSidebar(props) {
     const [updateScheduleDialogOpen, setUpdateScheduleDialogOpen] = useState(false);
     const {scheduleIndex} = useSelector(state => state.profile.value);
     const expanded = useSelector(state => state.expanded.value);
-    let schedule = props.data[scheduleIndex];
+    const schedule = props.data[scheduleIndex];
 
-    let smallerThanLargeBreakpoint = useMediaQuery({query: '(max-width: 992px)'});
+    const smallerThanLargeBreakpoint = useMediaQuery({query: '(max-width: 992px)'});
 
     useEffect(() => {
         dispatch({type: 'expanded/set', payload: !smallerThanLargeBreakpoint});

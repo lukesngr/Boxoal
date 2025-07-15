@@ -26,10 +26,10 @@ export default function CreateGoalForm(props) {
     const [title, setTitle] = useState("");
     const [targetDate, setTargetDate] = useState(dayjs());
     const {scheduleIndex} = useSelector(state => state.profile.value);
-    let activeGoals = props.goals.filter(item => item.active);
-    let goalsCompleted = props.goals.reduce((count, item) => item.completed ? count + 1 : count, 0);
-    let goalsNotCompleted = activeGoals.length - goalsCompleted;
-    let maxNumberOfGoalsAllowed = getMaxNumberOfGoals(goalsCompleted);
+    const activeGoals = props.goals.filter(item => item.active);
+    const goalsCompleted = props.goals.reduce((count, item) => item.completed ? count + 1 : count, 0);
+    const goalsNotCompleted = activeGoals.length - goalsCompleted;
+    const maxNumberOfGoalsAllowed = getMaxNumberOfGoals(goalsCompleted);
 
     const createGoalMutation = useMutation({
         mutationFn: (goalData) => axios.post('/api/createGoal', goalData),
@@ -40,7 +40,7 @@ export default function CreateGoalForm(props) {
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
+                const copyOfOld = structuredClone(old);
                 copyOfOld[scheduleIndex].goals.push({...goalData, timeboxes: []});
                 return copyOfOld;
             });
@@ -63,7 +63,7 @@ export default function CreateGoalForm(props) {
     });
     
     function createGoal() {
-        let goalData = {
+        const goalData = {
             title,
             targetDate: targetDate.toISOString(),
             schedule: {

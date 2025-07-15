@@ -6,17 +6,17 @@ import { QueryClientProvider } from "react-query";
 import { queryClient } from "@/modules/queryClient";
 
 export default function AddGoalToTree(props) {
-    let size = 70; 
-    let color = 'black'; 
-    let strokeWidth = 2; 
-    let backgroundColor = '#D9D9D9';
-    let plusSize = 0.4;
+    const size = 70; 
+    const color = 'black'; 
+    const strokeWidth = 2; 
+    const backgroundColor = '#D9D9D9';
+    const plusSize = 0.4;
     const center = size / 2;
     const radius = (size - strokeWidth) / 2.2; 
     const plusLength = size * plusSize;
     const halfPlusLength = plusLength / 2;
     const [createGoalVisible, setCreateGoalVisible] = useState(false);
-    let { scheduleID } = useSelector((state) => state.profile.value);
+    const { scheduleID } = useSelector((state) => state.profile.value);
     
     return (
         <>

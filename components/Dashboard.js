@@ -15,7 +15,7 @@ export default function Dashboard({user}) {
 
     const dispatch = useDispatch();
     const {scheduleIndex} = useSelector(state => state.profile.value);
-    let {userId, username} = user;
+    const {userId, username} = user;
     let recordedTimeboxes = [];
     let averageProgress = 0;
     let goalsCompleted = 0;
@@ -42,7 +42,7 @@ export default function Dashboard({user}) {
         dataForSchedule = data[scheduleIndex]
         goalsCompleted = dataForSchedule.goals.reduce((count, item) => item.completed ? count + 1 : count, 0); //no tradeoff for making this faster
         
-        for(let goal of dataForSchedule.goals) {
+        for(const goal of dataForSchedule.goals) {
             if(!goal.completed) {
             averageProgress += getProgressWithGoal(goal.timeboxes);
             }

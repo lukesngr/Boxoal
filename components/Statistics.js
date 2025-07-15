@@ -6,7 +6,7 @@ import { useMemo } from "react";
 import '../styles/statistics.scss'
 
 export default function Statistics({recordedTimeboxes, timeboxes}) {
-    let {averageTimeOverBy, 
+    const {averageTimeOverBy, 
         averageTimeStartedOffBy, 
         percentagePredictedStart, 
         percentageCorrectTime, 

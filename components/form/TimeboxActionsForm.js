@@ -40,18 +40,18 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                 queryClient.setQueryData(['schedule'], (old) => {
                     if (!old) return old;
                     //recordedTimeBoxes in schedule
-                    let copyOfOld = structuredClone(old);
-                    let recordingDataCopy = structuredClone(recordingData);
+                    const copyOfOld = structuredClone(old);
+                    const recordingDataCopy = structuredClone(recordingData);
                     recordingDataCopy.timeBox = data
                     copyOfOld[scheduleIndex].recordedTimeboxes.push(recordingDataCopy);
 
                     //recordedTimeboxes in timeboxes
-                    let timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
+                    const timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
                     copyOfOld[scheduleIndex].timeboxes[timeboxIndex].recordedTimeBoxes.push(recordingDataCopy);
 
                     //recordedTimeBoxes in goals
-                    let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(data.goalID));
-                    let timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
+                    const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(data.goalID));
+                    const timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
                     
                     copyOfOld[scheduleIndex].goals[goalIndex].timeboxes[timeboxGoalIndex].recordedTimeBoxes.push(recordingDataCopy);
                     return copyOfOld;
@@ -109,7 +109,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
 
     async function stopRecording() {
         // Stop recording logic for web version
-        let recordedStartTime = new Date(timeboxRecording.recordingStartTime);
+        const recordedStartTime = new Date(timeboxRecording.recordingStartTime);
         dispatch({ type: 'timeboxRecording/set', payload: {
             timeboxID: -1,
             timeboxDate: 0,
@@ -117,7 +117,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
         }});
         dispatch(setActiveOverlayInterval());
         
-        let recordingData = {
+        const recordingData = {
             recordedStartTime: recordedStartTime, 
             recordedEndTime: new Date(), 
             timeBox: { connect: { id: data.id, objectUUID: data.objectUUID } }, 

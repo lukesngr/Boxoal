@@ -16,8 +16,8 @@ import * as Sentry from '@sentry/nextjs';
 
 export default function MySchedulesWhenAuthLoaded({user}) {
     const dispatch = useDispatch();
-    let {userId, username} = user;
-    let placeholderWhileScheduleLoading = [{title: "No schedules found", goals: [], recordedTimeboxes: [], timeboxes: []}];
+    const {userId, username} = user;
+    const placeholderWhileScheduleLoading = [{title: "No schedules found", goals: [], recordedTimeboxes: [], timeboxes: []}];
     useProfile(userId, dispatch);
 
     let {status, data, error, refetch} = useQuery({

@@ -10,8 +10,8 @@ export default function RecordingOverlay(props) {
     const activeOverlayHeight = useSelector(state => state.activeOverlayHeight.value);
     const [marginFromTop, setMarginFromTop] = useState(overlayDimensions.headerHeight+activeOverlayHeight); 
     const [recordingOverlayHeight, setRecordingOverlayHeight] = useState(0);
-    let currentDate = dayjs();
-    let overlayDate = currentDate.date(props.day.date).month(props.day.month-1);
+    const currentDate = dayjs();
+    const overlayDate = currentDate.date(props.day.date).month(props.day.month-1);
 
     function setRecordingOverlay() {
         const recordingOverlayArray = calculateSizeOfRecordingOverlay(
@@ -31,7 +31,7 @@ export default function RecordingOverlay(props) {
     useEffect(() => {
         if(timeboxID != -1 && dayjs(recordingStartTime).isSameOrBefore(overlayDate) && overlayDate.isSameOrBefore(currentDate)) {
             setRecordingOverlay();
-            let recordingOverlayInterval = setInterval(() => setRecordingOverlay(), 5000);
+            const recordingOverlayInterval = setInterval(() => setRecordingOverlay(), 5000);
             return () => clearInterval(recordingOverlayInterval);
         }else{
             setRecordingOverlayHeight("0px");

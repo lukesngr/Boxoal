@@ -20,13 +20,13 @@ export default function TimeBoxes(props) {
 
     const selectedDate = useSelector(state => state.selectedDate.value);
     const profile = useSelector(state => state.profile.value);
-    let schedule = props.data[profile.scheduleIndex]; 
+    const schedule = props.data[profile.scheduleIndex]; 
     const gridContainerRef = useRef(null);
     const headerContainerRef = useRef(null);
     const timeboxColumnRef = useRef(null);
     const dayToName = getArrayOfDayDateDayNameAndMonthForHeaders(selectedDate); //get all info to make headers look nice
     const listOfTimes = returnTimesSeperatedForSchedule(profile); //get times that go down each row
-    let currentDay = getCurrentDay();
+    const currentDay = getCurrentDay();
 
     useTimeboxGridRedux(schedule, selectedDate); //make a map for the timeboxes with another map inside it, makes lookup fast
     useScheduleSetter(schedule); //set schedule data to redux store (timeboxes, recordedTimeboxes, goals

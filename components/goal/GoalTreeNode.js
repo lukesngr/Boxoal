@@ -4,13 +4,13 @@ import dayjs from "dayjs";
 import Box from '@mui/material/Box';
 
 export default function GoalTreeNode(props) {
-    let goalDateInDayJS = dayjs(props.goal.targetDate);
+    const goalDateInDayJS = dayjs(props.goal.targetDate);
     let dateWithSuffix = getDateWithSuffix(goalDateInDayJS.date());
-    let abbrievatedMonth = goalDateInDayJS.format('MMM');
-    let progress = getProgressWithGoal(props.goal.timeboxes);
+    const abbrievatedMonth = goalDateInDayJS.format('MMM');
+    const progress = getProgressWithGoal(props.goal.timeboxes);
     
     const size = 120;
-    let strokeWidth = 5;
+    const strokeWidth = 5;
     const radius = (size - strokeWidth) / 2;
     const circumference = 2 * Math.PI * radius;
     const strokeDashoffset = circumference - (circumference * progress) / 100;
