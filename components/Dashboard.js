@@ -7,7 +7,7 @@ import Loading from "./base/Loading";
 import axios from "axios";
 import { getProgressWithGoal } from "@/modules/coreLogic";
 import '../styles/dashboard.scss';
-import { LinearProgress } from "@mui/material";
+import {LinearProgress } from "@mui/material";
 import Statistics from "./Statistics";
 
 export default function Dashboard({user}) {
@@ -20,7 +20,7 @@ export default function Dashboard({user}) {
     let dataForSchedule = {timeboxes: [], recordedTimeboxes: []};
     useProfile(userId, dispatch);
 
-    const {status, data, error} = useQuery({
+    let {status, data, error} = useQuery({
         queryKey: ["schedule"], 
         queryFn: async () => {
             const response = await axios.get("/api/getSchedules", { params: {
@@ -33,7 +33,6 @@ export default function Dashboard({user}) {
 
     if(status === 'loading') return <Loading />
     if(status === 'error') return <p>Error: {error.message}</p>
-
 
     if(data.length != 0) {
         dataForSchedule = data[scheduleIndex]
