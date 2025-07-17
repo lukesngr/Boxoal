@@ -35,6 +35,8 @@ model Goal {
   schedule   Schedule? @relation(fields: [scheduleID], references: [id])
   scheduleID Int?
   objectUUID String @unique
+  metric     Int?
+  metricUnit String?
 }
 
 model TimeBox {

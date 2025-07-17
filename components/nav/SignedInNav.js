@@ -7,24 +7,20 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import Image from 'next/image';
 import { useState } from 'react';
 import NavbarIcon from './NavbarIcon';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { signOut } from '@aws-amplify/auth';
-import { Router, useRouter } from 'next/router';
+import Link from 'next/link';
+import * as Sentry from '@sentry/nextjs';
 
-const pages = ['Timeboxes'];
 
 export default function SignedInNav({username}) {
-    const router = useRouter();
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [userMenuShown, setUserMenuShown] = useState(false);
@@ -47,8 +43,12 @@ export default function SignedInNav({username}) {
     };
 
     async function logout() {
-        await signOut();
-        router.push('/');
+        try {
+            await signOut();
+            window.location.reload();
+        } catch (error) {
+            Sentry.captureException(error);
+        }
     }
 
     return (
@@ -87,7 +87,7 @@ export default function SignedInNav({username}) {
                     sx={{ display: { xs: 'block', md: 'none' } }}
                     >
                         <MenuItem key={"Timeboxes"} onClick={handleCloseNavMenu}>
-                            <a style={{color: 'black', textDecoration: 'none'}} href="/myschedules"><Typography sx={{ textAlign: 'center' }}>Timeboxes</Typography></a>
+                            <Link style={{color: 'black', textDecoration: 'none'}} href="/myschedules"><Typography sx={{ textAlign: 'center' }}>Timeboxes</Typography></Link>
                         </MenuItem>
                     </Menu>
             
@@ -127,7 +127,7 @@ export default function SignedInNav({username}) {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                     >
-                        <MenuItem key={"Logout"} onClick={logout}>
+                        <MenuItem className="logoutButton" key={"Logout"} onClick={logout}>
                         <Typography sx={{ textAlign: 'center' }}>Logout</Typography>
                         </MenuItem>
                     </Menu>

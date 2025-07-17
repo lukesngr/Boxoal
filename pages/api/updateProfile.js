@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    let data = req.body;
+    const data = req.body;
 
     const profile = await prisma.profile.findUnique({
       where: {

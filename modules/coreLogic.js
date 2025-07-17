@@ -2,7 +2,9 @@ import { convertToDayjs, convertToTimeAndDate } from "./formatters";
 
 import dayjs from "dayjs";
 var isSameOrBefore = require('dayjs/plugin/isSameOrBefore')
+var utc = require('dayjs/plugin/utc')
 dayjs.extend(isSameOrBefore)
+dayjs.extend(utc)
 
 
 
@@ -12,7 +14,7 @@ export function thereIsNoRecording(recordedBoxes, reoccuring, date, time) {
         return true;
     }else if(reoccuring != null) {
         if(reoccuring.reoccurFrequency == "daily") {
-            let timeboxTime = convertToDayjs(time, date).utc().format();
+            let timeboxTime = convertToDayjs(time, date);
             let result = true
             recordedBoxes.forEach(element => {
                 if(timeboxTime.isSame(dayjs(element.recordedStartTime), 'date')) {
@@ -110,18 +112,6 @@ export function calculateXPPoints(timeboxData, recordedStartTime, recordedEndTim
 
 }
 
-export function getProgressAndLevel(xpPoints) {
-    if(xpPoints < 10) {
-        return {progress: 0, level: 1};
-    }else{
-        let level = Math.floor(33*Math.log10(xpPoints - 9) + 1);
-        let xpPointsNeededForCurrentLevel = Math.pow(10, (level-1)/33) + 9;
-        let xpPointsNeededForNextLevel = Math.pow(10, level/33) + 9;
-        let differenceInPointsBetweenLevels = xpPointsNeededForNextLevel - xpPointsNeededForCurrentLevel;
-        let progress = ((xpPoints - xpPointsNeededForCurrentLevel) / differenceInPointsBetweenLevels);
-        return {progress: progress, level: Math.round(level)};
-    }
-}
 
 export function getMaxNumberOfGoals(goalsCompleted) {
     if(goalsCompleted == 0) {

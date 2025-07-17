@@ -1,9 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { queryClient } from '../../modules/queryClient.js';
-import serverIP from '../../modules/serverIP';
 import dayjs from 'dayjs';
-import Alert from "../base/Alert";
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -11,26 +9,20 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import IconButton from '@mui/material/IconButton';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { muiActionButton, muiDatePicker, muiFormControlStyle, muiInputStyle, muiNonActionButton } from "../../modules/muiStyles";
+import { muiActionButton, muiDatePicker, muiInputStyle, muiNonActionButton, muiToggleButtonStyle } from "../../modules/muiStyles";
 import styles from '@/styles/muiStyles.js';
 import { useMutation } from 'react-query';
-import { useSelector } from 'react-redux';
-import * as Sentry from "@sentry/nextjs";
+import { useSelector, useDispatch } from 'react-redux';
+import { ToggleButtonGroup, ToggleButton } from '@mui/material';
 
 export default function EditGoalForm(props) {
+    const dispatch = useDispatch();
     const [title, setTitle] = useState(props.data.title);
     const [targetDate, setTargetDate] = useState(dayjs(props.data.targetDate));
     const [completed, setCompleted] = useState(props.data.completed);
-    const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const {scheduleIndex} = useSelector(state => state.profile.value);
 
     const updateGoalMutation = useMutation({
@@ -42,8 +34,8 @@ export default function EditGoalForm(props) {
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
-                let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.objectUUID == props.data.objectUUID);
+                const copyOfOld = structuredClone(old);
+                const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.objectUUID == props.data.objectUUID);
                 copyOfOld[scheduleIndex].goals[goalIndex] = {...goalData, timeboxes: copyOfOld[scheduleIndex].goals[goalIndex].timeboxes};
                 return copyOfOld;
             });
@@ -53,20 +45,20 @@ export default function EditGoalForm(props) {
         },
         onSuccess: () => {
             props.close();
-            setAlert({ open: true, title: "Timebox", message: "Updated goal!" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Timebox", message: "Updated goal!" }});
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
             props.close();
             
-            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
             queryClient.invalidateQueries(['schedule']);
         }
     });
 
     function updateGoal() {
-        let goalData = {
+        const goalData = {
             title,
             targetDate: targetDate.toISOString(),
             objectUUID: props.data.objectUUID,
@@ -80,8 +72,7 @@ export default function EditGoalForm(props) {
         if(completed) {
             axios.get('/api/setNextGoalToActive', {line: props.data.partOfLine}).then(async () => {
                 await queryClient.refetchQueries();
-            }).catch(function(error) {
-                console.log(error);
+            }).catch(function() {
             })
         };
     }
@@ -92,14 +83,18 @@ export default function EditGoalForm(props) {
         })
         .then(async () => {   
             props.close();
-            setAlert({ open: true, title: "Timebox", message: "Deleted goal!" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Timebox", message: "Deleted goal!" }});
             await queryClient.refetchQueries();
         })
-        .catch(function(error) {
+        .catch(function() {
             props.close();
-            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
-            console.log(error);
+            dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
         });
+
+        axios.get('/api/setNextGoalToActive', {line: props.data.partOfLine}).then(async () => {
+            await queryClient.refetchQueries();
+        }).catch(function() {
+        })
     }
 
     return (
@@ -112,11 +107,23 @@ export default function EditGoalForm(props) {
                 <DialogTitle sx={{ color: 'white' }} className='dialogTitle'>Edit Goal</DialogTitle>
                 <DialogContent>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
+                        <ToggleButtonGroup
+                            color="primary"
+                            value={completed}
+                            exclusive
+                            onChange={(event, newMode) => {setCompleted(newMode)}}
+                            sx={{'& .MuiToggleButton-root': {borderRadius: 0}}}
+                            fullWidth
+                            >
+                            <ToggleButton sx={muiToggleButtonStyle} value={false}>Not Completed</ToggleButton>
+                            <ToggleButton sx={muiToggleButtonStyle} className='goalCompletedButton' value={true}>Completed</ToggleButton>
+                        </ToggleButtonGroup>
                         <TextField
                             label="Title"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             variant="standard"
+                            className='updateGoalTitle'
                             sx={muiInputStyle}
                         />
                         
@@ -127,25 +134,11 @@ export default function EditGoalForm(props) {
                                     value={targetDate}
                                     onChange={(newValue) => {
                                         setTargetDate(newValue);
-                                        setDatePickerOpen(false);
                                     }}
                                     sx={muiDatePicker}
                                 />
                             </div>
                         </LocalizationProvider>
-                        
-                        
-                        <FormControl variant="standard"  sx={muiFormControlStyle}>
-                            <InputLabel>Completed</InputLabel>
-                            <Select
-                                value={completed}
-                                onChange={(e) => setCompleted(e.target.value)}
-                                sx={muiInputStyle}
-                            >
-                                <MenuItem value={false}>False</MenuItem>
-                                <MenuItem value={true}>True</MenuItem>
-                            </Select>
-                        </FormControl>
                     </div>
                 </DialogContent>
                 <DialogActions>
@@ -153,12 +146,14 @@ export default function EditGoalForm(props) {
                         onClick={updateGoal}
                         variant="contained"
                         sx={muiActionButton}
+                        className='updateGoalButton'
                     >
                         Update
                     </Button>
                     <Button 
                         onClick={deleteGoal} 
                         sx={muiNonActionButton}
+                        className='deleteGoal'
                     >
                         Delete
                     </Button>
@@ -168,7 +163,6 @@ export default function EditGoalForm(props) {
                 </DialogActions>
             </Dialog>
 
-            <Alert alert={alert} setAlert={setAlert} />
         </>
     );
 }

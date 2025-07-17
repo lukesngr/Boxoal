@@ -1,9 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { getProgressAndLevel } from "../modules/coreLogic";
-import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import serverIP from "@/modules/serverIP";
+
 export function useProfile(userId, dispatch) {
 
     const {status, data, error, refetch} = useQuery({

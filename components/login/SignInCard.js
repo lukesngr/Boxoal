@@ -1,14 +1,16 @@
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import '../../styles/signin.scss';
-import {InputAdornment, FormControl, IconButton, Stack, Dialog, DialogTitle, DialogContent, DialogContentText} from '@mui/material';
+import {InputAdornment, FormControl, IconButton, Stack} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 import { signIn } from 'aws-amplify/auth';
+import { useDispatch } from 'react-redux';
 
-export default function SignInCard({setComponentDisplayed, setAlert}) {
+export default function SignInCard({setComponentDisplayed}) {
+    const dispatch = useDispatch();
     const [showPassword, setShowPassword] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -17,10 +19,9 @@ export default function SignInCard({setComponentDisplayed, setAlert}) {
         e.preventDefault();
         if(username !="" && password != ""){
             try {
-                const result = await signIn({username, password});
-                console.log(result);
+                await signIn({username, password});
             } catch (error) {
-                setAlert({open: true, title: "Error", message: error.message});
+                dispatch({type: 'alert/set', payload: {open: true, title: "Error", message: error.message}});
             }
         }else if(username == ""){
             document.querySelector('#usernameInput').reportValidity();
@@ -66,7 +67,7 @@ export default function SignInCard({setComponentDisplayed, setAlert}) {
                             }
                         />
                     </FormControl>
-                    <Button sx={{borderRadius: '10px', color: 'white'}} variant="contained" type="submit" onClick={login}>Sign In</Button>
+                    <Button className='loginButton' sx={{borderRadius: '10px', color: 'white'}} variant="contained" type="submit" onClick={login}>Sign In</Button>
                     <div className='alternateActions'>
                         <button className='forgetPasswordButton' onClick={() => setComponentDisplayed('forgotPassword')}>Forgot Password</button>
                         <button className='createAccountButton' onClick={() => setComponentDisplayed('createAccount')}>Create Account</button>

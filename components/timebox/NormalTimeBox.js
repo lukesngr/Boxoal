@@ -10,14 +10,15 @@ export default function NormalTimeBox(props) {
     const {boxSizeNumber, boxSizeUnit} = useSelector(state => state.profile.value);
     const [timeboxActionsFormVisible, setTimeboxActionsFormVisible] = useState(false);
     const [numberOfBoxes, setNumberOfBoxes] = useState(String(props.data.numberOfBoxes));
-    let [time, date] = convertToTimeAndDate(props.data.startTime);
-    let endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
-    let percentageOfBoxSizeFilled = getPercentageOfBoxSizeFilled(boxSizeUnit, boxSizeNumber, new Date(props.data.startTime), new Date(endTime));
-    let calculatedHeight = `calc(${(Number(percentageOfBoxSizeFilled*100))}% + ${Number((percentageOfBoxSizeFilled-1)*2)}px)`
+    const [time, date] = convertToTimeAndDate(props.data.startTime);
+    const endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
+    const percentageOfBoxSizeFilled = getPercentageOfBoxSizeFilled(boxSizeUnit, boxSizeNumber, new Date(props.data.startTime), new Date(endTime));
+    const calculatedHeight = `calc(${(Number(percentageOfBoxSizeFilled*100))}% + ${Number((percentageOfBoxSizeFilled-1)*2)}px)`
     
     useEffect(() => {
         setNumberOfBoxes(String(props.data.numberOfBoxes));
     }, [props.data.numberOfBoxes]);
+    
     return (<>
     <QueryClientProvider client={queryClient}>
         <TimeboxActionsForm 
@@ -27,8 +28,8 @@ export default function NormalTimeBox(props) {
             date={props.date} 
             time={props.time}
             numberOfBoxes={[numberOfBoxes, setNumberOfBoxes]}></TimeboxActionsForm>
-        <div style={{height: '100%'}} onClick={() => setTimeboxActionsFormVisible(true)}>
-            <div style={{height: `${calculatedHeight}`, backgroundColor: props.data.color, zIndex: 998, position: 'relative'}} id="timeBox" data-testid="normalTimeBox">    
+        <div style={{height: '100%'}} className={`${time}${date}TimeboxActionsForm`} onClick={() => setTimeboxActionsFormVisible(true)}>
+            <div style={{height: `${calculatedHeight}`, backgroundColor: props.data.color, zIndex: 998, position: 'relative'}} id="timeBox" className="normalTimeBox">    
                 <span className="timeboxText" style={props.data.isTimeblock ? ({color: 'white'}) : ({color: 'black'})}>{props.data.title}</span>
             </div>
         </div>

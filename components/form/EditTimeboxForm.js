@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import serverIP from "../../modules/serverIP";
 import { queryClient } from '../../modules/queryClient.js';
 import { convertToTimeAndDate, convertToDayjs } from "../../modules/formatters.js";
 import { addBoxesToTime, calculateMaxNumberOfBoxes } from "../../modules/boxCalculations.js";
@@ -18,28 +17,26 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import Alert from "../base/Alert";
 import { muiActionButton, muiFormControlStyle, muiInputStyle, muiToggleButtonStyle } from '@/modules/muiStyles.js';
 import styles from "@/styles/muiStyles";
 import { useMutation } from "react-query";
-import * as Sentry from "@sentry/nextjs";
 
-export default function EditTimeboxForm({ data, back, previousRecording, numberOfBoxesSetterAndGetter }) {
+export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGetter }) {
+    const dispatch = useDispatch();
     const [title, setTitle] = useState(data.title);
     const [description, setDescription] = useState(data.description);
     const [numberOfBoxes, setNumberOfBoxes] = numberOfBoxesSetterAndGetter;
     const [goalSelected, setGoalSelected] = useState(data.goalID);
-    const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const [reoccuring, setReoccuring] = useState(data.reoccuring != null);
     const [isTimeblock, setIsTimeBlock] = useState(data.isTimeblock);
     const [startOfDayRange, setStartOfDayRange] = useState(data.reoccuring != null ? (data.reoccuring.startOfDayRange) : 0);
     const [endOfDayRange, setEndOfDayRange] = useState(data.reoccuring != null ? data.reoccuring.endOfDayRange : 0);
     const timeboxGrid = useSelector(state => state.timeboxGrid.value);
     const {wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
-    const { timeboxes, goals } = useSelector(state => state.scheduleData.value);
+    const { goals } = useSelector(state => state.scheduleData.value);
     const {scheduleIndex} = useSelector(state => state.profile.value);
-    let [time, date] = convertToTimeAndDate(data.startTime);
-    let maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
+    const [time, date] = convertToTimeAndDate(data.startTime);
+    const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
    
     function closeModal() {
         setTitle('');
@@ -56,11 +53,11 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
-                let timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
+                const copyOfOld = structuredClone(old);
+                const timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
                 copyOfOld[scheduleIndex].timeboxes[timeboxIndex] = {...timeboxData, recordedTimeBoxes: []};
-                let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
-                let timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
+                const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
+                const timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
                 copyOfOld[scheduleIndex].goals[goalIndex].timeboxes[timeboxGoalIndex] = {...timeboxData, recordedTimeBoxes: []};
                 return copyOfOld;
             });
@@ -69,17 +66,17 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
             return { previousSchedule };
         },
         onSuccess: () => {
-            setAlert({
+            dispatch({type: 'alert/set', payload: {
                     open: true,
                     title: "Timebox",
                     message: "Updated timebox!"
-            });
+            }});
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
             
-            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
             queryClient.invalidateQueries(['schedule']);
         }
     });
@@ -93,11 +90,11 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
-                let timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == objectUUID);
+                const copyOfOld = structuredClone(old);
+                const timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == objectUUID);
                 copyOfOld[scheduleIndex].timeboxes.splice(timeboxIndex, 1);
-                let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
-                let timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == objectUUID);
+                const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
+                const timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == objectUUID);
                 copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.splice(timeboxGoalIndex, 1);
                 return copyOfOld;
             });
@@ -106,25 +103,25 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
             return { previousSchedule };
         },
         onSuccess: () => {
-            setAlert({
+            dispatch({type: 'alert/set', payload: {
                 open: true,
                 title: "Timebox",
                 message: "Deleted timebox!"
-            });
+            }});
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
             
-            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
             queryClient.invalidateQueries(['schedule']);
         }
     });
 
     function updateTimeBox() {
-        let endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
+        const endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
 
-        let updateData = {
+        const updateData = {
             isTimeblock,
             id: data.id,
             title,
@@ -151,30 +148,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
         deleteTimeboxMutation.mutate(data.objectUUID);
     }
 
-    function clearRecording() {
-        axios.post('/api/clearRecording', {
-            objectUUID: data.objectUUID
-        })
-            .then(async () => {
-                setAlert({
-                    open: true,
-                    title: "Timebox",
-                    message: "Cleared recording!"
-                });
-                await queryClient.refetchQueries();
-            })
-            .catch(function(error) {
-                setAlert({
-                    open: true,
-                    title: "Error",
-                    message: "An error occurred, please try again or contact the developer"
-                });
-                console.log(error);
-            });
-    }
-
     return (<>
-        <Alert alert={alert} setAlert={setAlert}/>
         <Dialog
             open={true}
             onClose={closeModal}
@@ -213,7 +187,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         variant="standard"
-                        data-testid="editTitle"
+                        className="editTitle"
                         sx={muiInputStyle}
                     />
 
@@ -293,6 +267,7 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                 <Button
                     onClick={updateTimeBox}
                     variant="contained"
+                    className="updateTimeboxButton"
                     sx={muiActionButton}
                 >
                     Update
@@ -300,21 +275,11 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
                 <Button
                     onClick={deleteTimeBox}
                     variant="contained"
-                    data-testid="deleteTimebox"
+                    className="deleteTimebox"
                     sx={muiActionButton}
                 >
                     Delete
                 </Button>
-                {previousRecording && (
-                    <Button
-                        onClick={clearRecording}
-                        variant="contained"
-                        data-testid="clearRecording"
-                        sx={muiActionButton}
-                    >
-                        Clear Recording
-                    </Button>
-                )}
                 <Button onClick={closeModal} sx={{ color: 'white' }}>
                     Back
                 </Button>

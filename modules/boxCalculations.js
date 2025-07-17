@@ -1,8 +1,11 @@
 import { useSelector } from "react-redux";
 import { convertToDayjs } from "./formatters";
 var isSameOrAfter = require("dayjs/plugin/isSameOrAfter");
+var utc = require('dayjs/plugin/utc');
 dayjs.extend(isSameOrAfter);
+dayjs.extend(utc);
 import dayjs from "dayjs";
+import { timeboxGrid } from "@/redux/timeboxGrid";
 
 var hoursConversionDivisor = 3600000;
 
@@ -119,17 +122,15 @@ export function addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, 
     let endMinutes = timeMinutes;
 
     if(boxSizeUnit == "min") {
-        for(let i = 0; i < numberOfBoxes; i++) {
-            endMinutes += boxSizeNumber;
+        endMinutes += boxSizeNumber*numberOfBoxes;
 
-            if(endMinutes >= 60) {
-                if(endHours == 23) {
-                    endHours = 0;
-                    day += 1;
-                }else{
-                    endHours += 1;
-                }
-                endMinutes -= 60;
+        if(endMinutes >= 60) {
+            endHours += Math.floor(endMinutes / 60); 
+            endMinutes = endMinutes % 60;
+
+            if(endHours > 23) {
+                day += Math.floor(endHours / 24);
+                endHours = endHours % 24;
             }
         }
     }else if(boxSizeUnit == "hr") {
@@ -156,18 +157,18 @@ export function getPercentageOfBoxSizeFilled(boxSizeUnit, boxSizeNumber, startTi
     return percentageOfBoxSizeFilled;
 }
 
-export function filterTimeGridBasedOnSpace(timeGridFilteredByDate, boxSizeUnit, boxSizeNumber, time) {
-    let times = Object.keys(timeGridFilteredByDate);
-    let endTime = addBoxesToTime(boxSizeUnit, boxSizeNumber, time, 1, '6/9')[0];
+export function getBoxesInsideTimeboxSpace(timeGridFilteredByDate, boxSizeUnit, boxSizeNumber, timeboxTime) {
+    let timeGridTimesAsArray = Object.keys(timeGridFilteredByDate);
+    let [endTime, endDate] = addBoxesToTime(boxSizeUnit, boxSizeNumber, timeboxTime, 1, '1/1'); //can see the benefits of typescript like wtf do these parameters do, need to check my code
     let filteredTimes = [];
     let i = 0;
-    for(i = 0; i < times.length; i++) {
-        let startTimeAsDate = convertToDayjs(time, '1/1').utc().format();
-        let timeAsDate = convertToDayjs(times[i], '1/1').utc().format();
-        let endTimeAsDate = convertToDayjs(endTime, '1/1').utc().format();
 
-        if(timeAsDate >= startTimeAsDate && timeAsDate < endTimeAsDate) {
-            filteredTimes.push(times[i]);
+    for(i = 0; i < timeGridTimesAsArray.length; i++) {
+        let timeboxTimeAsDayJS = convertToDayjs(timeboxTime, '1/1');
+        let currentTimegridTime = convertToDayjs(timeGridTimesAsArray[i], '1/1');
+        let endOfTimeboxSpace = convertToDayjs(endTime, endDate);
+        if(currentTimegridTime.isSameOrAfter(timeboxTimeAsDayJS, 'minute') && currentTimegridTime.isBefore(endOfTimeboxSpace, 'minute')) {
+            filteredTimes.push(timeGridTimesAsArray[i]);
         }
     }
 

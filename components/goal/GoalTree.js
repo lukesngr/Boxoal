@@ -16,10 +16,10 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 export function GoalTree(props) {
     const [currentLine, setCurrentLine] = useState(1);
     
-    let goalsCompleted = props.data.goals.reduce((count, item) => item.completed ? count + 1 : count, 0);
-    let goalsInLine = props.data.goals.filter((item) => item.partOfLine === currentLine);
-    let maxNumberOfGoals = getMaxNumberOfGoals(goalsCompleted);
-    let addNonActiveGoal = goalsInLine.length === 0;
+    const goalsCompleted = props.data.goals.reduce((count, item) => item.completed ? count + 1 : count, 0);
+    const goalsInLine = props.data.goals.filter((item) => item.partOfLine === currentLine);
+    const maxNumberOfGoals = getMaxNumberOfGoals(goalsCompleted);
+    const addNonActiveGoal = goalsInLine.length === 0;
 
     function moveLeft() {
         if(currentLine > 1) {
@@ -77,6 +77,7 @@ export function GoalTree(props) {
                 <IconButton 
                     onClick={props.close}
                     sx={{ marginTop: '5px', float: 'inline-end' }}
+                    className="closeGoalTree"
                 >
                     <CloseIcon />
                 </IconButton>

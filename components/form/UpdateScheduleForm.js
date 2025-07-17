@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState } from "react";
-import serverIP from "../../modules/serverIP";
 import { queryClient } from "@/modules/queryClient";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useMutation } from "react-query";
@@ -11,16 +10,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Alert from "../base/Alert";
 import styles from "@/styles/muiStyles";
 import { muiActionButton, muiInputStyle, muiNonActionButton } from "@/modules/muiStyles";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import * as Sentry from "@sentry/nextjs";
 
 export default function UpdateScheduleForm({ schedule, open, onClose }) {
+    const dispatch = useDispatch();
     const [title, setTitle] = useState(schedule.title);
-    const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const { user } = useAuthenticator();
     const profile = useSelector(state => state.profile.value);
 
@@ -37,7 +34,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
+                const copyOfOld = structuredClone(old);
                 copyOfOld[profile.scheduleIndex].title = scheduleData.title; 
                 return copyOfOld;
             });
@@ -47,16 +44,16 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
         },
         onSuccess: () => {
             onClose();
-            setAlert({
+            dispatch({type: 'alert/set', payload: {
                 open: true,
                 title: "Timebox",
                 message: "Updated schedule!"
-            });
+            }});
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
-        onError: (error, scheduleData, context) => {
+        onError: (error, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
-            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
             queryClient.invalidateQueries(['schedule']);
             
             onClose();
@@ -65,14 +62,14 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
 
     const deleteScheduleMutation = useMutation({
         mutationFn: (scheduleData) => axios.post('/api/deleteSchedule', scheduleData),
-        onMutate: async (scheduleData) => {
+        onMutate: async () => {
             await queryClient.cancelQueries(['schedule']); 
             
             const previousSchedule = queryClient.getQueryData(['schedule']);
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
+                const copyOfOld = structuredClone(old);
                 copyOfOld.splice(profile.scheduleIndex, 1); 
                 return copyOfOld;
             });
@@ -81,21 +78,21 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
             return { previousSchedule };
         },
         onSuccess: () => {
-            let scheduleBefore = (profile.scheduleIndex-1);
+            const scheduleBefore = (profile.scheduleIndex-1);
             if(profile.scheduleIndex > 0) {
                     dispatch({type: 'profile/set', payload: {...profile, scheduleIndex: scheduleBefore}});
             }
             onClose();
-            setAlert({
+            dispatch({type: 'alert/set', payload: {
                 open: true,
                 title: "Timebox",
-                message: "Delete schedule!"
-            });
+                message: "Deleted schedule!"
+            }});
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
-        onError: (error, scheduleData, context) => {
+        onError: (error, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
-            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
             queryClient.invalidateQueries(['schedule']);
             
             onClose();
@@ -121,7 +118,6 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
 
     return (
     <>
-        <Alert alert={alert} setAlert={setAlert}/>
         <Dialog 
             open={open} 
             onClose={onClose}
@@ -136,6 +132,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
                     label="Title"
                     variant="standard"
                     value={title}
+                    className="updateScheduleTitle"
                     onChange={(e) => setTitle(e.target.value)}
                     sx={muiInputStyle}
                 />
@@ -146,12 +143,14 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
                     onClick={updateSchedule}
                     variant="contained"
                     sx={muiActionButton}
+                    className="updateScheduleButton"
                 >
                     Update
                 </Button>
                 <Button 
                     onClick={deleteSchedule}
                     variant="contained"
+                    className="deleteScheduleButton"
                     sx={muiActionButton}
                 >
                     Delete

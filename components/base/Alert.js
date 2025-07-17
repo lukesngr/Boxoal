@@ -1,13 +1,20 @@
-import { Dialog, DialogTitle, DialogContent, DialogContentText } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
+import { muiNonActionButton } from "@/modules/muiStyles";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function Alert({alert, setAlert}) {
+export default function Alert() {
+    const alert = useSelector(state => state.alert.value);
+    const dispatch = useDispatch();
     return (
-        <Dialog open={alert.open} onClose={() => setAlert({open: false, title: "", message: ""})}>
+        <Dialog className="errorAlert" open={alert.open} onClose={() => dispatch({type:'alert/set', payload: {open: false, title: "", message: ""}})}>
             <DialogTitle>{alert.title}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
                 {alert.message}
                 </DialogContentText>
+                <DialogActions>
+                    <Button className="errorCloseButton" onClick={() => dispatch({type:'alert/set', payload: {open: false, title: "", message: ""}})} sx={muiNonActionButton}>Close</Button>
+                </DialogActions>
             </DialogContent>
         </Dialog>
     )

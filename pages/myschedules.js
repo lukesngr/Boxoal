@@ -17,7 +17,7 @@ export default function MySchedules() {
         if(authStatus == 'unauthenticated') {
             router.push('/');
         }
-    }, [authStatus]);
+    }, [authStatus, router]);
 
     if(authStatus == 'configuring' || authStatus == "idle") {
          return <Loading />

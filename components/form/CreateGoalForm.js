@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import serverIP from '../../modules/serverIP';
 import { queryClient } from '../../modules/queryClient.js';
 import { getMaxNumberOfGoals } from '../../modules/coreLogic.js';
-import Alert from '../base/Alert';
-import { muiActionButton, muiDatePicker, muiFormControlStyle, muiInputStyle, muiNonActionButton } from "../../modules/muiStyles";
+import { muiActionButton, muiDatePicker, muiInputStyle, muiNonActionButton } from "../../modules/muiStyles";
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -18,19 +16,17 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import styles from '@/styles/muiStyles';
 import { useMutation } from 'react-query';
-import { useProfile } from '@/hooks/useProfile';
-import { useSelector } from 'react-redux';
-import * as Sentry from "@sentry/nextjs";
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function CreateGoalForm(props) {
+    const dispatch = useDispatch();
     const [title, setTitle] = useState("");
     const [targetDate, setTargetDate] = useState(dayjs());
-    const [alert, setAlert] = useState({ open: false, title: "", message: "" });
     const {scheduleIndex} = useSelector(state => state.profile.value);
-    
-    let goalsCompleted = props.goals.reduce((count, item) => item.completed ? count + 1 : count, 0);
-    let goalsNotCompleted = props.goals.length - goalsCompleted;
-    let maxNumberOfGoals = getMaxNumberOfGoals(goalsCompleted);
+    const activeGoals = props.goals.filter(item => item.active);
+    const goalsCompleted = props.goals.reduce((count, item) => item.completed ? count + 1 : count, 0);
+    const goalsNotCompleted = activeGoals.length - goalsCompleted;
+    const maxNumberOfGoalsAllowed = getMaxNumberOfGoals(goalsCompleted);
 
     const createGoalMutation = useMutation({
         mutationFn: (goalData) => axios.post('/api/createGoal', goalData),
@@ -41,9 +37,8 @@ export default function CreateGoalForm(props) {
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
+                const copyOfOld = structuredClone(old);
                 copyOfOld[scheduleIndex].goals.push({...goalData, timeboxes: []});
-                console.log(copyOfOld)
                 return copyOfOld;
             });
             
@@ -52,20 +47,20 @@ export default function CreateGoalForm(props) {
         },
         onSuccess: () => {
             props.close();
-            setAlert({ open: true, title: "Timebox", message: "Created goal!" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Timebox", message: "Created goal!" }});
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
         onError: (error, goalData, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
             props.close();
-            setAlert({ open: true, title: "Error", message: "An error occurred, please try again or contact the developer" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
             queryClient.invalidateQueries(['schedule']);
             
         }
     });
     
     function createGoal() {
-        let goalData = {
+        const goalData = {
             title,
             targetDate: targetDate.toISOString(),
             schedule: {
@@ -80,10 +75,10 @@ export default function CreateGoalForm(props) {
             objectUUID: crypto.randomUUID()
         }
 
-        if (maxNumberOfGoals > goalsNotCompleted || !props.active) {
+        if (maxNumberOfGoalsAllowed > goalsNotCompleted || !props.active) {
             createGoalMutation.mutate(goalData);
         } else {
-            setAlert({ open: true, title: "Error", message: "Please complete more goals and we will unlock more goal slots for you!" });
+            dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "Please complete more goals and we will unlock more goal slots for you!" }});
         }
     }
 
@@ -102,7 +97,7 @@ export default function CreateGoalForm(props) {
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             variant="standard"
-                            data-testid="createGoalTitle"
+                            className="createGoalTitle"
                             sx={muiInputStyle}
                         />
                         
@@ -124,7 +119,7 @@ export default function CreateGoalForm(props) {
                     <Button
                         onClick={createGoal}
                         variant="contained"
-                        data-testid="createGoalButton"
+                        className="createGoalButton"
                         sx={muiActionButton}
                     >
                         Create
@@ -136,7 +131,6 @@ export default function CreateGoalForm(props) {
                 </DialogActions>
             </Dialog>
             
-            <Alert alert={alert} setAlert={setAlert} />
         </>
     );
 }
