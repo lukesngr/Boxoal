@@ -7,8 +7,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    let data = req.body;
-    let {id, ...alteredData} = data;
+    const data = req.body;
+    const {id, ...alteredData} = data;
     await prisma.timeBox.update({
       where: {
         id: id,

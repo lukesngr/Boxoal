@@ -4,12 +4,12 @@ import { getDateWithSuffix } from "@/modules/formatters";
 import dayjs from "dayjs";
 
 export default function GoalProgressIndicator(props) {
-    let goalDateInDayJS = dayjs(props.goal.targetDate);
-    let dateWithSuffix = getDateWithSuffix(goalDateInDayJS.date())
-    let abbrievatedMonth = goalDateInDayJS.format('MMM')
-    let progress = getProgressWithGoal(props.goal.timeboxes);
+    const goalDateInDayJS = dayjs(props.goal.targetDate);
+    const dateWithSuffix = getDateWithSuffix(goalDateInDayJS.date())
+    const abbrievatedMonth = goalDateInDayJS.format('MMM')
+    const progress = getProgressWithGoal(props.goal.timeboxes);
     const size = 40;
-    let strokeWidth = 2;
+    const strokeWidth = 2;
     const radius = (size - strokeWidth) / 2;
     const circumference = 2 * Math.PI * radius;
     const strokeDashoffset = circumference - (circumference * progress) / 100;

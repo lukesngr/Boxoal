@@ -9,7 +9,7 @@ export default function TimelineRecording({timeboxStart, timeboxEnd, recordingSt
   const recordingEndTime = new Date(recordingEnd);
   const hoursConversionDivisor = 3600000;
   const minuteConversionDivisor = 60000;
-  let totalDurationInEpoch = Math.max(recordingEndTime, timeboxEndTime) - Math.min(recordingStartTime, timeboxStartTime);
+  const totalDurationInEpoch = Math.max(recordingEndTime, timeboxEndTime) - Math.min(recordingStartTime, timeboxStartTime);
   let totalDuration = '0'; 
 
   if((totalDurationInEpoch / minuteConversionDivisor) >= 60) {
@@ -18,11 +18,11 @@ export default function TimelineRecording({timeboxStart, timeboxEnd, recordingSt
     totalDuration = `${Math.round(totalDurationInEpoch / minuteConversionDivisor)}min`;
   }
   
-  let recordingBlockWidth = Math.round(((recordingEndTime - recordingStartTime) / totalDurationInEpoch)*100);
-  let timeboxBlockWidth = Math.round(((timeboxEndTime - timeboxStartTime) / totalDurationInEpoch)*100);
-  let startInEpoch = Math.min(recordingStartTime, timeboxStartTime);
-  let recordingMargin = Math.round(((recordingStartTime - startInEpoch) / totalDurationInEpoch)*100);
-  let timeboxMargin = Math.round(((timeboxStartTime - startInEpoch) / totalDurationInEpoch)*100);
+  const recordingBlockWidth = Math.round(((recordingEndTime - recordingStartTime) / totalDurationInEpoch)*100);
+  const timeboxBlockWidth = Math.round(((timeboxEndTime - timeboxStartTime) / totalDurationInEpoch)*100);
+  const startInEpoch = Math.min(recordingStartTime, timeboxStartTime);
+  const recordingMargin = Math.round(((recordingStartTime - startInEpoch) / totalDurationInEpoch)*100);
+  const timeboxMargin = Math.round(((timeboxStartTime - startInEpoch) / totalDurationInEpoch)*100);
 
   return (
     <div className="timeline-container">

@@ -1,9 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { SessionProvider } from "next-auth/react"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Provider } from 'react-redux'
 import {store} from "@/redux/store";
@@ -12,7 +10,6 @@ import { configureAmplify } from "@/modules/awsConfig";
 import { Authenticator } from "@aws-amplify/ui-react";
 import { queryClient } from "@/modules/queryClient";
 import Head from 'next/head'
-import { useState } from "react";
 import localFont from 'next/font/local'
 
 import dayjs from "dayjs";

@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { queryClient } from '../../modules/queryClient.js';
-import serverIP from '../../modules/serverIP';
 import dayjs from 'dayjs';
 
 import Dialog from '@mui/material/Dialog';
@@ -10,20 +9,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import IconButton from '@mui/material/IconButton';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { muiActionButton, muiDatePicker, muiFormControlStyle, muiInputStyle, muiNonActionButton, muiToggleButtonStyle } from "../../modules/muiStyles";
+import { muiActionButton, muiDatePicker, muiInputStyle, muiNonActionButton, muiToggleButtonStyle } from "../../modules/muiStyles";
 import styles from '@/styles/muiStyles.js';
 import { useMutation } from 'react-query';
 import { useSelector, useDispatch } from 'react-redux';
-import * as Sentry from "@sentry/nextjs";
 import { ToggleButtonGroup, ToggleButton } from '@mui/material';
 
 export default function EditGoalForm(props) {
@@ -42,8 +34,8 @@ export default function EditGoalForm(props) {
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
-                let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.objectUUID == props.data.objectUUID);
+                const copyOfOld = structuredClone(old);
+                const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.objectUUID == props.data.objectUUID);
                 copyOfOld[scheduleIndex].goals[goalIndex] = {...goalData, timeboxes: copyOfOld[scheduleIndex].goals[goalIndex].timeboxes};
                 return copyOfOld;
             });
@@ -66,7 +58,7 @@ export default function EditGoalForm(props) {
     });
 
     function updateGoal() {
-        let goalData = {
+        const goalData = {
             title,
             targetDate: targetDate.toISOString(),
             objectUUID: props.data.objectUUID,
@@ -80,8 +72,7 @@ export default function EditGoalForm(props) {
         if(completed) {
             axios.get('/api/setNextGoalToActive', {line: props.data.partOfLine}).then(async () => {
                 await queryClient.refetchQueries();
-            }).catch(function(error) {
-                console.log(error);
+            }).catch(function() {
             })
         };
     }
@@ -95,15 +86,14 @@ export default function EditGoalForm(props) {
             dispatch({type: 'alert/set', payload: { open: true, title: "Timebox", message: "Deleted goal!" }});
             await queryClient.refetchQueries();
         })
-        .catch(function(error) {
+        .catch(function() {
             props.close();
             dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
         });
 
         axios.get('/api/setNextGoalToActive', {line: props.data.partOfLine}).then(async () => {
             await queryClient.refetchQueries();
-        }).catch(function(error) {
-            console.log(error);
+        }).catch(function() {
         })
     }
 
@@ -144,7 +134,6 @@ export default function EditGoalForm(props) {
                                     value={targetDate}
                                     onChange={(newValue) => {
                                         setTargetDate(newValue);
-                                        setDatePickerOpen(false);
                                     }}
                                     sx={muiDatePicker}
                                 />

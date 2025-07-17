@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState } from "react";
-import serverIP from "../../modules/serverIP";
 import { queryClient } from "@/modules/queryClient";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useMutation } from "react-query";
@@ -15,7 +14,6 @@ import styles from "@/styles/muiStyles";
 import { muiActionButton, muiInputStyle, muiNonActionButton } from "@/modules/muiStyles";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import * as Sentry from "@sentry/nextjs";
 
 export default function UpdateScheduleForm({ schedule, open, onClose }) {
     const dispatch = useDispatch();
@@ -36,7 +34,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
+                const copyOfOld = structuredClone(old);
                 copyOfOld[profile.scheduleIndex].title = scheduleData.title; 
                 return copyOfOld;
             });
@@ -53,7 +51,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
             }});
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
-        onError: (error, scheduleData, context) => {
+        onError: (error, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
             dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
             queryClient.invalidateQueries(['schedule']);
@@ -64,14 +62,14 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
 
     const deleteScheduleMutation = useMutation({
         mutationFn: (scheduleData) => axios.post('/api/deleteSchedule', scheduleData),
-        onMutate: async (scheduleData) => {
+        onMutate: async () => {
             await queryClient.cancelQueries(['schedule']); 
             
             const previousSchedule = queryClient.getQueryData(['schedule']);
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
+                const copyOfOld = structuredClone(old);
                 copyOfOld.splice(profile.scheduleIndex, 1); 
                 return copyOfOld;
             });
@@ -80,7 +78,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
             return { previousSchedule };
         },
         onSuccess: () => {
-            let scheduleBefore = (profile.scheduleIndex-1);
+            const scheduleBefore = (profile.scheduleIndex-1);
             if(profile.scheduleIndex > 0) {
                     dispatch({type: 'profile/set', payload: {...profile, scheduleIndex: scheduleBefore}});
             }
@@ -92,7 +90,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
             }});
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
-        onError: (error, scheduleData, context) => {
+        onError: (error, context) => {
             queryClient.setQueryData(['schedule'], context.previousGoals);
             dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
             queryClient.invalidateQueries(['schedule']);

@@ -1,6 +1,6 @@
 
 import dayjs from 'dayjs';
-import { getStatistics, findSmallestTimeBoxLengthInSpace, getPercentageOfBoxSizeFilled, calculateMaxNumberOfBoxesAfterTimeIfEmpty, calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoTimes, calculateRemainderTimeBetweenTwoTimes, addBoxesToTime, getHeightForBoxes, filterTimeGridBasedOnSpace, getMarginFromTopOfTimebox } from '../../modules/boxCalculations';
+import { getStatistics, findSmallestTimeBoxLengthInSpace, getPercentageOfBoxSizeFilled, calculateMaxNumberOfBoxesAfterTimeIfEmpty, calculateMaxNumberOfBoxes, calculateBoxesBetweenTwoTimes, calculateRemainderTimeBetweenTwoTimes, addBoxesToTime, getHeightForBoxes, getBoxesInsideTimeboxSpace, getMarginFromTopOfTimebox } from '../../modules/boxCalculations';
 
 // Mock useSelector for getStatistics tests
 jest.mock('react-redux', () => ({
@@ -452,7 +452,7 @@ describe('getHeightForBoxes', () => {
   });
 });
 
-describe('filterTimeGridBasedOnSpace', () => {
+describe('getBoxesInsideTimeboxSpace', () => {
   test('filters times within the specified time range - minute based', () => {
     const timeGrid = {
       '10:00': { id: 1, title: 'Meeting 1' },
@@ -462,7 +462,7 @@ describe('filterTimeGridBasedOnSpace', () => {
       '11:00': { id: 5, title: 'Meeting 5' }
     };
     
-    const result = filterTimeGridBasedOnSpace(timeGrid, 'min', 30, '10:15');
+    const result = getBoxesInsideTimeboxSpace(timeGrid, 'min', 30, '10:15');
     expect(result).toEqual(['10:15', '10:30']);
   });
 
@@ -475,12 +475,12 @@ describe('filterTimeGridBasedOnSpace', () => {
       '12:00': { id: 5, title: 'Meeting 5' }
     };
     
-    const result = filterTimeGridBasedOnSpace(timeGrid, 'hr', 2, '09:00');
+    const result = getBoxesInsideTimeboxSpace(timeGrid, 'hr', 2, '09:00');
     expect(result).toEqual(['09:00', '10:00']);
   });
 
   test('handles empty timeGrid', () => {
-    const result = filterTimeGridBasedOnSpace({}, 'min', 15, '10:00');
+    const result = getBoxesInsideTimeboxSpace({}, 'min', 15, '10:00');
     expect(result).toEqual([]);
   });
 
@@ -490,7 +490,7 @@ describe('filterTimeGridBasedOnSpace', () => {
       '12:00': { id: 2, title: 'Meeting 2' }
     };
     
-    const result = filterTimeGridBasedOnSpace(timeGrid, 'min', 30, '10:00');
+    const result = getBoxesInsideTimeboxSpace(timeGrid, 'min', 30, '10:00');
     expect(result).toEqual([]);
   });
 
@@ -501,7 +501,7 @@ describe('filterTimeGridBasedOnSpace', () => {
       '10:30': { id: 3, title: 'Meeting 3' }
     };
     
-    const result = filterTimeGridBasedOnSpace(timeGrid, 'min', 15, '10:00');
+    const result = getBoxesInsideTimeboxSpace(timeGrid, 'min', 15, '10:00');
     expect(result).toEqual(['10:00']);
   });
 
@@ -510,7 +510,7 @@ describe('filterTimeGridBasedOnSpace', () => {
       '10:15': { id: 1, title: 'Meeting 1' }
     };
     
-    const result = filterTimeGridBasedOnSpace(timeGrid, 'min', 30, '10:00');
+    const result = getBoxesInsideTimeboxSpace(timeGrid, 'min', 30, '10:00');
     expect(result).toEqual(['10:15']);
   });
 });

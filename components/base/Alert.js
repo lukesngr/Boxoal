@@ -1,6 +1,5 @@
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
 import { muiNonActionButton } from "@/modules/muiStyles";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Alert() {

@@ -1,13 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import serverIP from "../../modules/serverIP";
 import { queryClient } from '../../modules/queryClient.js';
-import { convertToTimeAndDate } from "../../modules/formatters.js";
 import dayjs from 'dayjs';
 import { useMutation } from "react-query";
 import { useSelector } from "react-redux";
-import * as Sentry from "@sentry/nextjs";
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -18,7 +15,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Stack from '@mui/material/Stack';
 import styles from "@/styles/muiStyles";
-import { muiActionButton, muiDatePicker, muiInputStyle, muiNonActionButton } from "@/modules/muiStyles";
+import { muiActionButton, muiDatePicker, muiNonActionButton } from "@/modules/muiStyles";
 
 export default function ManualEntryTimeModal({ visible, close, data, scheduleID }) {
     const dispatch = useDispatch();
@@ -36,18 +33,18 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID 
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
                 //recordedTimeBoxes in schedule
-                let copyOfOld = structuredClone(old);
-                let recordingDataCopy = structuredClone(recordingData);
+                const copyOfOld = structuredClone(old);
+                const recordingDataCopy = structuredClone(recordingData);
                 recordingDataCopy.timeBox = data
                 copyOfOld[scheduleIndex].recordedTimeboxes.push(recordingDataCopy);
 
                 //recordedTimeboxes in timeboxes
-                let timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
+                const timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
                 copyOfOld[scheduleIndex].timeboxes[timeboxIndex].recordedTimeBoxes.push(recordingDataCopy);
 
                 //recordedTimeBoxes in goals
-                let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(data.goalID));
-                let timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
+                const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(data.goalID));
+                const timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
                 
                 copyOfOld[scheduleIndex].goals[goalIndex].timeboxes[timeboxGoalIndex].recordedTimeBoxes.push(recordingDataCopy);
                 return copyOfOld;
@@ -75,7 +72,7 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID 
     });
 
     function submitManualEntry() {
-       let recordingData = {
+       const recordingData = {
             recordedStartTime: recordedStartTime.toDate(), 
             recordedEndTime: recordedEndTime.toDate(), 
             timeBox: { connect: { id: data.id, objectUUID: data.objectUUID } }, 

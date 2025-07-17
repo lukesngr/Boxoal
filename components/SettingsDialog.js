@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import axios from "axios";
-import serverIP from "../modules/serverIP";
-import { convertToTimeAndDate } from "../modules/formatters";
 import dayjs from 'dayjs';
 
 import Dialog from '@mui/material/Dialog';
@@ -12,14 +10,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import ToggleButton from '@mui/material/ToggleButton';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-import IconButton from '@mui/material/IconButton';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -35,7 +29,6 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
     const [boxSizeNumber, setBoxSizeNumber] = useState(String(profile.boxSizeNumber));
     const [boxSizeUnit, setBoxSizeUnit] = useState(profile.boxSizeUnit);
     const [wakeupTime, setWakeupTime] = useState(dayjs(profile.wakeupTime, 'HH:mm'));
-    const [timePickerOpen, setTimePickerOpen] = useState(false);
 
     function updateProfile() {
         const wakeupTimeAsText = wakeupTime.format('HH:mm');
@@ -48,8 +41,7 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
             boxSizeNumber: convertedBackBoxSizeNumber,
             wakeupTime: wakeupTimeAsText,
             userUUID: user.userId
-        }).catch(function(error) {
-            console.log(error);
+        }).catch(function() {
         });
 
         dispatch({
@@ -149,7 +141,6 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                                 value={wakeupTime}
                                 onChange={(newValue) => {
                                     setWakeupTime(newValue);
-                                    setTimePickerOpen(false);
                                 }}
                                 sx={muiInputStyle}
                             />

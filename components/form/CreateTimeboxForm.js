@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import axios from 'axios';
 import { queryClient } from '../../modules/queryClient.js';
-import serverIP from '../../modules/serverIP.js';
 import { dayToName } from '../../modules/dateCode.js';
 import { convertToDayjs } from '../../modules/formatters.js';
 import { calculateMaxNumberOfBoxes, addBoxesToTime } from '@/modules/boxCalculations.js';
@@ -20,17 +17,15 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import Collapse from '@mui/material/Collapse';
 import { muiActionButton, muiFormControlStyle, muiInputStyle, muiNonActionButton, muiToggleButtonStyle } from '@/modules/muiStyles.js';
 import { ToggleButton, ToggleButtonGroup, Slider, Typography } from '@mui/material';
-import * as Sentry from "@sentry/nextjs";
 
 const listOfColors = ["#00E3DD", "#00C5E6", "#00A4E7", "#0081DC", "#1E5ABF", "#348D9D", "#67D6FF"]
 
 export default function CreateTimeboxForm({ visible, time, date, close, numberOfBoxes, setNumberOfBoxes, day, title, setTitle }) {
     const dispatch = useDispatch();
     const { scheduleID, wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
-    const { timeboxes, goals } = useSelector(state => state.scheduleData.value);
+    const { goals } = useSelector(state => state.scheduleData.value);
     const timeboxGrid = useSelector(state => state.timeboxGrid.value);
     
     const activeGoals = goals.filter(goal => goal.active);
@@ -40,7 +35,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
         if(activeGoals.length != 0) {
             setGoalSelected(activeGoals[0].id);
         }
-    }, [activeGoals])
+    }, [activeGoals, setNumberOfBoxes])
     
     const [goalSelected, setGoalSelected] = useState("");
     const [isTimeblock, setIsTimeBlock] = useState(false);
@@ -49,7 +44,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const [startOfDayRange, setStartOfDayRange] = useState(0);
     const [endOfDayRange, setEndOfDayRange] = useState(6);
    
-    let transformPercentages = ['35%', '45%', '55%', '65%', '40%', '50%', '55%'];
+    const transformPercentages = ['35%', '45%', '55%', '65%', '40%', '50%', '55%'];
 
     const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
     const {scheduleIndex} = useSelector(state => state.profile.value);
@@ -58,7 +53,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
         if(visible) {
             setNumberOfBoxes('1');
         }
-    }, [visible])
+    }, [visible, setNumberOfBoxes])
 
     const createTimeboxMutation = useMutation({
         mutationFn: (timeboxData) => axios.post('/api/createTimebox', timeboxData),
@@ -69,9 +64,9 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
+                const copyOfOld = structuredClone(old);
                 copyOfOld[scheduleIndex].timeboxes.push({...timeboxData, recordedTimeBoxes: []});
-                let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
+                const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
                 copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.push({...timeboxData, recordedTimeBoxes: []})
                 return copyOfOld;
             });
@@ -118,11 +113,11 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             return;
         }else{
 
-            let startTime = convertToDayjs(time, date).utc().format();
-            let endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
-            let color = isTimeblock ? ('black') : (listOfColors[Math.floor(Math.random() * listOfColors.length)]);
+            const startTime = convertToDayjs(time, date).utc().format();
+            const endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
+            const color = isTimeblock ? ('black') : (listOfColors[Math.floor(Math.random() * listOfColors.length)]);
 
-            let data = {
+            const data = {
                 title,
                 description,
                 startTime,

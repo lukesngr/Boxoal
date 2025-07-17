@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import serverIP from "../../modules/serverIP";
 import { queryClient } from '../../modules/queryClient.js';
 import { convertToTimeAndDate, convertToDayjs } from "../../modules/formatters.js";
 import { addBoxesToTime, calculateMaxNumberOfBoxes } from "../../modules/boxCalculations.js";
@@ -21,9 +20,8 @@ import InputLabel from '@mui/material/InputLabel';
 import { muiActionButton, muiFormControlStyle, muiInputStyle, muiToggleButtonStyle } from '@/modules/muiStyles.js';
 import styles from "@/styles/muiStyles";
 import { useMutation } from "react-query";
-import * as Sentry from "@sentry/nextjs";
 
-export default function EditTimeboxForm({ data, back, previousRecording, numberOfBoxesSetterAndGetter }) {
+export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGetter }) {
     const dispatch = useDispatch();
     const [title, setTitle] = useState(data.title);
     const [description, setDescription] = useState(data.description);
@@ -35,10 +33,10 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
     const [endOfDayRange, setEndOfDayRange] = useState(data.reoccuring != null ? data.reoccuring.endOfDayRange : 0);
     const timeboxGrid = useSelector(state => state.timeboxGrid.value);
     const {wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
-    const { timeboxes, goals } = useSelector(state => state.scheduleData.value);
+    const { goals } = useSelector(state => state.scheduleData.value);
     const {scheduleIndex} = useSelector(state => state.profile.value);
-    let [time, date] = convertToTimeAndDate(data.startTime);
-    let maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
+    const [time, date] = convertToTimeAndDate(data.startTime);
+    const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
    
     function closeModal() {
         setTitle('');
@@ -55,11 +53,11 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
-                let timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
+                const copyOfOld = structuredClone(old);
+                const timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
                 copyOfOld[scheduleIndex].timeboxes[timeboxIndex] = {...timeboxData, recordedTimeBoxes: []};
-                let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
-                let timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
+                const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
+                const timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
                 copyOfOld[scheduleIndex].goals[goalIndex].timeboxes[timeboxGoalIndex] = {...timeboxData, recordedTimeBoxes: []};
                 return copyOfOld;
             });
@@ -92,11 +90,11 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
             
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
-                let copyOfOld = structuredClone(old);
-                let timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == objectUUID);
+                const copyOfOld = structuredClone(old);
+                const timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == objectUUID);
                 copyOfOld[scheduleIndex].timeboxes.splice(timeboxIndex, 1);
-                let goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
-                let timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == objectUUID);
+                const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
+                const timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == objectUUID);
                 copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.splice(timeboxGoalIndex, 1);
                 return copyOfOld;
             });
@@ -121,9 +119,9 @@ export default function EditTimeboxForm({ data, back, previousRecording, numberO
     });
 
     function updateTimeBox() {
-        let endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
+        const endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
 
-        let updateData = {
+        const updateData = {
             isTimeblock,
             id: data.id,
             title,

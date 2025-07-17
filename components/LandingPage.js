@@ -3,7 +3,7 @@ import localFont from 'next/font/local'
 const glitchFont = localFont({src: '../public/BlueScreen.ttf'});
 
 export default function LandingPage(props) {
-    let {setComponentDisplayed} = props;
+    const {setComponentDisplayed} = props;
     return (
     <div className="text-center animatedText">
         <h1 className={glitchFont.className}>Timeboxing For The Everyman</h1>

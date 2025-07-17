@@ -1,14 +1,11 @@
 import { useState } from 'react';
-import { confirmResetPassword, resetPassword } from 'aws-amplify/auth';
 import TextField from '@mui/material/TextField';
 import '../../styles/signin.scss';
-import {InputAdornment, FormControl, IconButton, Stack, Dialog, DialogTitle, DialogContent, DialogContentText} from '@mui/material';
+import {InputAdornment, FormControl, IconButton, Stack} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
-import { set } from '@/redux/profile';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { signUp } from 'aws-amplify/auth';
 import { confirmSignUp } from 'aws-amplify/auth';
@@ -75,7 +72,7 @@ export default function CreateAccountCard({setComponentDisplayed}) {
             document.querySelector('#verifCodeInput').reportValidity();
         }else{
             try {
-                const { isSignUpComplete, nextStep } = await confirmSignUp({
+                const { isSignUpComplete } = await confirmSignUp({
                     username: username,
                     confirmationCode: confirmationCode,
                 });
@@ -113,7 +110,7 @@ export default function CreateAccountCard({setComponentDisplayed}) {
             dispatch({type: 'alert/set', payload: {open: true, title: "Error", message: "Please ensure your password meets the password policy requirements and that the passwords match"}});
         }else{
             try{
-                const { isSignUpComplete, userId, nextStep } = await signUp({
+                const { isSignUpComplete, nextStep } = await signUp({
                     username: username,
                     password: newPassword,
                     options: {
