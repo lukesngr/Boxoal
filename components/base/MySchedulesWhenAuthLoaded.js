@@ -14,8 +14,9 @@ export default function MySchedulesWhenAuthLoaded({user}) {
     const {userId, username} = user;
     const placeholderWhileScheduleLoading = [{title: "No schedules found", goals: [], recordedTimeboxes: [], timeboxes: []}];
     useProfile(userId, dispatch);
+    let dataForSchedule = [];
 
-    let {status, data, error} = useQuery({
+    const {status, data, error} = useQuery({
         queryKey: ["schedule"], 
         queryFn: async () => {
             const response = await axios.get("/api/getSchedules", { params: {
@@ -26,7 +27,7 @@ export default function MySchedulesWhenAuthLoaded({user}) {
         enabled: true
     })
 
-    if(status === 'loading') {data = placeholderWhileScheduleLoading;}
+    if(status === 'loading') {dataForSchedule = placeholderWhileScheduleLoading;}
     if(status === 'error') {
         Sentry.captureException(error);
         return <Erroring></Erroring>
@@ -35,7 +36,7 @@ export default function MySchedulesWhenAuthLoaded({user}) {
 
     return (<>
         <SignedInNav username={username} />
-        <SchedulesView data={data}></SchedulesView>
+        <SchedulesView data={dataForSchedule}></SchedulesView>
         <Alert></Alert>
     </>)
 }

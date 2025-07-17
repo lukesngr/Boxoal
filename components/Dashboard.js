@@ -20,7 +20,7 @@ export default function Dashboard({user}) {
     let dataForSchedule = {timeboxes: [], recordedTimeboxes: []};
     useProfile(userId, dispatch);
 
-    let {status, data, error} = useQuery({
+    const {status, data, error} = useQuery({
         queryKey: ["schedule"], 
         queryFn: async () => {
             const response = await axios.get("/api/getSchedules", { params: {
