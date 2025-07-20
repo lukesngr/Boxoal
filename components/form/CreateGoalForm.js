@@ -3,7 +3,7 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import { queryClient } from '../../modules/queryClient.js';
 import { getMaxNumberOfGoals } from '../../modules/coreLogic.js';
-import { muiActionButton, muiDatePicker, muiInputStyle, muiNonActionButton } from "../../modules/muiStyles";
+import { muiActionButton, muiDatePicker, muiInputStyle, muiNonActionButton, muiFormControlStyle } from "../../modules/muiStyles";
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -21,6 +21,9 @@ import { useSelector, useDispatch } from 'react-redux';
 export default function CreateGoalForm(props) {
     const dispatch = useDispatch();
     const [title, setTitle] = useState("");
+    const [metric, setMetric] = useState(0);
+    const [metricUnit, setMetricUnit] = useState("");
+    const [hasMetric, setHasMetric] = useState(false)
     const [targetDate, setTargetDate] = useState(dayjs());
     const {scheduleIndex} = useSelector(state => state.profile.value);
     const activeGoals = props.goals.filter(item => item.active);
@@ -75,6 +78,11 @@ export default function CreateGoalForm(props) {
             objectUUID: crypto.randomUUID()
         }
 
+        if(hasMetric) {
+            goalData.metric = Number(metric);
+            goalData.metricUnit = metricUnit;
+        }
+
         if (maxNumberOfGoalsAllowed > goalsNotCompleted || !props.active) {
             createGoalMutation.mutate(goalData);
         } else {
@@ -113,6 +121,37 @@ export default function CreateGoalForm(props) {
                                 />
                             </div>
                         </LocalizationProvider>
+
+                        <FormControl variant="standard" sx={muiFormControlStyle}>
+                            <InputLabel>Metric</InputLabel>
+                            <Select
+                                value={hasMetric}
+                                onChange={(e) => setHasMetric(e.target.value)}
+                                sx={muiInputStyle}
+                                className="openMetric"
+                            >
+                                <MenuItem value={false}>No</MenuItem>
+                                <MenuItem className="turnMetricOn" value={true}>Yes</MenuItem>
+                            </Select>
+                        </FormControl>
+
+                        {hasMetric && (<>
+                                <TextField
+                                    label="Metric Value"
+                                    type="number"
+                                    value={metric}
+                                    onChange={(e) => setMetric(e.target.value)}
+                                    variant="standard"
+                                    sx={muiInputStyle}
+                                />
+                                <TextField
+                                    label="Metric Unit"
+                                    value={metricUnit}
+                                    onChange={(e) => setMetricUnit(e.target.value)}
+                                    variant="standard"
+                                    sx={muiInputStyle}
+                                />
+                            </>)}
                     </div>
                 </DialogContent>
                 <DialogActions>
