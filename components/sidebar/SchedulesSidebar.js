@@ -37,6 +37,8 @@ export default function SchedulesSidebar(props) {
     
     let highestActiveIndex = 0;
 
+    console.log(schedule);
+
     for(let i = 0; i < schedule.goals.length; i++) {
         if(schedule.goals[i].active && schedule.goals[i].partOfLine > highestActiveIndex) {
             highestActiveIndex = schedule.goals[i].partOfLine;

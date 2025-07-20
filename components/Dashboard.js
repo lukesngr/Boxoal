@@ -31,7 +31,7 @@ export default function Dashboard({user}) {
         enabled: true
     })
 
-    if(status === 'loading') return <Loading />
+    if(status === 'loading' || status === 'pending') return <Loading />
     if(status === 'error') return <p>Error: {error.message}</p>
 
     if(data.length != 0) {
