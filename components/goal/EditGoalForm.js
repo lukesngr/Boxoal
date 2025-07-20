@@ -21,6 +21,10 @@ import { ToggleButtonGroup, ToggleButton } from '@mui/material';
 export default function EditGoalForm(props) {
     const dispatch = useDispatch();
     const [title, setTitle] = useState(props.data.title);
+    console.log(props.data);
+    const [metric, setMetric] = useState(0);
+    const [metricUnit, setMetricUnit] = useState("");
+    const [hasMetric, setHasMetric] = useState(false)
     const [targetDate, setTargetDate] = useState(dayjs(props.data.targetDate));
     const [completed, setCompleted] = useState(props.data.completed);
     const {scheduleIndex} = useSelector(state => state.profile.value);
@@ -65,6 +69,11 @@ export default function EditGoalForm(props) {
             completed,
             completedOn: new Date().toISOString(),
             active: !completed
+        }
+
+        if(hasMetric) {
+            goalData.metric = Number(metric);
+            goalData.metricUnit = metricUnit;
         }
         
         updateGoalMutation.mutate(goalData);
@@ -139,6 +148,36 @@ export default function EditGoalForm(props) {
                                 />
                             </div>
                         </LocalizationProvider>
+                        <FormControl variant="standard" sx={muiFormControlStyle}>
+                            <InputLabel>Metric</InputLabel>
+                            <Select
+                                value={hasMetric}
+                                onChange={(e) => setHasMetric(e.target.value)}
+                                sx={muiInputStyle}
+                                className="openMetric"
+                            >
+                                <MenuItem value={false}>No</MenuItem>
+                                <MenuItem className="turnMetricOn" value={true}>Yes</MenuItem>
+                            </Select>
+                        </FormControl>
+
+                        {hasMetric && (<>
+                                <TextField
+                                    label="Metric Value"
+                                    type="number"
+                                    value={metric}
+                                    onChange={(e) => setMetric(e.target.value)}
+                                    variant="standard"
+                                    sx={muiInputStyle}
+                                />
+                                <TextField
+                                    label="Metric Unit"
+                                    value={metricUnit}
+                                    onChange={(e) => setMetricUnit(e.target.value)}
+                                    variant="standard"
+                                    sx={muiInputStyle}
+                                />
+                            </>)}
                     </div>
                 </DialogContent>
                 <DialogActions>
