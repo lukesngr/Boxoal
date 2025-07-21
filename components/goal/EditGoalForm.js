@@ -12,19 +12,19 @@ import Button from '@mui/material/Button';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { muiActionButton, muiDatePicker, muiInputStyle, muiNonActionButton, muiToggleButtonStyle } from "../../modules/muiStyles";
+import { muiActionButton, muiDatePicker, muiInputStyle, muiNonActionButton, muiToggleButtonStyle, muiFormControlStyle } from "../../modules/muiStyles";
 import styles from '@/styles/muiStyles.js';
 import { useMutation } from 'react-query';
 import { useSelector, useDispatch } from 'react-redux';
 import { ToggleButtonGroup, ToggleButton } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 export default function EditGoalForm(props) {
     const dispatch = useDispatch();
     const [title, setTitle] = useState(props.data.title);
-    console.log(props.data);
-    const [metric, setMetric] = useState(0);
-    const [metricUnit, setMetricUnit] = useState("");
-    const [hasMetric, setHasMetric] = useState(false)
+    const [metric, setMetric] = useState(props.data.metric);
+    const [metricUnit, setMetricUnit] = useState(props.data.metricUnit);
+    const [hasMetric, setHasMetric] = useState(props.data.metric == "null" ? (false) : (true));
     const [targetDate, setTargetDate] = useState(dayjs(props.data.targetDate));
     const [completed, setCompleted] = useState(props.data.completed);
     const {scheduleIndex} = useSelector(state => state.profile.value);

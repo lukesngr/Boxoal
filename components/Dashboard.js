@@ -31,6 +31,8 @@ export default function Dashboard({user}) {
         enabled: true
     })
 
+    console.log(data);
+
     if(status === 'loading' || status === 'pending') return <Loading />
     if(status === 'error') return <p>Error: {error.message}</p>
 

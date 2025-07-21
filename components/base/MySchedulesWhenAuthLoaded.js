@@ -8,13 +8,14 @@ import Welcome from "./Welcome";
 import SignedInNav from "../nav/SignedInNav";
 import Erroring from "./Erroring";
 import * as Sentry from '@sentry/nextjs';
+import Loading from "../base/Loading";
 
 export default function MySchedulesWhenAuthLoaded({user}) {
     const dispatch = useDispatch();
     const {userId, username} = user;
-    const placeholderWhileScheduleLoading = [{title: "No schedules found", goals: [], recordedTimeboxes: [], timeboxes: []}];
+    const placeholderWhileScheduleLoading = [];
     useProfile(userId, dispatch);
-    let dataForSchedule = [];
+    let dataForSchedule = [{title: "No schedules found", goals: [], recordedTimeboxes: [], timeboxes: []}];
 
     const {status, data, error} = useQuery({
         queryKey: ["schedule"], 
@@ -27,12 +28,15 @@ export default function MySchedulesWhenAuthLoaded({user}) {
         enabled: true
     })
 
-    if(status === 'pending' || status === 'loading') {dataForSchedule = placeholderWhileScheduleLoading;}
+    if(status === 'pending' || status === 'loading') { return <Loading />; }
     if(status === 'error') {
         Sentry.captureException(error);
         return <Erroring></Erroring>
     }
     if(status === 'success' && data.length == 0) return <Welcome></Welcome>
+
+    dataForSchedule = data;
+    console.log(data);
 
     return (<>
         <SignedInNav username={username} />
