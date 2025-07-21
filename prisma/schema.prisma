@@ -88,7 +88,7 @@ model Profile {
 
 model loggingOfMetric {
   id                Int       @id @default(autoincrement())
-  date DateTime
+  date              DateTime @db.Timestamptz
   metric Int
   goal              Goal             @relation(fields: [goalID], references: [id])
   goalID            Int
