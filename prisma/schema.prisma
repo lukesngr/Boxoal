@@ -37,6 +37,7 @@ model Goal {
   objectUUID String @unique
   metric     Int?
   metricUnit String?
+  loggingsOfMetric loggingOfMetric[]
 }
 
 model TimeBox {
@@ -83,4 +84,12 @@ model Profile {
   wakeupTime        String
   scheduleID        Int
   scheduleIndex     Int
+}
+
+model loggingOfMetric {
+  id                Int       @id @default(autoincrement())
+  date DateTime
+  metric Int
+  goal              Goal             @relation(fields: [goalID], references: [id])
+  goalID            Int
 }
