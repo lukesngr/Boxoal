@@ -1,6 +1,3 @@
-import './globals.css'
-
-
 export const metadata = {
   title: 'Boxoal',
   description: 'Timeboxing software for the everyman',
