@@ -17,14 +17,17 @@ export function GoalStatistics({goalData}) {
     return (
      <Paper sx={{backgroundColor: '#875F9A', marginTop: 2, paddingLeft: '2%', paddingRight: '5.46%', paddingTop: '13.36%', paddingBottom : '4.67%' }} className="statPaper" elevation={4} square>
         <div className="goal-statistics" style={{width: '100%'}} ref={statisticsRef}>
-            <svg width={widthAtOneHundredPercent} height={height} style={{ overflow: 'visible' }}>
-                <text x="0" y="40" class="yAxisLabel">M</text>
-                <text x="0" y="70" class="yAxisLabel">E</text>
-                <text x="0" y="100" class="yAxisLabel">T</text>
-                <text x="0" y="130" class="yAxisLabel">R</text>
-                <text x="0" y="160" class="yAxisLabel">I</text>
-                <text x="0" y="190" class="yAxisLabel">C</text>
-                <line x1={widthAtOneHundredPercent*0.063} y1="0" x2={widthAtOneHundredPercent*0.063} y2={0.88*height} stroke="white" strokeWidth="5"/>
+            <svg viewBox='0 0 622 372' style={{ overflow: 'visible' }}>
+                <text x="0" y="71" class="yAxisLabel">M</text>
+                <text x="0" y="91" class="yAxisLabel">E</text>
+                <text x="0" y="111" class="yAxisLabel">T</text>
+                <text x="0" y="131" class="yAxisLabel">R</text>
+                <text x="0" y="151" class="yAxisLabel">I</text>
+                <text x="0" y="171" class="yAxisLabel">C</text>
+                <text x="307" y="355" class="yAxisLabel">DATE</text>
+                <rect width="572" height="303" x="51" y="0" fill="#000000d9" />
+                <line x1="48" y1="0" x2="48" y2="306" stroke="white" strokeWidth="5"/>
+                <line x1="50" y1="303" x2="622" y2="303" stroke="white" strokeWidth="5"/>
             </svg>
         </div>
      </Paper>)
