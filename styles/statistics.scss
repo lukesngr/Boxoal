@@ -37,6 +37,18 @@
 
 .yAxisLabel {
     font-family: var(--koulen-font);
-    font-size: 30px;
+    font-size: 130%;
     fill: white;
+}
+
+.graphGoalTitle {
+    font-family: var(--koulen-font);
+    font-size: 100%;
+    fill: #FF0000;
+}
+
+.finishedGoalRectangle {
+    stroke: #6FA9B3;
+    stroke-width: 3;
+    fill: transparent;
 }
