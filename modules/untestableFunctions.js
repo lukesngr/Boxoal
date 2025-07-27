@@ -14,16 +14,16 @@ export function getCurrentDay() {
     }
 }
 
-export function getCurrentDate() {
+export function getCurrentDateAndMonth() {
     const {wakeupTime} = useSelector(state => state.profile.value);
     const dateObject = dayjs();
     let cutOffDateTime = dateObject.hour(wakeupTime.split(':')[0]).minute(wakeupTime.split(':')[1]);
 
     if(dateObject.isBefore(cutOffDateTime)) {
-        return dateObject.subtract(1, 'day');
-    }else{
-        return dateObject.date();
+        dateObject = dateObject.subtract(1, 'day');
     }
+
+    return {currentDate: dateObject.date(), currentMonth: dateObject.month()+1};
 }
 
 
