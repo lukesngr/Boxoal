@@ -14,7 +14,7 @@ import daySelectedReducer from './daySelected'
 import modalVisibleReducer from './modalVisible'
 import expandedReducer from './expanded'
 import alertReducer from './alert'
-
+import goalLimitReducer, { goalLimit }  from './goalLimit'
 
 const rootReducer = combineReducers({
   profile: profileReducer,
@@ -30,7 +30,8 @@ const rootReducer = combineReducers({
   daySelected: daySelectedReducer,
   modalVisible: modalVisibleReducer,
   expanded: expandedReducer,
-  alert: alertReducer
+  alert: alertReducer,
+  goalLimit: goalLimitReducer,
 });
 
 export const store = configureStore({
