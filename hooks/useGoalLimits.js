@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { getMaxNumberOfGoals } from '../modules/coreLogic';
 
-export function useGoalLimits(goals) {
+export default function useGoalLimits(goals) {
     const dispatch = useDispatch();
     const profile = useSelector(state => state.profile.value);
 

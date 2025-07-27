@@ -29,6 +29,8 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
     const [boxSizeNumber, setBoxSizeNumber] = useState(String(profile.boxSizeNumber));
     const [boxSizeUnit, setBoxSizeUnit] = useState(profile.boxSizeUnit);
     const [wakeupTime, setWakeupTime] = useState(dayjs(profile.wakeupTime, 'HH:mm'));
+    const [hasUserSetGoalLimit, setHasUserSetGoalLimit] = useState(profile.goalLimit !== -1);
+    const [goalLimit, setGoalLimit] = useState(profile.goalLimit);
 
     function updateProfile() {
         const wakeupTimeAsText = wakeupTime.format('HH:mm');
@@ -40,7 +42,8 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
             boxSizeUnit,
             boxSizeNumber: convertedBackBoxSizeNumber,
             wakeupTime: wakeupTimeAsText,
-            userUUID: user.userId
+            userUUID: user.userId,
+            goalLimit: goalLimit,
         }).catch(function() {
         });
 
@@ -51,7 +54,8 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                 scheduleID: data[scheduleIndex - 1].id,
                 boxSizeNumber: convertedBackBoxSizeNumber,
                 boxSizeUnit,
-                wakeupTime: wakeupTimeAsText
+                wakeupTime: wakeupTimeAsText,
+                goalLimit: goalLimit,
             }
         });
         
@@ -133,6 +137,29 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                                 <MenuItem value="hr">Hour</MenuItem>
                             </Select>
                         </FormControl>
+
+                        <FormControl variant="standard" sx={muiFormControlStyle}>
+                            <InputLabel>Goal Limit</InputLabel>
+                            <Select
+                                value={hasUserSetGoalLimit}
+                                onChange={(e) => setHasUserSetGoalLimit(e.target.value)}
+                                sx={muiInputStyle}
+                            >
+                                <MenuItem value={false}>Goals Completed</MenuItem>
+                                <MenuItem value={true}>Set My Own</MenuItem>
+                            </Select>
+                        </FormControl>
+
+                        {hasUserSetGoalLimit && (<>
+                                <TextField
+                                    label="Goal Limit"
+                                    type="number"
+                                    value={goalLimit}
+                                    onChange={(e) => setGoalLimit(e.target.value)}
+                                    variant="standard"
+                                    sx={muiInputStyle}
+                                />
+                            </>)}
 
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <div style={{backgroundColor: 'white', padding: '6px'}}>

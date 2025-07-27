@@ -12,7 +12,7 @@ import { useScheduleSetter } from '@/hooks/useScheduleSetter';
 import useTimeboxGridRedux from '@/hooks/useTimeboxGridRedux';
 import { GridBody } from './GridBody';
 import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
-
+import useGoalLimits from '@/hooks/useGoalLimits';
 export const ScheduleDataContext = createContext();
 
 export default function TimeBoxes(props) {
