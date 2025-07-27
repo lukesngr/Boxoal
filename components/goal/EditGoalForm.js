@@ -74,7 +74,6 @@ export default function EditGoalForm(props) {
 
         if(hasMetric) {
             goalData.metric = Number(metric);
-            goalData.metricUnit = metricUnit;
         }
         
         updateGoalMutation.mutate(goalData);
@@ -216,13 +215,6 @@ export default function EditGoalForm(props) {
                                     type="number"
                                     value={metric}
                                     onChange={(e) => setMetric(e.target.value)}
-                                    variant="standard"
-                                    sx={muiInputStyle}
-                                />
-                                <TextField
-                                    label="Metric Unit"
-                                    value={metricUnit}
-                                    onChange={(e) => setMetricUnit(e.target.value)}
                                     variant="standard"
                                     sx={muiInputStyle}
                                 />

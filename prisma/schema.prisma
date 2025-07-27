@@ -36,7 +36,6 @@ model Goal {
   scheduleID Int?
   objectUUID String @unique
   metric     Int?
-  metricUnit String?
   loggingsOfMetric loggingOfMetric[]
 }
 
@@ -84,6 +83,7 @@ model Profile {
   wakeupTime        String
   scheduleID        Int
   scheduleIndex     Int
+  goalLimit         Int
 }
 
 model loggingOfMetric {

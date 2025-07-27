@@ -23,7 +23,6 @@ export default function CreateGoalForm(props) {
     const dispatch = useDispatch();
     const [title, setTitle] = useState("");
     const [metric, setMetric] = useState(0);
-    const [metricUnit, setMetricUnit] = useState("");
     const [hasMetric, setHasMetric] = useState(false)
     const [targetDate, setTargetDate] = useState(dayjs());
     const {scheduleIndex} = useSelector(state => state.profile.value);
@@ -81,7 +80,6 @@ export default function CreateGoalForm(props) {
 
         if(hasMetric) {
             goalData.metric = Number(metric);
-            goalData.metricUnit = metricUnit;
         }
 
         if (maxNumberOfGoalsAllowed > goalsNotCompleted || !props.active) {
@@ -142,13 +140,6 @@ export default function CreateGoalForm(props) {
                                     type="number"
                                     value={metric}
                                     onChange={(e) => setMetric(e.target.value)}
-                                    variant="standard"
-                                    sx={muiInputStyle}
-                                />
-                                <TextField
-                                    label="Metric Unit"
-                                    value={metricUnit}
-                                    onChange={(e) => setMetricUnit(e.target.value)}
                                     variant="standard"
                                     sx={muiInputStyle}
                                 />
