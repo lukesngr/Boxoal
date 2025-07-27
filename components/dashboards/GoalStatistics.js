@@ -7,21 +7,31 @@ import { useGoalToGetPoints } from '@/hooks/useGoalToGetPoints';
 
 export function GoalStatistics({goalData}) {
     
-    console.log("Goal Data: ", goalData);
     const {pointsArray, linesArray, yAxisLabels, xAxisLabels} = useGoalToGetPoints(goalData);
-
-    console.log("Points Array: ", pointsArray);
+    console.log(goalData);
     let goalTitle = `${goalData.title} by ${dayjs(goalData.targetDate).format('D/M')}`;
     return (
      <Paper sx={{backgroundColor: '#875F9A', marginTop: 2, paddingLeft: '2%', paddingRight: '5.46%', paddingTop: '13.36%', paddingBottom : '4.67%' }} className="statPaper" elevation={4} square>
         <div className="goal-statistics" style={{width: '100%'}}>
             <svg viewBox='0 0 622 372' style={{ overflow: 'visible' }}>
+                {goalData.metric === null ? (<>
+                    <text x="0" y="71" class="yAxisLabel">T</text>
+                    <text x="0" y="91" class="yAxisLabel">I</text>
+                    <text x="0" y="111" class="yAxisLabel">M</text>
+                    <text x="0" y="131" class="yAxisLabel">E</text>
+                    <text x="0" y="151" class="yAxisLabel">B</text>
+                    <text x="0" y="171" class="yAxisLabel">O</text>
+                    <text x="0" y="191" class="yAxisLabel">X</text>
+                    <text x="0" y="211" class="yAxisLabel">E</text>
+                    <text x="0" y="231" class="yAxisLabel">S</text>
+                </>) : (<>
                 <text x="0" y="71" class="yAxisLabel">M</text>
                 <text x="0" y="91" class="yAxisLabel">E</text>
                 <text x="0" y="111" class="yAxisLabel">T</text>
                 <text x="0" y="131" class="yAxisLabel">R</text>
                 <text x="0" y="151" class="yAxisLabel">I</text>
                 <text x="0" y="171" class="yAxisLabel">C</text>
+                </>)}
                 <text x="307" y="355" class="yAxisLabel">DATE</text>
                 
                 <rect width="572" height="303" x="51" y="0" fill="#000000d9" />

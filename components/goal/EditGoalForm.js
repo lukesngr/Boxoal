@@ -24,7 +24,7 @@ export default function EditGoalForm(props) {
     const [title, setTitle] = useState(props.data.title);
     const [metric, setMetric] = useState(props.data.metric);
     const [metricUnit, setMetricUnit] = useState(props.data.metricUnit);
-    const [hasMetric, setHasMetric] = useState(props.data.metric == "null" ? (false) : (true));
+    const [hasMetric, setHasMetric] = useState(props.data.metric === null ? (false) : (true));
     const [targetDate, setTargetDate] = useState(dayjs(props.data.targetDate));
     const [completed, setCompleted] = useState(props.data.completed);
     const {scheduleIndex} = useSelector(state => state.profile.value);
