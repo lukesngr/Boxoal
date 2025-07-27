@@ -13,7 +13,6 @@ import Loading from "../base/Loading";
 export default function MySchedulesWhenAuthLoaded({user}) {
     const dispatch = useDispatch();
     const {userId, username} = user;
-    const placeholderWhileScheduleLoading = [];
     useProfile(userId, dispatch);
     let dataForSchedule = [{title: "No schedules found", goals: [], recordedTimeboxes: [], timeboxes: []}];
 

@@ -31,6 +31,7 @@ export default function TimeBoxes(props) {
     useScheduleSetter(schedule); //set schedule data to redux store (timeboxes, recordedTimeboxes, goals
     useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef);
     useActiveOverlay();
+    useGoalLimits(schedule.goals);
 
     return (
     <>
