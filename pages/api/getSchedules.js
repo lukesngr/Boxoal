@@ -32,7 +32,6 @@ export default async function handler(req, res) {
             partOfLine: true,
             objectUUID: true,
             metric: true,
-            metricUnit: true,
             loggingsOfMetric: {
               select: {
                 date: true,
