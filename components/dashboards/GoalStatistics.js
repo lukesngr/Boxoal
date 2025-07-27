@@ -4,21 +4,37 @@ import '../../styles/statistics.scss';
 import dayjs from 'dayjs';
 
 export function GoalStatistics({goalData}) {
-    const statisticsRef = useRef(null);
-    const [widthAtOneHundredPercent, setWidthAtOneHundredPercent] = useState(0);
-    console.log("Goal Data: ", goalData);
-    useEffect(() => {
-        if(statisticsRef.current) {
-        setWidthAtOneHundredPercent(statisticsRef.current.getBoundingClientRect().width);
-        console.log("Width at 100%: ", widthAtOneHundredPercent);
-    }
-    }, [statisticsRef]);
     
+    console.log("Goal Data: ", goalData);
+    let initialLogX = 77;
+    let initialLogY = 266;
+    let goalX = 600;
+    let goalY = 31;
+    let pointsArray = [];
+    if(goalData.loggingsOfMetric.length != 0) {
+        let dayDifferenceBetweenFirstLogAndGoal = dayjs(goalData.targetDate).diff(dayjs(goalData.loggingsOfMetric[0].date), 'day');
+        let metricDifferenceBetweenFirstLogAndGoal = goalData.metric - goalData.loggingsOfMetric[0].metric;
+        let xDifference = goalX - initialLogX;
+        let yDifference = initialLogY - goalY;
+        let xPerPoint = xDifference / dayDifferenceBetweenFirstLogAndGoal;
+        let yPerPoint = yDifference / metricDifferenceBetweenFirstLogAndGoal;
+        let overallSizeOfPoint = Math.min(xPerPoint, yPerPoint);
+        pointsArray = goalData.loggingsOfMetric.map((log, index) => {
+            if (index === 0) {
+                return { x: initialLogX, y: initialLogY, size: overallSizeOfPoint };
+            }else{
+                let dayDifference = dayjs(log.date).diff(dayjs(goalData.loggingsOfMetric[0].date), 'day');
+                let metricDifference = goalData.loggingsOfMetric[0].metric - log.metric;
+                let x = initialLogX + (xPerPoint * dayDifference);
+                let y = initialLogY - (yPerPoint * metricDifference);
+                return { x, y, size: overallSizeOfPoint };
+            }
+        });
+    }
     let goalTitle = `${goalData.title} by ${dayjs(goalData.targetDate).format('D/M')}`;
-    let height = 0.599*widthAtOneHundredPercent;
     return (
      <Paper sx={{backgroundColor: '#875F9A', marginTop: 2, paddingLeft: '2%', paddingRight: '5.46%', paddingTop: '13.36%', paddingBottom : '4.67%' }} className="statPaper" elevation={4} square>
-        <div className="goal-statistics" style={{width: '100%'}} ref={statisticsRef}>
+        <div className="goal-statistics" style={{width: '100%'}}>
             <svg viewBox='0 0 622 372' style={{ overflow: 'visible' }}>
                 <text x="0" y="71" class="yAxisLabel">M</text>
                 <text x="0" y="91" class="yAxisLabel">E</text>
@@ -32,7 +48,7 @@ export function GoalStatistics({goalData}) {
                 <text x="226" y="30" class="graphGoalTitle">{goalTitle}</text>
                 <line x1="51" y1="42" x2="622" y2="42" stroke-dasharray="5,5" stroke="#FF0000" strokeWidth="5"/>
                 <line x1="48" y1="0" x2="48" y2="306" stroke="white" strokeWidth="5"/>
-                <rect width="12" height="12" x="600" y="35" className='finishedGoalRectangle'></rect>
+                <rect width="12" height="12" x={goalY} y="35" className='finishedGoalRectangle'></rect>
                 <line x1="50" y1="303" x2="622" y2="303" stroke="white" strokeWidth="5"/>
             </svg>
         </div>
