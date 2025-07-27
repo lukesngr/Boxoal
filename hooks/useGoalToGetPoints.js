@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { differenceInDates } from '@/modules/dateCode';
 import { getHighestDenominatorUpTo } from '@/modules/coreLogic';
+import dayjs from 'dayjs';
 export function useGoalToGetPoints(goalData) {
     const {pointsArray, linesArray, xAxisLabels, yAxisLabels} = useMemo(() => {
 
@@ -55,8 +56,15 @@ export function useGoalToGetPoints(goalData) {
             let highestDenominatorForMetricDifference = getHighestDenominatorUpTo(metricDifferenceBetweenFirstLogAndGoal, 10);
             let yAxisIncrements = metricDifferenceBetweenFirstLogAndGoal / highestDenominatorForMetricDifference;
             let yPerAxisLabel = yDifference / highestDenominatorForMetricDifference; 
-            for(let i = 0; i <= highestDenominatorForMetricDifference; i += yAxisIncrements) {
+            for(let i = 0; i <= highestDenominatorForMetricDifference-1; i += yAxisIncrements) {
                 yAxisLabels.push({label: i, y: initialLogY - (yPerAxisLabel * i)});
+            }
+
+            let highestDenominatorForDayDifference = getHighestDenominatorUpTo(dateDifferenceBetweenFirstLogAndGoal, 20);
+            let xAxisIncrements = dateDifferenceBetweenFirstLogAndGoal / highestDenominatorForDayDifference;
+            let xPerAxisLabel = xDifference / highestDenominatorForDayDifference; 
+            for(let i = 0; i <= highestDenominatorForDayDifference; i += xAxisIncrements) {
+                xAxisLabels.push({label: dayjs(goalData.loggingsOfMetric[0].date).add(i, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
             }
         }
         return {pointsArray, linesArray, yAxisLabels, xAxisLabels};

@@ -8,7 +8,7 @@ import { useGoalToGetPoints } from '@/hooks/useGoalToGetPoints';
 export function GoalStatistics({goalData}) {
     
     console.log("Goal Data: ", goalData);
-    const {pointsArray, linesArray, yAxisLabels} = useGoalToGetPoints(goalData);
+    const {pointsArray, linesArray, yAxisLabels, xAxisLabels} = useGoalToGetPoints(goalData);
 
     console.log("Points Array: ", pointsArray);
     let goalTitle = `${goalData.title} by ${dayjs(goalData.targetDate).format('D/M')}`;
@@ -36,10 +36,14 @@ export function GoalStatistics({goalData}) {
                 {linesArray.map((line, index) => (
                     <line key={index} x1={line.x1} y1={line.y1} x2={line.x2} y2={line.y2} stroke="#6FA9B3" strokeWidth="2" />
                 ))}
-                {yAxisLabels.map((label, index) => (
+                {yAxisLabels.map((label, index) => (<>
+                    <text key={index} x="25" y={label.y+10} className="yAxisLabels">{label.label}</text>
                     <rect key={index} x="48" y={label.y} width="8" height="5" fill="white"></rect>
-                ))}
-                <rect width="5" height="8" x="43" y="295" fill="white"></rect>
+                </>))}
+                {xAxisLabels.map((label, index) => (<>
+                    <rect key={index} x={label.x} y="295" width="5" height="8" fill="white"></rect>
+                    <text key={index} x={label.x-6} y="320" className="yAxisLabels">{label.label}</text>
+                </>))}
                 
             </svg>
         </div>
