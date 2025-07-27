@@ -1,7 +1,8 @@
 import { useMemo } from "react";
 import { differenceInDates } from '@/modules/dateCode';
+import { getHighestDenominatorUpTo } from '@/modules/coreLogic';
 export function useGoalToGetPoints(goalData) {
-    const [pointsArray, linesArray] = useMemo(() => {
+    const [pointsArray, linesArray, xAxisLabels, yAxisLabels] = useMemo(() => {
 
         const initialLogX = 77;
         const initialLogY = 266;
@@ -9,6 +10,8 @@ export function useGoalToGetPoints(goalData) {
         const goalY = 35;
         let pointsArray = [];
         let linesArray = [];
+        let xAxisLabelsAndCoords = [];
+        let yAxisLabelsAndCoords = [];
         
         let xDifference = goalX - initialLogX;
         let yDifference = initialLogY - goalY;
@@ -47,6 +50,13 @@ export function useGoalToGetPoints(goalData) {
                         y2: pointsArray[i + 1].y + (overallSizeOfPoint / 2)
                     });
                 }
+            }
+
+            let highestDenominatorForMetricDifference = getHighestDenominatorUpTo(metricDifferenceBetweenFirstLogAndGoal, 10);
+            let yAxisIncrements = metricDifferenceBetweenFirstLogAndGoal / highestDenominatorForMetricDifference;
+            let yPerAxisLabel = yDifference / highestDenominatorForMetricDifference; 
+            for(let i = 0; i <= highestDenominatorForMetricDifference; i += yAxisIncrements) {
+                yAxisLabelsAndCoords.push({label: i, coord: initialLogY - (yPerAxisLabel * i)});
             }
         }
         return [pointsArray, linesArray];

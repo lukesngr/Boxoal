@@ -28,6 +28,7 @@ export function GoalStatistics({goalData}) {
                 <text x="226" y="30" class="graphGoalTitle">{goalTitle}</text>
                 <line x1="51" y1="42" x2="622" y2="42" stroke-dasharray="5,5" stroke="#FF0000" strokeWidth="5"/>
                 <line x1="48" y1="0" x2="48" y2="306" stroke="white" strokeWidth="5"/>
+                <line x1="50" y1="303" x2="622" y2="303" stroke="white" strokeWidth="5"/>
                 <rect width="12" height="12" x="600" y="35" className='finishedGoalRectangle'></rect>
                 {pointsArray.map((point, index) => (
                     <rect key={index} width={point.size} fill="#6FA9B3" height={point.size} x={point.x} y={point.y} className='goalPointRectangle'></rect>
@@ -35,7 +36,8 @@ export function GoalStatistics({goalData}) {
                 {linesArray.map((line, index) => (
                     <line key={index} x1={line.x1} y1={line.y1} x2={line.x2} y2={line.y2} stroke="#6FA9B3" strokeWidth="2" />
                 ))}
-                <line x1="50" y1="303" x2="622" y2="303" stroke="white" strokeWidth="5"/>
+                <rect width="5" height="8" x="77" y="295" fill="white"></rect>
+                
             </svg>
         </div>
      </Paper>)

@@ -127,10 +127,14 @@ export function getMaxNumberOfGoals(goalsCompleted) {
     }
 }
 
-export function getHighestPossibleDenominatorUnder20(x) {
-    for(let i = 20; i > 0; i--) {
-        if(x % i == 0) {
-            return i;
+export function getHighestDenominatorUpTo(x, upTo) {
+    if(x <= upTo) {
+        return x;
+    }else{
+        for(let i = upTo; i > 0; i--) {
+            if(x % i == 0) {
+                return i;
+            }
         }
     }
 }
