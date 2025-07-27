@@ -17,8 +17,6 @@ export function useProfile(userId, dispatch) {
         if(data) {
             let {boxSizeUnit, boxSizeNumber, wakeupTime, scheduleID, scheduleIndex} = data;
             dispatch({type: 'profile/set', payload: {scheduleID, boxSizeUnit, boxSizeNumber, wakeupTime, scheduleIndex}});
-        }else{
-            dispatch({type: 'profile/set', payload: {scheduleID: 0, scheduleIndex: 0, boxSizeUnit: 'min', boxSizeNumber: 30, wakeupTime: '07:00'}});
         }
     }, [data]);
     
