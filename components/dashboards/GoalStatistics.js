@@ -9,7 +9,7 @@ export function GoalStatistics({goalData}) {
     let initialLogX = 77;
     let initialLogY = 266;
     let goalX = 600;
-    let goalY = 31;
+    let goalY = 35;
     let pointsArray = [];
     if(goalData.loggingsOfMetric.length != 0) {
         let dayDifferenceBetweenFirstLogAndGoal = dayjs(goalData.targetDate).diff(dayjs(goalData.loggingsOfMetric[0].date), 'day');
@@ -18,6 +18,7 @@ export function GoalStatistics({goalData}) {
         let yDifference = initialLogY - goalY;
         let xPerPoint = xDifference / dayDifferenceBetweenFirstLogAndGoal;
         let yPerPoint = yDifference / metricDifferenceBetweenFirstLogAndGoal;
+        console.log("xPerPoint: ", xPerPoint, "yPerPoint: ", yPerPoint, dayDifferenceBetweenFirstLogAndGoal, metricDifferenceBetweenFirstLogAndGoal);
         let overallSizeOfPoint = Math.min(xPerPoint, yPerPoint);
         pointsArray = goalData.loggingsOfMetric.map((log, index) => {
             if (index === 0) {
@@ -31,6 +32,8 @@ export function GoalStatistics({goalData}) {
             }
         });
     }
+
+    console.log("Points Array: ", pointsArray);
     let goalTitle = `${goalData.title} by ${dayjs(goalData.targetDate).format('D/M')}`;
     return (
      <Paper sx={{backgroundColor: '#875F9A', marginTop: 2, paddingLeft: '2%', paddingRight: '5.46%', paddingTop: '13.36%', paddingBottom : '4.67%' }} className="statPaper" elevation={4} square>
@@ -48,7 +51,10 @@ export function GoalStatistics({goalData}) {
                 <text x="226" y="30" class="graphGoalTitle">{goalTitle}</text>
                 <line x1="51" y1="42" x2="622" y2="42" stroke-dasharray="5,5" stroke="#FF0000" strokeWidth="5"/>
                 <line x1="48" y1="0" x2="48" y2="306" stroke="white" strokeWidth="5"/>
-                <rect width="12" height="12" x={goalY} y="35" className='finishedGoalRectangle'></rect>
+                <rect width="12" height="12" x={goalX} y={goalY} className='finishedGoalRectangle'></rect>
+                {pointsArray.map((point, index) => (
+                    <rect key={index} width={point.size} fill="#6FA9B3" height={point.size} x={point.x} y={point.y} className='goalPointRectangle'></rect>
+                ))}
                 <line x1="50" y1="303" x2="622" y2="303" stroke="white" strokeWidth="5"/>
             </svg>
         </div>
