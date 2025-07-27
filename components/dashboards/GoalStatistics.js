@@ -37,11 +37,11 @@ export function GoalStatistics({goalData}) {
                     <line key={index} x1={line.x1} y1={line.y1} x2={line.x2} y2={line.y2} stroke="#6FA9B3" strokeWidth="2" />
                 ))}
                 {yAxisLabels.map((label, index) => (<>
-                    <text key={index} x="25" y={label.y+10} className="yAxisLabels">{label.label}</text>
-                    <rect key={index} x="48" y={label.y} width="8" height="5" fill="white"></rect>
+                    <text key={index} x="25" y={label.y+20} className="yAxisLabels">{label.label}</text>
+                    <rect key={index} x="48" y={label.y+10} width="8" height="5" fill="white"></rect>
                 </>))}
                 {xAxisLabels.map((label, index) => (<>
-                    <rect key={index} x={label.x} y="295" width="5" height="8" fill="white"></rect>
+                    <rect key={index} x={label.x+9} y="295" width="5" height="8" fill="white"></rect>
                     <text key={index} x={label.x-6} y="320" className="yAxisLabels">{label.label}</text>
                 </>))}
                 
