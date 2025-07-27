@@ -126,3 +126,11 @@ export function getMaxNumberOfGoals(goalsCompleted) {
         return 100000000000; //whoever hits this is a god
     }
 }
+
+export function getHighestPossibleDenominatorUnder20(x) {
+    for(let i = 20; i > 0; i--) {
+        if(x % i == 0) {
+            return i;
+        }
+    }
+}
