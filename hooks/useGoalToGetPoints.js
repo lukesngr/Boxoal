@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { differenceInDates } from '@/modules/dateCode';
 import { getHighestDenominatorUpTo } from '@/modules/coreLogic';
 export function useGoalToGetPoints(goalData) {
-    const [pointsArray, linesArray, xAxisLabels, yAxisLabels] = useMemo(() => {
+    const {pointsArray, linesArray, xAxisLabels, yAxisLabels} = useMemo(() => {
 
         const initialLogX = 77;
         const initialLogY = 266;
@@ -10,8 +10,8 @@ export function useGoalToGetPoints(goalData) {
         const goalY = 35;
         let pointsArray = [];
         let linesArray = [];
-        let xAxisLabelsAndCoords = [];
-        let yAxisLabelsAndCoords = [];
+        let xAxisLabels = [];
+        let yAxisLabels = [];
         
         let xDifference = goalX - initialLogX;
         let yDifference = initialLogY - goalY;
@@ -56,10 +56,10 @@ export function useGoalToGetPoints(goalData) {
             let yAxisIncrements = metricDifferenceBetweenFirstLogAndGoal / highestDenominatorForMetricDifference;
             let yPerAxisLabel = yDifference / highestDenominatorForMetricDifference; 
             for(let i = 0; i <= highestDenominatorForMetricDifference; i += yAxisIncrements) {
-                yAxisLabelsAndCoords.push({label: i, coord: initialLogY - (yPerAxisLabel * i)});
+                yAxisLabels.push({label: i, y: initialLogY - (yPerAxisLabel * i)});
             }
         }
-        return [pointsArray, linesArray];
+        return {pointsArray, linesArray, yAxisLabels, xAxisLabels};
     }, [goalData]);
-    return [pointsArray, linesArray];
+    return {pointsArray, linesArray, yAxisLabels, xAxisLabels};
 }

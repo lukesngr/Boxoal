@@ -8,7 +8,7 @@ import { useGoalToGetPoints } from '@/hooks/useGoalToGetPoints';
 export function GoalStatistics({goalData}) {
     
     console.log("Goal Data: ", goalData);
-    const [pointsArray, linesArray] = useGoalToGetPoints(goalData);
+    const {pointsArray, linesArray, yAxisLabels} = useGoalToGetPoints(goalData);
 
     console.log("Points Array: ", pointsArray);
     let goalTitle = `${goalData.title} by ${dayjs(goalData.targetDate).format('D/M')}`;
@@ -36,7 +36,10 @@ export function GoalStatistics({goalData}) {
                 {linesArray.map((line, index) => (
                     <line key={index} x1={line.x1} y1={line.y1} x2={line.x2} y2={line.y2} stroke="#6FA9B3" strokeWidth="2" />
                 ))}
-                <rect width="5" height="8" x="77" y="295" fill="white"></rect>
+                {yAxisLabels.map((label, index) => (
+                    <rect key={index} x="48" y={label.y} width="8" height="5" fill="white"></rect>
+                ))}
+                <rect width="5" height="8" x="43" y="295" fill="white"></rect>
                 
             </svg>
         </div>
