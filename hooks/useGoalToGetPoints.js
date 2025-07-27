@@ -34,9 +34,9 @@ export function useGoalToGetPoints(goalData) {
             for (let i = 0; i < pointsArray.length; i++) {
                 if(i+1 > (pointsArray.length - 1)) {
                     linesArray.push({
-                        x1: pointsArray[i].x,
+                        x1: pointsArray[i].x + (overallSizeOfPoint / 2),
                         y1: pointsArray[i].y + (overallSizeOfPoint / 2),
-                        x2: goalX + (12 / 2),
+                        x2: goalX,
                         y2: goalY + (12 / 2)
                     });
                 }else{
