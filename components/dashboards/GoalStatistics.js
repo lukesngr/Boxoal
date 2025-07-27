@@ -2,54 +2,13 @@ import { useState, useRef, useEffect } from 'react';
 import { Paper } from '@mui/material';
 import '../../styles/statistics.scss';
 import dayjs from 'dayjs';
+import { differenceInDates } from '@/modules/dateCode';
+import { useGoalToGetPoints } from '@/hooks/useGoalToGetPoints';
 
 export function GoalStatistics({goalData}) {
     
     console.log("Goal Data: ", goalData);
-    let initialLogX = 77;
-    let initialLogY = 266;
-    let goalX = 600;
-    let goalY = 35;
-    let pointsArray = [];
-    let linesArray = [];
-    let dayDifferenceBetweenFirstLogAndGoal = dayjs(goalData.targetDate).diff(dayjs(goalData.loggingsOfMetric[0].date), 'day');
-    let metricDifferenceBetweenFirstLogAndGoal = goalData.metric - goalData.loggingsOfMetric[0].metric;
-    let xDifference = goalX - initialLogX;
-    let yDifference = initialLogY - goalY;
-    let xPerPoint = xDifference / dayDifferenceBetweenFirstLogAndGoal;
-    let yPerPoint = yDifference / metricDifferenceBetweenFirstLogAndGoal;
-    let overallSizeOfPoint = Math.min(xPerPoint, yPerPoint);
-    if(goalData.loggingsOfMetric.length != 0) {
-        
-        pointsArray = goalData.loggingsOfMetric.map((log, index) => {
-            if (index === 0) {
-                return { x: initialLogX, y: initialLogY, size: overallSizeOfPoint };
-            }else{
-                let dayDifference = dayjs(log.date).diff(dayjs(goalData.loggingsOfMetric[0].date), 'day');
-                let metricDifference = goalData.loggingsOfMetric[0].metric - log.metric;
-                let x = initialLogX + (xPerPoint * dayDifference);
-                let y = initialLogY - (yPerPoint * metricDifference);
-                return { x, y, size: overallSizeOfPoint };
-            }
-        });
-        for (let i = 0; i < pointsArray.length; i++) {
-            if(i+1 > (pointsArray.length - 1)) {
-                linesArray.push({
-                    x1: pointsArray[i].x,
-                    y1: pointsArray[i].y + (overallSizeOfPoint / 2),
-                    x2: goalX + (12 / 2),
-                    y2: goalY + (12 / 2)
-                });
-            }else{
-                linesArray.push({
-                    x1: pointsArray[i].x + (overallSizeOfPoint / 2),
-                    y1: pointsArray[i].y + (overallSizeOfPoint / 2),
-                    x2: pointsArray[i + 1].x + (overallSizeOfPoint / 2),
-                    y2: pointsArray[i + 1].y + (overallSizeOfPoint / 2)
-                });
-            }
-        }
-    }
+    const [pointsArray, linesArray] = useGoalToGetPoints(goalData);
 
     console.log("Points Array: ", pointsArray);
     let goalTitle = `${goalData.title} by ${dayjs(goalData.targetDate).format('D/M')}`;
@@ -69,7 +28,7 @@ export function GoalStatistics({goalData}) {
                 <text x="226" y="30" class="graphGoalTitle">{goalTitle}</text>
                 <line x1="51" y1="42" x2="622" y2="42" stroke-dasharray="5,5" stroke="#FF0000" strokeWidth="5"/>
                 <line x1="48" y1="0" x2="48" y2="306" stroke="white" strokeWidth="5"/>
-                <rect width="12" height="12" x={goalX} y={goalY} className='finishedGoalRectangle'></rect>
+                <rect width="12" height="12" x="600" y="35" className='finishedGoalRectangle'></rect>
                 {pointsArray.map((point, index) => (
                     <rect key={index} width={point.size} fill="#6FA9B3" height={point.size} x={point.x} y={point.y} className='goalPointRectangle'></rect>
                 ))}
