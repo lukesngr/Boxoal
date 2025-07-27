@@ -15,8 +15,8 @@ export function useProfile(userId, dispatch) {
 
     useEffect(() => {
         if(data) {
-            let {boxSizeUnit, boxSizeNumber, wakeupTime, scheduleID, scheduleIndex} = data;
-            dispatch({type: 'profile/set', payload: {scheduleID, boxSizeUnit, boxSizeNumber, wakeupTime, scheduleIndex}});
+            let {boxSizeUnit, boxSizeNumber, wakeupTime, scheduleID, scheduleIndex, goalLimit} = data;
+            dispatch({type: 'profile/set', payload: {scheduleID, boxSizeUnit, boxSizeNumber, wakeupTime, scheduleIndex, goalLimit}});
         }
     }, [data]);
     

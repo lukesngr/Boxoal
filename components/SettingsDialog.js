@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import axios from "axios";
 import dayjs from 'dayjs';
+import { queryClient } from "@/modules/queryClient";
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -43,8 +44,12 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
             boxSizeNumber: convertedBackBoxSizeNumber,
             wakeupTime: wakeupTimeAsText,
             userUUID: user.userId,
-            goalLimit: goalLimit,
-        }).catch(function() {
+            goalLimit: Number(goalLimit),
+        }).then(async () => {
+            dispatch({type: 'alert/set', payload: { open: true, title: "Profile", message: "Updated profile!" }});
+            await queryClient.refetchQueries();
+        }).catch(() =>{
+            dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
         });
 
         dispatch({

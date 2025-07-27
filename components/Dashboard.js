@@ -54,7 +54,9 @@ export default function Dashboard({user}) {
         <div style={{height: '100%', paddingLeft: '20%', paddingTop: '10%', paddingRight: '20%'}}>
             <h1 className="welcomeTitle">Welcome Back</h1>
             <h1 className="levelTitle">Lvl {goalsCompleted}</h1>
-            <GoalStatistics goalData={dataForSchedule.goals[0]}></GoalStatistics>
+            {dataForSchedule.goals.map((goal, index) => (
+                <GoalStatistics key={index} goalData={goal} />
+            ))}
             <LinearProgress variant="determinate" value={averageProgress} />
             <Statistics recordedTimeboxes={dataForSchedule.recordedTimeboxes} timeboxes={dataForSchedule.timeboxes}></Statistics>
         </div>

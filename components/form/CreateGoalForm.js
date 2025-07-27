@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { queryClient } from '../../modules/queryClient.js';
@@ -26,10 +26,14 @@ export default function CreateGoalForm(props) {
     const [hasMetric, setHasMetric] = useState(false)
     const [targetDate, setTargetDate] = useState(dayjs());
     const {scheduleIndex} = useSelector(state => state.profile.value);
-    const activeGoals = props.goals.filter(item => item.active);
-    const goalsCompleted = props.goals.reduce((count, item) => item.completed ? count + 1 : count, 0);
-    const goalsNotCompleted = activeGoals.length - goalsCompleted;
-    const maxNumberOfGoalsAllowed = getMaxNumberOfGoals(goalsCompleted);
+    const {goalsNotCompleted} = useMemo(() => {
+        const goalsCompleted = props.goals.reduce((count, item) => item.completed ? count + 1 : count, 0);
+        const activeGoals = props.goals.filter(item => item.active);
+        const goalsNotCompleted = activeGoals.length - goalsCompleted;
+        return {goalsNotCompleted};
+    }, [props.goals]);
+    const {goalLimit} = useSelector(state => state.profile.value);
+    
 
     const createGoalMutation = useMutation({
         mutationFn: (goalData) => axios.post('/api/createGoal', goalData),
@@ -81,8 +85,8 @@ export default function CreateGoalForm(props) {
         if(hasMetric) {
             goalData.metric = Number(metric);
         }
-
-        if (maxNumberOfGoalsAllowed > goalsNotCompleted || !props.active) {
+        console.log(goalLimit, goalsNotCompleted);
+        if (goalLimit > goalsNotCompleted || !props.active) {
             createGoalMutation.mutate(goalData);
         } else {
             dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "Please complete more goals and we will unlock more goal slots for you!" }});
