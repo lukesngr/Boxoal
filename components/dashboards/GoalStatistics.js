@@ -11,15 +11,16 @@ export function GoalStatistics({goalData}) {
     let goalX = 600;
     let goalY = 35;
     let pointsArray = [];
+    let linesArray = [];
+    let dayDifferenceBetweenFirstLogAndGoal = dayjs(goalData.targetDate).diff(dayjs(goalData.loggingsOfMetric[0].date), 'day');
+    let metricDifferenceBetweenFirstLogAndGoal = goalData.metric - goalData.loggingsOfMetric[0].metric;
+    let xDifference = goalX - initialLogX;
+    let yDifference = initialLogY - goalY;
+    let xPerPoint = xDifference / dayDifferenceBetweenFirstLogAndGoal;
+    let yPerPoint = yDifference / metricDifferenceBetweenFirstLogAndGoal;
+    let overallSizeOfPoint = Math.min(xPerPoint, yPerPoint);
     if(goalData.loggingsOfMetric.length != 0) {
-        let dayDifferenceBetweenFirstLogAndGoal = dayjs(goalData.targetDate).diff(dayjs(goalData.loggingsOfMetric[0].date), 'day');
-        let metricDifferenceBetweenFirstLogAndGoal = goalData.metric - goalData.loggingsOfMetric[0].metric;
-        let xDifference = goalX - initialLogX;
-        let yDifference = initialLogY - goalY;
-        let xPerPoint = xDifference / dayDifferenceBetweenFirstLogAndGoal;
-        let yPerPoint = yDifference / metricDifferenceBetweenFirstLogAndGoal;
-        console.log("xPerPoint: ", xPerPoint, "yPerPoint: ", yPerPoint, dayDifferenceBetweenFirstLogAndGoal, metricDifferenceBetweenFirstLogAndGoal);
-        let overallSizeOfPoint = Math.min(xPerPoint, yPerPoint);
+        
         pointsArray = goalData.loggingsOfMetric.map((log, index) => {
             if (index === 0) {
                 return { x: initialLogX, y: initialLogY, size: overallSizeOfPoint };
@@ -31,6 +32,23 @@ export function GoalStatistics({goalData}) {
                 return { x, y, size: overallSizeOfPoint };
             }
         });
+        for (let i = 0; i < pointsArray.length; i++) {
+            if(i+1 > (pointsArray.length - 1)) {
+                linesArray.push({
+                    x1: pointsArray[i].x,
+                    y1: pointsArray[i].y + (overallSizeOfPoint / 2),
+                    x2: goalX + (12 / 2),
+                    y2: goalY + (12 / 2)
+                });
+            }else{
+                linesArray.push({
+                    x1: pointsArray[i].x + (overallSizeOfPoint / 2),
+                    y1: pointsArray[i].y + (overallSizeOfPoint / 2),
+                    x2: pointsArray[i + 1].x + (overallSizeOfPoint / 2),
+                    y2: pointsArray[i + 1].y + (overallSizeOfPoint / 2)
+                });
+            }
+        }
     }
 
     console.log("Points Array: ", pointsArray);
@@ -54,6 +72,9 @@ export function GoalStatistics({goalData}) {
                 <rect width="12" height="12" x={goalX} y={goalY} className='finishedGoalRectangle'></rect>
                 {pointsArray.map((point, index) => (
                     <rect key={index} width={point.size} fill="#6FA9B3" height={point.size} x={point.x} y={point.y} className='goalPointRectangle'></rect>
+                ))}
+                {linesArray.map((line, index) => (
+                    <line key={index} x1={line.x1} y1={line.y1} x2={line.x2} y2={line.y2} stroke="#6FA9B3" strokeWidth="2" />
                 ))}
                 <line x1="50" y1="303" x2="622" y2="303" stroke="white" strokeWidth="5"/>
             </svg>
