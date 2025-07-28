@@ -138,3 +138,25 @@ export function getHighestDenominatorUpTo(x, upTo) {
         }
     }
 }
+
+export function getLinesBetweenPoints(pointsArray, overallSizeOfPoint, goalX, goalY) {
+    let linesArray = [];
+    for (let i = 0; i < pointsArray.length; i++) {
+        if(i+1 > (pointsArray.length - 1)) {
+            linesArray.push({
+                x1: pointsArray[i].x + (overallSizeOfPoint / 2),
+                y1: pointsArray[i].y + (overallSizeOfPoint / 2),
+                x2: goalX,
+                y2: goalY + (12 / 2)
+            });
+        }else{
+            linesArray.push({
+                x1: pointsArray[i].x + (overallSizeOfPoint / 2),
+                y1: pointsArray[i].y + (overallSizeOfPoint / 2),
+                x2: pointsArray[i + 1].x + (overallSizeOfPoint / 2),
+                y2: pointsArray[i + 1].y + (overallSizeOfPoint / 2)
+            });
+        }
+    }
+    return linesArray;
+}
