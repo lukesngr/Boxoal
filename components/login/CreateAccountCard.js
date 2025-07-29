@@ -10,6 +10,7 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { signUp } from 'aws-amplify/auth';
 import { confirmSignUp } from 'aws-amplify/auth';
 import { useDispatch } from 'react-redux';
+import Image from 'next/image';
 
 export default function CreateAccountCard({setComponentDisplayed}) {
     const dispatch = useDispatch();
@@ -136,16 +137,13 @@ export default function CreateAccountCard({setComponentDisplayed}) {
 
     return (
         <div className="signInCard">
-            <h1>Create Account 
-                <IconButton onClick={() => goBack()}>
-                    <ArrowLeftIcon sx={{ color: 'black', fontSize: 30 }}></ArrowLeftIcon>
-                </IconButton>
-            </h1>
+            <Image src="/icon2.png" className='logo' width={80} height={75} alt="BoxAlc Icon" priority></Image>
+            <h1 className='dialogTitle'>Create Account </h1>
             <Stack spacing={1}>
             {detailsNotEntered ? ( <>
                 
                 <TextField 
-                    sx={{backgroundColor: 'white'}} 
+                    sx={{backgroundColor: 'white', '& .MuiInput-input': {fontFamily: 'Kameron',fontSize: 20}}} 
                     required={true} 
                     value={email}
                     id="emailInput" 
@@ -155,7 +153,7 @@ export default function CreateAccountCard({setComponentDisplayed}) {
                 />
                 {emailInvalid.invalid && <p className="emailErrorMessage">{emailInvalid.message}</p>}
                 <TextField 
-                    sx={{backgroundColor: 'white'}} 
+                    sx={{backgroundColor: 'white', '& .MuiInput-input': {fontFamily: 'Kameron',fontSize: 20}}} 
                     required={true} 
                     value={username}
                     id="usernameInput" 
@@ -171,6 +169,7 @@ export default function CreateAccountCard({setComponentDisplayed}) {
                         type={passwordHidden ? 'password' : 'text'}
                         value={newPassword}
                         onChange={(e) => setNewPasswordSafely(e.target.value)}
+                        sx={{'& .MuiInput-input': {fontFamily: 'Kameron',fontSize: 20}}}
                         endAdornment={
                         <InputAdornment position="end">
                             <IconButton
@@ -194,6 +193,7 @@ export default function CreateAccountCard({setComponentDisplayed}) {
                         type={confirmPasswordHidden ? 'password' : 'text'}
                         value={confirmPassword}
                         onChange={(e) => setConfirmPasswordSafely(e.target.value)}
+                        sx={{'& .MuiInput-input': {fontFamily: 'Kameron',fontSize: 20}}}
                         endAdornment={
                         <InputAdornment position="end">
                             <IconButton
@@ -209,10 +209,14 @@ export default function CreateAccountCard({setComponentDisplayed}) {
                     />
                 </FormControl>
                 {confirmPasswordInvalid.invalid && <p>{confirmPasswordInvalid.message}</p>}
-                <Button sx={{borderRadius: '10px', color: 'white'}} variant="contained" onClick={createAccount}>Create Account</Button>
+                <Button sx={{backgroundColor: 'black', 
+                        color: 'white', 
+                        borderRadius: '0px',
+                        fontFamily: 'Koulen',
+                        fontSize: 16}} variant="contained" onClick={createAccount}>Create Account</Button>
             </>) : (<>
                 <TextField 
-                    sx={{backgroundColor: 'white'}} 
+                    sx={{ '& .MuiInput-input': {fontFamily: 'Kameron',fontSize: 20}}} 
                     required={true} 
                     value={confirmationCode}
                     id="verifCodeInput" 
@@ -220,9 +224,16 @@ export default function CreateAccountCard({setComponentDisplayed}) {
                     label="Confirmation Code" 
                     variant="standard" 
                 />
-                <Button sx={{borderRadius: '10px', color: 'white'}} variant="contained" onClick={verifyCode}>Send Code</Button>
+                <Button sx={{backgroundColor: 'black', 
+                        color: 'white', 
+                        borderRadius: '0px',
+                        fontFamily: 'Koulen',
+                        fontSize: 16}} variant="contained" onClick={verifyCode}>Send Code</Button>
             </>)
             }
+            <div className='alternateActions'>
+                <button className='goBack' onClick={() => goBack()}>Go Back</button>
+            </div>
             </Stack>
             </div>
     )

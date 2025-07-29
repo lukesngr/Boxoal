@@ -41,7 +41,7 @@ export default function SignInCard({setComponentDisplayed}) {
             <form onSubmit={login}>
                 <Stack spacing={1}>
                     <TextField 
-                        sx={{backgroundColor: 'white'}} 
+                        sx={{backgroundColor: 'white', '& .MuiInput-input': {fontFamily: 'Kameron',fontSize: 20}}} 
                         required={true} 
                         value={username}
                         id="usernameInput" 
