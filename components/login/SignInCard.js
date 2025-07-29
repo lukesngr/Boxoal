@@ -8,6 +8,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 import { signIn } from 'aws-amplify/auth';
 import { useDispatch } from 'react-redux';
+import Image from 'next/image';
 
 export default function SignInCard({setComponentDisplayed}) {
     const dispatch = useDispatch();
@@ -34,7 +35,8 @@ export default function SignInCard({setComponentDisplayed}) {
     <>
         
         <div className="signInCard">
-            <h1>Sign In</h1>
+            <Image src="/icon2.png" className='logo' width={80} height={75} alt="BoxAlc Icon" priority></Image>
+            <h1 className='dialogTitle'>Sign In</h1>
             <form onSubmit={login}>
                 <Stack spacing={1}>
                     <TextField 
