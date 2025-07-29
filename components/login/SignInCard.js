@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import { signIn } from 'aws-amplify/auth';
 import { useDispatch } from 'react-redux';
 import Image from 'next/image';
+import { muiInputStyle } from '@/modules/muiStyles';
 
 export default function SignInCard({setComponentDisplayed}) {
     const dispatch = useDispatch();
@@ -55,6 +56,7 @@ export default function SignInCard({setComponentDisplayed}) {
                             type={showPassword ? 'text' : 'password'}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            sx={{'& .MuiInput-input': {fontFamily: 'Kameron',fontSize: 20}}}
                             endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
@@ -69,7 +71,11 @@ export default function SignInCard({setComponentDisplayed}) {
                             }
                         />
                     </FormControl>
-                    <Button className='loginButton' sx={{borderRadius: '10px', color: 'white'}} variant="contained" type="submit" onClick={login}>Sign In</Button>
+                    <Button className='loginButton' sx={{backgroundColor: 'black', 
+                        color: 'white', 
+                        borderRadius: '0px',
+                        fontFamily: 'Koulen',
+                        fontSize: 16}} variant="contained" type="submit" onClick={login}>Sign In</Button>
                     <div className='alternateActions'>
                         <button className='forgetPasswordButton' onClick={() => setComponentDisplayed('forgotPassword')}>Forgot Password</button>
                         <button className='createAccountButton' onClick={() => setComponentDisplayed('createAccount')}>Create Account</button>
