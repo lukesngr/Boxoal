@@ -8,36 +8,41 @@
 .animatedText h1 {
     color: white;
     overflow: hidden;
-    border-right: .15em solid black;
     white-space: nowrap;
     margin: 0 auto;
     letter-spacing: .15em;
     font-family: 'BlueScreen';
+    border-right: .15em solid black;
 }
 
 .animatedText h1.firstLine {
-    animation: typing 5s steps(100, end), blink-caret .75s step-end;
+    animation: typing 5s steps(100, end), blink-caret .75s step-end infinite;
     animation-delay: 0s;
+    animation-iteration-count: 1, 7;
+    animation-fill-mode: forwards;
 }
 
 .animatedText h1.secondLine {
-    animation: typing 5s steps(100, end), blink-caret .75s step-end;
+    animation: typing 5s steps(100, end), blink-caret .75s step-end infinite;
     animation-delay: 2s;
     animation-fill-mode: forwards;
+    animation-iteration-count: 1, 7;
     width: 0%;
 }
 
 .animatedText h1.thirdLine {
-    animation: typing 5s steps(100, end), blink-caret .75s step-end;
+    animation: typing 5s steps(100, end), blink-caret .75s step-end infinite;
     animation-delay: 4s;
     animation-fill-mode: forwards;
+    animation-iteration-count: 1, 7;
     width: 0%;
 }
 
 .animatedText h1.fourthLine {
-    animation: typing 5s steps(100, end), blink-caret .75s step-end;
+    animation: typing 5s steps(100, end), blink-caret .75s step-end infinite;
     animation-delay: 6s;
     animation-fill-mode: forwards;
+    animation-iteration-count: 1, 7;
     width: 0%;
 }
 
@@ -55,7 +60,7 @@
   
 @keyframes blink-caret {
     from, to { border-color: transparent }
-    50% { border-color: 'black'; }
+    50% { border-color: black; }
 }
 
 .signInButton {

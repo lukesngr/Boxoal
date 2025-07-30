@@ -13,7 +13,7 @@ export default function LandingPage(props) {
         <h1 className="secondLine">Second Work </h1>
         <h1 className="thirdLine">For</h1>
         <h1 className="fourthLine">Your Dreams</h1>
-        <Button className="signInButton" onClick={() => setComponentDisplayed('signIn')}>Join Us</Button>
+        <Button className="signInButton" onClick={() => setComponentDisplayed('signIn')}>Get Started Timeboxing</Button>
     </div>
     )
 }
