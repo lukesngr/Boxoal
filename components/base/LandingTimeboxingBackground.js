@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 
-export function TimeboxingBackground(props) {
+export function LandingTimeboxingBackground(props) {
     let listOfColors = ["#606EFE", "#3AFFB0", "#DC5EFB", "#86FB80", "#AF79FB", "#7BFF59", "#639D5E", "#4AF9FF"];
     const todoActions = [
     "Buy groceries",
