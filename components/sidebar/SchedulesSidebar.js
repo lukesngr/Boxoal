@@ -51,8 +51,8 @@ export default function SchedulesSidebar(props) {
             <div className={isSideBarMobile ? ("mobileSideBar") : ("col-2")} 
             id={expanded ? ('animateToAppear') : ('animateToDisappear')}>
                 <div className="schedulesSidebar">
-                    <h1 className="sidebarHeading">{schedule.title} 
-                        
+                    <span className="sidebarHeading">{schedule.title}</span>
+                    <div className="scheduleButtons">
                         <IconButton onClick={() => dispatch({type: 'expanded/set', payload: !expanded})} className='minimizeButton'>
                             <ArrowLeftIcon></ArrowLeftIcon>
                         </IconButton>
@@ -65,7 +65,7 @@ export default function SchedulesSidebar(props) {
                         <IconButton onClick={() => setUpdateScheduleDialogOpen(true)} className='updateScheduleFormOpen minimizeButton'>
                             <SettingsIcon></SettingsIcon>
                         </IconButton>
-                        </h1>
+                    </div>
 
                     {schedule.goals.map((goal, index) => (<GoalAccordion key={index} goal={goal}></GoalAccordion>))}
                     <Button variant="contained"  disableElevation className="openCreateGoalForm"
