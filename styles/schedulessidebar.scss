@@ -10,12 +10,12 @@
 }
 
 .sidebarHeading {
-    font-size: 1em;
+    font-size: 1.2em;
     max-width: calc((100% - 120px)); 
     overflow-wrap: break-word; 
     display: inline-block;
     font-family: 'Lato', sans-serif;
-    color: black;
+    color: white;
     padding: 5px 0px 5px 10px;
     margin-bottom: 0;
 }
@@ -74,6 +74,7 @@
 
 .minimizeButton {
     float: right;
+    
 }
 
 .expandButton {
@@ -175,7 +176,7 @@
 }
 
 .goalAccordion {
-    background-color: rgb(166 126 211);
+    background-color: rgb(22, 145, 161);
     border-top: 1px solid rgba(0, 0, 0, 0.54);
     min-height: 34px;
 }
@@ -193,19 +194,21 @@
 
 .goalTitle {
     margin-left: 10px;
-    max-width: calc((100% - 78px));
+    max-width: calc(100% - 78px);
     overflow-wrap: break-word; 
     display: inline-block;
+    color: white;
 }
 
 .timeboxListItem {
-    background-color: rgb(166 126 211);
+    background-color: rgb(34, 35, 119);
     border-top: 1px solid rgba(0, 0, 0, 0.54);
     min-height: 34px;
 }
 
 .timeboxListItemTitle {
-    max-width: calc((100% - 141px)* 0.96 + 2.8em); 
+    color: white;
+    max-width: calc(100% - 64px); 
     overflow-wrap: break-word; 
     display: inline-block;
     margin-left: 60px;

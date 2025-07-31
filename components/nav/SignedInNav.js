@@ -87,7 +87,7 @@ export default function SignedInNav({username}) {
                     sx={{ display: { xs: 'block', md: 'none' } }}
                     >
                         <MenuItem key={"Timeboxes"} onClick={handleCloseNavMenu}>
-                            <Link style={{color: 'black', textDecoration: 'none'}} href="/myschedules"><Typography sx={{ textAlign: 'center' }}>Timeboxes</Typography></Link>
+                            <Link style={{color: 'white', textDecoration: 'none'}} href="/myschedules"><Typography sx={{ textAlign: 'center' }}>Timeboxes</Typography></Link>
                         </MenuItem>
                     </Menu>
             
@@ -96,7 +96,7 @@ export default function SignedInNav({username}) {
                     <Button
                         key={"Timeboxes"}
                         onClick={handleCloseNavMenu}
-                        sx={{ my: 2, color: 'black', display: 'block', '&:hover': {color: 'white'},}}
+                        sx={{ my: 2, color: 'white', display: 'block', '&:hover': {color: 'white'},}}
                         href="/myschedules"
                     >
                         Timeboxes
@@ -104,7 +104,7 @@ export default function SignedInNav({username}) {
                 </Box>
                 <Box sx={{ ml: 'auto', flexGrow: 0 }}>
                     <Tooltip title="Open settings">
-                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'black', '&:hover': {color: 'white'}, }}>
+                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white', '&:hover': {color: 'white'}, }}>
                                 <AccountCircleIcon  fontSize='large'/>
                                 <Typography sx={{ml: 1}}>{username}</Typography>
                                 {!userMenuShown && <ArrowDropDownIcon fontSize='medium'/>}
