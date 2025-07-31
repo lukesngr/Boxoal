@@ -7,6 +7,7 @@ import Alert from "@/components/base/Alert";
 import Dashboard from "@/components/Dashboard";
 import { getCurrentUser } from "@aws-amplify/auth";
 import * as Sentry from "@sentry/nextjs";
+import { TimeboxingBackground } from "@/components/base/TimeboxingBackground";
 
 export default function Home() {
 
@@ -20,6 +21,7 @@ export default function Home() {
             Sentry.captureException(error)
         }
     }
+    
     useEffect(()=> {
         getLoginInfo();
     }, []);
@@ -29,11 +31,14 @@ export default function Home() {
     }else {
         return (
             <>
-                <Alert />
+                
+                <TimeboxingBackground user={user}>
                 {componentDisplayed == "landing" && <LandingPage setComponentDisplayed={setComponentDisplayed} />}
                 {componentDisplayed == "signIn" && <SignInCard setComponentDisplayed={setComponentDisplayed} />}
                 {componentDisplayed == "createAccount" && <CreateAccountCard setComponentDisplayed={setComponentDisplayed} />}
                 {componentDisplayed == "forgotPassword" && <ForgotPasswordCard setComponentDisplayed={setComponentDisplayed} />}
+                </TimeboxingBackground>
+                <Alert />
         </>)
     }
 }

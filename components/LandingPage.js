@@ -2,13 +2,12 @@ import "../styles/homecard.scss";
 import localFont from 'next/font/local'
 import Button from '@mui/material/Button';
 import Image from 'next/image';
-import { TimeboxingBackground } from "./base/TimeboxingBackground";
+
 const glitchFont = localFont({src: '../public/BlueScreen.ttf'});
 
 export default function LandingPage(props) {
     const {setComponentDisplayed} = props;
     return (
-        <TimeboxingBackground>
             <div className="signInCard animatedText">
                 <Image src="/icon2.png" className='logo' width={80} height={75} alt="BoxAlc Icon" priority></Image>
                 <h1 className="firstLine">Make Every</h1>
@@ -17,6 +16,5 @@ export default function LandingPage(props) {
                 <h1 className="fourthLine">Your Dreams</h1>
                 <Button className="signInButton" onClick={() => setComponentDisplayed('signIn')}>Get Started Timeboxing</Button>
             </div>
-        </TimeboxingBackground>
-    )
+        )
 }
