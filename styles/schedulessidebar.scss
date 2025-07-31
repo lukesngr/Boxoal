@@ -10,8 +10,8 @@
 }
 
 .sidebarHeading {
-    font-size: calc(0.4vw + 0.8rem);
-    max-width: calc((100% - 170px)* 0.84 + 2.6em); 
+    font-size: 1em;
+    max-width: calc((100% - 120px)); 
     overflow-wrap: break-word; 
     display: inline-block;
     font-family: 'Lato', sans-serif;
@@ -73,10 +73,7 @@
 }
 
 .minimizeButton {
-    height: 1.5vw;
-    width: auto;
     float: right;
-    padding: 5px;
 }
 
 .expandButton {
