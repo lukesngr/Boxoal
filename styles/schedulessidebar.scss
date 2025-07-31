@@ -11,6 +11,9 @@
 
 .sidebarHeading {
     font-size: calc(0.4vw + 0.8rem);
+    max-width: calc((100% - 170px)* 0.84 + 2.6em); 
+    overflow-wrap: break-word; 
+    display: inline-block;
     font-family: 'Lato', sans-serif;
     color: black;
     padding: 5px 0px 5px 10px;
