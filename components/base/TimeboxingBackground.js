@@ -112,25 +112,30 @@ export function TimeboxingBackground(props) {
     ];
     const [forShowTimeboxes, setForShowTimeboxes] = useState([]);
     useEffect(() => {
-        let arrayOfArrayOfTimeboxes = [];
-        let windowHeight = window.innerHeight;
-        let windowWidth = window.innerWidth;
-        let amountOfTimeboxesNeededForVertical = Math.ceil(windowHeight / 50);
-        let amountOfTimeboxesNeededForHorizontal = Math.ceil(windowWidth / 200);
-        for (let i = 0; i < amountOfTimeboxesNeededForHorizontal; i++) {
-            let arrayOfTimeboxes = [];
-            for (let j = 0; j < amountOfTimeboxesNeededForVertical; j++) {
-                let randomTitle = todoActions[Math.floor(Math.random() * 100)];
-                let randomColor = listOfColors[Math.floor(Math.random() * (listOfColors.length-1))];
-                if(Math.random() < 0.1) {
-                    randomTitle = "";
-                    randomColor = "white";
+        function generateForShowTimeboxes() {
+            let arrayOfArrayOfTimeboxes = [];
+            let windowHeight = window.innerHeight;
+            let windowWidth = window.innerWidth;
+            let amountOfTimeboxesNeededForVertical = Math.ceil(windowHeight / 50);
+            let amountOfTimeboxesNeededForHorizontal = Math.ceil(windowWidth / 200);
+            for (let i = 0; i < amountOfTimeboxesNeededForHorizontal; i++) {
+                let arrayOfTimeboxes = [];
+                for (let j = 0; j < amountOfTimeboxesNeededForVertical; j++) {
+                    let randomTitle = todoActions[Math.floor(Math.random() * 100)];
+                    let randomColor = listOfColors[Math.floor(Math.random() * (listOfColors.length-1))];
+                    if(Math.random() < 0.1) {
+                        randomTitle = "";
+                        randomColor = "white";
+                    }
+                    arrayOfTimeboxes.push({title: randomTitle, color: randomColor});
                 }
-                arrayOfTimeboxes.push({title: randomTitle, color: randomColor});
+                arrayOfArrayOfTimeboxes.push(arrayOfTimeboxes);
             }
-            arrayOfArrayOfTimeboxes.push(arrayOfTimeboxes);
+            setForShowTimeboxes(arrayOfArrayOfTimeboxes);
         }
-        setForShowTimeboxes(arrayOfArrayOfTimeboxes);
+
+        window.addEventListener('resize', generateForShowTimeboxes);
+        return () => window.removeEventListener('resize', generateForShowTimeboxes);
     }, []);
     let randomTitle = todoActions[Math.floor(Math.random() * 100)];
     let randomColor = listOfColors[Math.floor(Math.random() * (listOfColors.length-1))];
