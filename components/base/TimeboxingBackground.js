@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useEffect } from "react";
+
 export function TimeboxingBackground(props) {
     let listOfColors = ["#606EFE", "#3AFFB0", "#DC5EFB", "#86FB80", "#AF79FB", "#7BFF59", "#639D5E", "#4AF9FF"];
     const todoActions = [
@@ -107,7 +110,42 @@ export function TimeboxingBackground(props) {
     "Check cholesterol",
     "Research options"
     ];
+    const [forShowTimeboxes, setForShowTimeboxes] = useState([]);
+    useEffect(() => {
+        let arrayOfArrayOfTimeboxes = [];
+        let windowHeight = window.innerHeight;
+        let windowWidth = window.innerWidth;
+        let amountOfTimeboxesNeededForVertical = Math.ceil(windowHeight / 50);
+        let amountOfTimeboxesNeededForHorizontal = Math.ceil(windowWidth / 200);
+        for (let i = 0; i < amountOfTimeboxesNeededForHorizontal; i++) {
+            let arrayOfTimeboxes = [];
+            for (let j = 0; j < amountOfTimeboxesNeededForVertical; j++) {
+                let randomTitle = todoActions[Math.floor(Math.random() * 100)];
+                let randomColor = listOfColors[Math.floor(Math.random() * (listOfColors.length-1))];
+                if(Math.random() < 0.1) {
+                    randomTitle = "";
+                    randomColor = "white";
+                }
+                arrayOfTimeboxes.push({title: randomTitle, color: randomColor});
+            }
+            arrayOfArrayOfTimeboxes.push(arrayOfTimeboxes);
+        }
+        setForShowTimeboxes(arrayOfArrayOfTimeboxes);
+    }, []);
     let randomTitle = todoActions[Math.floor(Math.random() * 100)];
     let randomColor = listOfColors[Math.floor(Math.random() * (listOfColors.length-1))];
-    return <div style={{backgroundColor: randomColor}} className="timeboxForShow">{randomTitle}</div>
+    <div style={{backgroundColor: randomColor}} className="timeboxForShow">{randomTitle}</div>
+    return (
+    <div className="timeboxingBackground">
+            <div className="timeboxingColumns">
+                {forShowTimeboxes.map((arrayOfTimeboxes, index) => (
+                    <div key={index} className="timeboxingColumn">
+                        {arrayOfTimeboxes.map((timebox, index2) => (
+                            <div key={index2} className="timeboxForShow" style={{backgroundColor: timebox.color}}>{timebox.title}</div>
+                        ))}
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
 }
