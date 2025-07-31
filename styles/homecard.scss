@@ -114,6 +114,8 @@
     overflow: hidden;
     filter: blur(8px);
     position: absolute;
+    top: 0;
+    left: 0;
 }
 
 body:has(.timeboxingBackground) {
