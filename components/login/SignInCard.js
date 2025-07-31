@@ -22,6 +22,7 @@ export default function SignInCard({setComponentDisplayed}) {
         if(username !="" && password != ""){
             try {
                 await signIn({username, password});
+                window.location.reload();
             } catch (error) {
                 dispatch({type: 'alert/set', payload: {open: true, title: "Error", message: error.message}});
             }
