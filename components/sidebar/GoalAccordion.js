@@ -4,6 +4,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { useState } from 'react';
 import EditGoalForm from '../goal/EditGoalForm';
 import TimeboxAsListItem from '../timebox/TimeboxAsListItem';
+import dayjs from 'dayjs';
 
 export default function GoalAccordion(props) {
     const [timeboxesListShown, setTimeboxesListShown] = useState(false);
@@ -14,7 +15,7 @@ export default function GoalAccordion(props) {
     <>  
         <EditGoalForm visible={goalShown} close={() => setGoalShown(false)} data={props.goal}></EditGoalForm>
         <div className="goalAccordion" >      
-            <span className='goalTitle'>{props.goal.title}</span>
+            <span className='goalTitle'>{props.goal.title} by {dayjs(props.goal.targetDate).format('D/M')}</span>
             <IconButton style={{float: 'inline-end', padding: '5px'}} onClick={() => setTimeboxesListShown(!timeboxesListShown)}>
                 <ExpandMoreIcon></ExpandMoreIcon>
             </IconButton>
