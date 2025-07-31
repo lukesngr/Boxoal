@@ -1,15 +1,12 @@
-import { useState, useRef, useEffect } from 'react';
 import { Paper } from '@mui/material';
 import '../../styles/statistics.scss';
 import dayjs from 'dayjs';
-import { differenceInDates } from '@/modules/dateCode';
 import { useGoalToGetPoints } from '@/hooks/useGoalToGetPoints';
 
 export function GoalLineGraph({goalData}) {
     
     const {pointsArray, linesArray, yAxisLabels, xAxisLabels} = useGoalToGetPoints(goalData);
-    console.log(goalData);
-    let goalTitle = `${goalData.title} by ${dayjs(goalData.targetDate).format('D/M')}`;
+    const goalTitle = `${goalData.title} by ${dayjs(goalData.targetDate).format('D/M')}`;
     return (
      <Paper sx={{backgroundColor: '#875F9A', marginTop: 2, paddingLeft: '2%', paddingRight: '5.46%', paddingTop: '13.36%', paddingBottom : '4.67%' }} className="statPaper" elevation={4} square>
         <div className="goal-statistics" style={{width: '100%'}}>

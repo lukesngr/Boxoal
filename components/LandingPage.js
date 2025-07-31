@@ -1,9 +1,6 @@
 import "../styles/homecard.scss";
-import localFont from 'next/font/local'
 import Button from '@mui/material/Button';
 import Image from 'next/image';
-
-const glitchFont = localFont({src: '../public/BlueScreen.ttf'});
 
 export default function LandingPage(props) {
     const {setComponentDisplayed} = props;

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 export function LandingTimeboxingBackground(props) {
-    let listOfColors = ["#606EFE", "#3AFFB0", "#DC5EFB", "#86FB80", "#AF79FB", "#7BFF59", "#639D5E", "#4AF9FF"];
+    const listOfColors = ["#606EFE", "#3AFFB0", "#DC5EFB", "#86FB80", "#AF79FB", "#7BFF59", "#639D5E", "#4AF9FF"];
     const todoActions = [
     "Buy groceries",
     "Schedule appointment",
@@ -113,16 +113,16 @@ export function LandingTimeboxingBackground(props) {
     const [forShowTimeboxes, setForShowTimeboxes] = useState([]);
     useEffect(() => {
         function generateForShowTimeboxes() {
-            let arrayOfArrayOfTimeboxes = [];
-            let windowHeight = window.innerHeight;
-            let windowWidth = window.innerWidth;
-            let amountOfTimeboxesNeededForVertical = Math.ceil(windowHeight / 50);
-            let amountOfTimeboxesNeededForHorizontal = Math.ceil(windowWidth / 200);
+            const arrayOfArrayOfTimeboxes = [];
+            const windowHeight = window.innerHeight;
+            const windowWidth = window.innerWidth;
+            const amountOfTimeboxesNeededForVertical = Math.ceil(windowHeight / 50);
+            const amountOfTimeboxesNeededForHorizontal = Math.ceil(windowWidth / 200);
             for (let i = 0; i < amountOfTimeboxesNeededForHorizontal; i++) {
-                let arrayOfTimeboxes = [];
+                const arrayOfTimeboxes = [];
                 for (let j = 0; j < amountOfTimeboxesNeededForVertical; j++) {
-                    let randomTitle = todoActions[Math.floor(Math.random() * 100)];
-                    let randomColor = listOfColors[Math.floor(Math.random() * (listOfColors.length-1))];
+                    const randomTitle = todoActions[Math.floor(Math.random() * 100)];
+                    const randomColor = listOfColors[Math.floor(Math.random() * (listOfColors.length-1))];
                     if(Math.random() < 0.1) {
                         randomTitle = "";
                         randomColor = "white";
@@ -137,10 +137,7 @@ export function LandingTimeboxingBackground(props) {
 
         window.addEventListener('resize', generateForShowTimeboxes);
         return () => window.removeEventListener('resize', generateForShowTimeboxes);
-    }, []);
-    let randomTitle = todoActions[Math.floor(Math.random() * 100)];
-    let randomColor = listOfColors[Math.floor(Math.random() * (listOfColors.length-1))];
-    <div style={{backgroundColor: randomColor}} className="timeboxForShow">{randomTitle}</div>
+    }, [listOfColors, todoActions]);
     return (<>
     <div className="timeboxingBackground">
             <div className="timeboxingColumns">

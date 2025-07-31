@@ -35,7 +35,6 @@ export default function MySchedulesWhenAuthLoaded({user}) {
     if(status === 'success' && data.length == 0) return <Welcome></Welcome>
 
     dataForSchedule = data;
-    console.log(data);
 
     return (<>
         <SignedInNav username={username} />
