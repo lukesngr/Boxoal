@@ -9,7 +9,7 @@ import { getProgressWithGoal } from "@/modules/coreLogic";
 import '../styles/dashboard.scss';
 import {LinearProgress } from "@mui/material";
 import Statistics from "./Statistics";
-import { GoalStatistics } from "./dashboards/GoalStatistics";
+import { GoalLineGraph } from "./dashboards/GoalLineGraph";
 
 export default function Dashboard({user}) {
 
@@ -55,7 +55,7 @@ export default function Dashboard({user}) {
             <h1 className="welcomeTitle">Welcome Back</h1>
             <h1 className="levelTitle">Lvl {goalsCompleted}</h1>
             {dataForSchedule.goals.map((goal, index) => (
-                <GoalStatistics key={index} goalData={goal} />
+                <GoalLineGraph key={index} goalData={goal} />
             ))}
             <LinearProgress variant="determinate" value={averageProgress} />
             <Statistics recordedTimeboxes={dataForSchedule.recordedTimeboxes} timeboxes={dataForSchedule.timeboxes}></Statistics>

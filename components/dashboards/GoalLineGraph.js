@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import { differenceInDates } from '@/modules/dateCode';
 import { useGoalToGetPoints } from '@/hooks/useGoalToGetPoints';
 
-export function GoalStatistics({goalData}) {
+export function GoalLineGraph({goalData}) {
     
     const {pointsArray, linesArray, yAxisLabels, xAxisLabels} = useGoalToGetPoints(goalData);
     console.log(goalData);
