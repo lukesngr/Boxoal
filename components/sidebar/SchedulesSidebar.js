@@ -7,7 +7,6 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { IconButton, Button } from '@mui/material';
 import GoalAccordion from './GoalAccordion';
 import CreateGoalForm from '../form/CreateGoalForm';
-import ParkIcon from '@mui/icons-material/Park';
 import { GoalTree } from '../goal/GoalTree';
 import CreateScheduleForm from '../form/CreateScheduleForm';
 import AddIcon from '@mui/icons-material/Add';
@@ -49,21 +48,18 @@ export default function SchedulesSidebar(props) {
             <div className={isSideBarMobile ? ("mobileSideBar") : ("col-2")} 
             id={expanded ? ('animateToAppear') : ('animateToDisappear')}>
                 <div className="schedulesSidebar">
-                    <h1 className="sidebarHeading">{schedule.title} 
-                        
-                        <IconButton onClick={() => dispatch({type: 'expanded/set', payload: !expanded})} className='minimizeButton'>
+                    <span className="sidebarHeading">{schedule.title}</span>
+                    <div className="scheduleButtons">
+                        <IconButton style={{color: 'white'}} onClick={() => dispatch({type: 'expanded/set', payload: !expanded})} className='minimizeButton'>
                             <ArrowLeftIcon></ArrowLeftIcon>
                         </IconButton>
-                        <IconButton onClick={() => setSkillTreeOpen(true)} className='openSkillTree minimizeButton'>
-                            <ParkIcon></ParkIcon>
-                        </IconButton>
-                        <IconButton onClick={() => setCreateScheduleDialogOpen(true)} className='minimizeButton'>
+                        <IconButton style={{color: 'white'}} onClick={() => setCreateScheduleDialogOpen(true)} className='minimizeButton'>
                             <AddIcon></AddIcon>
                         </IconButton>
-                        <IconButton onClick={() => setUpdateScheduleDialogOpen(true)} className='updateScheduleFormOpen minimizeButton'>
+                        <IconButton style={{color: 'white'}} onClick={() => setUpdateScheduleDialogOpen(true)} className='updateScheduleFormOpen minimizeButton'>
                             <SettingsIcon></SettingsIcon>
                         </IconButton>
-                        </h1>
+                    </div>
 
                     {schedule.goals.map((goal, index) => (<GoalAccordion key={index} goal={goal}></GoalAccordion>))}
                     <Button variant="contained"  disableElevation className="openCreateGoalForm"

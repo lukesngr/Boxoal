@@ -5,10 +5,17 @@
     height: 100%;
 }
 
+.scheduleButtons {
+    float: inline-end;
+}
+
 .sidebarHeading {
-    font-size: calc(0.4vw + 0.8rem);
+    font-size: 1.2em;
+    max-width: calc((100% - 120px)); 
+    overflow-wrap: break-word; 
+    display: inline-block;
     font-family: 'Lato', sans-serif;
-    color: black;
+    color: white;
     padding: 5px 0px 5px 10px;
     margin-bottom: 0;
 }
@@ -66,10 +73,8 @@
 }
 
 .minimizeButton {
-    height: 1.5vw;
-    width: auto;
     float: right;
-    padding: 5px;
+    
 }
 
 .expandButton {
@@ -171,7 +176,7 @@
 }
 
 .goalAccordion {
-    background-color: rgb(166 126 211);
+    background-color: rgb(22, 145, 161);
     border-top: 1px solid rgba(0, 0, 0, 0.54);
     min-height: 34px;
 }
@@ -189,31 +194,21 @@
 
 .goalTitle {
     margin-left: 10px;
-    max-width: calc((100% - 170px)* 0.848 + 2.6em); 
+    max-width: calc(100% - 78px);
     overflow-wrap: break-word; 
     display: inline-block;
-}
-
-@media only screen and (max-width: 1170px) { //max width this application supports is 320px
-    .goalProgressIndicator {
-        display: none;
-    }
-
-    .goalTitle {
-        max-width: calc((100% - 141px)* 0.44 + 4.5em); 
-        overflow-wrap: break-word; 
-        display: inline-block;
-    }
+    color: white;
 }
 
 .timeboxListItem {
-    background-color: rgb(166 126 211);
+    background-color: rgb(34, 35, 119);
     border-top: 1px solid rgba(0, 0, 0, 0.54);
     min-height: 34px;
 }
 
 .timeboxListItemTitle {
-    max-width: calc((100% - 141px)* 0.96 + 2.8em); 
+    color: white;
+    max-width: calc(100% - 64px); 
     overflow-wrap: break-word; 
     display: inline-block;
     margin-left: 60px;

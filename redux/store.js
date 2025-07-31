@@ -15,7 +15,6 @@ import modalVisibleReducer from './modalVisible'
 import expandedReducer from './expanded'
 import alertReducer from './alert'
 
-
 const rootReducer = combineReducers({
   profile: profileReducer,
   overlayDimensions: overlayDimensionsReducer,

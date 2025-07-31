@@ -5,7 +5,7 @@
 }
 
 .signInCard {
-    background-color: #D9D9D9;
+    background-color: #875F9A;
     padding: 2%;
     width: fit-content;
     margin-left: auto;
@@ -13,14 +13,31 @@
     margin: auto;
     height: fit-content;
     margin-top: 10%;
-    border-radius: 15px;
     border: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.signInCard .logo {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10%;
+    display: block;
+}
+
+.signInCard .dialogTitle {
+    font-family: 'Koulen' !important;
+    font-size: 1.7em !important;
+    color: white;
 }
 
 .alternateActions button {
     border: 0;
-    font-family: 'Roboto', sans-serif;
-    background-color: #D9D9D9;
+    font-family: Kameron, sans-serif;
+    background-color: #875F9A;
+    margin-top: 5%;
+    font-size: 1em;
+    color: white;
 }
 
 .forgetPasswordButton {
@@ -30,4 +47,10 @@
 .passwordErrorMessage {
     width: 36ch;
     word-wrap: break-word;
+}
+
+.goBack {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

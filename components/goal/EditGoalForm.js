@@ -12,18 +12,22 @@ import Button from '@mui/material/Button';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { muiActionButton, muiDatePicker, muiInputStyle, muiNonActionButton, muiToggleButtonStyle } from "../../modules/muiStyles";
+import { muiActionButton, muiDatePicker, muiInputStyle, muiNonActionButton, muiToggleButtonStyle, muiFormControlStyle } from "../../modules/muiStyles";
 import styles from '@/styles/muiStyles.js';
 import { useMutation } from 'react-query';
 import { useSelector, useDispatch } from 'react-redux';
 import { ToggleButtonGroup, ToggleButton } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 export default function EditGoalForm(props) {
     const dispatch = useDispatch();
     const [title, setTitle] = useState(props.data.title);
+    const [metric, setMetric] = useState(props.data.metric);
+    const [hasMetric, setHasMetric] = useState(props.data.metric === null ? (false) : (true));
     const [targetDate, setTargetDate] = useState(dayjs(props.data.targetDate));
     const [completed, setCompleted] = useState(props.data.completed);
     const {scheduleIndex} = useSelector(state => state.profile.value);
+    const [onLogMetricView, setOnLogMetricView] = useState(false);
 
     const updateGoalMutation = useMutation({
         mutationFn: (goalData) => axios.put('/api/updateGoal', goalData),
@@ -66,6 +70,10 @@ export default function EditGoalForm(props) {
             completedOn: new Date().toISOString(),
             active: !completed
         }
+
+        if(hasMetric) {
+            goalData.metric = Number(metric);
+        }
         
         updateGoalMutation.mutate(goalData);
 
@@ -97,6 +105,44 @@ export default function EditGoalForm(props) {
         })
     }
 
+     function close() {
+        if(onLogMetricView) {
+            setOnLogMetricView(false);
+            setMetric(props.data.metric);
+        }else {
+            props.close();
+        }
+    }
+
+    function logMetric() {
+        if(onLogMetricView) {
+            const data = {
+                date: new Date().toISOString(),
+                metric: Number(metric),
+                goal: {
+                    connect: {
+                        id: props.data.id
+                    }
+                }
+            }
+
+            axios.post('/api/logMetric', data)
+            .then(async () => {
+                close();
+                dispatch({type: 'alert/set', payload: { open: true, title: "Goal", message: "Logged metric!" }});
+                await queryClient.refetchQueries();
+            })
+            .catch(function() {
+                close();
+                dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
+            });
+        }else {
+            setOnLogMetricView(true);
+        }
+    }
+
+   
+
     return (
         <>
             <Dialog
@@ -104,9 +150,19 @@ export default function EditGoalForm(props) {
                 onClose={props.close}
                 PaperProps={styles.paperProps}
             >
-                <DialogTitle sx={{ color: 'white' }} className='dialogTitle'>Edit Goal</DialogTitle>
+                <DialogTitle sx={{ color: 'white' }} className='dialogTitle'>{onLogMetricView ? ("Log Metric") : ("Edit Goal")}</DialogTitle>
                 <DialogContent>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
+                        {onLogMetricView ? (
+                            <TextField
+                                label="Metric Value"
+                                type="number"
+                                value={metric}
+                                onChange={(e) => setMetric(e.target.value)}
+                                variant="standard"
+                                sx={muiInputStyle}
+                            />
+                         ) : (<>
                         <ToggleButtonGroup
                             color="primary"
                             value={completed}
@@ -139,9 +195,42 @@ export default function EditGoalForm(props) {
                                 />
                             </div>
                         </LocalizationProvider>
-                    </div>
+                        <FormControl variant="standard" sx={muiFormControlStyle}>
+                            <InputLabel>Metric</InputLabel>
+                            <Select
+                                value={hasMetric}
+                                onChange={(e) => setHasMetric(e.target.value)}
+                                sx={muiInputStyle}
+                                className="openMetric"
+                            >
+                                <MenuItem value={false}>No</MenuItem>
+                                <MenuItem className="turnMetricOn" value={true}>Yes</MenuItem>
+                            </Select>
+                        </FormControl>
+
+                        {hasMetric && (<>
+                                <TextField
+                                    label="Metric Value"
+                                    type="number"
+                                    value={metric}
+                                    onChange={(e) => setMetric(e.target.value)}
+                                    variant="standard"
+                                    sx={muiInputStyle}
+                                />
+                            </>)}
+                        </>)}
+                    </div>                    
                 </DialogContent>
                 <DialogActions>
+                    <Button
+                        onClick={logMetric}
+                        variant="contained"
+                        sx={muiActionButton}
+                        className='updateGoalButton'
+                    >
+                        Log Metric
+                    </Button>
+                    {!onLogMetricView && (<>
                     <Button
                         onClick={updateGoal}
                         variant="contained"
@@ -150,6 +239,7 @@ export default function EditGoalForm(props) {
                     >
                         Update
                     </Button>
+                    
                     <Button 
                         onClick={deleteGoal} 
                         sx={muiNonActionButton}
@@ -157,7 +247,8 @@ export default function EditGoalForm(props) {
                     >
                         Delete
                     </Button>
-                    <Button onClick={props.close} sx={muiNonActionButton}>
+                    </>)}
+                    <Button onClick={close} sx={muiNonActionButton}>
                         Close
                     </Button>
                 </DialogActions>

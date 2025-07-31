@@ -31,6 +31,13 @@ export default async function handler(req, res) {
             active: true,
             partOfLine: true,
             objectUUID: true,
+            metric: true,
+            loggingsOfMetric: {
+              select: {
+                date: true,
+                metric: true,
+              }
+            },
             timeboxes: {
               orderBy: {
                 startTime: 'asc'

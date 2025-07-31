@@ -8,6 +8,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 import { signIn } from 'aws-amplify/auth';
 import { useDispatch } from 'react-redux';
+import Image from 'next/image';
 
 export default function SignInCard({setComponentDisplayed}) {
     const dispatch = useDispatch();
@@ -20,6 +21,7 @@ export default function SignInCard({setComponentDisplayed}) {
         if(username !="" && password != ""){
             try {
                 await signIn({username, password});
+                window.location.reload();
             } catch (error) {
                 dispatch({type: 'alert/set', payload: {open: true, title: "Error", message: error.message}});
             }
@@ -34,11 +36,12 @@ export default function SignInCard({setComponentDisplayed}) {
     <>
         
         <div className="signInCard">
-            <h1>Sign In</h1>
+            <Image src="/icon2.png" className='logo' width={80} height={75} alt="BoxAlc Icon" priority></Image>
+            <h1 className='dialogTitle'>Sign In</h1>
             <form onSubmit={login}>
                 <Stack spacing={1}>
                     <TextField 
-                        sx={{backgroundColor: 'white'}} 
+                        sx={{backgroundColor: 'white', '& .MuiInput-input': {fontFamily: 'Kameron',fontSize: 20}}} 
                         required={true} 
                         value={username}
                         id="usernameInput" 
@@ -53,6 +56,7 @@ export default function SignInCard({setComponentDisplayed}) {
                             type={showPassword ? 'text' : 'password'}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            sx={{'& .MuiInput-input': {fontFamily: 'Kameron',fontSize: 20}}}
                             endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
@@ -67,7 +71,11 @@ export default function SignInCard({setComponentDisplayed}) {
                             }
                         />
                     </FormControl>
-                    <Button className='loginButton' sx={{borderRadius: '10px', color: 'white'}} variant="contained" type="submit" onClick={login}>Sign In</Button>
+                    <Button className='loginButton' sx={{backgroundColor: 'black', 
+                        color: 'white', 
+                        borderRadius: '0px',
+                        fontFamily: 'Koulen',
+                        fontSize: 16}} variant="contained" type="submit" onClick={login}>Sign In</Button>
                     <div className='alternateActions'>
                         <button className='forgetPasswordButton' onClick={() => setComponentDisplayed('forgotPassword')}>Forgot Password</button>
                         <button className='createAccountButton' onClick={() => setComponentDisplayed('createAccount')}>Create Account</button>

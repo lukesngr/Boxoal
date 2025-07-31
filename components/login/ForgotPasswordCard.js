@@ -7,8 +7,8 @@ import {Visibility, VisibilityOff} from '@mui/icons-material';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
-import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { useDispatch } from 'react-redux';
+import Image from 'next/image';
 
 export default function ForgotPasswordCard({setComponentDisplayed}) {
     const dispatch = useDispatch();
@@ -99,15 +99,12 @@ export default function ForgotPasswordCard({setComponentDisplayed}) {
 
     return (
         <div className="signInCard">
-            <h1>Reset Password 
-                <IconButton onClick={() => goBack()}>
-                    <ArrowLeftIcon sx={{ color: 'black', fontSize: 30 }}></ArrowLeftIcon>
-                </IconButton>
-            </h1>
+            <Image src="/icon2.png" className='logo' width={80} height={75} alt="BoxAlc Icon" priority></Image>
+            <h1 className='dialogTitle'>Reset Password </h1>
             <Stack spacing={1}>
             {codeSent ? ( <>
                 <TextField 
-                    sx={{backgroundColor: 'white'}} 
+                    sx={{backgroundColor: 'white', '& .MuiInput-input': {fontFamily: 'Kameron',fontSize: 20}}} 
                     required={true} 
                     value={confirmationCode}
                     id="verifCodeInput" 
@@ -121,6 +118,7 @@ export default function ForgotPasswordCard({setComponentDisplayed}) {
                         id="passwordInput"
                         type={passwordHidden ? 'password' : 'text'}
                         value={newPassword}
+                        sx={{'& .MuiInput-input': {fontFamily: 'Kameron',fontSize: 20}}}
                         onChange={(e) => setNewPasswordSafely(e.target.value)}
                         endAdornment={
                         <InputAdornment position="end">
@@ -144,6 +142,7 @@ export default function ForgotPasswordCard({setComponentDisplayed}) {
                         id="confirmPasswordInput"
                         type={confirmPasswordHidden ? 'password' : 'text'}
                         value={confirmPassword}
+                        sx={{'& .MuiInput-input': {fontFamily: 'Kameron',fontSize: 20}}}
                         onChange={(e) => setConfirmPasswordSafely(e.target.value)}
                         endAdornment={
                         <InputAdornment position="end">
@@ -160,20 +159,31 @@ export default function ForgotPasswordCard({setComponentDisplayed}) {
                     />
                 </FormControl>
                 {confirmPasswordInvalid.invalid && <p>{confirmPasswordInvalid.message}</p>}
-                <Button sx={{borderRadius: '10px', color: 'white'}} variant="contained" onClick={confirmAndSetPassword}>Reset Password</Button>
+                <Button sx={{backgroundColor: 'black', 
+                        color: 'white', 
+                        borderRadius: '0px',
+                        fontFamily: 'Koulen',
+                        fontSize: 16}} variant="contained" onClick={confirmAndSetPassword}>Reset Password</Button>
             </>) : (<>
                 <TextField 
-                    sx={{backgroundColor: 'white'}} 
+                    sx={{backgroundColor: 'white', '& .MuiInput-input': {fontFamily: 'Kameron',fontSize: 20}}} 
                     required={true} 
                     value={username}
                     id="usernameInput" 
                     onChange={(e) => setUsername(e.target.value)} 
                     label="Username" 
                     variant="standard" />
-                <Button sx={{borderRadius: '10px', color: 'white'}} variant="contained" onClick={sendCode}>Send Code To SMS/Email</Button>
+                <Button sx={{backgroundColor: 'black', 
+                        color: 'white', 
+                        borderRadius: '0px',
+                        fontFamily: 'Koulen',
+                        fontSize: 16}} variant="contained" onClick={sendCode}>Send Code To SMS/Email</Button>
             </>)
             }
             </Stack>
+            <div className='alternateActions'>
+                <button className='goBack' onClick={() => goBack()}>Go Back</button>
+            </div>
             </div>
     )
 }

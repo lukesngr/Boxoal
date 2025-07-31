@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { queryClient } from '../../modules/queryClient.js';
-import { getMaxNumberOfGoals } from '../../modules/coreLogic.js';
-import { muiActionButton, muiDatePicker, muiInputStyle, muiNonActionButton } from "../../modules/muiStyles";
+import { muiActionButton, muiDatePicker, muiInputStyle, muiNonActionButton, muiFormControlStyle } from "../../modules/muiStyles";
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -17,16 +16,23 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import styles from '@/styles/muiStyles';
 import { useMutation } from 'react-query';
 import { useSelector, useDispatch } from 'react-redux';
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 export default function CreateGoalForm(props) {
     const dispatch = useDispatch();
     const [title, setTitle] = useState("");
+    const [metric, setMetric] = useState(0);
+    const [hasMetric, setHasMetric] = useState(false)
     const [targetDate, setTargetDate] = useState(dayjs());
     const {scheduleIndex} = useSelector(state => state.profile.value);
-    const activeGoals = props.goals.filter(item => item.active);
-    const goalsCompleted = props.goals.reduce((count, item) => item.completed ? count + 1 : count, 0);
-    const goalsNotCompleted = activeGoals.length - goalsCompleted;
-    const maxNumberOfGoalsAllowed = getMaxNumberOfGoals(goalsCompleted);
+    const {goalsNotCompleted} = useMemo(() => {
+        const goalsCompleted = props.goals.reduce((count, item) => item.completed ? count + 1 : count, 0);
+        const activeGoals = props.goals.filter(item => item.active);
+        const goalsNotCompleted = activeGoals.length - goalsCompleted;
+        return {goalsNotCompleted};
+    }, [props.goals]);
+    const {goalLimit} = useSelector(state => state.profile.value);
+    
 
     const createGoalMutation = useMutation({
         mutationFn: (goalData) => axios.post('/api/createGoal', goalData),
@@ -75,7 +81,10 @@ export default function CreateGoalForm(props) {
             objectUUID: crypto.randomUUID()
         }
 
-        if (maxNumberOfGoalsAllowed > goalsNotCompleted || !props.active) {
+        if(hasMetric) {
+            goalData.metric = Number(metric);
+        }
+        if (goalLimit > goalsNotCompleted || !props.active) {
             createGoalMutation.mutate(goalData);
         } else {
             dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "Please complete more goals and we will unlock more goal slots for you!" }});
@@ -113,6 +122,30 @@ export default function CreateGoalForm(props) {
                                 />
                             </div>
                         </LocalizationProvider>
+
+                        <FormControl variant="standard" sx={muiFormControlStyle}>
+                            <InputLabel>Metric</InputLabel>
+                            <Select
+                                value={hasMetric}
+                                onChange={(e) => setHasMetric(e.target.value)}
+                                sx={muiInputStyle}
+                                className="openMetric"
+                            >
+                                <MenuItem value={false}>No</MenuItem>
+                                <MenuItem className="turnMetricOn" value={true}>Yes</MenuItem>
+                            </Select>
+                        </FormControl>
+
+                        {hasMetric && (<>
+                                <TextField
+                                    label="Metric Value"
+                                    type="number"
+                                    value={metric}
+                                    onChange={(e) => setMetric(e.target.value)}
+                                    variant="standard"
+                                    sx={muiInputStyle}
+                                />
+                            </>)}
                     </div>
                 </DialogContent>
                 <DialogActions>

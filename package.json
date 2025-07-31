@@ -9,11 +9,6 @@
     "lint": "next lint",
     "lintfix": "next lint --fix",
     "test": "jest",
-    "test:integration": "jest --config=jest.integration.config.js",
-    "test:integration:watch": "jest --config=jest.integration.config.js --watch",
-    "test:integration:coverage": "jest --config=jest.integration.config.js --coverage",
-    "test:unit": "jest --testPathIgnorePatterns=tests/integration",
-    "test:all": "npm run test:unit && npm run test:integration",
     "postinstall": "prisma generate"
   },
   "dependencies": {

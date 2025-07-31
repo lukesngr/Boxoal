@@ -6,10 +6,17 @@ export default function Alert() {
     const alert = useSelector(state => state.alert.value);
     const dispatch = useDispatch();
     return (
-        <Dialog className="errorAlert" open={alert.open} onClose={() => dispatch({type:'alert/set', payload: {open: false, title: "", message: ""}})}>
-            <DialogTitle>{alert.title}</DialogTitle>
+        <Dialog className="errorAlert" open={alert.open} onClose={() => dispatch({type:'alert/set', payload: {open: false, title: "", message: ""}})}
+            PaperProps={{
+                style: {
+                    backgroundColor: '#875F9A',
+                    borderRadius: '0px',
+                    position: 'absolute',
+                }
+            }}>
+            <DialogTitle className='dialogTitle'>{alert.title}</DialogTitle>
             <DialogContent>
-                <DialogContentText>
+                <DialogContentText sx={{ color: 'white' }}>
                 {alert.message}
                 </DialogContentText>
                 <DialogActions>

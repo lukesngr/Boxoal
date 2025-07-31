@@ -20,7 +20,7 @@ import InputLabel from '@mui/material/InputLabel';
 import { muiActionButton, muiFormControlStyle, muiInputStyle, muiNonActionButton, muiToggleButtonStyle } from '@/modules/muiStyles.js';
 import { ToggleButton, ToggleButtonGroup, Slider, Typography } from '@mui/material';
 
-const listOfColors = ["#00E3DD", "#00C5E6", "#00A4E7", "#0081DC", "#1E5ABF", "#348D9D", "#67D6FF"]
+const listOfColors = ["#606EFE", "#3AFFB0", "#DC5EFB", "#86FB80", "#AF79FB", "#7BFF59", "#639D5E", "#4AF9FF"];
 
 export default function CreateTimeboxForm({ visible, time, date, close, numberOfBoxes, setNumberOfBoxes, day, title, setTitle }) {
     const dispatch = useDispatch();
@@ -31,13 +31,9 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const activeGoals = goals.filter(goal => goal.active);
     const [description, setDescription] = useState("");
 
-    useEffect(() => {
-        if(activeGoals.length != 0) {
-            setGoalSelected(activeGoals[0].id);
-        }
-    }, [activeGoals, setNumberOfBoxes])
     
-    const [goalSelected, setGoalSelected] = useState("");
+    
+    const [goalSelected, setGoalSelected] = useState(activeGoals.length != 0 ? activeGoals[0].id : "");
     const [isTimeblock, setIsTimeBlock] = useState(false);
     
     const [reoccuring, setReoccuring] = useState(false);
