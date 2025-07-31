@@ -133,10 +133,11 @@ export function TimeboxingBackground(props) {
             }
             setForShowTimeboxes(arrayOfArrayOfTimeboxes);
         }
+        generateForShowTimeboxes();
 
         window.addEventListener('resize', generateForShowTimeboxes);
         return () => window.removeEventListener('resize', generateForShowTimeboxes);
-    }, [props.user]);
+    }, []);
     let randomTitle = todoActions[Math.floor(Math.random() * 100)];
     let randomColor = listOfColors[Math.floor(Math.random() * (listOfColors.length-1))];
     <div style={{backgroundColor: randomColor}} className="timeboxForShow">{randomTitle}</div>

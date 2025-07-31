@@ -32,7 +32,7 @@ export default function Home() {
         return (
             <>
                 
-                <TimeboxingBackground user={user}>
+                <TimeboxingBackground>
                 {componentDisplayed == "landing" && <LandingPage setComponentDisplayed={setComponentDisplayed} />}
                 {componentDisplayed == "signIn" && <SignInCard setComponentDisplayed={setComponentDisplayed} />}
                 {componentDisplayed == "createAccount" && <CreateAccountCard setComponentDisplayed={setComponentDisplayed} />}
