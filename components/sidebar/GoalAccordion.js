@@ -16,10 +16,10 @@ export default function GoalAccordion(props) {
         <EditGoalForm visible={goalShown} close={() => setGoalShown(false)} data={props.goal}></EditGoalForm>
         <div className="goalAccordion" >      
             <span className='goalTitle'>{props.goal.title} by {dayjs(props.goal.targetDate).format('D/M')}</span>
-            <IconButton style={{float: 'inline-end', padding: '5px'}} onClick={() => setTimeboxesListShown(!timeboxesListShown)}>
+            <IconButton style={{float: 'inline-end', padding: '5px', color: 'white'}} onClick={() => setTimeboxesListShown(!timeboxesListShown)}>
                 <ExpandMoreIcon></ExpandMoreIcon>
             </IconButton>
-            <IconButton style={{float: 'inline-end', padding: '5px'}} className='openUpdateGoalButton' onClick={() => setGoalShown(true)}>
+            <IconButton style={{float: 'inline-end', padding: '5px', color: 'white'}} className='openUpdateGoalButton' onClick={() => setGoalShown(true)}>
                 <SettingsIcon></SettingsIcon>
             </IconButton>
             

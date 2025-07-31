@@ -53,13 +53,13 @@ export default function SchedulesSidebar(props) {
                 <div className="schedulesSidebar">
                     <span className="sidebarHeading">{schedule.title}</span>
                     <div className="scheduleButtons">
-                        <IconButton onClick={() => dispatch({type: 'expanded/set', payload: !expanded})} className='minimizeButton'>
+                        <IconButton style={{color: 'white'}} onClick={() => dispatch({type: 'expanded/set', payload: !expanded})} className='minimizeButton'>
                             <ArrowLeftIcon></ArrowLeftIcon>
                         </IconButton>
-                        <IconButton onClick={() => setCreateScheduleDialogOpen(true)} className='minimizeButton'>
+                        <IconButton style={{color: 'white'}} onClick={() => setCreateScheduleDialogOpen(true)} className='minimizeButton'>
                             <AddIcon></AddIcon>
                         </IconButton>
-                        <IconButton onClick={() => setUpdateScheduleDialogOpen(true)} className='updateScheduleFormOpen minimizeButton'>
+                        <IconButton style={{color: 'white'}} onClick={() => setUpdateScheduleDialogOpen(true)} className='updateScheduleFormOpen minimizeButton'>
                             <SettingsIcon></SettingsIcon>
                         </IconButton>
                     </div>

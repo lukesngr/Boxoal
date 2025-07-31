@@ -15,7 +15,7 @@ export default function TimeboxAsListItem(props) {
         <div className="timeboxListItem" >          
             <span className='timeboxListItemTitle' style={noPreviousRecording ? {} : {textDecoration: 'line-through'}}>{props.data.title}</span>
             
-            <IconButton style={{float: 'inline-end', padding: '5px'}} onClick={() => setEditTimeboxShown(true)}>
+            <IconButton style={{float: 'inline-end', padding: '5px', color: 'white'}} onClick={() => setEditTimeboxShown(true)}>
                 <SettingsIcon></SettingsIcon>
             </IconButton>
             
