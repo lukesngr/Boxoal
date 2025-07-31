@@ -14,6 +14,8 @@
     height: fit-content;
     margin-top: 10%;
     border: 0;
+    position: relative;
+    z-index: 1;
 }
 
 .signInCard .logo {

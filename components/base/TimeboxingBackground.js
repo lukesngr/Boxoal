@@ -140,7 +140,7 @@ export function TimeboxingBackground(props) {
     let randomTitle = todoActions[Math.floor(Math.random() * 100)];
     let randomColor = listOfColors[Math.floor(Math.random() * (listOfColors.length-1))];
     <div style={{backgroundColor: randomColor}} className="timeboxForShow">{randomTitle}</div>
-    return (
+    return (<>
     <div className="timeboxingBackground">
             <div className="timeboxingColumns">
                 {forShowTimeboxes.map((arrayOfTimeboxes, index) => (
@@ -151,6 +151,8 @@ export function TimeboxingBackground(props) {
                     </div>
                 ))}
             </div>
-        </div>
+    </div>
+    {props.children}
+    </>
     )
 }
