@@ -8,6 +8,7 @@ import Dashboard from "@/components/Dashboard";
 import { getCurrentUser } from "@aws-amplify/auth";
 import * as Sentry from "@sentry/nextjs";
 import { LandingTimeboxingBackground } from "@/components/base/LandingTimeboxingBackground";
+import "../styles/homecard.scss";
 
 export default function Home() {
 
