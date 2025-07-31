@@ -196,21 +196,9 @@
 
 .goalTitle {
     margin-left: 10px;
-    max-width: calc((100% - 170px)* 0.848 + 2.6em); 
+    max-width: calc((100% - 78px));
     overflow-wrap: break-word; 
     display: inline-block;
-}
-
-@media only screen and (max-width: 1170px) { //max width this application supports is 320px
-    .goalProgressIndicator {
-        display: none;
-    }
-
-    .goalTitle {
-        max-width: calc((100% - 141px)* 0.44 + 4.5em); 
-        overflow-wrap: break-word; 
-        display: inline-block;
-    }
 }
 
 .timeboxListItem {
