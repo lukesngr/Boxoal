@@ -7,7 +7,6 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { IconButton, Button } from '@mui/material';
 import GoalAccordion from './GoalAccordion';
 import CreateGoalForm from '../form/CreateGoalForm';
-import ParkIcon from '@mui/icons-material/Park';
 import { GoalTree } from '../goal/GoalTree';
 import CreateScheduleForm from '../form/CreateScheduleForm';
 import AddIcon from '@mui/icons-material/Add';
@@ -36,8 +35,6 @@ export default function SchedulesSidebar(props) {
 
     
     let highestActiveIndex = 0;
-
-    console.log(schedule);
 
     for(let i = 0; i < schedule.goals.length; i++) {
         if(schedule.goals[i].active && schedule.goals[i].partOfLine > highestActiveIndex) {

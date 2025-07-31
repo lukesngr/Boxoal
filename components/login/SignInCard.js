@@ -9,7 +9,6 @@ import Button from '@mui/material/Button';
 import { signIn } from 'aws-amplify/auth';
 import { useDispatch } from 'react-redux';
 import Image from 'next/image';
-import { muiInputStyle } from '@/modules/muiStyles';
 
 export default function SignInCard({setComponentDisplayed}) {
     const dispatch = useDispatch();

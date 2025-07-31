@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { queryClient } from '../../modules/queryClient.js';
-import { getMaxNumberOfGoals } from '../../modules/coreLogic.js';
 import { muiActionButton, muiDatePicker, muiInputStyle, muiNonActionButton, muiFormControlStyle } from "../../modules/muiStyles";
 
 import Dialog from '@mui/material/Dialog';
@@ -85,7 +84,6 @@ export default function CreateGoalForm(props) {
         if(hasMetric) {
             goalData.metric = Number(metric);
         }
-        console.log(goalLimit, goalsNotCompleted);
         if (goalLimit > goalsNotCompleted || !props.active) {
             createGoalMutation.mutate(goalData);
         } else {

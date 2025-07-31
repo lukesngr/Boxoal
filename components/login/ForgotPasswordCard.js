@@ -7,7 +7,6 @@ import {Visibility, VisibilityOff} from '@mui/icons-material';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
-import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { useDispatch } from 'react-redux';
 import Image from 'next/image';
 

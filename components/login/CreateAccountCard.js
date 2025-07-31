@@ -6,7 +6,6 @@ import {Visibility, VisibilityOff} from '@mui/icons-material';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
-import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { signUp } from 'aws-amplify/auth';
 import { confirmSignUp } from 'aws-amplify/auth';
 import { useDispatch } from 'react-redux';
