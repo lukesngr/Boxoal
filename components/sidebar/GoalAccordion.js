@@ -1,6 +1,5 @@
 import { IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import GoalProgressIndicator from '../goal/GoalProgressIndicator';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useState } from 'react';
 import EditGoalForm from '../goal/EditGoalForm';
@@ -14,8 +13,7 @@ export default function GoalAccordion(props) {
     return (!props.goal.active ? <></> : (
     <>  
         <EditGoalForm visible={goalShown} close={() => setGoalShown(false)} data={props.goal}></EditGoalForm>
-        <div className="goalAccordion" >
-            <GoalProgressIndicator goal={props.goal}></GoalProgressIndicator>            
+        <div className="goalAccordion" >      
             <span className='goalTitle'>{props.goal.title}</span>
             <IconButton style={{float: 'inline-end', padding: '5px'}} onClick={() => setTimeboxesListShown(!timeboxesListShown)}>
                 <ExpandMoreIcon></ExpandMoreIcon>
