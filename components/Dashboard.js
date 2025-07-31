@@ -38,13 +38,6 @@ export default function Dashboard({user}) {
     if(data.length != 0) {
         dataForSchedule = data[scheduleIndex]
         goalsCompleted = dataForSchedule.goals.reduce((count, item) => item.completed ? count + 1 : count, 0); //no tradeoff for making this faster
-        
-        for(const goal of dataForSchedule.goals) {
-            if(!goal.completed) {
-            averageProgress += getProgressWithGoal(goal.timeboxes);
-            }
-        }
-        if(dataForSchedule.goals.length != 0) { averageProgress = averageProgress / dataForSchedule.goals.length; }
     }
 
     console.log(dataForSchedule);
@@ -57,7 +50,6 @@ export default function Dashboard({user}) {
             {dataForSchedule.goals.map((goal, index) => (
                 <GoalLineGraph key={index} goalData={goal} />
             ))}
-            <LinearProgress variant="determinate" value={averageProgress} />
             <Statistics recordedTimeboxes={dataForSchedule.recordedTimeboxes} timeboxes={dataForSchedule.timeboxes}></Statistics>
         </div>
         </>)
