@@ -37,6 +37,7 @@ model Goal {
   objectUUID String @unique
   metric     Int?
   loggingsOfMetric loggingOfMetric[]
+  state      String? @default("active")
 }
 
 model TimeBox {
