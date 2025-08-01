@@ -16,7 +16,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 export function GoalTree(props) {
     const [currentLine, setCurrentLine] = useState(1);
     
-    const goalsCompleted = props.data.goals.reduce((count, item) => item.completed ? count + 1 : count, 0);
+    const goalsCompleted = props.data.goals.reduce((count, item) => item.state == "completed" ? count + 1 : count, 0);
     const goalsInLine = props.data.goals.filter((item) => item.partOfLine === currentLine);
     const maxNumberOfGoals = getMaxNumberOfGoals(goalsCompleted);
     const addNonActiveGoal = goalsInLine.length === 0;

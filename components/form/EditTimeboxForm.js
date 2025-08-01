@@ -207,7 +207,7 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
                             sx={muiInputStyle}
                         >
                             {goals.map((goal) => {
-                                if(goal.active) {
+                                if(goal.state == "active") {
                                     return (
                                     <MenuItem key={goal.id} value={goal.id}>
                                         {goal.title}

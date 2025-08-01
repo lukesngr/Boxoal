@@ -25,7 +25,7 @@ export default function EditGoalForm(props) {
     const [metric, setMetric] = useState(props.data.metric);
     const [hasMetric, setHasMetric] = useState(props.data.metric === null ? (false) : (true));
     const [targetDate, setTargetDate] = useState(dayjs(props.data.targetDate));
-    const [completed, setCompleted] = useState(props.data.completed);
+    const [completed, setCompleted] = useState(props.data.state == "completed");
     const {scheduleIndex} = useSelector(state => state.profile.value);
     const [onLogMetricView, setOnLogMetricView] = useState(false);
 
@@ -68,7 +68,8 @@ export default function EditGoalForm(props) {
             objectUUID: props.data.objectUUID,
             completed,
             completedOn: new Date().toISOString(),
-            active: !completed
+            active: !completed,
+            state: completed ? "completed" : "active",
         }
 
         if(hasMetric) {

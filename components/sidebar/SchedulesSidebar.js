@@ -37,7 +37,7 @@ export default function SchedulesSidebar(props) {
     let highestActiveIndex = 0;
 
     for(let i = 0; i < schedule.goals.length; i++) {
-        if(schedule.goals[i].active && schedule.goals[i].partOfLine > highestActiveIndex) {
+        if(schedule.goals[i].state == "active" && schedule.goals[i].partOfLine > highestActiveIndex) {
             highestActiveIndex = schedule.goals[i].partOfLine;
         }
     }
