@@ -33,12 +33,17 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
 
     
     
-    const [goalSelected, setGoalSelected] = useState(activeGoals.length != 0 ? Number(activeGoals[0].id) : "");
+    const [goalSelected, setGoalSelected] = useState("");
     const [isTimeblock, setIsTimeBlock] = useState(false);
-    
     const [reoccuring, setReoccuring] = useState(false);
     const [startOfDayRange, setStartOfDayRange] = useState(0);
     const [endOfDayRange, setEndOfDayRange] = useState(6);
+
+    useEffect(() => {
+        if(activeGoals.length != 0) {
+            setGoalSelected(activeGoals[0].id);
+        }
+    }, [activeGoals]); //due to active goals not being a state 
    
     const transformPercentages = ['35%', '45%', '55%', '65%', '40%', '50%', '55%'];
 
