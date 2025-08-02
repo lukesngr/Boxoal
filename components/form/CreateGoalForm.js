@@ -75,6 +75,7 @@ export default function CreateGoalForm(props) {
             completedOn: new Date().toISOString(),
             partOfLine: props.line,
             state: isActiveOnInTree,
+            active: props.active,
             objectUUID: crypto.randomUUID()
         }
 
