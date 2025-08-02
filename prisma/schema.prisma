@@ -94,3 +94,9 @@ model loggingOfMetric {
   goal              Goal             @relation(fields: [goalID], references: [id])
   goalID            Int
 }
+
+model GoalStatistics {
+  int              Int      @id @default(autoincrement())
+  goalsActive      Int
+  goalsCompleted   Int
+}
