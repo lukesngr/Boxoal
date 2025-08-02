@@ -21,6 +21,12 @@ export default async function handler(req, res) {
       select: {
         id: true,
         title: true,
+        goalStatistics: {
+          select: {
+            goalsActive: true,
+            goalsCompleted: true,
+          }
+        },
         goals: {
           select: {
             id: true,
