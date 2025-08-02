@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const goalStatistics = createSlice({
   name: 'goalStatistics',
   initialState: {
-    goalsActive: 0, goalsCompleted: 0
+    value: {goalsActive: 0, goalsCompleted: 0}
   },
   reducers: {
     set: (state, action) => {
