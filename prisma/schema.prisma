@@ -96,7 +96,7 @@ model loggingOfMetric {
 }
 
 model GoalStatistics {
-  int              Int      @id @default(autoincrement())
+  id              Int      @id @default(autoincrement())
   goalsActive      Int
   goalsCompleted   Int
 }
