@@ -25,12 +25,8 @@ export default function CreateGoalForm(props) {
     const [hasMetric, setHasMetric] = useState(false)
     const [targetDate, setTargetDate] = useState(dayjs());
     const {scheduleIndex} = useSelector(state => state.profile.value);
-    const {goalsNotCompleted} = useMemo(() => {
-        const goalsCompleted = props.goals.reduce((count, item) => item.state === "completed" ? count + 1 : count, 0);
-        const activeGoals = props.goals.filter(item => item.state === "active");
-        const goalsNotCompleted = activeGoals.length - goalsCompleted;
-        return {goalsNotCompleted};
-    }, [props.goals]);
+    const {goalsActive, goalsCompleted} = useSelector(state => state.goalStatistics.value);
+    const goalsNotCompleted = goalsActive - goalsCompleted;
     const {goalLimit} = useSelector(state => state.profile.value);
     
 
