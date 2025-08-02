@@ -91,6 +91,7 @@ export function useGoalToGetPoints(goalData) {
             }
             return {pointsArray, linesArray, yAxisLabels, xAxisLabels};
         }
+        return {pointsArray, linesArray, yAxisLabels, xAxisLabels};
         
     }, [goalData]);
     return {pointsArray, linesArray, yAxisLabels, xAxisLabels};
