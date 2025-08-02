@@ -53,7 +53,7 @@ export default function CreateGoalForm(props) {
         },
         onSuccess: () => {
             props.close();
-            dispatch({type: 'alert/set', payload: { open: true, title: "Timebox", message: "Created goal!" }});
+            dispatch({type: 'alert/set', payload: { open: true, title: "Goal", message: "Created goal!" }});
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
         onError: (error, goalData, context) => {
