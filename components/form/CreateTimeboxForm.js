@@ -28,7 +28,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const { goals } = useSelector(state => state.scheduleData.value);
     const timeboxGrid = useSelector(state => state.timeboxGrid.value);
     
-    const activeGoals = goals.filter(goal => goal.state == "active");
+    const activeGoals = goals.filter(goal => (goal.state === "active"));
     const [description, setDescription] = useState("");
 
     
