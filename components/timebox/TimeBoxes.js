@@ -19,10 +19,8 @@ export default function TimeBoxes(props) {
 
     const selectedDate = useSelector(state => state.selectedDate.value);
     const profile = useSelector(state => state.profile.value);
-    const {goalsActive, goalsCompleted} = useSelector(state => state.goalStatistics.value);
     
     const schedule = props.data[profile.scheduleIndex]; 
-    console.log(goalsActive, goalsCompleted, schedule);
     const gridContainerRef = useRef(null);
     const headerContainerRef = useRef(null);
     const timeboxColumnRef = useRef(null);

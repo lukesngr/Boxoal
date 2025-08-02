@@ -8,13 +8,14 @@ import axios from "axios";
 import '../styles/dashboard.scss';
 import Statistics from "./Statistics";
 import { GoalLineGraph } from "./dashboards/GoalLineGraph";
+import useGoalStatistics from "@/hooks/useGoalStatistics";
 
 export default function Dashboard({user}) {
 
     const dispatch = useDispatch();
     const {scheduleIndex} = useSelector(state => state.profile.value);
     const {userId, username} = user;
-    let goalsCompleted = 0;
+    const {goalsCompleted} = useSelector(state => state.goalStatistics.value);
     let dataForSchedule = {timeboxes: [], recordedTimeboxes: []};
     useProfile(userId, dispatch);
 
@@ -33,9 +34,10 @@ export default function Dashboard({user}) {
     if(status === 'error') return <p>Error: {error.message}</p>
 
     if(data.length != 0) {
-        dataForSchedule = data[scheduleIndex]
-        goalsCompleted = dataForSchedule.goals.reduce((count, item) => item.completed ? count + 1 : count, 0); //no tradeoff for making this faster
+        dataForSchedule = data[scheduleIndex];
     }
+
+    useGoalStatistics(dataForSchedule);
 
     return (<>
         <SignedInNav username={username}></SignedInNav>
