@@ -121,8 +121,8 @@ export function LandingTimeboxingBackground(props) {
             for (let i = 0; i < amountOfTimeboxesNeededForHorizontal; i++) {
                 const arrayOfTimeboxes = [];
                 for (let j = 0; j < amountOfTimeboxesNeededForVertical; j++) {
-                    const randomTitle = todoActions[Math.floor(Math.random() * 100)];
-                    const randomColor = listOfColors[Math.floor(Math.random() * (listOfColors.length-1))];
+                    let randomTitle = todoActions[Math.floor(Math.random() * 100)];
+                    let randomColor = listOfColors[Math.floor(Math.random() * (listOfColors.length-1))];
                     if(Math.random() < 0.1) {
                         randomTitle = "";
                         randomColor = "white";
