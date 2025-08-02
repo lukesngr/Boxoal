@@ -1,0 +1,18 @@
+CREATE OR REPLACE FUNCTION updateGoalStatsWhenGoalCreated()
+  RETURNS TRIGGER
+  LANGUAGE PLPGSQL
+  AS
+$$
+BEGIN
+  IF NEW.state = 'active' THEN
+    UPDATE "GoalStatistics"
+    SET "goalsActive" = "goalsActive" + 1
+    WHERE "GoalStatistics"."scheduleID" = NEW."scheduleID";
+  END IF;
+END;
+$$
+
+CREATE TRIGGER creationOfGoalUpdatesStats
+  AFTER INSERT ON "Goal"
+  FOR EACH ROW
+  EXECUTE FUNCTION updateGoalStatsWhenGoalCreated();
