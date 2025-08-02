@@ -27,6 +27,7 @@ export default function TimeBoxes(props) {
     const listOfTimes = returnTimesSeperatedForSchedule(profile); //get times that go down each row
     const currentDay = getCurrentDay();
 
+    useGoalStatistics(schedule); //set goal statistics in schedule
     useTimeboxGridRedux(schedule, selectedDate); //make a map for the timeboxes with another map inside it, makes lookup fast
     useScheduleSetter(schedule); //set schedule data to redux store (timeboxes, recordedTimeboxes, goals
     useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef);
