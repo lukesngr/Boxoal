@@ -44,8 +44,6 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
         back();
     }
 
-    console.log( goalSelected);
-
     const updateTimeboxMutation = useMutation({
         mutationFn: (timeboxData) => axios.put('/api/updateTimeBox', timeboxData),
         onMutate: async (timeboxData) => {
