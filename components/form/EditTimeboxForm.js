@@ -44,6 +44,8 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
         back();
     }
 
+    console.log( goalSelected);
+
     const updateTimeboxMutation = useMutation({
         mutationFn: (timeboxData) => axios.put('/api/updateTimeBox', timeboxData),
         onMutate: async (timeboxData) => {
@@ -133,7 +135,7 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
             numberOfBoxes: parseInt(numberOfBoxes),
         };
 
-        if(isTimeblock) {
+        if(!isTimeblock) {
             updateData["goal"] = { connect: { id: goalSelected } };
         }
 
