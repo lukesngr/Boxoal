@@ -46,3 +46,29 @@ CREATE TRIGGER updateOfGoalUpdatesStats
   AFTER UPDATE ON "Goal"
   FOR EACH ROW
   EXECUTE FUNCTION updateGoalStatsWhenGoalUpdated();
+
+CREATE OR REPLACE FUNCTION updateGoalStatsWhenGoalDeleted()
+  RETURNS TRIGGER
+  LANGUAGE PLPGSQL
+  AS
+$$
+BEGIN
+  IF OLD.state = 'active' THEN
+    UPDATE "GoalStatistics"
+    SET "goalsActive" = "goalsActive" - 1
+    WHERE "GoalStatistics"."scheduleID" = OLD."scheduleID";
+  END IF;
+
+  IF OLD.state = 'completed' THEN
+    UPDATE "GoalStatistics"
+    SET "goalsCompleted" = "goalsCompleted" - 1
+    WHERE "GoalStatistics"."scheduleID" = OLD."scheduleID";
+  END IF;
+  RETURN OLD;
+END;
+$$
+
+CREATE TRIGGER deleteOfGoalUpdatesStats
+  AFTER DELETE ON "Goal"
+  FOR EACH ROW
+  EXECUTE FUNCTION updateGoalStatsWhenGoalDeleted();
