@@ -11,7 +11,7 @@ export default function GoalAccordion(props) {
     const [goalShown, setGoalShown] = useState(false);
     
     
-    return (!props.goal.state == "active" ? <></> : (
+    return (!props.goal.state === "active" ? <></> : (
     <>  
         <EditGoalForm visible={goalShown} close={() => setGoalShown(false)} data={props.goal}></EditGoalForm>
         <div className="goalAccordion" >      
