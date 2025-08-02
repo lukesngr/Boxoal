@@ -4,7 +4,7 @@ export default function useGoalStatistics(schedule) {
     const dispatch = useDispatch();
     useEffect(() => {
         if(schedule.goalStatistics) {
-            dispatch({type: 'goalStatistics/set', payload: {goalsActive: schedule.goalsActive, goalsCompleted: schedule.goalsCompleted}});
+            dispatch({type: 'goalStatistics/set', payload: {goalsActive: schedule.goalStatistics.goalsActive, goalsCompleted: schedule.goalStatistics.goalsCompleted}});
         }
     }, [schedule]);
 }
