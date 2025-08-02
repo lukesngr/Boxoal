@@ -16,3 +16,33 @@ CREATE TRIGGER creationOfGoalUpdatesStats
   AFTER INSERT ON "Goal"
   FOR EACH ROW
   EXECUTE FUNCTION updateGoalStatsWhenGoalCreated();
+
+CREATE OR REPLACE FUNCTION updateGoalStatsWhenGoalUpdated()
+  RETURNS TRIGGER
+  LANGUAGE PLPGSQL
+  AS
+$$
+BEGIN
+  IF NEW.state = 'active' AND OLD.state = 'waiting' THEN
+    UPDATE "GoalStatistics"
+    SET "goalsActive" = "goalsActive" + 1
+    WHERE "GoalStatistics"."scheduleID" = NEW."scheduleID";
+  END IF;
+
+  IF NEW.state = 'completed' AND OLD.state = 'active' THEN
+    UPDATE "GoalStatistics"
+    SET "goalsActive" = "goalsActive" - 1
+    WHERE "GoalStatistics"."scheduleID" = NEW."scheduleID";
+
+    UPDATE "GoalStatistics"
+    SET "goalsCompleted" = "goalsCompleted" + 1
+    WHERE "GoalStatistics"."scheduleID" = NEW."scheduleID";
+  END IF;
+  RETURN NEW;
+END;
+$$
+
+CREATE TRIGGER updateOfGoalUpdatesStats
+  AFTER UPDATE ON "Goal"
+  FOR EACH ROW
+  EXECUTE FUNCTION updateGoalStatsWhenGoalUpdated();
