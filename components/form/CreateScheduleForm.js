@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import styles from "@/styles/muiStyles";
 import { muiActionButton, muiInputStyle, muiNonActionButton } from "@/modules/muiStyles";
 import { useDispatch } from 'react-redux';
+import { goalStatistics } from "@/redux/goalStatistics";
 
 export default function CreateScheduleForm({ open, onClose }) {
     const dispatch = useDispatch();
@@ -22,6 +23,14 @@ export default function CreateScheduleForm({ open, onClose }) {
             await axios.post('/api/createSchedule', {
                 title,
                 userUUID: user.userId,
+                goalStatistics: {
+                    create: [
+                        {
+                            goalsActive: 0,
+                            goalsCompleted: 0,
+                        }
+                    ]
+                }
             });
             onClose();
             dispatch({type: 'alert/set', payload: {
