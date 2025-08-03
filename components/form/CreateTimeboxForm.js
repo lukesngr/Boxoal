@@ -47,8 +47,6 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             setGoalSelected(activeGoals[0].id);
         }
     }, [activeGoals]); //due to active goals not being a state 
-
-    console.log('wtf going on', goalSelected, activeGoals);
    
     const transformPercentages = ['35%', '45%', '55%', '65%', '40%', '50%', '55%'];
 
