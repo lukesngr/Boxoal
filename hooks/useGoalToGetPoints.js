@@ -75,7 +75,7 @@ export function useGoalToGetPoints(goalData) {
             
             pointsArray = goalData.timeboxes.map((timebox, index) => {
                 if (index === 0) {
-                    if(dateDifferenceBetweenFirstLogAndGoal === 0) {
+                    if(dateDifferenceBetweenFirstLogAndGoal == 0) {
                         return { x: endX-overallSizeOfPoint, y: goalY+15, size: overallSizeOfPoint };
                     }else{
                         return { x: initialLogX, y: initialLogY-overallSizeOfPoint, size: overallSizeOfPoint };
@@ -97,12 +97,17 @@ export function useGoalToGetPoints(goalData) {
             for(let i = 0; i <= highestDenominatorForTimeboxDifference-1; i += yAxisIncrements) {
                 yAxisLabels.push({label: i+1, y: initialLogY - (yPerAxisLabel * i) - (overallSizeOfPoint*0.75)});
             }
-
-            let highestDenominatorForDayDifference = getHighestDenominatorUpTo(dateDifferenceBetweenFirstLogAndGoal, 20);
-            let xAxisIncrements = dateDifferenceBetweenFirstLogAndGoal / highestDenominatorForDayDifference;
-            let xPerAxisLabel = xDifference / highestDenominatorForDayDifference; 
-            for(let i = 0; i <= highestDenominatorForDayDifference; i += xAxisIncrements) {
-                xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startDate).add(i, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
+            console.log(dateDifferenceBetweenFirstLogAndGoal);
+            if(dateDifferenceBetweenFirstLogAndGoal == 0) {
+                console.log
+                let highestDenominatorForDayDifference = getHighestDenominatorUpTo(dateDifferenceBetweenFirstLogAndGoal, 20);
+                let xAxisIncrements = dateDifferenceBetweenFirstLogAndGoal / highestDenominatorForDayDifference;
+                let xPerAxisLabel = xDifference / highestDenominatorForDayDifference; 
+                for(let i = 0; i <= highestDenominatorForDayDifference; i += xAxisIncrements) {
+                    xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startDate).add(i, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
+                }
+            }else{
+                xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startDate).format('D/M'), x: endX-(overallSizeOfPoint/2)});
             }
 
             goalRectX = endX-(overallSizeOfPoint / 2); //center the rectangle on the goal point

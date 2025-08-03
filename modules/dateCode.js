@@ -48,5 +48,6 @@ export function filterTimeboxesBasedOnWeekRange(timeboxes, selectedDate) {
 export function differenceInDates(date1, date2) {
     let firstDate = dayjs(date1).hour(0).minute(0).second(0).millisecond(0);
     let secondDate = dayjs(date2).hour(0).minute(0).second(0).millisecond(0);
+    console.log(firstDate, secondDate, firstDate.diff(secondDate, 'day'));
     return firstDate.diff(secondDate, 'day');
 }
