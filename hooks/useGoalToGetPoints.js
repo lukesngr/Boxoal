@@ -17,17 +17,22 @@ export function useGoalToGetPoints(goalData) {
         
         let xDifference = goalX - initialLogX;
         let yDifference = initialLogY - goalY;
+        //logic too complicated need commenting
+        
         
         if(goalData.metric !== null && goalData.loggingsOfMetric.length != 0) {
+            //logic works by dviding vertical and horizontal spaces by difference in relevant metrics
             let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, goalData.loggingsOfMetric[0].date);
             let metricDifferenceBetweenFirstLogAndGoal = goalData.metric - goalData.loggingsOfMetric[0].metric;
             let xPerPoint = xDifference / dateDifferenceBetweenFirstLogAndGoal;
             let yPerPoint = yDifference / metricDifferenceBetweenFirstLogAndGoal;
+            //gets smallest divisor of both x and y and then minus by 0.1 to add margin between points
             let overallSizeOfPoint = Math.min(xPerPoint, yPerPoint)*0.9;
             pointsArray = goalData.loggingsOfMetric.map((log, index) => {
                 if (index === 0) {
-                    return { x: initialLogX, y: initialLogY-overallSizeOfPoint, size: overallSizeOfPoint };
+                    return { x: initialLogX, y: initialLogY-overallSizeOfPoint, size: overallSizeOfPoint }; //first point has to be above the 0 point as this is the start of axis
                 }else{
+                    //calculates based on what division of the axis the point is on
                     let dayDifference = differenceInDates(log.date, goalData.loggingsOfMetric[0].date);
                     let metricDifference = log.metric - goalData.loggingsOfMetric[0].metric;
                     let x = initialLogX + (xPerPoint * dayDifference);
@@ -36,8 +41,10 @@ export function useGoalToGetPoints(goalData) {
                 }
             });
 
+            //just connects points by lines with lines starting in center of points except for goal point where it ends at goal point on side for aesthetic reasons
             linesArray = getLinesBetweenPoints(pointsArray, overallSizeOfPoint, goalX, goalY);
 
+            //divides y axis into increments based on the highest denominator of the metric difference and adds labels
             let highestDenominatorForMetricDifference = getHighestDenominatorUpTo(metricDifferenceBetweenFirstLogAndGoal, 10);
             let yAxisIncrements = metricDifferenceBetweenFirstLogAndGoal / highestDenominatorForMetricDifference;
             let yPerAxisLabel = yDifference / highestDenominatorForMetricDifference; 
@@ -63,7 +70,11 @@ export function useGoalToGetPoints(goalData) {
             
             pointsArray = goalData.timeboxes.map((timebox, index) => {
                 if (index === 0) {
-                    return { x: initialLogX, y: initialLogY-overallSizeOfPoint, size: overallSizeOfPoint };
+                    if(dateDifferenceBetweenFirstLogAndGoal === 0) {
+                        return { x: goalX-(overallSizeOfPoint*0.5), y: goalY+15, size: overallSizeOfPoint };
+                    }else{
+                        return { x: initialLogX, y: initialLogY-overallSizeOfPoint, size: overallSizeOfPoint };
+                    }
                 }else{
                     let dayDifference = differenceInDates(timebox.startDate, goalData.timeboxes[0].startDate);
                     let timeboxesDifference = timebox.numberOfBoxes.metric - goalData.timeboxes[0].numberOfBoxes;
@@ -91,6 +102,7 @@ export function useGoalToGetPoints(goalData) {
             }
             return {pointsArray, linesArray, yAxisLabels, xAxisLabels};
         }
+        // if goalData metric is null only goal is present and axis and points are left empty
         return {pointsArray, linesArray, yAxisLabels, xAxisLabels};
         
     }, [goalData]);
