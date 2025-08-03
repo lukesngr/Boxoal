@@ -10,8 +10,6 @@ export function useGoalToGetPoints(goalData) {
         const initialLogY = 266;
         const goalX = 600;
         const goalY = 35;
-        const endX = 623;
-        const endY = goalY;
         let pointsArray = [];
         let linesArray = [];
         let xAxisLabels = [];
