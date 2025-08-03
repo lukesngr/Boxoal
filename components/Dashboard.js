@@ -30,14 +30,14 @@ export default function Dashboard({user}) {
         enabled: true
     })
 
+    useGoalStatistics(data?.length > 0 ? data[scheduleIndex] : null);
+
     if(status === 'loading' || status === 'pending') return <Loading />
     if(status === 'error') return <p>Error: {error.message}</p>
 
     if(data.length != 0) {
         dataForSchedule = data[scheduleIndex];
     }
-
-    useGoalStatistics(dataForSchedule);
 
     return (<>
         <SignedInNav username={username}></SignedInNav>
