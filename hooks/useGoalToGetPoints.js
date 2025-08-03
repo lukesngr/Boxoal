@@ -90,9 +90,8 @@ export function useGoalToGetPoints(goalData) {
             for(let i = 0; i < highestDenominatorForDayDifference; i += xAxisIncrements) { //last denominator for x is not to be included as it is end
                 xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startDate).add(i, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
             }
-            
-
-            goalRectX = goalX-(overallSizeOfPoint / 2); //center the rectangle on the goal point
+            console.log();
+            goalRectX = initialLogX + (xPerPoint*differenceInDates(goalData.targetDate, goalData.timeboxes[0].startDate)); //center the rectangle on the goal point
             goalRectY = goalY; //center the rectangle on the goal point
             return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
         }
