@@ -81,15 +81,15 @@ export function useGoalToGetPoints(goalData) {
                         return { x: initialLogX, y: initialLogY-overallSizeOfPoint, size: overallSizeOfPoint };
                     }
                 }else{
-                    let dayDifference = differenceInDates(timebox.startDate, goalData.timeboxes[0].startDate);
+                    let dayDifference = differenceInDates(goalData.targetDate, timebox.startDate)+1;
                     let timeboxesDifference = timebox.numberOfBoxes.metric - goalData.timeboxes[0].numberOfBoxes;
-                    let x = initialLogX + (xPerPoint * dayDifference);
+                    let x = endX - (xPerPoint * dayDifference);
                     let y = initialLogY - (yPerPoint * timeboxesDifference);
                     return { x, y, size: overallSizeOfPoint };
                 }
             });
 
-            linesArray = getLinesBetweenPoints(pointsArray, overallSizeOfPoint, goalX, goalY);
+            linesArray = getLinesBetweenPoints(pointsArray, overallSizeOfPoint, (endX-(overallSizeOfPoint/2)), goalY);
 
             let highestDenominatorForTimeboxDifference = getHighestDenominatorUpTo(timeboxesNumberOfBoxes, 10);
             let yAxisIncrements = timeboxesNumberOfBoxes / highestDenominatorForTimeboxDifference;
