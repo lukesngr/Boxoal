@@ -97,9 +97,8 @@ export function useGoalToGetPoints(goalData) {
             for(let i = 0; i <= highestDenominatorForTimeboxDifference-1; i += yAxisIncrements) {
                 yAxisLabels.push({label: i+1, y: initialLogY - (yPerAxisLabel * i) - (overallSizeOfPoint*0.75)});
             }
-            console.log(dateDifferenceBetweenFirstLogAndGoal);
-            if(dateDifferenceBetweenFirstLogAndGoal == 0) {
-                console.log
+
+            if(dateDifferenceBetweenFirstLogAndGoal != 0) {
                 let highestDenominatorForDayDifference = getHighestDenominatorUpTo(dateDifferenceBetweenFirstLogAndGoal, 20);
                 let xAxisIncrements = dateDifferenceBetweenFirstLogAndGoal / highestDenominatorForDayDifference;
                 let xPerAxisLabel = xDifference / highestDenominatorForDayDifference; 
