@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { queryClient } from '../../modules/queryClient.js';
@@ -28,7 +28,10 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const { goals } = useSelector(state => state.scheduleData.value);
     const timeboxGrid = useSelector(state => state.timeboxGrid.value);
     
-    const activeGoals = goals.filter(goal => (goal.state === "active"));
+    const activeGoals = useMemo(() => 
+        goals.filter(goal => goal.state === "active"), 
+        [goals]
+    );
     const [description, setDescription] = useState("");
 
     
@@ -44,6 +47,8 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             setGoalSelected(activeGoals[0].id);
         }
     }, [activeGoals]); //due to active goals not being a state 
+
+    console.log('wtf going on', goalSelected, activeGoals);
    
     const transformPercentages = ['35%', '45%', '55%', '65%', '40%', '50%', '55%'];
 
@@ -204,7 +209,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                         <InputLabel>Goal</InputLabel>
                         <Select
                             value={goalSelected}
-                            onChange={(e) => setGoalSelected(e.target.value)}
+                            onChange={(e) => {console.log(e.target.value); setGoalSelected(e.target.value)}}
                             sx={muiInputStyle}
                         >
                             {activeGoals.map((goal) => (
