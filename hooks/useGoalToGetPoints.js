@@ -4,16 +4,20 @@ import { getHighestDenominatorUpTo } from '@/modules/coreLogic';
 import dayjs from 'dayjs';
 import { getLinesBetweenPoints } from "@/modules/coreLogic";
 export function useGoalToGetPoints(goalData) {
-    const {pointsArray, linesArray, xAxisLabels, yAxisLabels} = useMemo(() => {
+    const {pointsArray, linesArray, xAxisLabels, yAxisLabels, goalRectX, goalRectY} = useMemo(() => {
 
         const initialLogX = 77;
         const initialLogY = 266;
         const goalX = 600;
         const goalY = 35;
+        const endX = 623;
+        const endY = goalY;
         let pointsArray = [];
         let linesArray = [];
         let xAxisLabels = [];
         let yAxisLabels = [];
+        let goalRectX = goalX;
+        let goalRectY = goalY; 
         
         let xDifference = goalX - initialLogX;
         let yDifference = initialLogY - goalY;
@@ -59,19 +63,20 @@ export function useGoalToGetPoints(goalData) {
                 xAxisLabels.push({label: dayjs(goalData.loggingsOfMetric[0].date).add(i, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
             }
 
-            return {pointsArray, linesArray, yAxisLabels, xAxisLabels};
+            return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
         }else if(goalData.timeboxes !== null & goalData.timeboxes.length != 0) {
+            xDifference = endX - initialLogX;
             let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, goalData.timeboxes[0].startDate);
             let timeboxesNumberOfBoxes = goalData.timeboxes.reduce((count, item) => item.numberOfBoxes ? count + 1 : count, 0);
             let boxesDifferenceBetweenFirstLogAndGoal = timeboxesNumberOfBoxes;
-            let xPerPoint = xDifference / dateDifferenceBetweenFirstLogAndGoal;
+            let xPerPoint = xDifference / (dateDifferenceBetweenFirstLogAndGoal+1); //include goal point
             let yPerPoint = yDifference / boxesDifferenceBetweenFirstLogAndGoal;
             let overallSizeOfPoint = Math.min(xPerPoint, yPerPoint)*0.9;
             
             pointsArray = goalData.timeboxes.map((timebox, index) => {
                 if (index === 0) {
                     if(dateDifferenceBetweenFirstLogAndGoal === 0) {
-                        return { x: goalX-(overallSizeOfPoint*0.5), y: goalY+15, size: overallSizeOfPoint };
+                        return { x: endX-overallSizeOfPoint, y: goalY+15, size: overallSizeOfPoint };
                     }else{
                         return { x: initialLogX, y: initialLogY-overallSizeOfPoint, size: overallSizeOfPoint };
                     }
@@ -83,7 +88,6 @@ export function useGoalToGetPoints(goalData) {
                     return { x, y, size: overallSizeOfPoint };
                 }
             });
-            console.log("goals", goalData, pointsArray);
 
             linesArray = getLinesBetweenPoints(pointsArray, overallSizeOfPoint, goalX, goalY);
 
@@ -91,7 +95,7 @@ export function useGoalToGetPoints(goalData) {
             let yAxisIncrements = timeboxesNumberOfBoxes / highestDenominatorForTimeboxDifference;
             let yPerAxisLabel = yDifference / highestDenominatorForTimeboxDifference; 
             for(let i = 0; i <= highestDenominatorForTimeboxDifference-1; i += yAxisIncrements) {
-                yAxisLabels.push({label: i, y: initialLogY - (yPerAxisLabel * i) - (overallSizeOfPoint*0.75)});
+                yAxisLabels.push({label: i+1, y: initialLogY - (yPerAxisLabel * i) - (overallSizeOfPoint*0.75)});
             }
 
             let highestDenominatorForDayDifference = getHighestDenominatorUpTo(dateDifferenceBetweenFirstLogAndGoal, 20);
@@ -100,11 +104,14 @@ export function useGoalToGetPoints(goalData) {
             for(let i = 0; i <= highestDenominatorForDayDifference; i += xAxisIncrements) {
                 xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startDate).add(i, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
             }
-            return {pointsArray, linesArray, yAxisLabels, xAxisLabels};
+
+            goalRectX = endX-(overallSizeOfPoint / 2); //center the rectangle on the goal point
+            goalRectY = goalY; //center the rectangle on the goal point
+            return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
         }
         // if goalData metric is null only goal is present and axis and points are left empty
-        return {pointsArray, linesArray, yAxisLabels, xAxisLabels};
+        return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
         
     }, [goalData]);
-    return {pointsArray, linesArray, yAxisLabels, xAxisLabels};
+    return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
 }
