@@ -63,37 +63,29 @@ export function useGoalToGetPoints(goalData) {
 
             return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
         }else if(goalData.timeboxes !== null & goalData.timeboxes.length != 0) {
-            xDifference = endX - initialLogX;
             let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, goalData.timeboxes[0].startDate);
             let timeboxesNumberOfBoxes = goalData.timeboxes.reduce((count, item) => item.numberOfBoxes ? count + 1 : count, 0);
-            let boxesDifferenceBetweenFirstLogAndGoal = timeboxesNumberOfBoxes;
             let xPerPoint = xDifference / (dateDifferenceBetweenFirstLogAndGoal+1); //include goal point
-            let yPerPoint = yDifference / boxesDifferenceBetweenFirstLogAndGoal;
+            let yPerPoint = yDifference / (timeboxesNumberOfBoxes);
             let overallSizeOfPoint = Math.min(xPerPoint, yPerPoint)*0.9;
+            let aggregateSumOfTimeboxes = 0;
             
             pointsArray = goalData.timeboxes.map((timebox, index) => {
-                if (index === 0) {
-                    if(dateDifferenceBetweenFirstLogAndGoal == 0) {
-                        return { x: endX-overallSizeOfPoint, y: goalY+15, size: overallSizeOfPoint };
-                    }else{
-                        return { x: initialLogX, y: initialLogY-overallSizeOfPoint, size: overallSizeOfPoint };
-                    }
-                }else{
-                    let dayDifference = differenceInDates(goalData.targetDate, timebox.startDate)+1;
-                    let timeboxesDifference = timebox.numberOfBoxes.metric - goalData.timeboxes[0].numberOfBoxes;
-                    let x = endX - (xPerPoint * dayDifference);
-                    let y = initialLogY - (yPerPoint * timeboxesDifference);
-                    return { x, y, size: overallSizeOfPoint };
-                }
+                let dayDifference = (differenceInDates(goalData.targetDate, timebox.startDate)+1);
+                aggregateSumOfTimeboxes += timebox.numberOfBoxes;
+                let timeboxesDifference = aggregateSumOfTimeboxes;
+                let x = goalX - (xPerPoint * dayDifference);
+                let y = initialLogY - (yPerPoint * timeboxesDifference);
+                return { x, y, size: overallSizeOfPoint };
             });
 
-            linesArray = getLinesBetweenPoints(pointsArray, overallSizeOfPoint, (endX-(overallSizeOfPoint/2)), goalY);
+            linesArray = getLinesBetweenPoints(pointsArray, overallSizeOfPoint, (goalX-(overallSizeOfPoint/2)), goalY);
 
             let highestDenominatorForTimeboxDifference = getHighestDenominatorUpTo(timeboxesNumberOfBoxes, 10);
             let yAxisIncrements = timeboxesNumberOfBoxes / highestDenominatorForTimeboxDifference;
             let yPerAxisLabel = yDifference / highestDenominatorForTimeboxDifference; 
             for(let i = 0; i <= highestDenominatorForTimeboxDifference-1; i += yAxisIncrements) {
-                yAxisLabels.push({label: i+1, y: initialLogY - (yPerAxisLabel * i) - (overallSizeOfPoint*0.75)});
+                yAxisLabels.push({label: i+1, y: initialLogY - (yPerAxisLabel * i) - (overallSizeOfPoint*0.5)});
             }
 
             if(dateDifferenceBetweenFirstLogAndGoal != 0) {
@@ -104,10 +96,10 @@ export function useGoalToGetPoints(goalData) {
                     xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startDate).add(i, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
                 }
             }else{
-                xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startDate).format('D/M'), x: endX-(overallSizeOfPoint/2)});
+                xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startDate).format('D/M'), x: goalX-(overallSizeOfPoint/2)});
             }
 
-            goalRectX = endX-(overallSizeOfPoint / 2); //center the rectangle on the goal point
+            goalRectX = goalX-(overallSizeOfPoint / 2); //center the rectangle on the goal point
             goalRectY = goalY; //center the rectangle on the goal point
             return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
         }
