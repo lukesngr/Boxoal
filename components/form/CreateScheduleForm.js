@@ -11,7 +11,6 @@ import Button from '@mui/material/Button';
 import styles from "@/styles/muiStyles";
 import { muiActionButton, muiInputStyle, muiNonActionButton } from "@/modules/muiStyles";
 import { useDispatch } from 'react-redux';
-import { goalStatistics } from "@/redux/goalStatistics";
 
 export default function CreateScheduleForm({ open, onClose }) {
     const dispatch = useDispatch();
