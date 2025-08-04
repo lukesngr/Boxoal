@@ -72,3 +72,19 @@ CREATE TRIGGER deleteOfGoalUpdatesStats
   AFTER DELETE ON "Goal"
   FOR EACH ROW
   EXECUTE FUNCTION updateGoalStatsWhenGoalDeleted();
+
+WITH wakeupUnit AS (SELECT SPLIT_PART("wakeupTime", ':', 2) as wakeupMinutes, SPLIT_PART("wakeupTime", ':', 1) AS wakeupHour FROM "Profile"
+WHERE "scheduleID" IN (SELECT "scheduleID" FROM "Goal"
+WHERE id=1);),
+WITH dayMonth AS (SELECT EXTRACT(DAY FROM "targetDate"::DATE) AS day, EXTRACT(MONTH FROM "targetDate"::DATE) AS month FROM "Goal" WHERE id=1)
+SELECT 
+    cron.schedule(
+        FORMAT('%s %s %s %s *', 
+               w.wakeupMinutes, 
+               w.wakeupHour, 
+               d.day, 
+               d.month
+        ), 
+        'VACUUM FREEZE pgbench_accounts'
+    )
+FROM wakeupUnit w, dayMonth d;
