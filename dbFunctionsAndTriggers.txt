@@ -9,6 +9,39 @@ BEGIN
     SET "goalsActive" = "goalsActive" + 1
     WHERE "GoalStatistics"."scheduleID" = NEW."scheduleID";
   END IF;
+  WITH wakeupUnit AS (
+    SELECT 
+        SPLIT_PART("wakeupTime", ':', 2) as wakeupMinutes, 
+        SPLIT_PART("wakeupTime", ':', 1) AS wakeupHour 
+    FROM "Profile"
+    WHERE "scheduleID" IN (
+        SELECT "scheduleID" FROM "Goal" WHERE id = NEW.id
+    )
+  ),
+  dayMonth AS (
+      SELECT 
+          EXTRACT(DAY FROM ("targetDate"::DATE + INTERVAL '1 day')) AS day,  -- Added +1 day
+          EXTRACT(MONTH FROM ("targetDate"::DATE + INTERVAL '1 day')) AS month 
+      FROM "Goal" 
+      WHERE id = NEW.id
+  )
+  SELECT 
+      cron.schedule(
+          FORMAT('updateToFailed %s %s %s %s *', 
+            w.wakeupMinutes, 
+            w.wakeupHour, 
+            d.day, 
+            d.month
+          ), 
+          FORMAT('%s %s %s %s *', 
+            w.wakeupMinutes, 
+            w.wakeupHour, 
+            d.day, 
+            d.month
+          ), 
+          FORMAT('UPDATE "Goal" SET state = ''failed'' WHERE id = %s;', NEW.id)  -- Fixed: escaped quotes
+      )
+  FROM wakeupUnit w, dayMonth d;
 END;
 $$
 
@@ -38,6 +71,40 @@ BEGIN
     SET "goalsCompleted" = "goalsCompleted" + 1
     WHERE "GoalStatistics"."scheduleID" = NEW."scheduleID";
   END IF;
+
+  WITH wakeupUnit AS (
+    SELECT
+        SPLIT_PART("wakeupTime", ':', 2) as wakeupMinutes, 
+        SPLIT_PART("wakeupTime", ':', 1) AS wakeupHour 
+    FROM "Profile"
+    WHERE "scheduleID" IN (
+        SELECT "scheduleID" FROM "Goal" WHERE id = NEW.id
+    )
+  ),
+  dayMonth AS (
+      SELECT 
+          EXTRACT(DAY FROM ("targetDate"::DATE + INTERVAL '1 day')) AS day,  -- Added +1 day
+          EXTRACT(MONTH FROM ("targetDate"::DATE + INTERVAL '1 day')) AS month 
+      FROM "Goal" 
+      WHERE id = NEW.id
+  )
+  SELECT 
+      cron.schedule(
+          FORMAT('updateToFailed %s %s %s %s', 
+            w.wakeupMinutes, 
+            w.wakeupHour, 
+            d.day, 
+            d.month
+          ), 
+          FORMAT('%s %s %s %s *', 
+            w.wakeupMinutes, 
+            w.wakeupHour, 
+            d.day, 
+            d.month
+          ), 
+          FORMAT('UPDATE "Goal" SET state = ''failed'' WHERE id = %s;', NEW.id)  -- Fixed: escaped quotes
+      )
+  FROM wakeupUnit w, dayMonth d;
   RETURN NEW;
 END;
 $$
@@ -64,6 +131,32 @@ BEGIN
     SET "goalsCompleted" = "goalsCompleted" - 1
     WHERE "GoalStatistics"."scheduleID" = OLD."scheduleID";
   END IF;
+  WITH wakeupUnit AS (
+    SELECT 
+        SPLIT_PART("wakeupTime", ':', 2) as wakeupMinutes, 
+        SPLIT_PART("wakeupTime", ':', 1) AS wakeupHour 
+    FROM "Profile"
+    WHERE "scheduleID" IN (
+        SELECT "scheduleID" FROM "Goal" WHERE id = OLD.id
+    )
+  ),
+  dayMonth AS (
+      SELECT 
+          EXTRACT(DAY FROM ("targetDate"::DATE + INTERVAL '1 day')) AS day, 
+          EXTRACT(MONTH FROM ("targetDate"::DATE + INTERVAL '1 day')) AS month 
+      FROM "Goal" 
+      WHERE id = OLD.id
+  )
+  SELECT 
+      cron.unschedule(
+          FORMAT('updateToFailed %s %s %s %s *', 
+            w.wakeupMinutes, 
+            w.wakeupHour, 
+            d.day, 
+            d.month
+          )
+      )
+  FROM wakeupUnit w, dayMonth d;
   RETURN OLD;
 END;
 $$
@@ -72,31 +165,3 @@ CREATE TRIGGER deleteOfGoalUpdatesStats
   AFTER DELETE ON "Goal"
   FOR EACH ROW
   EXECUTE FUNCTION updateGoalStatsWhenGoalDeleted();
-
-WITH wakeupUnit AS (
-    SELECT 
-        SPLIT_PART("wakeupTime", ':', 2) as wakeupMinutes, 
-        SPLIT_PART("wakeupTime", ':', 1) AS wakeupHour 
-    FROM "Profile"
-    WHERE "scheduleID" IN (
-        SELECT "scheduleID" FROM "Goal" WHERE id = 1
-    )
-),
-dayMonth AS (
-    SELECT 
-        EXTRACT(DAY FROM ("targetDate"::DATE + INTERVAL '1 day')) AS day,  -- Added +1 day
-        EXTRACT(MONTH FROM ("targetDate"::DATE + INTERVAL '1 day')) AS month 
-    FROM "Goal" 
-    WHERE id = 1
-)
-SELECT 
-    cron.schedule(
-        FORMAT('%s %s %s %s *', 
-               w.wakeupMinutes, 
-               w.wakeupHour, 
-               d.day, 
-               d.month
-        ), 
-        'UPDATE "Goal" SET state = ''failed'' WHERE id = 1;'  -- Fixed: escaped quotes
-    )
-FROM wakeupUnit w, dayMonth d;
