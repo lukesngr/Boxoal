@@ -81,6 +81,7 @@ export function useGoalToGetPoints(goalData) {
             yPerPoint = yDifference / totalTime;
             highestDenominatorForTimeboxDifference = getHighestDenominatorUpTo(totalTime, 10)
             yAxisIncrements = totalTime / highestDenominatorForTimeboxDifference;
+            console.log(highestDenominatorForTimeboxDifference, totalTime, yAxisIncrements)
 
             let yPerAxisLabel = yDifference / highestDenominatorForTimeboxDifference; 
             let xPerAxisLabel = xDifference / highestDenominatorForDayDifference; 
