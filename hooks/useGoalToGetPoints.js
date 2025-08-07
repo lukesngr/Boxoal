@@ -97,11 +97,10 @@ export function useGoalToGetPoints(goalData) {
                 aggregateSumOfTimeboxes += timebox.numberOfBoxes;
                 let x = initialLogX + (xPerPoint * dayDifference);
                 let y = initialLogY - (yPerPoint * (aggregateSumOfTimeboxes - 1));
-                console.log(x, y, overallSizeOfPoint, yPerAxisLabel, xPerAxisLabel, highestDenominatorForDayDifference);
                 return { x, y, size: overallSizeOfPoint };
             });
 
-            linesArray = getLinesBetweenPoints(pointsArray, overallSizeOfPoint, goalX, 35);
+            linesArray = getLinesBetweenPoints(pointsArray, overallSizeOfPoint);
             for(let i = 0; i <= highestDenominatorForTimeboxDifference; i += yAxisIncrements) {
                 yAxisLabels.push({label: i+1, y: initialLogY - (yPerAxisLabel * i)});
             }
