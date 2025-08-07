@@ -15,6 +15,7 @@ import modalVisibleReducer from './modalVisible'
 import expandedReducer from './expanded'
 import alertReducer from './alert'
 import goalStatisticsReducer from './goalStatistics'
+import settingsDialogOpenReducer from './settingsDialogOpen'
 
 const rootReducer = combineReducers({
   profile: profileReducer,
@@ -31,7 +32,8 @@ const rootReducer = combineReducers({
   modalVisible: modalVisibleReducer,
   expanded: expandedReducer,
   alert: alertReducer,
-  goalStatistics: goalStatisticsReducer
+  goalStatistics: goalStatisticsReducer,
+  settingsDialogOpen: settingsDialogOpenReducer
 });
 
 export const store = configureStore({
