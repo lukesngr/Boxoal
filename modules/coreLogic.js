@@ -160,3 +160,12 @@ export function getLinesBetweenPoints(pointsArray, overallSizeOfPoint, goalX, go
     }
     return linesArray;
 }
+
+export function getOverallSizeOfPoint(xPerPoint, yPerPoint) {
+    let calculatedSize = Math.min(xPerPoint, yPerPoint) * 0.9;
+    if(calculatedSize < 12) {
+        return calculatedSize;
+    }else{
+        return 12;
+    }
+}
