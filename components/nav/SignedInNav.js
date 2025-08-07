@@ -18,12 +18,14 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { signOut } from '@aws-amplify/auth';
 import Link from 'next/link';
 import * as Sentry from '@sentry/nextjs';
+import { useDispatch } from 'react-redux';
 
 
 export default function SignedInNav({username}) {
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [userMenuShown, setUserMenuShown] = useState(false);
+    const dispatch = useDispatch();
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -127,9 +129,14 @@ export default function SignedInNav({username}) {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                     >
-                        <MenuItem className="logoutButton" key={"Logout"} onClick={logout}>
-                        <Typography sx={{ textAlign: 'center' }}>Logout</Typography>
+                        <MenuItem className="settingsButton" key={"settings"} onClick={() => dispatch({type: 'settingsDialogOpen/set', payload: true})}>
+                            <Typography sx={{textAlign: 'center'}}>Settings</Typography>
                         </MenuItem>
+
+                        <MenuItem className="logoutButton" key={"Logout"} onClick={logout}>
+                            <Typography sx={{ textAlign: 'center' }}>Logout</Typography>
+                        </MenuItem>
+                        
                     </Menu>
                 </Box>
             </Toolbar>
