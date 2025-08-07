@@ -9,7 +9,7 @@ export function useGoalToGetPoints(goalData) {
         const initialLogX = 77;
         const initialLogY = 266;
         const goalX = 600;
-        const goalY = 48; //35
+        const goalY = 35; //35
         let pointsArray = [];
         let linesArray = [];
         let xAxisLabels = [];
@@ -59,8 +59,9 @@ export function useGoalToGetPoints(goalData) {
 
             return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
         }else if(goalData.timeboxes !== null & goalData.timeboxes.length != 0) {
-            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, goalData.timeboxes[0].startDate)+1;
+            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, goalData.timeboxes[0].startDate);
             let timeboxesNumberOfBoxes = goalData.timeboxes.reduce((count, item) => item.numberOfBoxes ? count + 1 : count, 0);
+
             let xPerPoint = xDifference / (dateDifferenceBetweenFirstLogAndGoal); //include goal point
             let yPerPoint = yDifference / (timeboxesNumberOfBoxes);
             let overallSizeOfPoint = Math.min(xPerPoint, yPerPoint)*0.9;
