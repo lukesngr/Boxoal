@@ -4,7 +4,7 @@ import { getHighestDenominatorUpTo } from '@/modules/coreLogic';
 import dayjs from 'dayjs';
 import { getLinesBetweenPoints, getOverallSizeOfPoint } from "@/modules/coreLogic";
 export function useGoalToGetPoints(goalData) {
-    const {pointsArray, linesArray, xAxisLabels, yAxisLabels, goalRectX, goalRectY} = useMemo(() => {
+    const {pointsArray, linesArray, xAxisLabels, yAxisLabels} = useMemo(() => {
 
         const initialLogX = 77;
         const initialLogY = 266;
@@ -14,9 +14,7 @@ export function useGoalToGetPoints(goalData) {
         let pointsArray = [];
         let linesArray = [];
         let xAxisLabels = [];
-        let yAxisLabels = [];
-        let goalRectX = goalX;
-        let goalRectY = goalY; 
+        let yAxisLabels = []; 
         
         let xDifference = goalX - initialLogX;
         let yDifference = initialLogY - endY;
@@ -81,7 +79,6 @@ export function useGoalToGetPoints(goalData) {
             yPerPoint = yDifference / totalTime;
             highestDenominatorForTimeboxDifference = getHighestDenominatorUpTo(totalTime, 10)
             yAxisIncrements = totalTime / highestDenominatorForTimeboxDifference;
-            console.log(highestDenominatorForTimeboxDifference, totalTime, yAxisIncrements)
 
             let yPerAxisLabel = yDifference / highestDenominatorForTimeboxDifference; 
             let xPerAxisLabel = xDifference / highestDenominatorForDayDifference; 
@@ -110,11 +107,11 @@ export function useGoalToGetPoints(goalData) {
                 }
             }
 
-            return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
+            return {pointsArray, linesArray, yAxisLabels, xAxisLabels};
         }
         // if goalData metric is null only goal is present and axis and points are left empty
-        return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
+        return {pointsArray, linesArray, yAxisLabels, xAxisLabels};
         
     }, [goalData]);
-    return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
+    return {pointsArray, linesArray, yAxisLabels, xAxisLabels};
 }
