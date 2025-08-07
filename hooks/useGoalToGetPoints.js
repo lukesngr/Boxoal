@@ -105,9 +105,9 @@ export function useGoalToGetPoints(goalData) {
                 yAxisLabels.push({label: i*yAxisIncrements, y: initialLogY - (yPerAxisLabel * i)});
             }
             
-            for(let i = 0; i < highestDenominatorForDayDifference+1; i += xAxisIncrements) { //last denominator for x is not to be included as it is end
-                if(dayjs(goalData.timeboxes[0].startTime).add(i, 'day').date() <= dayjs(goalData.targetDate).date()) {
-                    xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startTime).add(i, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
+            for(let i = 0; i < highestDenominatorForDayDifference+1; i++) { //last denominator for x is not to be included as it is end
+                if(dayjs(goalData.timeboxes[0].startTime).add(i*xAxisIncrements, 'day').date() <= dayjs(goalData.targetDate).date()) {
+                    xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startTime).add(i*xAxisIncrements, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
                 }
             }
 

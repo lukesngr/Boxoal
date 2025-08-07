@@ -16,7 +16,7 @@ export function getCurrentDay() {
 
 export function getCurrentDateAndMonth() {
     const {wakeupTime} = useSelector(state => state.profile.value);
-    const dateObject = dayjs();
+    let dateObject = dayjs();
     let cutOffDateTime = dateObject.hour(wakeupTime.split(':')[0]).minute(wakeupTime.split(':')[1]);
 
     if(dateObject.isBefore(cutOffDateTime)) {
