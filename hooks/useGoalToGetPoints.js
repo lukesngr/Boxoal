@@ -96,7 +96,7 @@ export function useGoalToGetPoints(goalData) {
                 let dayDifference = differenceInDates(timebox.startTime, goalData.timeboxes[0].startTime);
                 aggregateSumOfTimeboxes += timebox.numberOfBoxes;
                 let x = initialLogX + (xPerPoint * dayDifference);
-                let y = initialLogY - (yPerPoint * (totalSumOfBoxes - aggregateSumOfTimeboxes));
+                let y = initialLogY - (yPerPoint * (aggregateSumOfTimeboxes - 1));
                 console.log(x, y, overallSizeOfPoint, yPerAxisLabel, xPerAxisLabel, highestDenominatorForDayDifference);
                 return { x, y, size: overallSizeOfPoint };
             });
