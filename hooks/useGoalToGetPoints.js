@@ -61,7 +61,10 @@ export function useGoalToGetPoints(goalData) {
             return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
         }else if(goalData.timeboxes !== null & goalData.timeboxes.length != 0) {
             let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, goalData.timeboxes[0].startTime);
-            let totalSumOfBoxes = goalData.timeboxes.reduce((count, item) => item.numberOfBoxes ? count + 1 : count, 0);
+            let totalTime = 0;
+            goalData.timeboxes.forEach(function (element) {
+                totalTime += ((new Date(element.endTime) - new Date(element.startTime)) / 60000)
+            })
 
             let xPerPoint, yPerPoint, xAxisIncrements, yAxisIncrements, highestDenominatorForTimeboxDifference, highestDenominatorForDayDifference;
 
@@ -72,31 +75,24 @@ export function useGoalToGetPoints(goalData) {
             }else{
                 xPerPoint = xDifference / 1;
                 highestDenominatorForDayDifference = 1;
-                console.log(differenceInDates);
                 xAxisIncrements = 1 / highestDenominatorForDayDifference;
             }
 
-            if(totalSumOfBoxes > 1) {
-                yPerPoint = yDifference / (totalSumOfBoxes-1);
-                highestDenominatorForTimeboxDifference = getHighestDenominatorUpTo((totalSumOfBoxes-1), 10)
-                yAxisIncrements = (totalSumOfBoxes-1) / highestDenominatorForTimeboxDifference;
-            }else{
-                yPerPoint = yDifference / 1;
-                highestDenominatorForTimeboxDifference = 1;
-                yAxisIncrements = 1;
-            }
+            yPerPoint = yDifference / totalTime;
+            highestDenominatorForTimeboxDifference = getHighestDenominatorUpTo(totalTime, 10)
+            yAxisIncrements = totalTime / highestDenominatorForTimeboxDifference;
 
             let yPerAxisLabel = yDifference / highestDenominatorForTimeboxDifference; 
             let xPerAxisLabel = xDifference / highestDenominatorForDayDifference; 
 
             let overallSizeOfPoint = getOverallSizeOfPoint(xPerPoint, yPerPoint);
-            let aggregateSumOfTimeboxes = 0;
+            let sumOfTime = 0;
             
             pointsArray = goalData.timeboxes.map((timebox, index) => {
                 let dayDifference = differenceInDates(timebox.startTime, goalData.timeboxes[0].startTime);
-                aggregateSumOfTimeboxes += timebox.numberOfBoxes;
+                sumOfTime += ((new Date(timebox.endTime) - new Date(timebox.startTime)) / 60000);
                 let x = initialLogX + (xPerPoint * dayDifference);
-                let y = initialLogY - (yPerPoint * (aggregateSumOfTimeboxes - 1));
+                let y = initialLogY - (yPerPoint * sumOfTime);
                 return { x, y, size: overallSizeOfPoint };
             });
 
@@ -108,7 +104,9 @@ export function useGoalToGetPoints(goalData) {
             console.log(xAxisIncrements, highestDenominatorForDayDifference);
             
             for(let i = 0; i < highestDenominatorForDayDifference+1; i += xAxisIncrements) { //last denominator for x is not to be included as it is end
-                xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startTime).add(i, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
+                if(dayjs(goalData.timeboxes[0].startTime).add(i, 'day').date() <= dayjs(goalData.targetDate).date()) {
+                    xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startTime).add(i, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
+                }
             }
 
             return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
