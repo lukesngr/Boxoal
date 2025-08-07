@@ -19,16 +19,23 @@ export default async function handler(req, res) {
       }
     });
 
-    const updatedGoal = await prisma.goal.update({
-      where: {
-        id: nextGoal.id
-      },
-      data: {
-        active: true
-      }
-    });
+    if(nextGoal !== null) {
 
-    res.json(updatedGoal);
+      const updatedGoal = await prisma.goal.update({
+        where: {
+          id: nextGoal.id
+        },
+        data: {
+          active: true
+        }
+      });
+      res.json(updatedGoal);
+      
+    }else{
+      res.json({ message: "No next goal found" });
+    }
+
+    
   } catch (error) {
     Sentry.captureException(error);
     res.status(500).json({ error: 'Internal Server Error' });
