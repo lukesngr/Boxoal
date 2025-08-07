@@ -18,6 +18,34 @@ export default async function handler(req, res) {
       },
     });
 
+    await prisma.loggingOfMetric.deleteMany({
+      where: {
+        goalId: data.id
+      }
+    });
+
+    let timeboxes = await prisma.timeBox.findMany({
+      where: {
+        goalId: data.id
+      }
+    });
+
+    for (let timebox of timeboxes) {
+      await prisma.timeBox.delete({
+        where: {
+          id: timebox.id
+        }
+      });
+
+      await prisma.recordedTimeBox.deleteMany({
+        where: {
+          timeBoxId: timebox.id
+        }
+      });
+    }
+
+    await prisma.
+
     res.status(200).json({ message: 'Goal deleted successfully' });
   } catch (error) {
     Sentry.captureException(error);
