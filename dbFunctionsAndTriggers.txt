@@ -3,45 +3,46 @@ CREATE OR REPLACE FUNCTION updateGoalStatsWhenGoalCreated()
   LANGUAGE PLPGSQL
   AS
 $$
+DECLARE
+  wakeupMinutes TEXT;
+  wakeupHour TEXT;
+  targetDay INTEGER;
+  targetMonth INTEGER;
 BEGIN
   IF NEW.state = 'active' THEN
     UPDATE "GoalStatistics"
     SET "goalsActive" = "goalsActive" + 1
     WHERE "GoalStatistics"."scheduleID" = NEW."scheduleID";
   END IF;
-  WITH wakeupUnit AS (
-    SELECT 
-        SPLIT_PART("wakeupTime", ':', 2) as wakeupMinutes, 
-        SPLIT_PART("wakeupTime", ':', 1) AS wakeupHour 
-    FROM "Profile"
-    WHERE "scheduleID" IN (
-        SELECT "scheduleID" FROM "Goal" WHERE id = NEW.id
-    )
-  ),
-  dayMonth AS (
-      SELECT 
-          EXTRACT(DAY FROM ("targetDate"::DATE + INTERVAL '1 day')) AS day,  -- Added +1 day
-          EXTRACT(MONTH FROM ("targetDate"::DATE + INTERVAL '1 day')) AS month 
-      FROM "Goal" 
-      WHERE id = NEW.id
-  )
-  PERFORM 
-      cron.schedule(
-          FORMAT('updateToFailed %s %s %s %s *', 
-            w.wakeupMinutes, 
-            w.wakeupHour, 
-            d.day, 
-            d.month
-          ), 
-          FORMAT('%s %s %s %s *', 
-            w.wakeupMinutes, 
-            w.wakeupHour, 
-            d.day, 
-            d.month
-          ), 
-          FORMAT('UPDATE "Goal" SET state = ''failed'' WHERE id = %s;', NEW.id)  -- Fixed: escaped quotes
-      )
-  FROM wakeupUnit w, dayMonth d;
+
+  SELECT 
+    SPLIT_PART("wakeupTime", ':', 2),
+    SPLIT_PART("wakeupTime", ':', 1)
+  INTO wakeupMinutes, wakeupHour
+  FROM "Profile"
+  WHERE "scheduleID" = NEW."scheduleID";
+
+  SELECT 
+    EXTRACT(DAY FROM (NEW."targetDate"::DATE + INTERVAL '1 day')),
+    EXTRACT(MONTH FROM (NEW."targetDate"::DATE + INTERVAL '1 day'))
+  INTO targetDay, targetMonth;
+
+  PERFORM cron.schedule(
+    FORMAT('updateToFailed %s %s %s %s *', 
+      wakeupMinutes, 
+      wakeupHour, 
+      targetDay, 
+      targetMonth
+    ), 
+    FORMAT('%s %s %s %s *', 
+      wakeupMinutes, 
+      wakeupHour, 
+      targetDay, 
+      targetMonth
+    ), 
+    FORMAT('UPDATE "Goal" SET state = ''failed'' WHERE id = %s;', NEW.id));
+  
+  RETURN NEW;
 END;
 $$
 
@@ -55,6 +56,15 @@ CREATE OR REPLACE FUNCTION updateGoalStatsWhenGoalUpdated()
   LANGUAGE PLPGSQL
   AS
 $$
+DECLARE
+  oldWakeupMinutes TEXT;
+  oldWakeupHour TEXT;
+  oldTargetDay INTEGER;
+  oldTargetMonth INTEGER;
+  wakeupMinutes TEXT;
+  wakeupHour TEXT;
+  targetDay INTEGER;
+  targetMonth INTEGER;
 BEGIN
   IF NEW.state = 'active' AND OLD.state = 'waiting' THEN
     UPDATE "GoalStatistics"
@@ -72,39 +82,53 @@ BEGIN
     WHERE "GoalStatistics"."scheduleID" = NEW."scheduleID";
   END IF;
 
-  WITH wakeupUnit AS (
-    SELECT
-        SPLIT_PART("wakeupTime", ':', 2) as wakeupMinutes, 
-        SPLIT_PART("wakeupTime", ':', 1) AS wakeupHour 
-    FROM "Profile"
-    WHERE "scheduleID" IN (
-        SELECT "scheduleID" FROM "Goal" WHERE id = NEW.id
+  SELECT 
+    SPLIT_PART("wakeupTime", ':', 2),
+    SPLIT_PART("wakeupTime", ':', 1)
+  INTO oldWakeupMinutes, oldWakeupHour
+  FROM "Profile"
+  WHERE "scheduleID" = OLD."scheduleID";
+
+  SELECT 
+    EXTRACT(DAY FROM (OLD."targetDate"::DATE + INTERVAL '1 day')),
+    EXTRACT(MONTH FROM (OLD."targetDate"::DATE + INTERVAL '1 day'))
+  INTO oldTargetDay, oldTargetMonth;
+
+  SELECT 
+    SPLIT_PART("wakeupTime", ':', 2),
+    SPLIT_PART("wakeupTime", ':', 1)
+  INTO wakeupMinutes, wakeupHour
+  FROM "Profile"
+  WHERE "scheduleID" = NEW."scheduleID";
+
+  SELECT 
+    EXTRACT(DAY FROM (NEW."targetDate"::DATE + INTERVAL '1 day')),
+    EXTRACT(MONTH FROM (NEW."targetDate"::DATE + INTERVAL '1 day'))
+  INTO targetDay, targetMonth;
+
+  PERFORM cron.unschedule(
+    FORMAT('updateToFailed %s %s %s %s *', 
+      oldWakeupMinutes, 
+      oldWakeupHour, 
+      oldTargetDay, 
+      oldTargetMonth
     )
-  ),
-  dayMonth AS (
-      SELECT 
-          EXTRACT(DAY FROM ("targetDate"::DATE + INTERVAL '1 day')) AS day,  -- Added +1 day
-          EXTRACT(MONTH FROM ("targetDate"::DATE + INTERVAL '1 day')) AS month 
-      FROM "Goal" 
-      WHERE id = NEW.id
-  )
-  PERFORM 
-      cron.schedule(
-          FORMAT('updateToFailed %s %s %s %s', 
-            w.wakeupMinutes, 
-            w.wakeupHour, 
-            d.day, 
-            d.month
-          ), 
-          FORMAT('%s %s %s %s *', 
-            w.wakeupMinutes, 
-            w.wakeupHour, 
-            d.day, 
-            d.month
-          ), 
-          FORMAT('UPDATE "Goal" SET state = ''failed'' WHERE id = %s;', NEW.id)  -- Fixed: escaped quotes
-      )
-  FROM wakeupUnit w, dayMonth d;
+  );
+
+  PERFORM cron.schedule(
+    FORMAT('updateToFailed %s %s %s %s *', 
+      wakeupMinutes, 
+      wakeupHour, 
+      targetDay, 
+      targetMonth
+    ), 
+    FORMAT('%s %s %s %s *', 
+      wakeupMinutes, 
+      wakeupHour, 
+      targetDay, 
+      targetMonth
+    ), 
+    FORMAT('UPDATE "Goal" SET state = ''failed'' WHERE id = %s;', NEW.id));
   RETURN NEW;
 END;
 $$
