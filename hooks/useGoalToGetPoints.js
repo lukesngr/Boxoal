@@ -98,8 +98,8 @@ export function useGoalToGetPoints(goalData) {
             });
 
             linesArray = getLinesBetweenPoints(pointsArray, overallSizeOfPoint);
-            for(let i = 0; i <= highestDenominatorForTimeboxDifference; i += yAxisIncrements) {
-                yAxisLabels.push({label: i+1, y: initialLogY - (yPerAxisLabel * i)});
+            for(let i = 0; i <= highestDenominatorForTimeboxDifference; i++) {
+                yAxisLabels.push({label: i*yAxisIncrements, y: initialLogY - (yPerAxisLabel * i)});
             }
 
             console.log(xAxisIncrements, highestDenominatorForDayDifference);
