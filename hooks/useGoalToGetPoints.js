@@ -2,14 +2,14 @@ import { useMemo } from "react";
 import { differenceInDates } from '@/modules/dateCode';
 import { getHighestDenominatorUpTo } from '@/modules/coreLogic';
 import dayjs from 'dayjs';
-import { getLinesBetweenPoints } from "@/modules/coreLogic";
+import { getLinesBetweenPoints, getOverallSizeOfPoint } from "@/modules/coreLogic";
 export function useGoalToGetPoints(goalData) {
     const {pointsArray, linesArray, xAxisLabels, yAxisLabels, goalRectX, goalRectY} = useMemo(() => {
 
         const initialLogX = 77;
         const initialLogY = 266;
         const goalX = 600;
-        const goalY = 35; //35
+        const goalY = 47; //35
         let pointsArray = [];
         let linesArray = [];
         let xAxisLabels = [];
@@ -59,19 +59,21 @@ export function useGoalToGetPoints(goalData) {
 
             return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
         }else if(goalData.timeboxes !== null & goalData.timeboxes.length != 0) {
-            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, goalData.timeboxes[0].startDate);
+            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, goalData.timeboxes[0].startTime);
             let timeboxesNumberOfBoxes = goalData.timeboxes.reduce((count, item) => item.numberOfBoxes ? count + 1 : count, 0);
 
             let xPerPoint = xDifference / (dateDifferenceBetweenFirstLogAndGoal); //include goal point
             let yPerPoint = yDifference / (timeboxesNumberOfBoxes);
-            let overallSizeOfPoint = Math.min(xPerPoint, yPerPoint)*0.9;
+            let overallSizeOfPoint = getOverallSizeOfPoint(xPerPoint, yPerPoint);
             let aggregateSumOfTimeboxes = 0;
             
             pointsArray = goalData.timeboxes.map((timebox, index) => {
-                let dayDifference = differenceInDates(timebox.startDate, goalData.timeboxes[0].startDate);
+                let dayDifference = differenceInDates(timebox.startTime, goalData.timeboxes[0].startTime);
+                
                 aggregateSumOfTimeboxes += timebox.numberOfBoxes;
+                console.log(dayDifference, timebox.startTime, dateDifferenceBetweenFirstLogAndGoal, (timeboxesNumberOfBoxes - aggregateSumOfTimeboxes));
                 let x = initialLogX + (xPerPoint * dayDifference);
-                let y = initialLogY - (yPerPoint * aggregateSumOfTimeboxes);
+                let y = (goalY + 12) + (yPerPoint * (timeboxesNumberOfBoxes - aggregateSumOfTimeboxes));
                 return { x, y, size: overallSizeOfPoint };
             });
 
