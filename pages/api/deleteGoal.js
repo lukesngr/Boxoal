@@ -9,42 +9,26 @@ export default async function handler(req, res) {
   try {
     const data = req.body;
 
+    await prisma.loggingOfMetric.deleteMany({
+      where: {
+        goalID: data.id
+      }
+    });
+
     await prisma.goal.delete({
       where: {
         id: data.id
       },
       include: {
-        timeboxes: true,
-      },
-    });
-
-    await prisma.loggingOfMetric.deleteMany({
-      where: {
-        goalId: data.id
+        timeboxes: {
+          include: {
+            recordedTimeBoxes: true
+          }
+        },
       }
     });
 
-    let timeboxes = await prisma.timeBox.findMany({
-      where: {
-        goalId: data.id
-      }
-    });
-
-    for (let timebox of timeboxes) {
-      await prisma.timeBox.delete({
-        where: {
-          id: timebox.id
-        }
-      });
-
-      await prisma.recordedTimeBox.deleteMany({
-        where: {
-          timeBoxId: timebox.id
-        }
-      });
-    }
-
-    await prisma.
+    
 
     res.status(200).json({ message: 'Goal deleted successfully' });
   } catch (error) {
