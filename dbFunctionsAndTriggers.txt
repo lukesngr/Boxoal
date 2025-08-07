@@ -25,7 +25,7 @@ BEGIN
       FROM "Goal" 
       WHERE id = NEW.id
   )
-  SELECT 
+  PERFORM 
       cron.schedule(
           FORMAT('updateToFailed %s %s %s %s *', 
             w.wakeupMinutes, 
@@ -88,7 +88,7 @@ BEGIN
       FROM "Goal" 
       WHERE id = NEW.id
   )
-  SELECT 
+  PERFORM 
       cron.schedule(
           FORMAT('updateToFailed %s %s %s %s', 
             w.wakeupMinutes, 
@@ -119,6 +119,11 @@ CREATE OR REPLACE FUNCTION updateGoalStatsWhenGoalDeleted()
   LANGUAGE PLPGSQL
   AS
 $$
+DECLARE
+  wakeupMinutes TEXT;
+  wakeupHour TEXT;
+  targetDay INTEGER;
+  targetMonth INTEGER;
 BEGIN
   IF OLD.state = 'active' THEN
     UPDATE "GoalStatistics"
@@ -131,32 +136,31 @@ BEGIN
     SET "goalsCompleted" = "goalsCompleted" - 1
     WHERE "GoalStatistics"."scheduleID" = OLD."scheduleID";
   END IF;
-  WITH wakeupUnit AS (
-    SELECT 
-        SPLIT_PART("wakeupTime", ':', 2) as wakeupMinutes, 
-        SPLIT_PART("wakeupTime", ':', 1) AS wakeupHour 
-    FROM "Profile"
-    WHERE "scheduleID" IN (
-        SELECT "scheduleID" FROM "Goal" WHERE id = OLD.id
-    )
-  ),
-  dayMonth AS (
-      SELECT 
-          EXTRACT(DAY FROM ("targetDate"::DATE + INTERVAL '1 day')) AS day, 
-          EXTRACT(MONTH FROM ("targetDate"::DATE + INTERVAL '1 day')) AS month 
-      FROM "Goal" 
-      WHERE id = OLD.id
-  )
+
   SELECT 
-      cron.unschedule(
+    SPLIT_PART("wakeupTime", ':', 2),
+    SPLIT_PART("wakeupTime", ':', 1)
+  INTO wakeupMinutes, wakeupHour
+  FROM "Profile"
+  WHERE "scheduleID" IN (
+    SELECT "scheduleID" FROM "Goal" WHERE id = OLD.id
+  );
+
+  SELECT 
+    EXTRACT(DAY FROM ("targetDate"::DATE + INTERVAL '1 day')),
+    EXTRACT(MONTH FROM ("targetDate"::DATE + INTERVAL '1 day'))
+  INTO targetDay, targetMonth
+  FROM "Goal" 
+  WHERE id = OLD.id;
+
+  PERFORM cron.unschedule(
           FORMAT('updateToFailed %s %s %s %s *', 
-            w.wakeupMinutes, 
-            w.wakeupHour, 
-            d.day, 
-            d.month
+            wakeupMinutes, 
+            wakeupHour, 
+            targetDay, 
+            targetMonth
           )
-      )
-  FROM wakeupUnit w, dayMonth d;
+  )
   RETURN OLD;
 END;
 $$
