@@ -86,22 +86,24 @@ export function useGoalToGetPoints(goalData) {
             let overallSizeOfPoint = getOverallSizeOfPoint(xPerPoint, yPerPoint);
             let sumOfTime = 0;
             
-            pointsArray = goalData.timeboxes.map((timebox, index) => {
+            pointsArray = goalData.timeboxes.reduce((arrayOfPoints, timebox) => {
                 let dayDifference = differenceInDates(timebox.startTime, goalData.timeboxes[0].startTime);
                 if(timebox.recordedTimeBoxes.length != 0) {
                     sumOfTime += ((new Date(timebox.endTime) - new Date(timebox.startTime)) / 60000);
                     let x = initialLogX + (xPerPoint * dayDifference);
                     let y = initialLogY - (yPerPoint * sumOfTime);
-                    return { x, y, size: overallSizeOfPoint };
+                    arrayOfPoints.push({ x, y, size: overallSizeOfPoint });
                 }
-            });
-
-            linesArray = getLinesBetweenPoints(pointsArray, overallSizeOfPoint);
+                return arrayOfPoints;
+            }, []);
+            
+            if(pointsArray.length > 0) {
+                linesArray = getLinesBetweenPoints(pointsArray, overallSizeOfPoint);
+            }
+            
             for(let i = 0; i <= highestDenominatorForTimeboxDifference; i++) {
                 yAxisLabels.push({label: i*yAxisIncrements, y: initialLogY - (yPerAxisLabel * i)});
             }
-
-            console.log(xAxisIncrements, highestDenominatorForDayDifference);
             
             for(let i = 0; i < highestDenominatorForDayDifference+1; i += xAxisIncrements) { //last denominator for x is not to be included as it is end
                 if(dayjs(goalData.timeboxes[0].startTime).add(i, 'day').date() <= dayjs(goalData.targetDate).date()) {
