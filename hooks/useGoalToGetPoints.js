@@ -59,7 +59,10 @@ export function useGoalToGetPoints(goalData) {
             return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
         }else if(goalData.timeboxes !== null & goalData.timeboxes.length != 0) {
             let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, goalData.timeboxes[0].startTime);
-            let totalSumOfBoxes = goalData.timeboxes.reduce((count, item) => item.numberOfBoxes ? count + 1 : count, 0);
+            let totalTime = 0;
+            goalData.timeboxes.forEach(function (element) {
+                totalTime += ((new Date(element.endTime) - new Date(element.startTime)) / 60000)
+            })
 
             let xPerPoint, yPerPoint, xAxisIncrements, yAxisIncrements, highestDenominatorForTimeboxDifference, highestDenominatorForDayDifference;
 
@@ -73,17 +76,6 @@ export function useGoalToGetPoints(goalData) {
                 xAxisIncrements = 1 / highestDenominatorForDayDifference;
             }
 
-            if(totalSumOfBoxes > 1) {
-                yPerPoint = yDifference / (totalSumOfBoxes-1);
-                highestDenominatorForTimeboxDifference = getHighestDenominatorUpTo((totalSumOfBoxes-1), 10)
-                yAxisIncrements = (totalSumOfBoxes-1) / highestDenominatorForTimeboxDifference;
-            }else{
-                yPerPoint = yDifference / 1;
-                highestDenominatorForTimeboxDifference = 1;
-                yAxisIncrements = 1;
-            }
-
-
             yPerPoint = yDifference / totalTime;
             highestDenominatorForTimeboxDifference = getHighestDenominatorUpTo(totalTime, 10)
             yAxisIncrements = totalTime / highestDenominatorForTimeboxDifference;
@@ -92,14 +84,16 @@ export function useGoalToGetPoints(goalData) {
             let xPerAxisLabel = xDifference / highestDenominatorForDayDifference; 
 
             let overallSizeOfPoint = getOverallSizeOfPoint(xPerPoint, yPerPoint);
-            let aggregateSumOfTimeboxes = 0;
+            let sumOfTime = 0;
             
             pointsArray = goalData.timeboxes.map((timebox, index) => {
                 let dayDifference = differenceInDates(timebox.startTime, goalData.timeboxes[0].startTime);
-                aggregateSumOfTimeboxes += timebox.numberOfBoxes;
-                let x = initialLogX + (xPerPoint * dayDifference);
-                let y = initialLogY - (yPerPoint * (aggregateSumOfTimeboxes - 1));
-                return { x, y, size: overallSizeOfPoint };
+                if(timebox.recordedTimeBoxes.length != 0) {
+                    sumOfTime += ((new Date(timebox.endTime) - new Date(timebox.startTime)) / 60000);
+                    let x = initialLogX + (xPerPoint * dayDifference);
+                    let y = initialLogY - (yPerPoint * sumOfTime);
+                    return { x, y, size: overallSizeOfPoint };
+                }
             });
 
             linesArray = getLinesBetweenPoints(pointsArray, overallSizeOfPoint);
