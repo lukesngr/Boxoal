@@ -33,6 +33,8 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
     const [hasUserSetGoalLimit, setHasUserSetGoalLimit] = useState(profile.goalLimit !== -1);
     const [goalLimit, setGoalLimit] = useState(profile.goalLimit);
 
+    console.log(wakeupTime.utc.format('HH:mm'))
+
     function updateProfile() {
         const wakeupTimeAsText = wakeupTime.format('HH:mm');
         const convertedBackBoxSizeNumber = Number(boxSizeNumber);
