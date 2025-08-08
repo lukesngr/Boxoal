@@ -28,7 +28,7 @@ BEGIN
   INTO targetDay, targetMonth;
 
   PERFORM cron.schedule(
-    FORMAT('updateToFailed %s %s %s %s *', 
+    FORMAT('updateToFailed %s %s %s %s', 
       wakeupMinutes, 
       wakeupHour, 
       targetDay, 
@@ -107,7 +107,7 @@ BEGIN
   INTO targetDay, targetMonth;
 
   PERFORM cron.unschedule(
-    FORMAT('updateToFailed %s %s %s %s *', 
+    FORMAT('updateToFailed %s %s %s %s', 
       oldWakeupMinutes, 
       oldWakeupHour, 
       oldTargetDay, 
@@ -178,7 +178,7 @@ BEGIN
   WHERE id = OLD.id;
 
   PERFORM cron.unschedule(
-          FORMAT('updateToFailed %s %s %s %s *', 
+          FORMAT('updateToFailed %s %s %s %s', 
             wakeupMinutes, 
             wakeupHour, 
             targetDay, 
