@@ -27,7 +27,7 @@ export default function CreateGoalForm(props) {
     const {scheduleIndex} = useSelector(state => state.profile.value);
     const {goalsActive, goalsCompleted} = useSelector(state => state.goalStatistics.value);
     const goalsNotCompleted = goalsActive - goalsCompleted;
-    const {goalLimit} = useSelector(state => state.profile.value);
+    const {goalLimit, wakeupTime} = useSelector(state => state.profile.value);
     
 
     const createGoalMutation = useMutation({
@@ -63,6 +63,8 @@ export default function CreateGoalForm(props) {
     
     function createGoal() {
         let isActiveOnInTree = props.active ? "active" : "waiting";
+        let wakeupTimeSplitted = wakeupTime.split(':');
+        targetDate.hour(wakeupTimeSplitted[0]).minute(wakeupTimeSplitted[1]);
 
         const goalData = {
             title,
