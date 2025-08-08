@@ -62,7 +62,8 @@ export default function CreateGoalForm(props) {
     });
     
     function createGoal() {
-        let isActiveOnInTree = props.active ? "active" : "waiting"
+        let isActiveOnInTree = props.active ? "active" : "waiting";
+
         const goalData = {
             title,
             targetDate: targetDate.toISOString(),
