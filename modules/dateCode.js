@@ -58,7 +58,7 @@ export function differenceInDates(date1, date2, wakeupTime) {
         if(firstDate.isBefore(cutoffFirstDate)) {
             difference -= 1;
         }else if(secondDate.isBefore(cutoffSecondDate)) {
-            difference -= 1;
+            difference += 1;
         }
     }
     return difference;
