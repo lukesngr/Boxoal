@@ -2,8 +2,11 @@ import { useMemo } from "react";
 import { differenceInDates } from '@/modules/dateCode';
 import { getHighestDenominatorUpTo } from '@/modules/coreLogic';
 import dayjs from 'dayjs';
+import { useSelector } from 'react-redux';
+
 import { getLinesBetweenPoints, getOverallSizeOfPoint } from "@/modules/coreLogic";
 export function useGoalToGetPoints(goalData) {
+    const {wakeupTime} = useSelector(state => state.profile.value);
     const {pointsArray, linesArray, xAxisLabels, yAxisLabels} = useMemo(() => {
 
         const initialLogX = 77;
@@ -30,7 +33,7 @@ export function useGoalToGetPoints(goalData) {
             //gets smallest divisor of both x and y and then minus by 0.1 to add margin between points
             let overallSizeOfPoint = Math.min(xPerPoint, yPerPoint)*0.9;
             pointsArray = goalData.loggingsOfMetric.map((log, index) => {
-                let dayDifference = differenceInDates(log.date, goalData.loggingsOfMetric[0].date);
+                let dayDifference = differenceInDates(log.date, goalData.loggingsOfMetric[0].date, wakeupTime);
                 let metricDifference = log.metric - goalData.loggingsOfMetric[0].metric;
                 let x = initialLogX + (xPerPoint * dayDifference);
                 let y = initialLogY - (yPerPoint * metricDifference);
@@ -58,7 +61,7 @@ export function useGoalToGetPoints(goalData) {
 
             return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
         }else if(goalData.timeboxes !== null & goalData.timeboxes.length != 0) {
-            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, goalData.timeboxes[0].startTime);
+            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, goalData.timeboxes[0].startTime, wakeupTime);
             let totalTime = 0;
             goalData.timeboxes.forEach(function (element) {
                 totalTime += ((new Date(element.endTime) - new Date(element.startTime)) / 60000)
