@@ -4,8 +4,8 @@ CREATE OR REPLACE FUNCTION updateGoalStatsWhenGoalCreated()
   AS
 $$
 DECLARE
-  wakeupMinutes TEXT;
-  wakeupHour TEXT;
+  wakeupMinutes INTEGER;
+  wakeupHour INTEGER;
   targetDay INTEGER;
   targetMonth INTEGER;
 BEGIN
@@ -16,16 +16,11 @@ BEGIN
   END IF;
 
   SELECT 
-    SPLIT_PART("wakeupTime", ':', 2),
-    SPLIT_PART("wakeupTime", ':', 1)
-  INTO wakeupMinutes, wakeupHour
-  FROM "Profile"
-  WHERE "scheduleID" = NEW."scheduleID";
-
-  SELECT 
-    EXTRACT(DAY FROM (NEW."targetDate"::DATE + INTERVAL '1 day')),
-    EXTRACT(MONTH FROM (NEW."targetDate"::DATE + INTERVAL '1 day'))
-  INTO targetDay, targetMonth;
+    EXTRACT(DAY FROM (NEW."targetDate" + INTERVAL '1 day')),
+    EXTRACT(MONTH FROM (NEW."targetDate" + INTERVAL '1 day')),
+    EXTRACT(HOUR FROM (NEW."targetDate" + INTERVAL '1 day')),
+    EXTRACT(MINUTE FROM (NEW."targetDate" + INTERVAL '1 day'))
+  INTO targetDay, targetMonth, wakeupHour, wakeupMinutes;
 
   PERFORM cron.schedule(
     FORMAT('updateToFailed %s %s %s %s', 
@@ -57,12 +52,12 @@ CREATE OR REPLACE FUNCTION updateGoalStatsWhenGoalUpdated()
   AS
 $$
 DECLARE
-  oldWakeupMinutes TEXT;
-  oldWakeupHour TEXT;
+  oldWakeupMinutes INTEGER;
+  oldWakeupHour INTEGER;
   oldTargetDay INTEGER;
   oldTargetMonth INTEGER;
-  wakeupMinutes TEXT;
-  wakeupHour TEXT;
+  wakeupMinutes INTEGER;
+  wakeupHour INTEGER;
   targetDay INTEGER;
   targetMonth INTEGER;
 BEGIN
@@ -83,28 +78,18 @@ BEGIN
   END IF;
 
   SELECT 
-    SPLIT_PART("wakeupTime", ':', 2),
-    SPLIT_PART("wakeupTime", ':', 1)
-  INTO oldWakeupMinutes, oldWakeupHour
-  FROM "Profile"
-  WHERE "scheduleID" = OLD."scheduleID";
-
-  SELECT 
     EXTRACT(DAY FROM (OLD."targetDate"::DATE + INTERVAL '1 day')),
-    EXTRACT(MONTH FROM (OLD."targetDate"::DATE + INTERVAL '1 day'))
-  INTO oldTargetDay, oldTargetMonth;
-
-  SELECT 
-    SPLIT_PART("wakeupTime", ':', 2),
-    SPLIT_PART("wakeupTime", ':', 1)
-  INTO wakeupMinutes, wakeupHour
-  FROM "Profile"
-  WHERE "scheduleID" = NEW."scheduleID";
+    EXTRACT(MONTH FROM (OLD."targetDate"::DATE + INTERVAL '1 day')),
+    EXTRACT(HOUR FROM (OLD."targetDate" + INTERVAL '1 day')),
+    EXTRACT(MINUTE FROM (OLD."targetDate" + INTERVAL '1 day'))
+  INTO oldTargetDay, oldTargetMonth, oldWakeupHour, oldWakeupMinutes;
 
   SELECT 
     EXTRACT(DAY FROM (NEW."targetDate"::DATE + INTERVAL '1 day')),
-    EXTRACT(MONTH FROM (NEW."targetDate"::DATE + INTERVAL '1 day'))
-  INTO targetDay, targetMonth;
+    EXTRACT(MONTH FROM (NEW."targetDate"::DATE + INTERVAL '1 day')),
+    EXTRACT(HOUR FROM (NEW."targetDate" + INTERVAL '1 day')),
+    EXTRACT(MINUTE FROM (NEW."targetDate" + INTERVAL '1 day'))
+  INTO targetDay, targetMonth, wakeupHour, wakeupMinutes;
 
   PERFORM cron.unschedule(
     FORMAT('updateToFailed %s %s %s %s', 
@@ -144,8 +129,8 @@ CREATE OR REPLACE FUNCTION updateGoalStatsWhenGoalDeleted()
   AS
 $$
 DECLARE
-  wakeupMinutes TEXT;
-  wakeupHour TEXT;
+  wakeupMinutes INTEGER;
+  wakeupHour INTEGER;
   targetDay INTEGER;
   targetMonth INTEGER;
 BEGIN
@@ -172,8 +157,10 @@ BEGIN
 
   SELECT 
     EXTRACT(DAY FROM ("targetDate"::DATE + INTERVAL '1 day')),
-    EXTRACT(MONTH FROM ("targetDate"::DATE + INTERVAL '1 day'))
-  INTO targetDay, targetMonth
+    EXTRACT(MONTH FROM ("targetDate"::DATE + INTERVAL '1 day')),
+    EXTRACT(HOUR FROM ("targetDate" + INTERVAL '1 day')),
+    EXTRACT(MINUTE FROM ("targetDate" + INTERVAL '1 day'))
+  INTO targetDay, targetMonth, wakeupHour, wakeupMinutes
   FROM "Goal" 
   WHERE id = OLD.id;
 
