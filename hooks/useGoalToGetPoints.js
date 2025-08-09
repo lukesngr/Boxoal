@@ -26,12 +26,34 @@ export function useGoalToGetPoints(goalData) {
         
         if(goalData.metric !== null && goalData.loggingsOfMetric.length != 0) {
             //logic works by dviding vertical and horizontal spaces by difference in relevant metrics
-            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, goalData.loggingsOfMetric[0].date)+1;
+            //thiry minutes before as target date set to wakeup time next day
+            let beforeCutOffTimeGoalTargetDate = dayjs(goalData.targetDate).subtract(30, 'minute').toISOString();
+            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(beforeCutOffTimeGoalTargetDate, goalData.timeboxes[0].startTime, wakeupTime);
             let metricDifferenceBetweenFirstLogAndGoal = goalData.metric - goalData.loggingsOfMetric[0].metric;
-            let xPerPoint = xDifference / dateDifferenceBetweenFirstLogAndGoal;
-            let yPerPoint = yDifference / metricDifferenceBetweenFirstLogAndGoal;
+            
+            let xPerPoint, yPerPoint, xAxisIncrements, yAxisIncrements, highestDenominatorForMetricDifference, highestDenominatorForDayDifference;
+
+            if(dateDifferenceBetweenFirstLogAndGoal > 0) {
+                xPerPoint = xDifference / dateDifferenceBetweenFirstLogAndGoal;
+                highestDenominatorForDayDifference = getHighestDenominatorUpTo(dateDifferenceBetweenFirstLogAndGoal, 20)
+                xAxisIncrements = dateDifferenceBetweenFirstLogAndGoal / highestDenominatorForDayDifference;
+            }else{
+                xPerPoint = xDifference / 1;
+                highestDenominatorForDayDifference = 1;
+                xAxisIncrements = 1 / highestDenominatorForDayDifference;
+            }
+
+            //divides y axis into increments based on the highest denominator of the metric difference and adds labels
+            yPerPoint = yDifference / metricDifferenceBetweenFirstLogAndGoal;
+            highestDenominatorForMetricDifference = getHighestDenominatorUpTo(metricDifferenceBetweenFirstLogAndGoal, 10)
+            yAxisIncrements = metricDifferenceBetweenFirstLogAndGoal / highestDenominatorForMetricDifference;
+            
+            let yPerAxisLabel = yDifference / highestDenominatorForMetricDifference; 
+            let xPerAxisLabel = xDifference / highestDenominatorForDayDifference; 
+
             //gets smallest divisor of both x and y and then minus by 0.1 to add margin between points
             let overallSizeOfPoint = Math.min(xPerPoint, yPerPoint)*0.9;
+
             pointsArray = goalData.loggingsOfMetric.map((log, index) => {
                 let dayDifference = differenceInDates(log.date, goalData.loggingsOfMetric[0].date, wakeupTime);
                 let metricDifference = log.metric - goalData.loggingsOfMetric[0].metric;
@@ -40,26 +62,24 @@ export function useGoalToGetPoints(goalData) {
                 return { x, y, size: overallSizeOfPoint };
             });
 
-            //just connects points by lines with lines starting in center of points except for goal point where it ends at goal point on side for aesthetic reasons
-            linesArray = getLinesBetweenPoints(pointsArray, overallSizeOfPoint, goalX, goalY);
-
-            //divides y axis into increments based on the highest denominator of the metric difference and adds labels
-            let highestDenominatorForMetricDifference = getHighestDenominatorUpTo(metricDifferenceBetweenFirstLogAndGoal, 10);
-            console.log(highestDenominatorForMetricDifference, goalData.metric, goalData.loggingsOfMetric[0].metric);
-            let yAxisIncrements = metricDifferenceBetweenFirstLogAndGoal / highestDenominatorForMetricDifference;
-            let yPerAxisLabel = yDifference / highestDenominatorForMetricDifference; 
-            for(let i = 0; i <= highestDenominatorForMetricDifference-1; i += yAxisIncrements) {
-                yAxisLabels.push({label: i+goalData.loggingsOfMetric[0].metric, y: initialLogY - (yPerAxisLabel * i) - (overallSizeOfPoint*0.5)});
+            if(pointsArray.length > 0) {
+                linesArray = getLinesBetweenPoints(pointsArray, overallSizeOfPoint);
+            }
+            
+            //just connects points by lines with lines starting in center of points except for goal point where it ends at goal point on side previous point came from
+            for(let i = 0; i <= highestDenominatorForMetricDifference; i++) {
+                yAxisLabels.push({label: i*yAxisIncrements, y: initialLogY - (yPerAxisLabel * i)});
             }
 
-            let highestDenominatorForDayDifference = getHighestDenominatorUpTo(dateDifferenceBetweenFirstLogAndGoal, 20);
-            let xAxisIncrements = dateDifferenceBetweenFirstLogAndGoal / highestDenominatorForDayDifference;
-            let xPerAxisLabel = xDifference / highestDenominatorForDayDifference; 
-            for(let i = 0; i < highestDenominatorForDayDifference; i += xAxisIncrements) {
-                xAxisLabels.push({label: dayjs(goalData.loggingsOfMetric[0].date).add(i, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
+             
+            for(let i = 0; i < highestDenominatorForDayDifference+1; i++) {
+                //if end denominator goes over what expected remove
+                if(dayjs(goalData.timeboxes[0].startTime).add(i*xAxisIncrements, 'day').date() <= dayjs(beforeCutOffTimeGoalTargetDate).date()) {
+                    xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startTime).add(i*xAxisIncrements, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
+                }
             }
 
-            return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
+            return {pointsArray, linesArray, yAxisLabels, xAxisLabels};
         }else if(goalData.timeboxes !== null & goalData.timeboxes.length != 0) {
             let beforeCutOffTimeGoalTargetDate = dayjs(goalData.targetDate).subtract(30, 'minute').toISOString();
             let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(beforeCutOffTimeGoalTargetDate, goalData.timeboxes[0].startTime, wakeupTime);
@@ -109,7 +129,7 @@ export function useGoalToGetPoints(goalData) {
                 yAxisLabels.push({label: i*yAxisIncrements, y: initialLogY - (yPerAxisLabel * i)});
             }
             
-            for(let i = 0; i < highestDenominatorForDayDifference+1; i++) { //last denominator for x is not to be included as it is end
+            for(let i = 0; i < highestDenominatorForDayDifference+1; i++) {
                 if(dayjs(goalData.timeboxes[0].startTime).add(i*xAxisIncrements, 'day').date() <= dayjs(beforeCutOffTimeGoalTargetDate).date()) {
                     xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startTime).add(i*xAxisIncrements, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
                 }
