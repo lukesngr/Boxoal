@@ -52,12 +52,12 @@ export function differenceInDates(date1, date2, wakeupTime) {
     let secondDateWithNoTime = secondDate.hour(0).minute(0)
     let difference = firstDateWithNoTime.diff(secondDateWithNoTime, 'day');
     let cutoffFirstDate = firstDate.hour(wakeupTime.split(':')[0]).minute(wakeupTime.split(':')[1]);
-    let cutoffSecondDate = secondDate.hour(wakeupTime.split(':')[0]).minute(wakeupTime.split(':')[1])
+    let cutoffSecondDate = secondDate.hour(wakeupTime.split(':')[0]).minute(wakeupTime.split(':')[1]);
     
     if(difference > 0) {
         if(firstDate.isBefore(cutoffFirstDate)) {
             difference -= 1;
-        }else(secondDate.isBefore(cutoffSecondDate)) {
+        }else if(secondDate.isBefore(cutoffSecondDate)) {
             difference -= 1;
         }
     }
