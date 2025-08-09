@@ -27,8 +27,7 @@ export function useGoalToGetPoints(goalData) {
         if(goalData.metric !== null && goalData.loggingsOfMetric.length != 0) {
             //logic works by dviding vertical and horizontal spaces by difference in relevant metrics
             //thiry minutes before as target date set to wakeup time next day
-            let beforeCutOffTimeGoalTargetDate = dayjs(goalData.targetDate).subtract(30, 'minute').toISOString();
-            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(beforeCutOffTimeGoalTargetDate, goalData.loggingsOfMetric[0].date, wakeupTime);
+            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, goalData.loggingsOfMetric[0].date, wakeupTime);
             let metricDifferenceBetweenFirstLogAndGoal = goalData.metric - goalData.loggingsOfMetric[0].metric;
             
             let xPerPoint, yPerPoint, xAxisIncrements, yAxisIncrements, highestDenominatorForMetricDifference, highestDenominatorForDayDifference;
@@ -75,15 +74,14 @@ export function useGoalToGetPoints(goalData) {
              
             for(let i = 0; i < highestDenominatorForDayDifference+1; i++) {
                 //if end denominator goes over what expected remove
-                if(dayjs(goalData.loggingsOfMetric[0].date).add(i*xAxisIncrements, 'day').date() <= dayjs(beforeCutOffTimeGoalTargetDate).date()) {
+                if(dayjs(goalData.loggingsOfMetric[0].date).add(i*xAxisIncrements, 'day').date() <= dayjs(goalData.targetDate).date()) {
                     xAxisLabels.push({label: dayjs(goalData.loggingsOfMetric[0].date).add(i*xAxisIncrements, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
                 }
             }
 
             return {pointsArray, linesArray, yAxisLabels, xAxisLabels};
         }else if(goalData.timeboxes !== null & goalData.timeboxes.length != 0) {
-            let beforeCutOffTimeGoalTargetDate = dayjs(goalData.targetDate).subtract(30, 'minute').toISOString();
-            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(beforeCutOffTimeGoalTargetDate, goalData.timeboxes[0].startTime, wakeupTime);
+            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, goalData.timeboxes[0].startTime, wakeupTime);
             let totalTime = 0;
             goalData.timeboxes.forEach(function (element) {
                 totalTime += ((new Date(element.endTime) - new Date(element.startTime)) / 60000)
@@ -131,7 +129,7 @@ export function useGoalToGetPoints(goalData) {
             }
             
             for(let i = 0; i < highestDenominatorForDayDifference+1; i++) {
-                if(dayjs(goalData.timeboxes[0].startTime).add(i*xAxisIncrements, 'day').date() <= dayjs(beforeCutOffTimeGoalTargetDate).date()) {
+                if(dayjs(goalData.timeboxes[0].startTime).add(i*xAxisIncrements, 'day').date() <= dayjs(goalData.targetDate).date()) {
                     xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startTime).add(i*xAxisIncrements, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
                 }
             }
