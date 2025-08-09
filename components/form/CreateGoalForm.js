@@ -64,11 +64,11 @@ export default function CreateGoalForm(props) {
     function createGoal() {
         let isActiveOnInTree = props.active ? "active" : "waiting";
         let wakeupTimeSplitted = wakeupTime.split(':');
-        targetDate.hour(wakeupTimeSplitted[0]).minute(wakeupTimeSplitted[1]);
+        let alteredDate = targetDate.hour(wakeupTimeSplitted[0]).minute(wakeupTimeSplitted[1]);
 
         const goalData = {
             title,
-            targetDate: targetDate.toISOString(),
+            targetDate: alteredDate.toISOString(),
             schedule: {
                 connect: {
                     id: props.id
