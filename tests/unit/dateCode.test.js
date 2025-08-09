@@ -235,8 +235,12 @@ describe('differenceInDates', () => {
         expect(differenceInDates("2025-08-11T03:00:00.000+10:00", "2025-08-09T11:00:00.000+10:00", '7:00')).toBe(1);
     })
 
-    test('one day difference with first date being before wakeup time', () => {
+    test('two day difference with first date being before wakeup time', () => {
         expect(differenceInDates("2025-08-10T11:00:00.000+10:00", "2025-08-09T03:00:00.000+10:00", '7:00')).toBe(2);
+    })
+
+    test('zero day difference with first date being before wakeup time', () => {
+        expect(differenceInDates("2025-08-09T03:00:00.000+10:00", "2025-08-09T11:00:00.000+10:00", '7:00')).toBe(0);
     })
 })
 
