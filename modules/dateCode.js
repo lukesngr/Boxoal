@@ -48,11 +48,11 @@ export function filterTimeboxesBasedOnWeekRange(timeboxes, selectedDate) {
 export function differenceInDates(date1, date2, wakeupTime) {
     let firstDate = dayjs(date1);
     let secondDate = dayjs(date2);
-    let firstDateWithNoTime = firstDate.hour(0).minute(0);
-    let secondDateWithNoTime = secondDate.hour(0).minute(0)
+    let firstDateWithNoTime = firstDate.hour(0).minute(0).second(0);
+    let secondDateWithNoTime = secondDate.hour(0).minute(0).second(0);
     let difference = firstDateWithNoTime.diff(secondDateWithNoTime, 'day');
-    let cutoffFirstDate = firstDate.hour(wakeupTime.split(':')[0]).minute(wakeupTime.split(':')[1]);
-    let cutoffSecondDate = secondDate.hour(wakeupTime.split(':')[0]).minute(wakeupTime.split(':')[1]);
+    let cutoffFirstDate = firstDate.hour(wakeupTime.split(':')[0]).minute(wakeupTime.split(':')[1]).second(0);
+    let cutoffSecondDate = secondDate.hour(wakeupTime.split(':')[0]).minute(wakeupTime.split(':')[1]).second(0);
     
     if(difference > 0) {
         if(firstDate.isBefore(cutoffFirstDate)) {
