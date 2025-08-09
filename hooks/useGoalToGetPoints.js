@@ -28,7 +28,7 @@ export function useGoalToGetPoints(goalData) {
             //logic works by dviding vertical and horizontal spaces by difference in relevant metrics
             //thiry minutes before as target date set to wakeup time next day
             let beforeCutOffTimeGoalTargetDate = dayjs(goalData.targetDate).subtract(30, 'minute').toISOString();
-            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(beforeCutOffTimeGoalTargetDate, goalData.timeboxes[0].startTime, wakeupTime);
+            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(beforeCutOffTimeGoalTargetDate, goalData.loggingsOfMetric[0].date, wakeupTime);
             let metricDifferenceBetweenFirstLogAndGoal = goalData.metric - goalData.loggingsOfMetric[0].metric;
             
             let xPerPoint, yPerPoint, xAxisIncrements, yAxisIncrements, highestDenominatorForMetricDifference, highestDenominatorForDayDifference;
@@ -42,6 +42,8 @@ export function useGoalToGetPoints(goalData) {
                 highestDenominatorForDayDifference = 1;
                 xAxisIncrements = 1 / highestDenominatorForDayDifference;
             }
+
+            
 
             //divides y axis into increments based on the highest denominator of the metric difference and adds labels
             yPerPoint = yDifference / metricDifferenceBetweenFirstLogAndGoal;
@@ -70,12 +72,11 @@ export function useGoalToGetPoints(goalData) {
             for(let i = 0; i <= highestDenominatorForMetricDifference; i++) {
                 yAxisLabels.push({label: i*yAxisIncrements, y: initialLogY - (yPerAxisLabel * i)});
             }
-
              
             for(let i = 0; i < highestDenominatorForDayDifference+1; i++) {
                 //if end denominator goes over what expected remove
-                if(dayjs(goalData.timeboxes[0].startTime).add(i*xAxisIncrements, 'day').date() <= dayjs(beforeCutOffTimeGoalTargetDate).date()) {
-                    xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startTime).add(i*xAxisIncrements, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
+                if(dayjs(goalData.loggingsOfMetric[0].date).add(i*xAxisIncrements, 'day').date() <= dayjs(beforeCutOffTimeGoalTargetDate).date()) {
+                    xAxisLabels.push({label: dayjs(goalData.loggingsOfMetric[0].date).add(i*xAxisIncrements, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
                 }
             }
 
