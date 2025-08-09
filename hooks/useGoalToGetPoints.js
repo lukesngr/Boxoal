@@ -61,7 +61,8 @@ export function useGoalToGetPoints(goalData) {
 
             return {pointsArray, linesArray, yAxisLabels, xAxisLabels, goalRectX, goalRectY};
         }else if(goalData.timeboxes !== null & goalData.timeboxes.length != 0) {
-            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, goalData.timeboxes[0].startTime, wakeupTime);
+            let beforeCutOffTimeGoalTargetDate = dayjs(goalData.targetDate).subtract(30, 'minute').toISOString();
+            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(beforeCutOffTimeGoalTargetDate, goalData.timeboxes[0].startTime, wakeupTime);
             let totalTime = 0;
             goalData.timeboxes.forEach(function (element) {
                 totalTime += ((new Date(element.endTime) - new Date(element.startTime)) / 60000)
@@ -109,7 +110,7 @@ export function useGoalToGetPoints(goalData) {
             }
             
             for(let i = 0; i < highestDenominatorForDayDifference+1; i++) { //last denominator for x is not to be included as it is end
-                if(dayjs(goalData.timeboxes[0].startTime).add(i*xAxisIncrements, 'day').date() <= dayjs(goalData.targetDate).date()) {
+                if(dayjs(goalData.timeboxes[0].startTime).add(i*xAxisIncrements, 'day').date() <= dayjs(beforeCutOffTimeGoalTargetDate).date()) {
                     xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startTime).add(i*xAxisIncrements, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
                 }
             }
