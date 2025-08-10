@@ -90,6 +90,7 @@ export default function SignedInNav({username}) {
                     >
                         <MenuItem key={"Timeboxes"} onClick={handleCloseNavMenu}>
                             <Link style={{color: 'white', textDecoration: 'none'}} href="/myschedules"><Typography sx={{ textAlign: 'center' }}>Timeboxes</Typography></Link>
+                            <Link style={{color: 'white', textDecoration: 'none'}} href="/goaltree"><Typography sx={{ textAlign: 'center' }}>Goal Tree</Typography></Link>
                         </MenuItem>
                     </Menu>
             
@@ -102,6 +103,14 @@ export default function SignedInNav({username}) {
                         href="/myschedules"
                     >
                         Timeboxes
+                    </Button>
+                    <Button
+                        key={"GoalTree"}
+                        onClick={handleCloseNavMenu}
+                        sx={{ my: 2, color: 'white', display: 'block', '&:hover': {color: 'white'},}}
+                        href="/goaltree"
+                    >
+                        Goal Tree
                     </Button>
                 </Box>
                 <Box sx={{ ml: 'auto', flexGrow: 0 }}>
