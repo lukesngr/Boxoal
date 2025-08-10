@@ -12,15 +12,10 @@ export function GoalLineGraph({goalData}) {
         <div className="goal-statistics" style={{width: '100%'}}>
             <svg viewBox='0 0 622 372' style={{ overflow: 'visible' }}>
                 {goalData.metric === null ? (<>
-                    <text x="0" y="71" className="yAxisLabel">T</text>
-                    <text x="0" y="91" className="yAxisLabel">I</text>
+                    <text x="1" y="71" className="yAxisLabel">T</text>
+                    <text x="3" y="91" className="yAxisLabel">I</text>
                     <text x="0" y="111" className="yAxisLabel">M</text>
-                    <text x="0" y="131" className="yAxisLabel">E</text>
-                    <text x="0" y="151" className="yAxisLabel">B</text>
-                    <text x="0" y="171" className="yAxisLabel">O</text>
-                    <text x="0" y="191" className="yAxisLabel">X</text>
-                    <text x="0" y="211" className="yAxisLabel">E</text>
-                    <text x="0" y="231" className="yAxisLabel">S</text>
+                    <text x="1" y="131" className="yAxisLabel">E</text>
                 </>) : (<>
                 <text x="0" y="71" className="yAxisLabel">M</text>
                 <text x="0" y="91" className="yAxisLabel">E</text>
