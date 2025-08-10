@@ -101,7 +101,7 @@ BEGIN
   );
 
   PERFORM cron.schedule(
-    FORMAT('updateToFailed %s %s %s %s *', 
+    FORMAT('updateToFailed %s %s %s %s', 
       wakeupMinutes, 
       wakeupHour, 
       targetDay, 
