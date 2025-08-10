@@ -72,8 +72,6 @@ export function useGoalToGetPoints(goalData) {
                 yAxisLabels.push({label: i*yAxisIncrements, y: initialLogY - (yPerAxisLabel * i)});
             }
 
-            console.log(highestDenominatorForDayDifference, xAxisIncrements, dateDifferenceBetweenFirstLogAndGoal, dayjs(goalData.targetDate), dayjs(goalData.loggingsOfMetric[0].date))
-             
             for(let i = 0; i < highestDenominatorForDayDifference+1; i++) {
                 //if end denominator goes over what expected remove
                 if(dayjs(goalData.loggingsOfMetric[0].date).add(i*xAxisIncrements, 'day').date() <= dayjs(goalData.targetDate).date()) {
