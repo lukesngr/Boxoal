@@ -47,9 +47,13 @@ export default function EditGoalForm(props) {
             
             return { previousGoals };
         },
-        onSuccess: () => {
+        onSuccess: (goalData) => {
             props.close();
-            dispatch({type: 'alert/set', payload: { open: true, title: "Timebox", message: "Updated goal!" }});
+            if(goalData.state === "completed") {
+                dispatch({type: 'alert/set', payload: { open: true, title: "Goal", message: "Completed!" }});
+            }else{
+                dispatch({type: 'alert/set', payload: { open: true, title: "Goal", message: "Updated goal!" }});
+            }
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
         onError: (error, goalData, context) => {
@@ -131,16 +135,41 @@ export default function EditGoalForm(props) {
                 }
             }
 
-            axios.post('/api/logMetric', data)
-            .then(async () => {
-                close();
-                dispatch({type: 'alert/set', payload: { open: true, title: "Goal", message: "Logged metric!" }});
-                await queryClient.refetchQueries();
-            })
-            .catch(function() {
-                close();
-                dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
-            });
+            if(metric >= props.data.metric) {
+                let wakeupTimeSplitted = wakeupTime.split(':');
+                let alteredDate = targetDate.hour(wakeupTimeSplitted[0]).minute(wakeupTimeSplitted[1]);
+
+                const goalData = {
+                    title,
+                    targetDate: alteredDate.toISOString(),
+                    objectUUID: props.data.objectUUID,
+                    completed: true,
+                    completedOn: new Date().toISOString(),
+                    active: !completed,
+                    state: "completed",
+                }
+                
+                updateGoalMutation.mutate(goalData);
+
+                if(completed) {
+                    axios.get('/api/setNextGoalToActive', {line: props.data.partOfLine}).then(async () => {
+                        await queryClient.refetchQueries();
+                    }).catch(function() {
+                    })
+                };
+            }else{
+
+                axios.post('/api/logMetric', data)
+                .then(async () => {
+                    close();
+                    dispatch({type: 'alert/set', payload: { open: true, title: "Goal", message: "Logged metric!" }});
+                    await queryClient.refetchQueries();
+                })
+                .catch(function() {
+                    close();
+                    dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
+                });
+            }
         }else {
             setOnLogMetricView(true);
         }
@@ -227,6 +256,7 @@ export default function EditGoalForm(props) {
                     </div>                    
                 </DialogContent>
                 <DialogActions>
+                    {hasMetric &&
                     <Button
                         onClick={logMetric}
                         variant="contained"
@@ -234,7 +264,7 @@ export default function EditGoalForm(props) {
                         className='updateGoalButton'
                     >
                         Log Metric
-                    </Button>
+                    </Button>}
                     {!onLogMetricView && (<>
                     <Button
                         onClick={updateGoal}
