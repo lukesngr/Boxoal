@@ -4,6 +4,7 @@ import { useScheduleSetter } from "@/hooks/useScheduleSetter";
 import { useMemo } from "react";
 import { Grid, Card } from "@mui/material";
 import dayjs from "dayjs";
+import '../../styles/goaltree.scss'
 export default function GoalTreeView(props) {
     const profile = useSelector(state => state.profile.value);
     const schedule = props.data[profile.scheduleIndex]; 
@@ -41,16 +42,20 @@ export default function GoalTreeView(props) {
     
     return <>
         <h1 className="viewHeading">Goal Tree</h1>
+        <div className="container">
+            <div className="row">
         {Object.keys(mapOfGoalsPutInLine).map((keyBy) => (
-            <Grid direction="row">{mapOfGoalsPutInLine[keyBy].map((goal, index) => (
-                <Card key={index}>
-                    <span>{goal.title}</span>
-                    <span>{dayjs(goal.targetDate).format('D MMM')}</span>
-                    {goal.state == "completed" && <span>Completed</span>}
-                    {goal.state == "failed" && <span>Failed</span>}
-                    <span>{goal.percentageCompleted}</span>
-                </Card>
-            ))}</Grid>
+            <div className="goalLine">{mapOfGoalsPutInLine[keyBy].map((goal, index) => (
+                <div className="goalCard" key={index}>
+                    <span className="goalCardTitle">{goal.title}</span>
+                    <span className="goalCardUndertext">{dayjs(goal.targetDate).format('D MMM')}</span>
+                    {goal.state == "completed" && <span className="goalCardUndertext">Completed</span>}
+                    {goal.state == "failed" && <span className="goalCardUndertext">Failed</span>}
+                    <span className="goalCardUndertext">{goal.percentageCompleted}%</span>
+                </div>
+            ))}</div>
         ))}
+        </div>
+        </div>
     </>
 }

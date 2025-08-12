@@ -1,0 +1,32 @@
+@use 'theme';
+.goalLine {
+    max-width: 500px;
+}
+
+.goalCard {
+    background-color: theme.$base-color;
+    display: flex;
+    justify-content: center;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    flex-direction: column;
+    width: fit-content
+}
+
+.goalCardTitle {
+    font-family: 'Koulen';
+    font-size: 2em;
+    color: white;
+}
+
+.goalCard span {
+    display: block;
+}
+
+.goalCardUndertext {
+    font-family: 'Koulen';
+    font-size: 1em;
+    color: white;
+}
