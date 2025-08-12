@@ -15,12 +15,12 @@ export default function GoalTreeWhenAuthLoaded({user}) {
     const dispatch = useDispatch();
     const {userId, username} = user;
     useProfile(userId, dispatch);
-    let dataForSchedule = [{title: "No schedules found", goals: [], recordedTimeboxes: [], timeboxes: []}];
+    let dataForSchedule = [{title: "No schedules found", goals: []}];
 
     const {status, data, error} = useQuery({
-        queryKey: ["schedule"], 
+        queryKey: ["goals"], 
         queryFn: async () => {
-            const response = await axios.get("/api/getSchedules", { params: {
+            const response = await axios.get("/api/getGoals", { params: {
                 userUUID: userId
             }});
             return response.data;
