@@ -2,7 +2,8 @@ import { useSelector } from "react-redux";
 import useGoalLimits from "@/hooks/useGoalLimits";
 import { useScheduleSetter } from "@/hooks/useScheduleSetter";
 import { useMemo } from "react";
-import { Grid, Card } from "@mui/material";
+import { Grid, Card, IconButton } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 import dayjs from "dayjs";
 import '../../styles/goaltree.scss'
 export default function GoalTreeView(props) {
@@ -45,7 +46,8 @@ export default function GoalTreeView(props) {
         <div className="container">
             <div className="row">
             {Object.keys(mapOfGoalsPutInLine).map((keyBy) => (<>
-                <div className="goalLine">{mapOfGoalsPutInLine[keyBy].map((goal, index) => (
+                <div className="goalLine">
+                    {mapOfGoalsPutInLine[keyBy].map((goal, index) => (
                     <div className="goalCard" key={index}>
                         <span className="goalCardTitle">{goal.title}</span>
                         <span className="goalCardUndertext">{dayjs(goal.targetDate).format('D MMM')}</span>
@@ -53,17 +55,21 @@ export default function GoalTreeView(props) {
                         {goal.state == "failed" && <span className="goalCardUndertext">Failed</span>}
                         <span className="goalCardUndertext">{goal.percentageCompleted}%</span>
                     </div>
-                ))}</div>
-                <svg width={50} height={45} viewBox="0 0 24 30">
-                    <path 
-                        d="M12 0 L12 24 M5 17 L12 24 L19 17" 
-                        stroke="#875F9A" 
-                        strokeWidth={2}
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    />
-                </svg>
+                    ))}
+                    <svg width={50} height={45} viewBox="0 0 24 30">
+                        <path 
+                            d="M12 0 L12 24 M5 17 L12 24 L19 17" 
+                            stroke="#875F9A" 
+                            strokeWidth={2}
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
+                    </svg>
+                    <IconButton style={{color: 'white', backgroundColor: 'black', borderRadius: '0px'}} className='addGoalToLineButton'>
+                        <AddIcon></AddIcon>
+                    </IconButton>
+                </div>
                 </>
             ))}
         </div>
