@@ -6,9 +6,15 @@ import { Grid, Card, IconButton } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import dayjs from "dayjs";
 import '../../styles/goaltree.scss'
+import { QueryClientProvider } from "react-query";
+import { queryClient } from "@/modules/queryClient";
+import CreateGoalForm from "../form/CreateGoalForm";
+import { useState } from "react";
+
 export default function GoalTreeView(props) {
     const profile = useSelector(state => state.profile.value);
-    const schedule = props.data[profile.scheduleIndex]; 
+    const schedule = props.data[profile.scheduleIndex];
+    const [createGoalState, setCreateGoalState] = useState({visible: false, id: profile.scheduleID, active: false, line: -1});
     useScheduleSetter(schedule);
     useGoalLimits(schedule.goals);
     
@@ -45,10 +51,10 @@ export default function GoalTreeView(props) {
         <h1 className="viewHeading">Goal Tree</h1>
         <div className="container">
             <div className="row">
-            {Object.keys(mapOfGoalsPutInLine).map((keyBy) => (<>
+            {Object.keys(mapOfGoalsPutInLine).map((line) => (<>
                 <div className="goalLine">
-                    {mapOfGoalsPutInLine[keyBy].map((goal, index) => (
-                    <div className="goalCard" key={index}>
+                    {mapOfGoalsPutInLine[line].map((goal, index) => (
+                    <div className="goalCard" style={goal.state == "waiting" ? {backgroundColor: '#403D3D'} : {}} key={index}>
                         <span className="goalCardTitle">{goal.title}</span>
                         <span className="goalCardUndertext">{dayjs(goal.targetDate).format('D MMM')}</span>
                         {goal.state == "completed" && <span className="goalCardUndertext">Completed</span>}
@@ -66,13 +72,25 @@ export default function GoalTreeView(props) {
                             strokeLinejoin="round"
                         />
                     </svg>
-                    <IconButton style={{color: 'white', backgroundColor: 'black', borderRadius: '0px'}} className='addGoalToLineButton'>
+                    <IconButton style={{color: 'white', backgroundColor: 'black', borderRadius: '0px'}} className='addGoalToLineButton'
+                    onClick={() => setCreateGoalState({visible: true, id: profile.scheduleID, active: false, line: line})}>
                         <AddIcon></AddIcon>
                     </IconButton>
+                    
                 </div>
                 </>
             ))}
         </div>
         </div>
+        <QueryClientProvider client={queryClient}>
+            <CreateGoalForm 
+                visible={createGoalState.visible} 
+                active={createGoalState.active} 
+                line={createGoalState.line} 
+                close={() => setCreateGoalState({visible: false, id: profile.scheduleID, active: false, line: -1})} 
+                id={createGoalState.id}  
+                goals={schedule.goals}
+            />
+        </QueryClientProvider>
     </>
 }
