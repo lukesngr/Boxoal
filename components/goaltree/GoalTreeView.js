@@ -44,17 +44,28 @@ export default function GoalTreeView(props) {
         <h1 className="viewHeading">Goal Tree</h1>
         <div className="container">
             <div className="row">
-        {Object.keys(mapOfGoalsPutInLine).map((keyBy) => (
-            <div className="goalLine">{mapOfGoalsPutInLine[keyBy].map((goal, index) => (
-                <div className="goalCard" key={index}>
-                    <span className="goalCardTitle">{goal.title}</span>
-                    <span className="goalCardUndertext">{dayjs(goal.targetDate).format('D MMM')}</span>
-                    {goal.state == "completed" && <span className="goalCardUndertext">Completed</span>}
-                    {goal.state == "failed" && <span className="goalCardUndertext">Failed</span>}
-                    <span className="goalCardUndertext">{goal.percentageCompleted}%</span>
-                </div>
-            ))}</div>
-        ))}
+            {Object.keys(mapOfGoalsPutInLine).map((keyBy) => (<>
+                <div className="goalLine">{mapOfGoalsPutInLine[keyBy].map((goal, index) => (
+                    <div className="goalCard" key={index}>
+                        <span className="goalCardTitle">{goal.title}</span>
+                        <span className="goalCardUndertext">{dayjs(goal.targetDate).format('D MMM')}</span>
+                        {goal.state == "completed" && <span className="goalCardUndertext">Completed</span>}
+                        {goal.state == "failed" && <span className="goalCardUndertext">Failed</span>}
+                        <span className="goalCardUndertext">{goal.percentageCompleted}%</span>
+                    </div>
+                ))}</div>
+                <svg width={50} height={45} viewBox="0 0 24 30">
+                    <path 
+                        d="M12 0 L12 24 M5 17 L12 24 L19 17" 
+                        stroke="#875F9A" 
+                        strokeWidth={2}
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                </svg>
+                </>
+            ))}
         </div>
         </div>
     </>
