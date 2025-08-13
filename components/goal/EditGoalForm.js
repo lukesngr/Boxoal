@@ -26,7 +26,7 @@ export default function EditGoalForm(props) {
     const [hasMetric, setHasMetric] = useState(props.data.metric === null ? (false) : (true));
     const [targetDate, setTargetDate] = useState(dayjs(props.data.targetDate));
     const [completed, setCompleted] = useState(props.data.state == "completed");
-    const {scheduleIndex, wakeupTime} = useSelector(state => state.profile.value);
+    const {scheduleIndex} = useSelector(state => state.profile.value);
     const [onLogMetricView, setOnLogMetricView] = useState(false);
 
     const updateGoalMutation = useMutation({
@@ -136,8 +136,7 @@ export default function EditGoalForm(props) {
             }
 
             if(metric >= props.data.metric) {
-                let wakeupTimeSplitted = wakeupTime.split(':');
-                let alteredDate = targetDate.hour(wakeupTimeSplitted[0]).minute(wakeupTimeSplitted[1]);
+                let alteredDate = targetDate.hour(0).minute(0);
 
                 const goalData = {
                     title,
