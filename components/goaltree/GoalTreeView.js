@@ -89,8 +89,8 @@ export default function GoalTreeView(props) {
         <QueryClientProvider client={queryClient}>
             <CreateGoalForm 
                 visible={createGoalState.visible} 
-                active={activeGoalsInLine[createGoalState.line-1] > 0} 
-                line={createGoalState.line} 
+                active={!(activeGoalsInLine[createGoalState.line-1] > 0)} 
+                line={Number(createGoalState.line)} 
                 close={() => setCreateGoalState({visible: false, id: profile.scheduleID, line: -1})} 
                 id={createGoalState.id}  
                 goals={schedule.goals}
