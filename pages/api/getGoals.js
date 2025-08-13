@@ -23,7 +23,7 @@ export default async function handler(req, res) {
         title: true,
         goals: {
           orderBy: {
-            targetDate: 'desc'
+            targetDate: 'asc'
           },
           select: {
             id: true,
