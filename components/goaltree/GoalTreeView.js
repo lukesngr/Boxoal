@@ -14,13 +14,13 @@ import { useState } from "react";
 export default function GoalTreeView(props) {
     const profile = useSelector(state => state.profile.value);
     const schedule = props.data[profile.scheduleIndex];
-    const [createGoalState, setCreateGoalState] = useState({visible: false, id: profile.scheduleID, active: false, line: -1});
+    const [createGoalState, setCreateGoalState] = useState({visible: false, id: profile.scheduleID, line: -1});
     useScheduleSetter(schedule);
     useGoalLimits(schedule.goals);
-    
 
-    const mapOfGoalsPutInLine = useMemo(() => {
+    const {mapOfGoalsPutInLine, activeGoalsInLine} = useMemo(() => {
         let mapOfGoalsPutInLine = {};
+        const activeGoalsInLine = new Array(profile.goalLimit).fill(0);
         for(let i = 0; i < schedule.goals.length; i++) {
             let percentageCompleted = 0;
             if(schedule.goals[i].metric === null) {
@@ -36,14 +36,18 @@ export default function GoalTreeView(props) {
             }else if(schedule.goals[i].loggingsOfMetric.length > 0){
                 percentageCompleted = schedule.goals[i].loggingsOfMetric[schedule.goals[i].loggingsOfMetric.length - 1] / schedule.goals[i].metric;
             }
+
+            if(schedule.goals[i].state == "active") {
+                activeGoalsInLine[schedule.goals[i].partOfLine-1] = activeGoalsInLine[schedule.goals[i].partOfLine-1]+1;              
+            }
+
             if (!Object.hasOwn(mapOfGoalsPutInLine, schedule.goals[i].partOfLine)) {
-                
                 mapOfGoalsPutInLine[schedule.goals[i].partOfLine] = [{percentageCompleted, ...schedule.goals[i]}]; 
             }else {
                 mapOfGoalsPutInLine[schedule.goals[i].partOfLine].push({percentageCompleted, ...schedule.goals[i]});
             }
         }
-        return mapOfGoalsPutInLine
+        return {mapOfGoalsPutInLine, activeGoalsInLine}
     }, [schedule])
 
     
@@ -57,9 +61,9 @@ export default function GoalTreeView(props) {
                     <div className="goalCard" style={goal.state == "waiting" ? {backgroundColor: '#403D3D'} : {}} key={index}>
                         <span className="goalCardTitle">{goal.title}</span>
                         <span className="goalCardUndertext">{dayjs(goal.targetDate).format('D MMM')}</span>
-                        {goal.state == "completed" && <span className="goalCardUndertext">Completed</span>}
+                        {goal.state == "completed" && <span style={{color: '#4FF38E'}} className="goalCardUndertext">Completed</span>}
                         {goal.state == "failed" && <span className="goalCardUndertext">Failed</span>}
-                        <span className="goalCardUndertext">{goal.percentageCompleted}%</span>
+                        {goal.state == "active" && <span className="goalCardUndertext">{goal.percentageCompleted}%</span>}
                     </div>
                     ))}
                     <svg width={50} height={45} viewBox="0 0 24 30">
@@ -73,7 +77,7 @@ export default function GoalTreeView(props) {
                         />
                     </svg>
                     <IconButton style={{color: 'white', backgroundColor: 'black', borderRadius: '0px'}} className='addGoalToLineButton'
-                    onClick={() => setCreateGoalState({visible: true, id: profile.scheduleID, active: false, line: line})}>
+                    onClick={() => setCreateGoalState({visible: true, id: profile.scheduleID, line: line})}>
                         <AddIcon></AddIcon>
                     </IconButton>
                     
@@ -85,9 +89,9 @@ export default function GoalTreeView(props) {
         <QueryClientProvider client={queryClient}>
             <CreateGoalForm 
                 visible={createGoalState.visible} 
-                active={createGoalState.active} 
+                active={activeGoalsInLine[createGoalState.line-1] > 0} 
                 line={createGoalState.line} 
-                close={() => setCreateGoalState({visible: false, id: profile.scheduleID, active: false, line: -1})} 
+                close={() => setCreateGoalState({visible: false, id: profile.scheduleID, line: -1})} 
                 id={createGoalState.id}  
                 goals={schedule.goals}
             />
