@@ -147,22 +147,11 @@ BEGIN
   END IF;
 
   SELECT 
-    SPLIT_PART("wakeupTime", ':', 2),
-    SPLIT_PART("wakeupTime", ':', 1)
-  INTO wakeupMinutes, wakeupHour
-  FROM "Profile"
-  WHERE "scheduleID" IN (
-    SELECT "scheduleID" FROM "Goal" WHERE id = OLD.id
-  );
-
-  SELECT 
-    EXTRACT(DAY FROM ("targetDate"::DATE + INTERVAL '1 day')),
-    EXTRACT(MONTH FROM ("targetDate"::DATE + INTERVAL '1 day')),
-    EXTRACT(HOUR FROM ("targetDate" + INTERVAL '1 day')),
-    EXTRACT(MINUTE FROM ("targetDate" + INTERVAL '1 day'))
-  INTO targetDay, targetMonth, wakeupHour, wakeupMinutes
-  FROM "Goal" 
-  WHERE id = OLD.id;
+    EXTRACT(DAY FROM (OLD."targetDate" + INTERVAL '1 day')),
+    EXTRACT(MONTH FROM (OLD."targetDate" + INTERVAL '1 day')),
+    EXTRACT(HOUR FROM (OLD."targetDate" + INTERVAL '1 day')),
+    EXTRACT(MINUTE FROM (OLD."targetDate" + INTERVAL '1 day'))
+  INTO targetDay, targetMonth, wakeupHour, wakeupMinutes;
 
   PERFORM cron.unschedule(
           FORMAT('updateToFailed %s %s %s %s', 
