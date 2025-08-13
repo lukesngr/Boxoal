@@ -18,7 +18,7 @@ export default function GoalTreeWhenAuthLoaded({user}) {
     let dataForSchedule = [{title: "No schedules found", goals: []}];
 
     const {status, data, error} = useQuery({
-        queryKey: ["goals"], 
+        queryKey: ["schedule"], 
         queryFn: async () => {
             const response = await axios.get("/api/getGoals", { params: {
                 userUUID: userId
