@@ -59,7 +59,7 @@ export default function GoalTreeView(props) {
         <div className="container">
             <div className="row">
             {Object.keys(mapOfGoalsPutInLine).map((line) => (<>
-                <div className="goalLine">
+                <div className="goalLine col">
                     {mapOfGoalsPutInLine[line].map((goal, index) => (<>
                     <div className="goalCard" onClick={() => setGoalTreeGoalView({open: true, goal})} style={goal.state == "waiting" ? {backgroundColor: '#403D3D'} : {}} key={index}>
                         <span className="goalCardTitle">{goal.title}</span>
