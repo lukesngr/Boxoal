@@ -20,7 +20,7 @@ export default function GoalTreeWhenAuthLoaded({user}) {
     const {status, data, error} = useQuery({
         queryKey: ["schedule"], 
         queryFn: async () => {
-            const response = await axios.get("/api/getGoals", { params: {
+            const response = await axios.get("/api/getSchedules", { params: {
                 userUUID: userId
             }});
             return response.data;

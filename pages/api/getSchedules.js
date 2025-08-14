@@ -28,6 +28,9 @@ export default async function handler(req, res) {
           }
         },
         goals: {
+          orderBy: {
+            targetDate: 'asc'
+          },
           select: {
             id: true,
             title: true,
