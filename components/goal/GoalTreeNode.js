@@ -81,16 +81,7 @@ export default function GoalTreeNode(props) {
                     style={{ maxWidth: "50px", overflow: "hidden" }}
                 >{title}</text>
             </svg>
-            <svg width={110} height={45} viewBox="0 0 24 30">
-                <path 
-                    d="M12 0 L12 24 M5 17 L12 24 L19 17" 
-                    stroke="black" 
-                    strokeWidth={2}
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                />
-            </svg>
+            
         </Box>
     );
 }
