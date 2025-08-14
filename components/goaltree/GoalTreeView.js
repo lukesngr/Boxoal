@@ -10,11 +10,13 @@ import { QueryClientProvider } from "react-query";
 import { queryClient } from "@/modules/queryClient";
 import CreateGoalForm from "../form/CreateGoalForm";
 import { useState } from "react";
+import { GoalTreeTimeboxes } from "./GoalTreeTimeboxes";
 
 export default function GoalTreeView(props) {
     const profile = useSelector(state => state.profile.value);
     const schedule = props.data[profile.scheduleIndex];
     const [createGoalState, setCreateGoalState] = useState({visible: false, id: profile.scheduleID, line: -1});
+    const [goalTreeGoalView, setGoalTreeGoalView] = useState({open: false, goal: {}});
     useScheduleSetter(schedule);
     useGoalLimits(schedule.goals);
 
@@ -52,13 +54,14 @@ export default function GoalTreeView(props) {
 
     
     return <>
+        {goalTreeGoalView.open ? (<GoalTreeTimeboxes goal={goalTreeGoalView.goal}></GoalTreeTimeboxes>) : (<>
         <h1 className="viewHeading">Goal Tree</h1>
         <div className="container">
             <div className="row">
             {Object.keys(mapOfGoalsPutInLine).map((line) => (<>
                 <div className="goalLine">
                     {mapOfGoalsPutInLine[line].map((goal, index) => (<>
-                    <div className="goalCard" style={goal.state == "waiting" ? {backgroundColor: '#403D3D'} : {}} key={index}>
+                    <div className="goalCard" onClick={() => setGoalTreeGoalView({open: true, goal})} style={goal.state == "waiting" ? {backgroundColor: '#403D3D'} : {}} key={index}>
                         <span className="goalCardTitle">{goal.title}</span>
                         <span className="goalCardUndertext">{dayjs(goal.targetDate).format('D MMM')}</span>
                         {goal.state == "completed" && <span style={{color: '#4FF38E'}} className="goalCardUndertext">Completed</span>}
@@ -96,5 +99,5 @@ export default function GoalTreeView(props) {
                 goals={schedule.goals}
             />
         </QueryClientProvider>
-    </>
+    </>)}</>
 }

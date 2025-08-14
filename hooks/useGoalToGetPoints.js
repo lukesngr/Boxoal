@@ -110,7 +110,7 @@ export function useGoalToGetPoints(goalData) {
             let sumOfTime = 0;
             
             pointsArray = goalData.timeboxes.reduce((arrayOfPoints, timebox) => {
-                let dayDifference = differenceInDates(timebox.startTime, goalData.timeboxes[0].startTime);
+                let dayDifference = differenceInDates(timebox.startTime, goalData.timeboxes[0].startTime, wakeupTime);
                 if(timebox.recordedTimeBoxes.length != 0) {
                     sumOfTime += ((new Date(timebox.endTime) - new Date(timebox.startTime)) / 60000);
                     let x = initialLogX + (xPerPoint * dayDifference);
