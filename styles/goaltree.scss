@@ -1,7 +1,4 @@
 @use 'theme';
-.goalLine {
-    max-width: 500px;
-}
 
 .goalCard {
     background-color: theme.$base-color;
@@ -12,7 +9,9 @@
     padding-top: 10%;
     padding-bottom: 10%;
     flex-direction: column;
-    width: fit-content
+    width: fit-content;
+    max-width: 500px;
+    max-height: 300px;
 }
 
 .goalCardTitle {
