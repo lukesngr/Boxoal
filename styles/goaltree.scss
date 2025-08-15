@@ -49,10 +49,10 @@
     background-color: theme.$base-color;
     display: flex;
     align-items: center;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 30px;
+    padding-bottom: 30px;
     flex-direction: column;
     width: fit-content;
     height: fit-content;
@@ -73,4 +73,8 @@
 .twoComponentsInLine {
     display: flex;
     flex-direction: row;
+}
+
+.twoComponentsInLine svg {
+    max-width: 200px;
 }
