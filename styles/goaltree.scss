@@ -49,10 +49,10 @@
     background-color: theme.$base-color;
     display: flex;
     align-items: center;
-    padding-left: 2%;
-    padding-right: 2%;
-    padding-top: 5%;
-    padding-bottom: 5%;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     flex-direction: column;
     width: fit-content;
     height: fit-content;
@@ -62,4 +62,15 @@
 
 .goalTimeboxesCard span {
     display: block;
+}
+
+.goalTreeTimeboxesContainer {
+    margin-top: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.twoComponentsInLine {
+    display: flex;
+    flex-direction: row;
 }
