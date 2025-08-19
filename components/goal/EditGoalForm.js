@@ -151,12 +151,10 @@ export default function EditGoalForm(props) {
                 
                 updateGoalMutation.mutate(goalData);
 
-                if(completed) {
-                    axios.get('/api/setNextGoalToActive', {line: props.data.partOfLine}).then(async () => {
-                        await queryClient.refetchQueries();
-                    }).catch(function() {
-                    })
-                };
+                axios.get('/api/setNextGoalToActive', {line: props.data.partOfLine}).then(async () => {
+                    await queryClient.refetchQueries();
+                }).catch(function() {
+                })
             }else{
 
                 axios.post('/api/logMetric', data)
