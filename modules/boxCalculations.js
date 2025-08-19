@@ -281,3 +281,15 @@ export function getStatistics(recordedTimeboxes, timeboxes) {
 
     return {averageTimeOverBy, averageTimeStartedOffBy, percentagePredictedStart, percentageCorrectTime, percentageRescheduled, hoursLeftThisWeek};
 }
+
+export function getAverageTimeOverAndOffBy(timebox) {
+    let recordedTimeboxStartTime = new Date(timebox.recordedTimeBoxes[0].recordedStartTime);
+    let recordedTimeboxEndTime = new Date(timebox.recordedTimeBoxes[0].recordedEndTime);
+    let timeboxStartTime = new Date(timebox.startTime);
+    let timeboxEndTime = new Date(timebox.endTime);
+    let minutesOverBy = ((recordedTimeboxEndTime - recordedTimeboxStartTime) - (timeboxEndTime - timeboxStartTime));
+    let timeStartedAccuracyForTimebox = Math.abs(recordedTimeboxStartTime.getMinutes() - timeboxStartTime.getMinutes());
+    timeStartedAccuracyForTimebox += (Math.abs(recordedTimeboxStartTime.getHours() - timeboxStartTime.getHours()))*60;
+    minutesOverBy = minutesOverBy / 60000;
+    return {minutesOverBy, timeStartedAccuracyForTimebox};
+}

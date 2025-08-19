@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { Button, Icon } from "@mui/material";
 import { muiActionButton } from "@/modules/muiStyles";
+import { getAverageTimeOverAndOffBy } from "@/modules/boxCalculations";
 
 export function GoalTreeTimeboxes(props) {
     let{goal} = props;
@@ -43,11 +44,18 @@ export function GoalTreeTimeboxes(props) {
             <div>
             {goal.timeboxes.map((timebox) => {
                 let isFailed = dayjs().isAfter(dayjs(timebox.endTime)) && timebox.recordedTimeBoxes.length == 0;
-                console.log(timebox, isFailed)
+                let isCompleted = timebox.recordedTimeBoxes.length > 0;
+                let minutesOverBy = 0;
+                let timeStartedAccuracyForTimebox = 0;
+                if(isCompleted) {
+                    ({minutesOverBy, timeStartedAccuracyForTimebox} = getAverageTimeOverAndOffBy(timebox));
+                }
                 return (
                 <div className="goalTimeboxCard">
                     <span className="goalTimeboxTitle"><AccessTimeIcon></AccessTimeIcon>{timebox.title}</span>
                     {isFailed && <span className="goalTimeboxFailed">Failed</span>}
+                    {isCompleted && <span className="goalTimeboxCompleted">Completed</span>}
+                    {isCompleted && <span className="goalTimeboxCompleted">{minutesOverBy > 0 ? (minutesOverBy +" min longer") : (minutesOverBy +" min earlier")}</span>}
                 </div>
                 )
             })}
