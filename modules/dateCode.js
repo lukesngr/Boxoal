@@ -45,9 +45,22 @@ export function filterTimeboxesBasedOnWeekRange(timeboxes, selectedDate) {
     return timeboxes;
 }
 
-export function differenceInDates(date1, date2) {
-    let firstDate = dayjs(date1).hour(0).minute(0).second(0).millisecond(0);
-    let secondDate = dayjs(date2).hour(0).minute(0).second(0).millisecond(0);
-    console.log(firstDate.diff(secondDate, 'day'), firstDate, secondDate);
-    return firstDate.diff(secondDate, 'day');
+export function differenceInDates(date1, date2, wakeupTime) {
+    let firstDate = dayjs(date1);
+    let secondDate = dayjs(date2);
+    let firstDateWithNoTime = firstDate.startOf('day');
+    let secondDateWithNoTime = secondDate.startOf('day');
+    let difference = firstDateWithNoTime.diff(secondDateWithNoTime, 'day');
+    let cutoffFirstDate = firstDate.hour(wakeupTime.split(':')[0]).minute(wakeupTime.split(':')[1]).second(0);
+    let cutoffSecondDate = secondDate.hour(wakeupTime.split(':')[0]).minute(wakeupTime.split(':')[1]).second(0);
+    
+    if(difference > 0) {
+        if(firstDate.isBefore(cutoffFirstDate)) {
+            console.log('how tf this running prolly some utc shit')
+            difference -= 1;
+        }else if(secondDate.isBefore(cutoffSecondDate)) {
+            difference += 1;
+        }
+    }
+    return difference;
 }

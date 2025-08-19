@@ -21,7 +21,16 @@ export default async function handler(req, res) {
       select: {
         id: true,
         title: true,
+        goalStatistics: {
+          select: {
+            goalsActive: true,
+            goalsCompleted: true,
+          }
+        },
         goals: {
+          orderBy: {
+            targetDate: 'asc'
+          },
           select: {
             id: true,
             title: true,
@@ -32,6 +41,7 @@ export default async function handler(req, res) {
             partOfLine: true,
             objectUUID: true,
             metric: true,
+            state: true,
             loggingsOfMetric: {
               select: {
                 date: true,
@@ -59,7 +69,9 @@ export default async function handler(req, res) {
                   select: {
                     id: true,
                     objectUUID: true,
-                    timeBox: { select: { id: true, title: true, description: true }}
+                    timeBox: { select: { id: true, title: true, description: true }},
+                    recordedStartTime: true,
+                    recordedEndTime: true
                   }
                 },
                 reoccuring: {

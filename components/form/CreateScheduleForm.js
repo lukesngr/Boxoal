@@ -22,6 +22,14 @@ export default function CreateScheduleForm({ open, onClose }) {
             await axios.post('/api/createSchedule', {
                 title,
                 userUUID: user.userId,
+                goalStatistics: {
+                    create: [
+                        {
+                            goalsActive: 0,
+                            goalsCompleted: 0,
+                        }
+                    ]
+                }
             });
             onClose();
             dispatch({type: 'alert/set', payload: {

@@ -1,4 +1,4 @@
-import React, { useRef, createContext } from 'react';
+import React, { useRef } from 'react';
 import { returnTimesSeperatedForSchedule } from '@/modules/formatters';
 import GridHeader from './GridHeader';
 import '../../styles/timeboxes.scss';
@@ -13,12 +13,13 @@ import useTimeboxGridRedux from '@/hooks/useTimeboxGridRedux';
 import { GridBody } from './GridBody';
 import RecordedTimeBoxOverlay from './RecordedTimeBoxOverlay';
 import useGoalLimits from '@/hooks/useGoalLimits';
-export const ScheduleDataContext = createContext();
+import useGoalStatistics from '@/hooks/useGoalStatistics';
 
 export default function TimeBoxes(props) {
 
     const selectedDate = useSelector(state => state.selectedDate.value);
     const profile = useSelector(state => state.profile.value);
+    
     const schedule = props.data[profile.scheduleIndex]; 
     const gridContainerRef = useRef(null);
     const headerContainerRef = useRef(null);
@@ -27,6 +28,7 @@ export default function TimeBoxes(props) {
     const listOfTimes = returnTimesSeperatedForSchedule(profile); //get times that go down each row
     const currentDay = getCurrentDay();
 
+    useGoalStatistics(schedule); //set goal statistics in schedule
     useTimeboxGridRedux(schedule, selectedDate); //make a map for the timeboxes with another map inside it, makes lookup fast
     useScheduleSetter(schedule); //set schedule data to redux store (timeboxes, recordedTimeboxes, goals
     useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef);

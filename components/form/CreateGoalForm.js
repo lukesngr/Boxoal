@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { queryClient } from '../../modules/queryClient.js';
@@ -25,13 +25,9 @@ export default function CreateGoalForm(props) {
     const [hasMetric, setHasMetric] = useState(false)
     const [targetDate, setTargetDate] = useState(dayjs());
     const {scheduleIndex} = useSelector(state => state.profile.value);
-    const {goalsNotCompleted} = useMemo(() => {
-        const goalsCompleted = props.goals.reduce((count, item) => item.completed ? count + 1 : count, 0);
-        const activeGoals = props.goals.filter(item => item.active);
-        const goalsNotCompleted = activeGoals.length - goalsCompleted;
-        return {goalsNotCompleted};
-    }, [props.goals]);
-    const {goalLimit} = useSelector(state => state.profile.value);
+    const {goalsActive, goalsCompleted} = useSelector(state => state.goalStatistics.value);
+    const goalsNotCompleted = goalsActive - goalsCompleted;
+    const {goalLimit, wakeupTime} = useSelector(state => state.profile.value);
     
 
     const createGoalMutation = useMutation({
@@ -53,7 +49,7 @@ export default function CreateGoalForm(props) {
         },
         onSuccess: () => {
             props.close();
-            dispatch({type: 'alert/set', payload: { open: true, title: "Timebox", message: "Created goal!" }});
+            dispatch({type: 'alert/set', payload: { open: true, title: "Goal", message: "Created goal!" }});
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
         onError: (error, goalData, context) => {
@@ -66,9 +62,13 @@ export default function CreateGoalForm(props) {
     });
     
     function createGoal() {
+        const isActiveOnInTree = props.active ? "active" : "waiting";
+        const wakeupTimeSplitted = wakeupTime.split(':');
+        const alteredDate = targetDate.hour(wakeupTimeSplitted[0]).minute(wakeupTimeSplitted[1]);
+
         const goalData = {
             title,
-            targetDate: targetDate.toISOString(),
+            targetDate: alteredDate.toISOString(),
             schedule: {
                 connect: {
                     id: props.id
@@ -77,6 +77,7 @@ export default function CreateGoalForm(props) {
             completed: false,
             completedOn: new Date().toISOString(),
             partOfLine: props.line,
+            state: isActiveOnInTree,
             active: props.active,
             objectUUID: crypto.randomUUID()
         }

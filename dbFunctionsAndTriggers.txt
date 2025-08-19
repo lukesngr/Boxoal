@@ -1,0 +1,175 @@
+CREATE OR REPLACE FUNCTION updateGoalStatsWhenGoalCreated()
+  RETURNS TRIGGER
+  LANGUAGE PLPGSQL
+  AS
+$$
+DECLARE
+  wakeupMinutes INTEGER;
+  wakeupHour INTEGER;
+  targetDay INTEGER;
+  targetMonth INTEGER;
+BEGIN
+  IF NEW.state = 'active' THEN
+    UPDATE "GoalStatistics"
+    SET "goalsActive" = "goalsActive" + 1
+    WHERE "GoalStatistics"."scheduleID" = NEW."scheduleID";
+  END IF;
+
+  SELECT 
+    EXTRACT(DAY FROM (NEW."targetDate" + INTERVAL '1 day')),
+    EXTRACT(MONTH FROM (NEW."targetDate" + INTERVAL '1 day')),
+    EXTRACT(HOUR FROM (NEW."targetDate" + INTERVAL '1 day')),
+    EXTRACT(MINUTE FROM (NEW."targetDate" + INTERVAL '1 day'))
+  INTO targetDay, targetMonth, wakeupHour, wakeupMinutes;
+
+  PERFORM cron.schedule(
+    FORMAT('updateToFailed %s %s %s %s %s', 
+      wakeupMinutes, 
+      wakeupHour, 
+      targetDay, 
+      targetMonth, 
+      NEW.id
+    ), 
+    FORMAT('%s %s %s %s *', 
+      wakeupMinutes, 
+      wakeupHour, 
+      targetDay, 
+      targetMonth
+    ), 
+    FORMAT('UPDATE "Goal" SET state = ''failed'' WHERE id = %s;', NEW.id));
+  
+  RETURN NEW;
+END;
+$$
+
+CREATE TRIGGER creationOfGoalUpdatesStats
+  AFTER INSERT ON "Goal"
+  FOR EACH ROW
+  EXECUTE FUNCTION updateGoalStatsWhenGoalCreated();
+
+CREATE OR REPLACE FUNCTION updateGoalStatsWhenGoalUpdated()
+  RETURNS TRIGGER
+  LANGUAGE PLPGSQL
+  AS
+$$
+DECLARE
+  oldWakeupMinutes INTEGER;
+  oldWakeupHour INTEGER;
+  oldTargetDay INTEGER;
+  oldTargetMonth INTEGER;
+  wakeupMinutes INTEGER;
+  wakeupHour INTEGER;
+  targetDay INTEGER;
+  targetMonth INTEGER;
+BEGIN
+  IF NEW.state = 'active' AND OLD.state = 'waiting' THEN
+    UPDATE "GoalStatistics"
+    SET "goalsActive" = "goalsActive" + 1
+    WHERE "GoalStatistics"."scheduleID" = NEW."scheduleID";
+  END IF;
+
+  IF NEW.state = 'completed' AND OLD.state = 'active' THEN
+    UPDATE "GoalStatistics"
+    SET "goalsActive" = "goalsActive" - 1
+    WHERE "GoalStatistics"."scheduleID" = NEW."scheduleID";
+
+    UPDATE "GoalStatistics"
+    SET "goalsCompleted" = "goalsCompleted" + 1
+    WHERE "GoalStatistics"."scheduleID" = NEW."scheduleID";
+  END IF;
+
+  SELECT 
+    EXTRACT(DAY FROM (OLD."targetDate"::DATE + INTERVAL '1 day')),
+    EXTRACT(MONTH FROM (OLD."targetDate"::DATE + INTERVAL '1 day')),
+    EXTRACT(HOUR FROM (OLD."targetDate" + INTERVAL '1 day')),
+    EXTRACT(MINUTE FROM (OLD."targetDate" + INTERVAL '1 day'))
+  INTO oldTargetDay, oldTargetMonth, oldWakeupHour, oldWakeupMinutes;
+
+  SELECT 
+    EXTRACT(DAY FROM (NEW."targetDate"::DATE + INTERVAL '1 day')),
+    EXTRACT(MONTH FROM (NEW."targetDate"::DATE + INTERVAL '1 day')),
+    EXTRACT(HOUR FROM (NEW."targetDate" + INTERVAL '1 day')),
+    EXTRACT(MINUTE FROM (NEW."targetDate" + INTERVAL '1 day'))
+  INTO targetDay, targetMonth, wakeupHour, wakeupMinutes;
+
+  PERFORM cron.unschedule(
+    FORMAT('updateToFailed %s %s %s %s %s', 
+      oldWakeupMinutes, 
+      oldWakeupHour, 
+      oldTargetDay, 
+      oldTargetMonth,
+      OLD.id
+    )
+  );
+
+  PERFORM cron.schedule(
+    FORMAT('updateToFailed %s %s %s %s %s', 
+      wakeupMinutes, 
+      wakeupHour, 
+      targetDay, 
+      targetMonth,
+      OLD.id
+    ), 
+    FORMAT('%s %s %s %s *', 
+      wakeupMinutes, 
+      wakeupHour, 
+      targetDay, 
+      targetMonth
+    ), 
+    FORMAT('UPDATE "Goal" SET state = ''failed'' WHERE id = %s;', NEW.id));
+  RETURN NEW;
+END;
+$$
+
+CREATE TRIGGER updateOfGoalUpdatesStats
+  AFTER UPDATE ON "Goal"
+  FOR EACH ROW
+  EXECUTE FUNCTION updateGoalStatsWhenGoalUpdated();
+
+CREATE OR REPLACE FUNCTION updateGoalStatsWhenGoalDeleted()
+  RETURNS TRIGGER
+  LANGUAGE PLPGSQL
+  AS
+$$
+DECLARE
+  wakeupMinutes INTEGER;
+  wakeupHour INTEGER;
+  targetDay INTEGER;
+  targetMonth INTEGER;
+BEGIN
+  IF OLD.state = 'active' THEN
+    UPDATE "GoalStatistics"
+    SET "goalsActive" = "goalsActive" - 1
+    WHERE "GoalStatistics"."scheduleID" = OLD."scheduleID";
+  END IF;
+
+  IF OLD.state = 'completed' THEN
+    UPDATE "GoalStatistics"
+    SET "goalsCompleted" = "goalsCompleted" - 1
+    WHERE "GoalStatistics"."scheduleID" = OLD."scheduleID";
+  END IF;
+
+  SELECT 
+    EXTRACT(DAY FROM (OLD."targetDate" + INTERVAL '1 day')),
+    EXTRACT(MONTH FROM (OLD."targetDate" + INTERVAL '1 day')),
+    EXTRACT(HOUR FROM (OLD."targetDate" + INTERVAL '1 day')),
+    EXTRACT(MINUTE FROM (OLD."targetDate" + INTERVAL '1 day'))
+  INTO targetDay, targetMonth, wakeupHour, wakeupMinutes;
+
+  PERFORM cron.unschedule(
+          FORMAT('updateToFailed %s %s %s %s %s', 
+            wakeupMinutes, 
+            wakeupHour, 
+            targetDay, 
+            targetMonth,
+            OLD.id
+          )
+  );
+  RETURN OLD;
+END;
+$$
+
+CREATE TRIGGER deleteOfGoalUpdatesStats
+  AFTER DELETE ON "Goal"
+  FOR EACH ROW
+  EXECUTE FUNCTION updateGoalStatsWhenGoalDeleted();

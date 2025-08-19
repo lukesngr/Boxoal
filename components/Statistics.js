@@ -9,7 +9,7 @@ export default function Statistics({recordedTimeboxes, timeboxes}) {
         percentagePredictedStart, 
         percentageCorrectTime, 
         percentageRescheduled, 
-        hoursLeftToday} = getStatistics(recordedTimeboxes, timeboxes);
+        hoursLeftThisWeek} = getStatistics(recordedTimeboxes, timeboxes);
     return (
         <div class="container" style={{paddingLeft: 0, paddingRight: 0}}>
                 <div class="row">
@@ -34,9 +34,9 @@ export default function Statistics({recordedTimeboxes, timeboxes}) {
                     </div>
                     <div class="col">
                     <Paper sx={{backgroundColor: '#875F9A', marginTop: 2 }} className="statPaper" elevation={4} square>
-                        <p className="statisticsHeading">Hours Available Today</p>
+                        <p className="statisticsHeading">Hours Free To Focus</p>
                         <div className="statisticsBackground">
-                            <h1>{hoursLeftToday}</h1>
+                            <h1>{hoursLeftThisWeek}</h1>
                         </div>
                         <p className="statisticsUnit">hours</p>
                     </Paper>

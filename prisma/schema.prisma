@@ -21,6 +21,7 @@ model Schedule {
   goals             Goal[]
   timeboxes         TimeBox[]
   recordedTimeboxes RecordedTimeBox[]
+  goalStatistics    GoalStatistics[]
 }
 
 model Goal {
@@ -37,6 +38,7 @@ model Goal {
   objectUUID String @unique
   metric     Int?
   loggingsOfMetric loggingOfMetric[]
+  state      String? @default("active")
 }
 
 model TimeBox {
@@ -92,4 +94,12 @@ model loggingOfMetric {
   metric Int
   goal              Goal             @relation(fields: [goalID], references: [id])
   goalID            Int
+}
+
+model GoalStatistics {
+  id               Int      @id @default(autoincrement())
+  schedule         Schedule @relation(fields: [scheduleID], references: [id])
+  scheduleID       Int
+  goalsActive      Int
+  goalsCompleted   Int
 }

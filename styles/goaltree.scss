@@ -1,0 +1,131 @@
+@use 'theme';
+
+.goalCard {
+    background-color: theme.$base-color;
+    display: flex;
+    align-items: center;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    flex-direction: column;
+    width: fit-content;
+    max-width: 500px;
+    max-height: 300px;
+}
+
+.goalCardTitle {
+    font-family: 'Koulen';
+    font-size: 2em;
+    color: white;
+}
+
+.goalCard span {
+    display: block;
+}
+
+.goalCardUndertext {
+    font-family: 'Koulen';
+    font-size: 1em;
+    color: white;
+}
+
+.goalLine {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.addGoalToLineButton {
+    background-color: black;
+    color: white;
+}
+
+.viewHeading {
+    margin-top: 30px;
+}
+
+.goalTimeboxesCard {
+    background-color: theme.$base-color;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    flex-direction: column;
+    width: fit-content;
+    height: fit-content;
+    max-width: 500px;
+    max-height: 300px;
+}
+
+.goalTimeboxesCard span {
+    display: block;
+}
+
+.goalTreeTimeboxesContainer {
+    margin-top: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.twoComponentsInLine {
+    display: flex;
+    flex-direction: row;
+}
+
+.twoComponentsInLine svg {
+    width: 100%;
+}
+
+.goalTimeboxCard {
+    background-color: #403D3D;
+    flex-direction: column;
+    padding: 20px 10px 20px 10px;
+    width: fit-content;
+    display: flex;
+    margin-top: 10px;
+}
+
+.goalTimeboxTitle {
+    font-family: 'Koulen', sans-serif;
+    font-size: 1.6em;
+    color: white;
+}
+
+.goalTimeboxFailed {
+    color: #F34F4F;
+    font-size: 1em;
+    font-family: 'Koulen', sans-serif;
+}
+
+.goalTimeboxCompleted {
+    color: #4FF38E;
+    font-size: 1em;
+    font-family: 'Koulen', sans-serif;
+}
+
+.goalTimeboxCard div span {
+    margin-left: 8px;
+}
+.diagramArrows {
+    display: flex;
+    flex-direction: column;
+}
+
+.goalTimeboxCard:not(.goalTimeboxCard ~ .goalTimeboxCard) {
+    margin-top: 250px;
+}
+
+.goalTimeboxTitle svg {
+    width: auto;
+}
+
+.goBackButtonGoalTree {
+    position: relative !important;
+    top: 0;
+    right: 0;
+    float: right;
+    margin: 10px !important;
+}

@@ -9,14 +9,26 @@ export default async function handler(req, res) {
   try {
     const data = req.body;
 
+    await prisma.loggingOfMetric.deleteMany({
+      where: {
+        goalID: data.id
+      }
+    });
+
     await prisma.goal.delete({
       where: {
         id: data.id
       },
       include: {
-        timeboxes: true,
-      },
+        timeboxes: {
+          include: {
+            recordedTimeBoxes: true
+          }
+        },
+      }
     });
+
+    
 
     res.status(200).json({ message: 'Goal deleted successfully' });
   } catch (error) {

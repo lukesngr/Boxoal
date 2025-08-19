@@ -133,7 +133,7 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
             numberOfBoxes: parseInt(numberOfBoxes),
         };
 
-        if(isTimeblock) {
+        if(!isTimeblock) {
             updateData["goal"] = { connect: { id: goalSelected } };
         }
 
@@ -207,7 +207,7 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
                             sx={muiInputStyle}
                         >
                             {goals.map((goal) => {
-                                if(goal.active) {
+                                if(goal.state == "active") {
                                     return (
                                     <MenuItem key={goal.id} value={goal.id}>
                                         {goal.title}

@@ -11,16 +11,17 @@ export default function GoalAccordion(props) {
     const [goalShown, setGoalShown] = useState(false);
     
     
-    return (!props.goal.active ? <></> : (
+    return (props.goal.state != "active" ? <></> : (
     <>  
         <EditGoalForm visible={goalShown} close={() => setGoalShown(false)} data={props.goal}></EditGoalForm>
         <div className="goalAccordion" >      
             <span className='goalTitle'>{props.goal.title} by {dayjs(props.goal.targetDate).format('D/M')}</span>
-            <IconButton style={{float: 'inline-end', padding: '5px', color: 'white'}} onClick={() => setTimeboxesListShown(!timeboxesListShown)}>
-                <ExpandMoreIcon></ExpandMoreIcon>
-            </IconButton>
-            <IconButton style={{float: 'inline-end', padding: '5px', color: 'white'}} className='openUpdateGoalButton' onClick={() => setGoalShown(true)}>
+            
+            <IconButton style={{marginLeft: 'auto', padding: '5px', color: 'white'}} className='openUpdateGoalButton' onClick={() => setGoalShown(true)}>
                 <SettingsIcon></SettingsIcon>
+            </IconButton>
+            <IconButton style={{padding: '5px', color: 'white'}} onClick={() => setTimeboxesListShown(!timeboxesListShown)}>
+                <ExpandMoreIcon></ExpandMoreIcon>
             </IconButton>
             
             

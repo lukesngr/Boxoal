@@ -67,6 +67,20 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
         hideDialog();
     }
 
+    function safeSetGoalLimit(number) {
+        if(number != '') {
+            if(number > 10) {
+                setGoalLimit(10);
+            }else if(number < 1) {
+                setGoalLimit(1);
+            }else{
+                setGoalLimit(number);
+            }
+        }else{
+            setGoalLimit('');
+        }
+    }
+
     function safeSetBoxSizeNumber(number) {
         let boxSizeNumber;
         
@@ -160,7 +174,7 @@ export default function SettingsDialog({ visible, hideDialog, data }) {
                                     label="Goal Limit"
                                     type="number"
                                     value={goalLimit}
-                                    onChange={(e) => setGoalLimit(e.target.value)}
+                                    onChange={(e) => safeSetGoalLimit(e.target.value)}
                                     variant="standard"
                                     sx={muiInputStyle}
                                 />

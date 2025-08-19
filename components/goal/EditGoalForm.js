@@ -25,8 +25,8 @@ export default function EditGoalForm(props) {
     const [metric, setMetric] = useState(props.data.metric);
     const [hasMetric, setHasMetric] = useState(props.data.metric === null ? (false) : (true));
     const [targetDate, setTargetDate] = useState(dayjs(props.data.targetDate));
-    const [completed, setCompleted] = useState(props.data.completed);
-    const {scheduleIndex} = useSelector(state => state.profile.value);
+    const [completed, setCompleted] = useState(props.data.state == "completed");
+    const {scheduleIndex, wakeupTime} = useSelector(state => state.profile.value);
     const [onLogMetricView, setOnLogMetricView] = useState(false);
 
     const updateGoalMutation = useMutation({
@@ -47,9 +47,13 @@ export default function EditGoalForm(props) {
             
             return { previousGoals };
         },
-        onSuccess: () => {
+        onSuccess: (goalData) => {
             props.close();
-            dispatch({type: 'alert/set', payload: { open: true, title: "Timebox", message: "Updated goal!" }});
+            if(goalData.state === "completed") {
+                dispatch({type: 'alert/set', payload: { open: true, title: "Goal", message: "Completed!" }});
+            }else{
+                dispatch({type: 'alert/set', payload: { open: true, title: "Goal", message: "Updated goal!" }});
+            }
             queryClient.invalidateQueries(['schedule']); // Refetch to get real data
         },
         onError: (error, goalData, context) => {
@@ -62,13 +66,18 @@ export default function EditGoalForm(props) {
     });
 
     function updateGoal() {
+
+        const wakeupTimeSplitted = wakeupTime.split(':');
+        const alteredDate = targetDate.hour(wakeupTimeSplitted[0]).minute(wakeupTimeSplitted[1]);
+
         const goalData = {
             title,
-            targetDate: targetDate.toISOString(),
+            targetDate: alteredDate.toISOString(),
             objectUUID: props.data.objectUUID,
             completed,
             completedOn: new Date().toISOString(),
-            active: !completed
+            active: !completed,
+            state: completed ? "completed" : "active",
         }
 
         if(hasMetric) {
@@ -126,16 +135,39 @@ export default function EditGoalForm(props) {
                 }
             }
 
-            axios.post('/api/logMetric', data)
-            .then(async () => {
-                close();
-                dispatch({type: 'alert/set', payload: { open: true, title: "Goal", message: "Logged metric!" }});
-                await queryClient.refetchQueries();
-            })
-            .catch(function() {
-                close();
-                dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
-            });
+            if(metric >= props.data.metric) {
+                const wakeupTimeSplitted = wakeupTime.split(':');
+                const alteredDate = targetDate.hour(wakeupTimeSplitted[0]).minute(wakeupTimeSplitted[1]);
+
+                const goalData = {
+                    title,
+                    targetDate: alteredDate.toISOString(),
+                    objectUUID: props.data.objectUUID,
+                    completed: true,
+                    completedOn: new Date().toISOString(),
+                    active: !completed,
+                    state: "completed",
+                }
+                
+                updateGoalMutation.mutate(goalData);
+
+                axios.get('/api/setNextGoalToActive', {line: props.data.partOfLine}).then(async () => {
+                    await queryClient.refetchQueries();
+                }).catch(function() {
+                })
+            }else{
+
+                axios.post('/api/logMetric', data)
+                .then(async () => {
+                    close();
+                    dispatch({type: 'alert/set', payload: { open: true, title: "Goal", message: "Logged metric!" }});
+                    await queryClient.refetchQueries();
+                })
+                .catch(function() {
+                    close();
+                    dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
+                });
+            }
         }else {
             setOnLogMetricView(true);
         }
@@ -222,6 +254,7 @@ export default function EditGoalForm(props) {
                     </div>                    
                 </DialogContent>
                 <DialogActions>
+                    {hasMetric &&
                     <Button
                         onClick={logMetric}
                         variant="contained"
@@ -229,7 +262,7 @@ export default function EditGoalForm(props) {
                         className='updateGoalButton'
                     >
                         Log Metric
-                    </Button>
+                    </Button>}
                     {!onLogMetricView && (<>
                     <Button
                         onClick={updateGoal}

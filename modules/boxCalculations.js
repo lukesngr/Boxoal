@@ -215,8 +215,12 @@ export function getStatistics(recordedTimeboxes, timeboxes) {
     let timeboxesThatMatchPredictedStart = 0;
     let timeboxesThatMatchCorrectTime = 0;
     let today = dayjs()
+    let startOfThisWeekDate = dayjs().day(0);
+    let endOfThisWeekDate = dayjs().day(0);
+    let startOfThisWeek = convertToDayjs(wakeupTime, (startOfThisWeekDate.date()+1)+'/'+(startOfThisWeekDate.month()+1));
+    let endOfThisWeek = convertToDayjs(wakeupTime, (endOfThisWeekDate.date()+1)+'/'+(endOfThisWeekDate.month()+1))
     let nextDayWakeup = convertToDayjs(wakeupTime, (today.date()+1)+'/'+(today.month()+1));
-    let hoursLeftToday = (nextDayWakeup.toDate() - today.toDate()) / hoursConversionDivisor;
+    let hoursLeftThisWeek = 144;
 
     for(let i = 0; i < recordedTimeboxes.length; i++) {
         let recordedTimebox = recordedTimeboxes[i];
@@ -263,25 +267,29 @@ export function getStatistics(recordedTimeboxes, timeboxes) {
 
     for(let timebox of timeboxes) {
 
-        let isSameDay = dayjs(timebox.startTime).isSameOrAfter(today, 'date') && dayjs(timebox.startTime).isBefore(nextDayWakeup);
+        let isInWeek = dayjs(timebox.startTime).isSameOrAfter(startOfThisWeek, 'date') && dayjs(timebox.startTime).isBefore(endOfThisWeek);
         let isReoccuringDaily = timebox.reoccuring != null && timebox.reoccuring.reoccurFrequency === "daily";
         let isReoccuringWeeklyAndToday = timebox.reoccuring != null && timebox.reoccuring.reoccurFrequency === "weekly" && timebox.reoccuring.weeklyDay == today.day();
         let isReoccuringDailyOrWeeklyAndToday = isReoccuringDaily || isReoccuringWeeklyAndToday;
 
-        if(timebox.isTimeblock && (isSameDay || isReoccuringDailyOrWeeklyAndToday)) {
-            if(dayjs(timebox.startTime).isSameOrAfter(today)) {
-                if(dayjs(timebox.endTime).isAfter(nextDayWakeup)) {
-                    hoursLeftToday -= ((nextDayWakeup.toDate() - new Date(timebox.startTime)) / hoursConversionDivisor)
-                }else{
-                    hoursLeftToday -= ((new Date(timebox.endTime) - new Date(timebox.startTime)) / hoursConversionDivisor)
-                }
-            }else if(dayjs(timebox.endTime).isAfter(today)) {
-                hoursLeftToday -= ((new Date(timebox.endTime) - new Date()) / hoursConversionDivisor)
-            }
+        if(timebox.isTimeblock && (isInWeek || isReoccuringDailyOrWeeklyAndToday)) {
+            hoursLeftThisWeek -= ((new Date(timebox.endTime) - new Date(timebox.startTime)) / hoursConversionDivisor)
         }   
     }
 
-    hoursLeftToday = Math.round(hoursLeftToday)
+    hoursLeftThisWeek = Math.round(hoursLeftThisWeek)
 
-    return {averageTimeOverBy, averageTimeStartedOffBy, percentagePredictedStart, percentageCorrectTime, percentageRescheduled, hoursLeftToday};
+    return {averageTimeOverBy, averageTimeStartedOffBy, percentagePredictedStart, percentageCorrectTime, percentageRescheduled, hoursLeftThisWeek};
+}
+
+export function getAverageTimeOverAndOffBy(timebox) {
+    let recordedTimeboxStartTime = new Date(timebox.recordedTimeBoxes[0].recordedStartTime);
+    let recordedTimeboxEndTime = new Date(timebox.recordedTimeBoxes[0].recordedEndTime);
+    let timeboxStartTime = new Date(timebox.startTime);
+    let timeboxEndTime = new Date(timebox.endTime);
+    let minutesOverBy = ((recordedTimeboxEndTime - recordedTimeboxStartTime) - (timeboxEndTime - timeboxStartTime));
+    let timeStartedAccuracyForTimebox = recordedTimeboxStartTime.getMinutes() - timeboxStartTime.getMinutes();
+    timeStartedAccuracyForTimebox += (recordedTimeboxStartTime.getHours() - timeboxStartTime.getHours())*60;
+    minutesOverBy = minutesOverBy / 60000;
+    return {minutesOverBy, timeStartedAccuracyForTimebox};
 }
