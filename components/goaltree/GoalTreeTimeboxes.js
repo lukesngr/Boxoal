@@ -53,9 +53,12 @@ export function GoalTreeTimeboxes(props) {
                 return (
                 <div className="goalTimeboxCard">
                     <span className="goalTimeboxTitle"><AccessTimeIcon></AccessTimeIcon>{timebox.title}</span>
+                    <div>
                     {isFailed && <span className="goalTimeboxFailed">Failed</span>}
                     {isCompleted && <span className="goalTimeboxCompleted">Completed</span>}
-                    {isCompleted && <span className="goalTimeboxCompleted">{minutesOverBy > 0 ? (minutesOverBy +" min longer") : (minutesOverBy +" min earlier")}</span>}
+                    {isCompleted && <span className="goalTimeboxCompleted">{timeStartedAccuracyForTimebox > 0 ? (timeStartedAccuracyForTimebox +" min late") : (-timeStartedAccuracyForTimebox +" min early")}</span>}
+                    {isCompleted && <span className="goalTimeboxCompleted">{minutesOverBy > 0 ? (minutesOverBy +" min longer") : (-minutesOverBy +" min earlier")}</span>}
+                    </div>
                 </div>
                 )
             })}
