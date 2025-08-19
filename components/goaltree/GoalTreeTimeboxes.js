@@ -1,4 +1,7 @@
 import dayjs from "dayjs";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { Icon } from "@mui/material";
+
 export function GoalTreeTimeboxes(props) {
     let{goal} = props;
     return <div className="goalTreeTimeboxesContainer">
@@ -15,5 +18,16 @@ export function GoalTreeTimeboxes(props) {
                     <line x1={145} y1={50} x2={145} y2={100} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
                 </svg>
             </div>
+            {goal.timeboxes.map((timebox) => {
+                let isFailed = dayjs().isAfter(dayjs(timebox.endTime)) && timebox.recordedTimeBoxes.length == 0;
+                console.log(timebox, isFailed)
+                return (
+                <div className="goalTimeboxCard">
+                    <span className="goalTimeboxTitle"><AccessTimeIcon></AccessTimeIcon>{timebox.title}</span>
+                    <span className="goalTimeboxFailed">Failed</span>
+                </div>
+                )
+                }
+            )}
         </div>
 }
