@@ -78,3 +78,22 @@
 .twoComponentsInLine svg {
     max-width: 200px;
 }
+
+.goalTimeboxCard {
+    background-color: #403D3D;
+    flex-direction: column;
+    padding: 20px 10px 20px 10px;
+    width: fit-content;
+}
+
+.goalTimeboxTitle {
+    font-family: 'Koulen', sans-serif;
+    font-size: 1.6em;
+    color: white;
+}
+
+.goalTimeboxFailed {
+    color: #F34F4F;
+    font-size: 1em;
+    font-family: 'Koulen', sans-serif;
+}
