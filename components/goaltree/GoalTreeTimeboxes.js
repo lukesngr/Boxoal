@@ -52,7 +52,7 @@ export function GoalTreeTimeboxes(props) {
                 }
                 return (
                 <div className="goalTimeboxCard">
-                    <span className="goalTimeboxTitle"><AccessTimeIcon></AccessTimeIcon>{timebox.title}</span>
+                    <span className="goalTimeboxTitle"><AccessTimeIcon></AccessTimeIcon>{timebox.title} - {dayjs(timebox.startTime).format('hh:mm DD/MM')}</span>
                     <div>
                     {isFailed && <span className="goalTimeboxFailed">Failed</span>}
                     {isCompleted && <span className="goalTimeboxCompleted">Completed</span>}
