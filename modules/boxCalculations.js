@@ -288,8 +288,8 @@ export function getAverageTimeOverAndOffBy(timebox) {
     let timeboxStartTime = new Date(timebox.startTime);
     let timeboxEndTime = new Date(timebox.endTime);
     let minutesOverBy = ((recordedTimeboxEndTime - recordedTimeboxStartTime) - (timeboxEndTime - timeboxStartTime));
-    let timeStartedAccuracyForTimebox = Math.abs(recordedTimeboxStartTime.getMinutes() - timeboxStartTime.getMinutes());
-    timeStartedAccuracyForTimebox += (Math.abs(recordedTimeboxStartTime.getHours() - timeboxStartTime.getHours()))*60;
+    let timeStartedAccuracyForTimebox = recordedTimeboxStartTime.getMinutes() - timeboxStartTime.getMinutes();
+    timeStartedAccuracyForTimebox += (recordedTimeboxStartTime.getHours() - timeboxStartTime.getHours())*60;
     minutesOverBy = minutesOverBy / 60000;
     return {minutesOverBy, timeStartedAccuracyForTimebox};
 }
