@@ -207,7 +207,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                         <InputLabel>Goal</InputLabel>
                         <Select
                             value={goalSelected}
-                            onChange={(e) => {console.log(e.target.value); setGoalSelected(e.target.value)}}
+                            onChange={(e) => {setGoalSelected(e.target.value)}}
                             sx={muiInputStyle}
                         >
                             {activeGoals.map((goal) => (

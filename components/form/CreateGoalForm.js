@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { queryClient } from '../../modules/queryClient.js';
@@ -62,9 +62,9 @@ export default function CreateGoalForm(props) {
     });
     
     function createGoal() {
-        let isActiveOnInTree = props.active ? "active" : "waiting";
-        let wakeupTimeSplitted = wakeupTime.split(':');
-        let alteredDate = targetDate.hour(wakeupTimeSplitted[0]).minute(wakeupTimeSplitted[1]);
+        const isActiveOnInTree = props.active ? "active" : "waiting";
+        const wakeupTimeSplitted = wakeupTime.split(':');
+        const alteredDate = targetDate.hour(wakeupTimeSplitted[0]).minute(wakeupTimeSplitted[1]);
 
         const goalData = {
             title,

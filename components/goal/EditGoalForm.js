@@ -67,8 +67,8 @@ export default function EditGoalForm(props) {
 
     function updateGoal() {
 
-        let wakeupTimeSplitted = wakeupTime.split(':');
-        let alteredDate = targetDate.hour(wakeupTimeSplitted[0]).minute(wakeupTimeSplitted[1]);
+        const wakeupTimeSplitted = wakeupTime.split(':');
+        const alteredDate = targetDate.hour(wakeupTimeSplitted[0]).minute(wakeupTimeSplitted[1]);
 
         const goalData = {
             title,
@@ -136,8 +136,8 @@ export default function EditGoalForm(props) {
             }
 
             if(metric >= props.data.metric) {
-                let wakeupTimeSplitted = wakeupTime.split(':');
-                let alteredDate = targetDate.hour(wakeupTimeSplitted[0]).minute(wakeupTimeSplitted[1]);
+                const wakeupTimeSplitted = wakeupTime.split(':');
+                const alteredDate = targetDate.hour(wakeupTimeSplitted[0]).minute(wakeupTimeSplitted[1]);
 
                 const goalData = {
                     title,

@@ -2,7 +2,6 @@ import { useProfile } from "@/hooks/useProfile";
 import { useDispatch } from "react-redux";
 import Alert from "@/components/base/Alert";
 import { useQuery } from "@tanstack/react-query";
-import SchedulesView from "@/components/schedule/SchedulesView";
 import axios from "axios";
 import Welcome from "./Welcome";
 import SignedInNav from "../nav/SignedInNav";
