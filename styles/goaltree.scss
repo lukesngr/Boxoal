@@ -85,7 +85,7 @@
     padding: 20px 10px 20px 10px;
     width: fit-content;
     display: flex;
-    margin-top: 100px;
+    margin-top: 10px;
 }
 
 .goalTimeboxTitle {
@@ -106,5 +106,9 @@
 }
 
 .goalTimeboxCard:not(.goalTimeboxCard ~ .goalTimeboxCard) {
-    margin-top: 200px;
+    margin-top: 250px;
+}
+
+.goalTimeboxTitle svg {
+    width: auto;
 }

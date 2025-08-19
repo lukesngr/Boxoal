@@ -18,23 +18,25 @@ export function GoalTreeTimeboxes(props) {
                         <line x1={0} y1={50} x2={145} y2={50} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
                         <line x1={145} y1={50} x2={145} y2={100} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
                     </svg>
-                    <div>
-                    <svg viewBox="0 0 150 50">
+                    {goal.timeboxes.map((timebox, index) => (
+                    <svg key={index} viewBox="0 0 150 50">
                         <line x1={145} y1={0} x2={145} y2={50} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
                         <line x1={143} y1={48} x2={250} y2={48} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
                     </svg>
-                    </div>
+                    ))}
                 </div>
+                <div>
                 {goal.timeboxes.map((timebox) => {
                     let isFailed = dayjs().isAfter(dayjs(timebox.endTime)) && timebox.recordedTimeBoxes.length == 0;
                     console.log(timebox, isFailed)
                     return (
                     <div className="goalTimeboxCard">
                         <span className="goalTimeboxTitle"><AccessTimeIcon></AccessTimeIcon>{timebox.title}</span>
-                        <span className="goalTimeboxFailed">Failed</span>
+                        {isFailed && <span className="goalTimeboxFailed">Failed</span>}
                     </div>
                     )
                 })}
+                </div>
             </div>
             
         </div>
