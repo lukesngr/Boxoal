@@ -1,11 +1,10 @@
 import dayjs from "dayjs";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { Button, Icon } from "@mui/material";
-import { muiActionButton } from "@/modules/muiStyles";
+import { Button } from "@mui/material";
 import { getAverageTimeOverAndOffBy } from "@/modules/boxCalculations";
 
 export function GoalTreeTimeboxes(props) {
-    let{goal} = props;
+    const {goal} = props;
     return <>
     <Button className="goBackButtonGoalTree" sx={{
         backgroundColor: 'black',
@@ -42,16 +41,16 @@ export function GoalTreeTimeboxes(props) {
                 ))}
             </div>
             <div>
-            {goal.timeboxes.map((timebox) => {
-                let isFailed = dayjs().isAfter(dayjs(timebox.endTime)) && timebox.recordedTimeBoxes.length == 0;
-                let isCompleted = timebox.recordedTimeBoxes.length > 0;
+            {goal.timeboxes.map((timebox, index) => {
+                const isFailed = dayjs().isAfter(dayjs(timebox.endTime)) && timebox.recordedTimeBoxes.length == 0;
+                const isCompleted = timebox.recordedTimeBoxes.length > 0;
                 let minutesOverBy = 0;
                 let timeStartedAccuracyForTimebox = 0;
                 if(isCompleted) {
                     ({minutesOverBy, timeStartedAccuracyForTimebox} = getAverageTimeOverAndOffBy(timebox));
                 }
                 return (
-                <div className="goalTimeboxCard">
+                <div key={index} className="goalTimeboxCard">
                     <span className="goalTimeboxTitle"><AccessTimeIcon></AccessTimeIcon>{timebox.title} - {dayjs(timebox.startTime).format('hh:mm DD/MM')}</span>
                     <div>
                     {isFailed && <span className="goalTimeboxFailed">Failed</span>}

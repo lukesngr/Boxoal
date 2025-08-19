@@ -7,7 +7,6 @@ import "../../styles/timeboxheading.scss";
 import { useDispatch, useSelector } from "react-redux";
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import IconButton from '@mui/material/IconButton';
-import SettingsIcon from '@mui/icons-material/Settings';
 import SettingsDialog from "../SettingsDialog";
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar';
 

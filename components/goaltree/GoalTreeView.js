@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import useGoalLimits from "@/hooks/useGoalLimits";
 import { useScheduleSetter } from "@/hooks/useScheduleSetter";
 import { useMemo } from "react";
-import { Grid, Card, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import dayjs from "dayjs";
 import '../../styles/goaltree.scss'
@@ -21,7 +21,7 @@ export default function GoalTreeView(props) {
     useGoalLimits(schedule.goals);
 
     const {mapOfGoalsPutInLine, activeGoalsInLine} = useMemo(() => {
-        let mapOfGoalsPutInLine = {};
+        const mapOfGoalsPutInLine = {};
         const activeGoalsInLine = new Array(profile.goalLimit).fill(0);
         for(let i = 0; i < schedule.goals.length; i++) {
             let percentageCompleted = 0;
@@ -50,7 +50,7 @@ export default function GoalTreeView(props) {
             }
         }
         return {mapOfGoalsPutInLine, activeGoalsInLine}
-    }, [schedule])
+    }, [schedule, profile.goalLimit])
 
     
     return <>

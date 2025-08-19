@@ -1,4 +1,4 @@
-import React, { useRef, createContext } from 'react';
+import React, { useRef } from 'react';
 import { returnTimesSeperatedForSchedule } from '@/modules/formatters';
 import GridHeader from './GridHeader';
 import '../../styles/timeboxes.scss';
