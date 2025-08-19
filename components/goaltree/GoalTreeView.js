@@ -54,7 +54,7 @@ export default function GoalTreeView(props) {
 
     
     return <>
-        {goalTreeGoalView.open ? (<GoalTreeTimeboxes goal={goalTreeGoalView.goal}></GoalTreeTimeboxes>) : (<>
+        {goalTreeGoalView.open ? (<GoalTreeTimeboxes goal={goalTreeGoalView.goal} goBack={() =>setGoalTreeGoalView({open: false, goal: {}})}></GoalTreeTimeboxes>) : (<>
         <h1 className="viewHeading">Goal Tree</h1>
         <div className="container">
             <div className="row">

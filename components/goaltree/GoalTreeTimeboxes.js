@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { Icon } from "@mui/material";
+import { Button, Icon } from "@mui/material";
+import { muiActionButton } from "@/modules/muiStyles";
 
 export function GoalTreeTimeboxes(props) {
     let{goal} = props;
@@ -38,6 +39,18 @@ export function GoalTreeTimeboxes(props) {
                 })}
                 </div>
             </div>
-            
+            <Button className="goBackButtonGoalTree" sx={{
+                backgroundColor: 'black',
+                color: 'white',
+                fontFamily: 'Koulen',
+                fontSize: 20,
+                borderRadius: 0,
+                '&:hover': {
+                    backgroundColor: 'black',
+                    color: 'white'
+                }}
+            }
+            onClick={()=> props.goBack()}
+            >Go Back</Button>
         </div>
 }
