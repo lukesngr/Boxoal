@@ -7,6 +7,11 @@ export function GoalLineGraph({goalData}) {
     
     const {pointsArray, linesArray, yAxisLabels, xAxisLabels} = useGoalToGetPoints(goalData);
     const goalTitle = `${goalData.title} by ${dayjs(goalData.targetDate).format('D/M')}`;
+
+    if(goalData.state != 'active') {
+        return <></>
+    }
+    
     return (
      <Paper sx={{backgroundColor: '#875F9A', marginTop: 2, paddingLeft: '2%', paddingRight: '5.46%', paddingTop: '13.36%', paddingBottom : '4.67%' }} className="statPaper" elevation={4} square>
         <div className="goal-statistics" style={{width: '100%'}}>
