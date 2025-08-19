@@ -13,10 +13,12 @@ export function GoalTreeTimeboxes(props) {
                     {goal.state == "failed" && <span style={{color: '#FF0606'}} className="goalCardUndertext">Failed</span>}
                     {goal.state == "active" && <span  className="goalCardUndertext">{goal.percentageCompleted}%</span>}
                 </div>
-                <svg viewBox="0 0 150 100">
-                    <line x1={0} y1={50} x2={145} y2={50} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
-                    <line x1={145} y1={50} x2={145} y2={100} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
-                </svg>
+                <div className="diagramArrows">
+                    <svg viewBox="0 0 150 100">
+                        <line x1={0} y1={50} x2={145} y2={50} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
+                        <line x1={145} y1={50} x2={145} y2={100} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
+                    </svg>
+                </div>
             </div>
             {goal.timeboxes.map((timebox) => {
                 let isFailed = dayjs().isAfter(dayjs(timebox.endTime)) && timebox.recordedTimeBoxes.length == 0;
