@@ -28,7 +28,7 @@ export default function GoalTreeView(props) {
             if(schedule.goals[i].metric === null) {
                     let numberOfTimeboxes = 0;
                     let timeboxesHaveRecording = 0;
-                    for(timebox in schedule[i].goals.timeboxes) {
+                    for(timebox in schedule.goals[i].timeboxes) {
                         numberOfTimeboxes++;
                         if(timebox.recordedTimeBoxes !== null && timebox.recordedTimeBoxes.length != 0) {
                             timeboxesHaveRecording++;
