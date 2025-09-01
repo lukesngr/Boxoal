@@ -22,7 +22,7 @@ export default function GoalTreeView(props) {
 
     const {mapOfGoalsPutInLine, activeGoalsInLine} = useMemo(() => {
         const mapOfGoalsPutInLine = {};
-        const activeGoalsInLine = new Array(profile.goalLimit).fill(0);
+        const activeGoalsInLine = new Array(25).fill(0);
         for(let i = 0; i < schedule.goals.length; i++) {
             let percentageCompleted = 0;
             if(schedule.goals[i].metric === null) {
