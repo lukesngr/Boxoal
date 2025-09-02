@@ -11,6 +11,7 @@ import { queryClient } from "@/modules/queryClient";
 import CreateGoalForm from "../form/CreateGoalForm";
 import { useState } from "react";
 import { GoalTreeTimeboxes } from "./GoalTreeTimeboxes";
+import useGoalStatistics from "@/hooks/useGoalStatistics";
 
 export default function GoalTreeView(props) {
     const profile = useSelector(state => state.profile.value);
@@ -18,6 +19,7 @@ export default function GoalTreeView(props) {
     const [createGoalState, setCreateGoalState] = useState({visible: false, id: profile.scheduleID, line: -1});
     const [goalTreeGoalView, setGoalTreeGoalView] = useState({open: false, goal: {}});
     useScheduleSetter(schedule);
+    useGoalStatistics(schedule);
     useGoalLimits(schedule.goals);
 
     const {mapOfGoalsPutInLine, activeGoalsInLine} = useMemo(() => {
