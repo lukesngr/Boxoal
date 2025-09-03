@@ -36,7 +36,13 @@ export default function GoalTreeView(props) {
                             timeboxesHaveRecording++;
                         }
                     }
-                    percentageCompleted = timeboxesHaveRecording / numberOfTimeboxes;
+
+                    if(numberOfTimeboxes != 0) {
+                        percentageCompleted = timeboxesHaveRecording / numberOfTimeboxes;
+                    }else{
+                        percentageCompleted = 0;
+                    }
+                    
             }else if(schedule.goals[i].loggingsOfMetric.length > 0){
                 percentageCompleted = schedule.goals[i].loggingsOfMetric[schedule.goals[i].loggingsOfMetric.length - 1] / schedule.goals[i].metric;
             }
