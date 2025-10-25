@@ -16,9 +16,9 @@ export function GoalTreeTimeboxes(props) {
             backgroundColor: 'black',
             color: 'white'
         }}
-    }
-    onClick={()=> props.goBack()}
-    >Go Back</Button>
+    } onClick={()=> props.goBack()}>
+        Go Back
+    </Button>
     <div className="goalTreeTimeboxesContainer">
         <div className="twoComponentsInLine">
             <div className="goalTimeboxesCard" style={goal.state == "waiting" ? {backgroundColor: '#403D3D'} : {}}>
@@ -26,7 +26,7 @@ export function GoalTreeTimeboxes(props) {
                 <span className="goalCardUndertext">{dayjs(goal.targetDate).format('D MMM')}</span>
                 {goal.state == "completed" && <span style={{color: '#4FF38E'}} className="goalCardUndertext">Completed</span>}
                 {goal.state == "failed" && <span style={{color: '#FF0606'}} className="goalCardUndertext">Failed</span>}
-                {goal.state == "active" && <span  className="goalCardUndertext">{goal.percentageCompleted}%</span>}
+                {goal.state == "active" && <span className="goalCardUndertext">{goal.percentageCompleted}%</span>}
             </div>
             <div className="diagramArrows">
                 <svg viewBox="0 0 150 100">
@@ -55,8 +55,8 @@ export function GoalTreeTimeboxes(props) {
                     <div>
                     {isFailed && <span className="goalTimeboxFailed">Failed</span>}
                     {isCompleted && <span className="goalTimeboxCompleted">Completed</span>}
-                    {isCompleted && <span className="goalTimeboxCompleted">{timeStartedAccuracyForTimebox > 0 ? (timeStartedAccuracyForTimebox +" min late") : (-timeStartedAccuracyForTimebox +" min early")}</span>}
-                    {isCompleted && <span className="goalTimeboxCompleted">{minutesOverBy > 0 ? (minutesOverBy +" min longer") : (-minutesOverBy +" min earlier")}</span>}
+                    {isCompleted && <span className="goalTimeboxCompleted">{timeStartedAccuracyForTimebox > 0 ? (timeStartedAccuracyForTimebox.toFixed(2) +" min late") : ((-timeStartedAccuracyForTimebox).toFixed(2) +" min early")}</span>}
+                    {isCompleted && <span className="goalTimeboxCompleted">{minutesOverBy > 0 ? (minutesOverBy.toFixed(2) +" min longer") : ((-minutesOverBy).toFixed(2) +" min earlier")}</span>}
                     </div>
                 </div>
                 )
