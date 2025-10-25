@@ -2,14 +2,17 @@ import { getStatistics } from "@/modules/boxCalculations";
 import { Paper, Stack } from "@mui/material";
 import { PieChart } from "@mui/x-charts";
 import '../styles/statistics.scss'
+import { useMemo } from "react";
+import { useSelector } from "react-redux";
 
 export default function Statistics({recordedTimeboxes, timeboxes}) {
+    const {wakeupTime} = useSelector((state) => state.profile.value);
     const {averageTimeOverBy, 
         averageTimeStartedOffBy, 
         percentagePredictedStart, 
         percentageCorrectTime, 
         percentageRescheduled, 
-        hoursLeftThisWeek} = getStatistics(recordedTimeboxes, timeboxes);
+        hoursLeftThisWeek} = useMemo(() => getStatistics(recordedTimeboxes, timeboxes, wakeupTime), [recordedTimeboxes, timeboxes, wakeupTime]);
     return (
         <div class="container" style={{paddingLeft: 0, paddingRight: 0}}>
                 <div class="row">

@@ -207,8 +207,7 @@ export function findSmallestTimeBoxLengthInSpace(timeboxGridFilteredByDate, time
     return smallestTimeboxLength;
 } 
 
-export function getStatistics(recordedTimeboxes, timeboxes) {
-    const {wakeupTime} = useSelector((state) => state.profile.value);
+export function getStatistics(recordedTimeboxes, timeboxes, wakeupTime) {
     let reschedules = 0;
     let minutesOverBy = 0;
     let averageTimeStartedOffBy = 0;
