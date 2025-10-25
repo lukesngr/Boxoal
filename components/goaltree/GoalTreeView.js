@@ -32,7 +32,7 @@ export default function GoalTreeView(props) {
                     let timeboxesHaveRecording = 0;
                     for(let timebox in schedule.goals[i].timeboxes) {
                         numberOfTimeboxes++;
-                        if(timebox.recordedTimeBoxes !== null && timebox.recordedTimeBoxes.length != 0) {
+                        if(timebox.recordedTimeBoxes != null && timebox.recordedTimeBoxes.length != 0) {
                             timeboxesHaveRecording++;
                         }
                     }
