@@ -268,12 +268,15 @@ export function getStatistics(recordedTimeboxes, timeboxes, wakeupTime) {
 
         let isInWeek = dayjs(timebox.startTime).isSameOrAfter(startOfThisWeek, 'date') && dayjs(timebox.startTime).isBefore(endOfThisWeek);
         let isReoccuringDaily = timebox.reoccuring != null && timebox.reoccuring.reoccurFrequency === "daily";
-        let isReoccuringWeeklyAndToday = timebox.reoccuring != null && timebox.reoccuring.reoccurFrequency === "weekly" && timebox.reoccuring.weeklyDay == today.day();
-        let isReoccuringDailyOrWeeklyAndToday = isReoccuringDaily || isReoccuringWeeklyAndToday;
+        let isReoccuringWeekly = timebox.reoccuring != null && timebox.reoccuring.reoccurFrequency === "weekly";
 
-        if(timebox.isTimeblock && (isInWeek || isReoccuringDailyOrWeeklyAndToday)) {
+        if(timebox.isTimeblock && isInWeek) {
             hoursLeftThisWeek -= ((new Date(timebox.endTime) - new Date(timebox.startTime)) / hoursConversionDivisor)
-        }   
+        }else if(timebox.isTimeblock && isReoccuringDaily) {
+            hoursLeftThisWeek -= (((new Date(timebox.endTime) - new Date(timebox.startTime))*7) / hoursConversionDivisor)
+        }else if(timebox.isTimeblock && isReoccuringWeekly) {
+            hoursLeftThisWeek -= (((new Date(timebox.endTime) - new Date(timebox.startTime))*(timebox.reoccuring.endOfDayRange - timebox.reoccuring.startOfDayRange)) / hoursConversionDivisor); 
+        }  
     }
 
     hoursLeftThisWeek = Math.round(hoursLeftThisWeek)
