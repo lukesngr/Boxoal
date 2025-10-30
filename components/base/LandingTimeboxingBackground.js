@@ -116,7 +116,7 @@ export function LandingTimeboxingBackground(props) {
             const arrayOfArrayOfTimeboxes = [];
             const windowHeight = window.innerHeight;
             const windowWidth = window.innerWidth;
-            const amountOfTimeboxesNeededForVertical = Math.ceil(windowHeight / 50);
+            const amountOfTimeboxesNeededForVertical = Math.ceil(windowHeight / 25);
             const amountOfTimeboxesNeededForHorizontal = Math.ceil(windowWidth / 200);
             for (let i = 0; i < amountOfTimeboxesNeededForHorizontal; i++) {
                 const arrayOfTimeboxes = [];
