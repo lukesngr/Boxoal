@@ -267,15 +267,16 @@ export function getStatistics(recordedTimeboxes, timeboxes, wakeupTime) {
     for(let timebox of timeboxes) {
 
         let isInWeek = dayjs(timebox.startTime).isSameOrAfter(startOfThisWeek, 'date') && dayjs(timebox.startTime).isBefore(endOfThisWeek);
-        let isReoccuringDaily = timebox.reoccuring != null && timebox.reoccuring.reoccurFrequency === "daily";
-        let isReoccuringWeekly = timebox.reoccuring != null && timebox.reoccuring.reoccurFrequency === "weekly";
-
+        let isReoccuring = timebox.reoccuring != null;
         if(timebox.isTimeblock && isInWeek) {
             hoursLeftThisWeek -= ((new Date(timebox.endTime) - new Date(timebox.startTime)) / hoursConversionDivisor)
-        }else if(timebox.isTimeblock && isReoccuringDaily) {
-            hoursLeftThisWeek -= (((new Date(timebox.endTime) - new Date(timebox.startTime))*7) / hoursConversionDivisor)
-        }else if(timebox.isTimeblock && isReoccuringWeekly) {
-            hoursLeftThisWeek -= (((new Date(timebox.endTime) - new Date(timebox.startTime))*(timebox.reoccuring.endOfDayRange - timebox.reoccuring.startOfDayRange)) / hoursConversionDivisor); 
+        }else if(timebox.isTimeblock && isReoccuring) {
+            if(timebox.reoccuring.endOfDayRange == timebox.reoccuring.startOfDayRange) {
+                hoursLeftThisWeek -= (((new Date(timebox.endTime) - new Date(timebox.startTime))*1) / hoursConversionDivisor);
+            }else {
+                hoursLeftThisWeek -= (((new Date(timebox.endTime) - new Date(timebox.startTime))*(timebox.reoccuring.endOfDayRange - timebox.reoccuring.startOfDayRange)) / hoursConversionDivisor);
+            }
+             
         }  
     }
 

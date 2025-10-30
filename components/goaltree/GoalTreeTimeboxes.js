@@ -2,9 +2,27 @@ import dayjs from "dayjs";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { Button } from "@mui/material";
 import { getAverageTimeOverAndOffBy } from "@/modules/boxCalculations";
+import { useMediaQuery } from 'react-responsive';
+import { useEffect, useState } from "react";
 
 export function GoalTreeTimeboxes(props) {
     const {goal} = props;
+    const [widthOfConnector, setWidthOfConnector] = useState(150);
+    const smallerThanLargeBreakpoint = useMediaQuery({query: '(max-width: 1222px)'});
+    const smallerThanMediumBreakpoint = useMediaQuery({query: '(max-width: 1022px)'});
+
+    useEffect(() => {
+        if(smallerThanLargeBreakpoint) {
+            if(smallerThanMediumBreakpoint) {
+                setWidthOfConnector(10);
+            }else{
+                setWidthOfConnector(50);
+            }
+            
+        }else{
+            setWidthOfConnector(150);
+        }
+    }, [smallerThanLargeBreakpoint, smallerThanMediumBreakpoint])
     return <>
     <Button className="goBackButtonGoalTree" sx={{
         backgroundColor: 'black',
@@ -29,14 +47,14 @@ export function GoalTreeTimeboxes(props) {
                 {goal.state == "active" && <span className="goalCardUndertext">{goal.percentageCompleted}%</span>}
             </div>
             <div className="diagramArrows">
-                <svg viewBox="0 0 150 100">
-                    <line x1={0} y1={50} x2={145} y2={50} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
-                    <line x1={145} y1={50} x2={145} y2={100} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
+                <svg className="pipe" viewBox={`0 0 ${widthOfConnector} 100`}>
+                    <line x1={0} y1={50} x2={widthOfConnector-5} y2={50} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
+                    <line x1={widthOfConnector-5} y1={50} x2={widthOfConnector-5} y2={100} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
                 </svg>
                 {goal.timeboxes.map((timebox, index) => (
-                <svg key={index} viewBox="0 0 150 50">
-                    <line x1={145} y1={0} x2={145} y2={50} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
-                    <line x1={143} y1={48} x2={250} y2={48} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
+                <svg className="timeboxToPipe" key={index} viewBox={`0 0 ${widthOfConnector} 50`}>
+                    <line x1={widthOfConnector-5} y1={0} x2={widthOfConnector-5} y2={50} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
+                    <line x1={widthOfConnector-8} y1={48} x2={250} y2={48} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
                 </svg>
                 ))}
             </div>
