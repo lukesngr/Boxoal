@@ -214,10 +214,8 @@ export function getStatistics(recordedTimeboxes, timeboxes, wakeupTime) {
     let timeboxesThatMatchPredictedStart = 0;
     let timeboxesThatMatchCorrectTime = 0;
     let today = dayjs()
-    let startOfThisWeekDate = dayjs().day(0);
-    let endOfThisWeekDate = dayjs().day(0);
-    let startOfThisWeek = convertToDayjs(wakeupTime, (startOfThisWeekDate.date()+1)+'/'+(startOfThisWeekDate.month()+1));
-    let endOfThisWeek = convertToDayjs(wakeupTime, (endOfThisWeekDate.date()+1)+'/'+(endOfThisWeekDate.month()+1))
+    let startOfThisWeek = dayjs().day(0);
+    let endOfThisWeek = dayjs().day(6);
     let nextDayWakeup = convertToDayjs(wakeupTime, (today.date()+1)+'/'+(today.month()+1));
     let hoursLeftThisWeek = 144;
 
