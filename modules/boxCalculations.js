@@ -207,18 +207,15 @@ export function findSmallestTimeBoxLengthInSpace(timeboxGridFilteredByDate, time
     return smallestTimeboxLength;
 } 
 
-export function getStatistics(recordedTimeboxes, timeboxes) {
-    const {wakeupTime} = useSelector((state) => state.profile.value);
+export function getStatistics(recordedTimeboxes, timeboxes, wakeupTime) {
     let reschedules = 0;
     let minutesOverBy = 0;
     let averageTimeStartedOffBy = 0;
     let timeboxesThatMatchPredictedStart = 0;
     let timeboxesThatMatchCorrectTime = 0;
     let today = dayjs()
-    let startOfThisWeekDate = dayjs().day(0);
-    let endOfThisWeekDate = dayjs().day(0);
-    let startOfThisWeek = convertToDayjs(wakeupTime, (startOfThisWeekDate.date()+1)+'/'+(startOfThisWeekDate.month()+1));
-    let endOfThisWeek = convertToDayjs(wakeupTime, (endOfThisWeekDate.date()+1)+'/'+(endOfThisWeekDate.month()+1))
+    let startOfThisWeek = dayjs().day(0);
+    let endOfThisWeek = dayjs().day(6);
     let nextDayWakeup = convertToDayjs(wakeupTime, (today.date()+1)+'/'+(today.month()+1));
     let hoursLeftThisWeek = 144;
 
@@ -268,13 +265,17 @@ export function getStatistics(recordedTimeboxes, timeboxes) {
     for(let timebox of timeboxes) {
 
         let isInWeek = dayjs(timebox.startTime).isSameOrAfter(startOfThisWeek, 'date') && dayjs(timebox.startTime).isBefore(endOfThisWeek);
-        let isReoccuringDaily = timebox.reoccuring != null && timebox.reoccuring.reoccurFrequency === "daily";
-        let isReoccuringWeeklyAndToday = timebox.reoccuring != null && timebox.reoccuring.reoccurFrequency === "weekly" && timebox.reoccuring.weeklyDay == today.day();
-        let isReoccuringDailyOrWeeklyAndToday = isReoccuringDaily || isReoccuringWeeklyAndToday;
-
-        if(timebox.isTimeblock && (isInWeek || isReoccuringDailyOrWeeklyAndToday)) {
+        let isReoccuring = timebox.reoccuring != null;
+        if(timebox.isTimeblock && isInWeek) {
             hoursLeftThisWeek -= ((new Date(timebox.endTime) - new Date(timebox.startTime)) / hoursConversionDivisor)
-        }   
+        }else if(timebox.isTimeblock && isReoccuring) {
+            if(timebox.reoccuring.endOfDayRange == timebox.reoccuring.startOfDayRange) {
+                hoursLeftThisWeek -= (((new Date(timebox.endTime) - new Date(timebox.startTime))*1) / hoursConversionDivisor);
+            }else {
+                hoursLeftThisWeek -= (((new Date(timebox.endTime) - new Date(timebox.startTime))*(timebox.reoccuring.endOfDayRange - timebox.reoccuring.startOfDayRange)) / hoursConversionDivisor);
+            }
+             
+        }  
     }
 
     hoursLeftThisWeek = Math.round(hoursLeftThisWeek)

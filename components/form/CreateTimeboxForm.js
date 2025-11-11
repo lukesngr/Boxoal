@@ -70,8 +70,10 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
                 if (!old) return old;
                 const copyOfOld = structuredClone(old);
                 copyOfOld[scheduleIndex].timeboxes.push({...timeboxData, recordedTimeBoxes: []});
-                const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
-                copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.push({...timeboxData, recordedTimeBoxes: []})
+                if(!(timeboxData.isTimeblock)) {
+                    const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
+                    copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.push({...timeboxData, recordedTimeBoxes: []})
+                }
                 return copyOfOld;
             });
             

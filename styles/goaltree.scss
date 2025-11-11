@@ -9,7 +9,7 @@
     padding-top: 10%;
     padding-bottom: 10%;
     flex-direction: column;
-    width: fit-content;
+    width: 100%;
     max-width: 500px;
     max-height: 300px;
 }
@@ -129,4 +129,26 @@
     right: 0;
     float: right;
     margin: 10px !important;
+}
+
+.pipe {
+    max-height: 200px;
+}
+
+.timeboxToPipe {
+    max-height: 100px;
+}
+
+@media screen and (max-width: 910px) {
+  .twoComponentsInLine {
+    flex-direction: column;
+  }
+
+  .diagramArrows {
+    display: none;
+  }
+
+  .goalTimeboxCard:not(.goalTimeboxCard ~ .goalTimeboxCard) {
+    margin-top: 10px;
+  }
 }

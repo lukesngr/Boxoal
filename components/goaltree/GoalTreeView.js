@@ -30,13 +30,19 @@ export default function GoalTreeView(props) {
             if(schedule.goals[i].metric === null) {
                     let numberOfTimeboxes = 0;
                     let timeboxesHaveRecording = 0;
-                    for(timebox in schedule.goals[i].timeboxes) {
+                    for(const timebox in schedule.goals[i].timeboxes) {
                         numberOfTimeboxes++;
-                        if(timebox.recordedTimeBoxes !== null && timebox.recordedTimeBoxes.length != 0) {
+                        if(timebox.recordedTimeBoxes != null && timebox.recordedTimeBoxes.length != 0) {
                             timeboxesHaveRecording++;
                         }
                     }
-                    percentageCompleted = timeboxesHaveRecording / numberOfTimeboxes;
+
+                    if(numberOfTimeboxes != 0) {
+                        percentageCompleted = timeboxesHaveRecording / numberOfTimeboxes;
+                    }else{
+                        percentageCompleted = 0;
+                    }
+                    
             }else if(schedule.goals[i].loggingsOfMetric.length > 0){
                 percentageCompleted = schedule.goals[i].loggingsOfMetric[schedule.goals[i].loggingsOfMetric.length - 1] / schedule.goals[i].metric;
             }
@@ -52,7 +58,7 @@ export default function GoalTreeView(props) {
             }
         }
         return {mapOfGoalsPutInLine, activeGoalsInLine}
-    }, [schedule, profile.goalLimit])
+    }, [schedule])
 
     
     return <>
