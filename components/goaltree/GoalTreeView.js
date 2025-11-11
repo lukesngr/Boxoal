@@ -30,8 +30,7 @@ export default function GoalTreeView(props) {
             if(schedule.goals[i].metric === null) {
                     let numberOfTimeboxes = 0;
                     let timeboxesHaveRecording = 0;
-                    console.log(schedule.goals[i].timeboxes)
-                    for(let timebox in schedule.goals[i].timeboxes) {
+                    for(const timebox in schedule.goals[i].timeboxes) {
                         numberOfTimeboxes++;
                         if(timebox.recordedTimeBoxes != null && timebox.recordedTimeBoxes.length != 0) {
                             timeboxesHaveRecording++;
@@ -59,7 +58,7 @@ export default function GoalTreeView(props) {
             }
         }
         return {mapOfGoalsPutInLine, activeGoalsInLine}
-    }, [schedule, profile.goalLimit])
+    }, [schedule])
 
     
     return <>

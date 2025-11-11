@@ -137,7 +137,7 @@ export function LandingTimeboxingBackground(props) {
 
         window.addEventListener('resize', generateForShowTimeboxes);
         return () => window.removeEventListener('resize', generateForShowTimeboxes);
-    }, []);
+    }, [listOfColors, todoActions]);
     
     return (<>
     <div className="timeboxingBackground">
