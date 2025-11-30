@@ -69,7 +69,7 @@ export function useGoalToGetPoints(goalData) {
             
             //just connects points by lines with lines starting in center of points except for goal point where it ends at goal point on side previous point came from
             for(let i = 0; i <= highestDenominatorForMetricDifference; i++) {
-                yAxisLabels.push({label: i*yAxisIncrements, y: initialLogY - (yPerAxisLabel * i)});
+                yAxisLabels.push({label: goalData.loggingsOfMetric[0].metric+i*yAxisIncrements, y: initialLogY - (yPerAxisLabel * i)});
             }
 
             for(let i = 0; i < highestDenominatorForDayDifference+1; i++) {
