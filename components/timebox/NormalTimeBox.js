@@ -11,8 +11,7 @@ export default function NormalTimeBox(props) {
     const [timeboxActionsFormVisible, setTimeboxActionsFormVisible] = useState(false);
     const [numberOfBoxes, setNumberOfBoxes] = useState(String(props.data.numberOfBoxes));
     const [time, date] = convertToTimeAndDate(props.data.startTime);
-    const endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
-    const percentageOfBoxSizeFilled = getPercentageOfBoxSizeFilled(boxSizeUnit, boxSizeNumber, new Date(props.data.startTime), new Date(endTime));
+    const percentageOfBoxSizeFilled = getPercentageOfBoxSizeFilled(boxSizeUnit, boxSizeNumber, new Date(props.data.startTime), new Date(props.data.endTime));
     const calculatedHeight = `calc(${(Number(percentageOfBoxSizeFilled*100))}% + ${Number((percentageOfBoxSizeFilled-1)*2)}px)`
     
     useEffect(() => {
