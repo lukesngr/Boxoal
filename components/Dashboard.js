@@ -15,7 +15,6 @@ export default function Dashboard({user}) {
     const dispatch = useDispatch();
     const {scheduleIndex} = useSelector(state => state.profile.value);
     const {userId, username} = user;
-    const {goalsCompleted} = useSelector(state => state.goalStatistics.value);
     let dataForSchedule = {timeboxes: [], recordedTimeboxes: []};
     useProfile(userId, dispatch);
 
@@ -43,7 +42,6 @@ export default function Dashboard({user}) {
         <SignedInNav username={username}></SignedInNav>
         <div style={{height: '100%', paddingLeft: '20%', paddingTop: '10%', paddingRight: '20%'}}>
             <h1 className="welcomeTitle">Welcome Back</h1>
-            <h1 className="levelTitle">Lvl {goalsCompleted}</h1>
             {dataForSchedule.goals.map((goal, index) => (
                 <GoalLineGraph key={index} goalData={goal} />
             ))}
