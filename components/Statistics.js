@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 
 export default function Statistics({recordedTimeboxes, timeboxes}) {
     const {wakeupTime} = useSelector((state) => state.profile.value);
+    const {goalsCompleted} = useSelector((state) => state.goalStatistics.value);
     const {averageTimeOverBy, 
         averageTimeStartedOffBy, 
         percentagePredictedStart, 
@@ -28,11 +29,11 @@ export default function Statistics({recordedTimeboxes, timeboxes}) {
                     </div>
                     <div class="col">
                     <Paper sx={{backgroundColor: '#875F9A', marginTop: 2 }} className="statPaper" elevation={4} square>
-                        <p className="statisticsHeading">Average Recordings Are {averageTimeStartedOffBy > 0 ? "Late" : "Early"} By</p>
+                        <p className="statisticsHeading">Completed</p>
                         <div className="statisticsBackground">
-                            <h1>{averageTimeStartedOffBy > 0 ? averageTimeStartedOffBy.toFixed(2) : -averageTimeStartedOffBy.toFixed(2)}</h1>
+                            <h1>{goalsCompleted}</h1>
                         </div>
-                        <p className="statisticsUnit">minutes</p>
+                        <p className="statisticsUnit">goals</p>
                     </Paper>
                     </div>
                     <div class="col">
