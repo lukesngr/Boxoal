@@ -141,7 +141,7 @@ export function getHighestDenominatorUpTo(x, upTo) {
 
 export function getLinesBetweenPoints(pointsArray, overallSizeOfPoint) {
     let goalX = 600;
-    let goalY = 35;
+    let goalY = 65;
     let linesArray = [];
     for (let i = 0; i < pointsArray.length; i++) {
         if(i+1 > (pointsArray.length - 1)) {

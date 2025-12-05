@@ -33,10 +33,10 @@ export function GoalLineGraph({goalData}) {
                 
                 <rect width="572" height="303" x="51" y="0" fill="#000000d9" />
                 <text x="226" y="30" className="graphGoalTitle">{goalTitle}</text>
-                <line x1="51" y1="42" x2="622" y2="42" stroke-dasharray="5,5" stroke="#FF0000" strokeWidth="5"/>
+                <line x1="51" y1="70" x2="622" y2="70" stroke-dasharray="5,5" stroke="#FF0000" strokeWidth="5"/>
                 <line x1="48" y1="0" x2="48" y2="306" stroke="white" strokeWidth="5"/>
                 <line x1="50" y1="303" x2="622" y2="303" stroke="white" strokeWidth="5"/>
-                <rect width="12" height="12" x="600" y="35" className='finishedGoalRectangle'></rect>
+                <rect width="12" height="12" x="600" y="65" className='finishedGoalRectangle'></rect>
                 {pointsArray.map((point, index) => (
                     <rect key={"point"+index} width={point.size} fill="#6FA9B3" height={point.size} x={point.x} y={point.y} className='goalPointRectangle'></rect>
                 ))}
