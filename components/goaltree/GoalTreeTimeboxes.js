@@ -44,7 +44,6 @@ export function GoalTreeTimeboxes(props) {
                 <span className="goalCardUndertext">{dayjs(goal.targetDate).format('D MMM')}</span>
                 {goal.state == "completed" && <span style={{color: '#4FF38E'}} className="goalCardUndertext">Completed</span>}
                 {goal.state == "failed" && <span style={{color: '#FF0606'}} className="goalCardUndertext">Failed</span>}
-                {goal.state == "active" && <span className="goalCardUndertext">{goal.percentageCompleted}%</span>}
             </div>
             <div className="diagramArrows">
                 <svg className="pipe" viewBox={`0 0 ${widthOfConnector} 100`}>
