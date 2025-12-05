@@ -11,7 +11,6 @@ export function GoalLineGraph({goalData}) {
     if(goalData.state != 'active') {
         return <></>
     }
-    console.log(yAxisLabels)
     
     return (
      <Paper sx={{backgroundColor: '#875F9A', marginTop: 2, paddingLeft: '2%', paddingRight: '5.46%', paddingTop: '13.36%', paddingBottom : '4.67%' }} className="statPaper" elevation={4} square>
