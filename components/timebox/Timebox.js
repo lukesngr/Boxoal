@@ -51,7 +51,8 @@ export default function Timebox(props) {
     <div className={'col timeBox'}>
         {numberOfBoxesInSpace < 2 ? (
             <>
-            {numberOfBoxesInSpace == 1 && <NormalTimeBox marginFromTop={marginFromTop} data={data}></NormalTimeBox>}
+            {numberOfBoxesInSpace == 1 && <NormalTimeBox marginFromTop={marginFromTop} date={date} time={props.time} data={data}>
+					</NormalTimeBox>}
             {numberOfBoxesInSpace < 1 && <TimeboxInCreation day={props.day.day} date={date} time={props.time}></TimeboxInCreation>}
             </>
         ) : (
