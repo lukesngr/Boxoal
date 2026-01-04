@@ -19,6 +19,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { muiActionButton, muiFormControlStyle, muiInputStyle, muiNonActionButton, muiToggleButtonStyle } from '@/modules/muiStyles.js';
 import { ToggleButton, ToggleButtonGroup, Slider, Typography } from '@mui/material';
+import useCreateBoxMut from '@/hooks/useCreateBoxMut.js';
 
 const listOfColors = ["#606EFE", "#3AFFB0", "#DC5EFB", "#86FB80", "#AF79FB", "#7BFF59", "#639D5E", "#4AF9FF"];
 
@@ -32,15 +33,13 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
         goals.filter(goal => goal.state === "active"), 
         [goals]
     );
-    const [description, setDescription] = useState("");
-
-    
-    
+    const [description, setDescription] = useState(""); 
     const [goalSelected, setGoalSelected] = useState("");
     const [isTimeblock, setIsTimeBlock] = useState(false);
     const [reoccuring, setReoccuring] = useState(false);
     const [startOfDayRange, setStartOfDayRange] = useState(0);
     const [endOfDayRange, setEndOfDayRange] = useState(6);
+    const createTimeboxMutation = useCreateBoxMut(goalSelected)
 
     useEffect(() => {
         if(activeGoals.length != 0) {
@@ -51,7 +50,6 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const transformPercentages = ['35%', '45%', '55%', '65%', '40%', '50%', '55%'];
 
     const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
-    const {scheduleIndex} = useSelector(state => state.profile.value);
 
     useEffect(() => {
         if(visible) {
@@ -59,46 +57,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
         }
     }, [visible, setNumberOfBoxes])
 
-    const createTimeboxMutation = useMutation({
-        mutationFn: (timeboxData) => axios.post('/api/createTimebox', timeboxData),
-        onMutate: async (timeboxData) => {
-            await queryClient.cancelQueries(['schedule']); 
-            
-            const previousSchedule = queryClient.getQueryData(['schedule']);
-            
-            queryClient.setQueryData(['schedule'], (old) => {
-                if (!old) return old;
-                const copyOfOld = structuredClone(old);
-                copyOfOld[scheduleIndex].timeboxes.push({...timeboxData, recordedTimeBoxes: []});
-                if(!(timeboxData.isTimeblock)) {
-                    const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
-                    copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.push({...timeboxData, recordedTimeBoxes: []})
-                }
-                return copyOfOld;
-            });
-            
-            
-            return { previousSchedule };
-        },
-        onSuccess: () => {
-            dispatch({type: 'alert/set', payload: {
-                open: true,
-                title: "Timebox",
-                message: "Added timebox!"
-            }});
-            queryClient.invalidateQueries(['schedule']); // Refetch to get real data
-            
-            //closeModal(true);
-        },
-        onError: (error, goalData, context) => {
-            dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "An error occurred, please try again or contact the developer" }});
-            queryClient.setQueryData(['schedule'], context.previousGoals);
-            
-            queryClient.invalidateQueries(['schedule']);
-            
-            //closeModal(true);
-        }
-    });
+    
 
     function closeModal(exiting = false) {
         setTitle(''); //due to react maintaing internal state of components
