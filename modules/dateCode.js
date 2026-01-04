@@ -64,3 +64,16 @@ export function differenceInDates(date1, date2, wakeupTime) {
     }
     return difference;
 }
+
+export function reoccurringBoxOnOriginalDate(originalTime, date, time) {
+    const original = dayjs(originalTime);
+    const parsedDate = dayjs(date, 'DD/MM');
+    const parsedTime = dayjs(time, 'HH:mm');
+  
+    const dayMatch = original.date() === parsedDate.date();
+    const monthMatch = original.month() === parsedDate.month();
+    const hourMatch = original.hour() === parsedTime.hour();
+    const minuteMatch = original.minute() === parsedTime.minute();
+  
+  return dayMatch && monthMatch && hourMatch && minuteMatch;
+}
