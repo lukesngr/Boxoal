@@ -171,13 +171,13 @@ export default function ForgotPasswordCard({setComponentDisplayed}) {
                     value={username}
                     id="usernameInput" 
                     onChange={(e) => setUsername(e.target.value)} 
-                    label="Username" 
+                    label="Email" //ik this code trash but money = time 
                     variant="standard" />
                 <Button sx={{backgroundColor: 'black', 
                         color: 'white', 
                         borderRadius: '0px',
                         fontFamily: 'Koulen',
-                        fontSize: 16}} variant="contained" onClick={sendCode}>Send Code To SMS/Email</Button>
+                        fontSize: 16}} variant="contained" onClick={sendCode}>Send Code To Email</Button>
             </>)
             }
             </Stack>
