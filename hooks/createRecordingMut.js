@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useMutation } from "react-query";
 import { queryClient } from '../modules/queryClient.js';
+import { useDispatch, useSelector } from "react-redux";
 
-export default function createRecordingMut(timeboxData, close, dispatch) { 
-
+export default function createRecordingMut(timeboxData, close) { 
+  const dispatch = useDispatch();
+  const {scheduleIndex} = useSelector(state => state.profile.value);
   return useMutation({
     mutationFn: (recordingData) => axios.post('/api/createRecordedTimebox', recordingData),
     onMutate: async (recordingData) => {
