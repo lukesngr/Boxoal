@@ -16,6 +16,7 @@ import { useMutation } from 'react-query';
 import { muiActionButton, muiNonActionButton } from '@/modules/muiStyles.js';
 import TimelineRecording from '../timebox/TimelineRecording.js';
 import createRecordingMut from '@/hooks/createRecordingMut.js';
+import { reoccurringBoxOnOriginalDate } from '@/modules/dateCode.js';
 
 export default function TimeboxActionsForm({ visible, data, date, time, closeModal, numberOfBoxes }) {
     const timeboxRecording = useSelector(state => state.timeboxRecording.value);
@@ -25,13 +26,12 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
     const [showEditTimeboxForm, setShowEditTimeboxForm] = useState(false);
     const noPreviousRecording = thereIsNoRecording(data.recordedTimeBoxes, data.reoccuring, date, time);
     const timeboxIsntRecording = timeboxRecording.timeboxID === -1;
-    const timeboxIsRecording = timeboxRecording.timeboxID === data.id && timeboxRecording.timeboxDate === date;
+    const timeboxIsRecording = timeboxRecording.timeboxID === data.objectUUID && timeboxRecording.timeboxDate === date;
     const createRecordingMutation = createRecordingMut(data, () => {}, dispatch);
-    console.log(data, date, time)
     async function startRecording() {
         // Start recording logic for web version
         dispatch({ type: 'timeboxRecording/set', payload: {
-            timeboxID: data.id,
+            timeboxID: data.objectUUID,
             timeboxDate: date,
             recordingStartTime: new Date().toISOString()
         }});
@@ -69,11 +69,10 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
             recordingStartTime: 0
         }});
         dispatch(setActiveOverlayInterval());
-        
         const recordingData = {
             recordedStartTime: recordedStartTime, 
             recordedEndTime: new Date(), 
-            timeBox: { connect: { id: data.id, objectUUID: data.objectUUID } }, 
+            timeBox: { connect: { objectUUID: data.objectUUID } }, 
             schedule: { connect: { id: scheduleID } },
             objectUUID: crypto.randomUUID(),
         };

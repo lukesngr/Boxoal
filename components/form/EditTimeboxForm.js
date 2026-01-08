@@ -95,7 +95,7 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
                 const copyOfOld = structuredClone(old);
                 const timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == objectUUID);
                 copyOfOld[scheduleIndex].timeboxes.splice(timeboxIndex, 1);
-                if(!(timeboxData.isTimeblock)) {
+                if(!(data.isTimeblock)) {
                     const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
                     const timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == objectUUID);
                     copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.splice(timeboxGoalIndex, 1);
@@ -127,7 +127,6 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
 
         const updateData = {
             isTimeblock,
-            id: data.id,
             title,
             color: data.color,
             objectUUID: data.objectUUID,

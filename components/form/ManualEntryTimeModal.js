@@ -29,7 +29,7 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID 
        const recordingData = {
             recordedStartTime: recordedStartTime.toDate(), 
             recordedEndTime: recordedEndTime.toDate(), 
-            timeBox: { connect: { id: data.id, objectUUID: data.objectUUID } }, 
+            timeBox: { connect: { objectUUID: data.objectUUID } }, 
             schedule: { connect: { id: scheduleID } },
             objectUUID: crypto.randomUUID(),
         };
