@@ -62,14 +62,13 @@ export default async function handler(req, res) {
                 endTime: true,
                 numberOfBoxes: true,
                 color: true,
-                id: true,
                 isTimeblock: true,
                 objectUUID: true,
                 recordedTimeBoxes: {
                   select: {
                     id: true,
                     objectUUID: true,
-                    timeBox: { select: { id: true, title: true, description: true }},
+                    timeBox: { select: { title: true, description: true }},
                     recordedStartTime: true,
                     recordedEndTime: true
                   }
@@ -103,7 +102,6 @@ export default async function handler(req, res) {
             endTime: true,
             numberOfBoxes: true,
             color: true,
-            id: true,
             isTimeblock: true,
             objectUUID: true,
             recordedTimeBoxes: {
@@ -111,7 +109,6 @@ export default async function handler(req, res) {
                 id: true,
                 recordedStartTime: true,
                 recordedEndTime: true,
-                timeBoxID: true,
                 objectUUID: true,
                 timeBox: { select: { title: true, description: true }}
               }
@@ -142,8 +139,7 @@ export default async function handler(req, res) {
             recordedEndTime: true,
             objectUUID: true,
             timeBox: {
-              select: {
-                id: true, 
+              select: { 
                 title: true, 
                 description: true,
                 startTime: true,
