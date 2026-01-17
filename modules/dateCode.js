@@ -56,7 +56,6 @@ export function differenceInDates(date1, date2, wakeupTime) {
     
     if(difference > 0) {
         if(firstDate.isBefore(cutoffFirstDate)) {
-            console.log('how tf this running prolly some utc shit')
             difference -= 1;
         }else if(secondDate.isBefore(cutoffSecondDate)) {
             difference += 1;
