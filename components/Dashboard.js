@@ -9,6 +9,7 @@ import '../styles/dashboard.scss';
 import Statistics from "./Statistics";
 import { GoalLineGraph } from "./dashboards/GoalLineGraph";
 import useGoalStatistics from "@/hooks/useGoalStatistics";
+import Welcome from "./base/Welcome";
 
 export default function Dashboard({user}) {
 
@@ -33,7 +34,7 @@ export default function Dashboard({user}) {
 
     if(status === 'loading' || status === 'pending') return <Loading />
     if(status === 'error') return <p>Error: {error.message}</p>
-
+    if(status === 'success' && data.length == 0) return <Welcome></Welcome>
     if(data.length != 0) {
         dataForSchedule = data[scheduleIndex];
     }
