@@ -28,7 +28,6 @@ export default function CreateGoalForm(props) {
     const {goalsActive, goalsCompleted} = useSelector(state => state.goalStatistics.value);
     const goalsNotCompleted = goalsActive - goalsCompleted;
     const {goalLimit, wakeupTime} = useSelector(state => state.profile.value);
-    
 
     const createGoalMutation = useMutation({
         mutationFn: (goalData) => axios.post('/api/createGoal', goalData),
@@ -85,7 +84,7 @@ export default function CreateGoalForm(props) {
         if(hasMetric) {
             goalData.metric = Number(metric);
         }
-        if (goalLimit > goalsNotCompleted || !props.active) {
+        if (goalLimit > goalsNotCompleted || goalLimit == -1 || !props.active) {
             createGoalMutation.mutate(goalData);
         } else {
             dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "Please complete more goals and we will unlock more goal slots for you!" }});
