@@ -71,7 +71,7 @@ model RecordedTimeBox {
   recordedStartTime DateTime  @db.Timestamptz
   recordedEndTime   DateTime  @db.Timestamptz
   timeBox           TimeBox?  @relation(fields: [timeboxUUID], references: [objectUUID])
-  timeboxUUID       String?
+  timeboxUUID       String? @unique
   schedule          Schedule? @relation(fields: [scheduleID], references: [id])
   scheduleID        Int?
   objectUUID String @unique
