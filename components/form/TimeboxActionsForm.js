@@ -26,12 +26,11 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
     const dispatch = useDispatch();
     const [manualEntryModalShown, setManualEntryModalShown] = useState(false);
     const [showEditTimeboxForm, setShowEditTimeboxForm] = useState(false);
-    const noPreviousRecording = thereIsNoRecording(data.recordedTimeBox, data.reoccuring, date, time);
+    const noPreviousRecording = thereIsNoRecording(data.recordedTimeBox);
     const timeboxIsntRecording = timeboxRecording.timeboxID === -1;
     const timeboxIsRecording = timeboxRecording.timeboxID === data.objectUUID && timeboxRecording.timeboxDate === date;
     const createRecordingMutation = createRecordingMut(data, () => {}, dispatch);
     const createTimeboxMutation = useCreateBoxMut(data.goalID);
-    console.log((new Date(data.endTime).getTime() - new Date(data.startTime).getTime()) / 60000);
     async function startRecording() {
         // Start recording logic for web version
 	let todaysDate = new Date();
@@ -82,10 +81,16 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
 		let endTime = dayjs(date+' '+time, 'D/M HH:mm');
 		endTime = endTime.add(differenceInMinutes, 'm')
 		timeboxData = {...data,
-		objectUUID: crypto.randomUUID(),
-		startTime: startTime.toISOString(),
-		endTime: endTime.toISOString(),
-		goal: {connect: {id: data.goalID}},
+		  objectUUID: crypto.randomUUID(),
+		  startTime: startTime.toISOString(),
+		  endTime: endTime.toISOString(),
+		  goal: {connect: {id: data.goalID}},
+		  recordedTimeBox: {
+                    recordedStartTime: recordedStartTime, 
+                    recordedEndTime: new Date().toISOString(), 
+                    schedule: { connect: { id: scheduleID } },
+            	    objectUUID: crypto.randomUUID(),
+                  }
                 }
 		delete timeboxData.goalID;
 		delete timeboxData.reoccuring;

@@ -9,11 +9,12 @@ dayjs.extend(utc)
 
 
 
-export function thereIsNoRecording(recordedBox, reoccuring, date, time) {
-    if(recordedBox != null) {
+export function thereIsNoRecording(recordedBox,) {
+    if(recordedBox == null) {
         return true;
+    }else {
+        return false;
     }
-    return false;
 }
 
 export function generateTimeBoxGrid(schedule, selectedDate) {
