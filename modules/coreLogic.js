@@ -13,7 +13,7 @@ export function thereIsNoRecording(recordedBox,) {
     if(recordedBox == null) {
         return true;
     }else {
-        return false;
+     return false;
     }
 }
 

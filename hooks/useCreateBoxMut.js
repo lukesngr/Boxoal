@@ -22,6 +22,10 @@ export default function useCreateBoxMut(goalSelected) {
                     const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
                     copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.push({...timeboxData})
                 }
+		if(Object.hasOwn(timeboxData, recordedTimeBox)) {
+		  copyOfOld[scheduleIndex].recordedTimeBoxes.push(timeboxData.recordedTimeBox);
+		}
+
                 return copyOfOld;
             });
             

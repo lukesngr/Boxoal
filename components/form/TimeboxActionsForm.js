@@ -84,6 +84,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
 		  objectUUID: crypto.randomUUID(),
 		  startTime: startTime.toISOString(),
 		  endTime: endTime.toISOString(),
+		  schedule: {connect: {id: scheduleID}},
 		  goal: {connect: {id: data.goalID}},
 		  recordedTimeBox: {
 		    create: {
