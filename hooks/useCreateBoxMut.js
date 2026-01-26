@@ -17,10 +17,10 @@ export default function useCreateBoxMut(goalSelected) {
             queryClient.setQueryData(['schedule'], (old) => {
                 if (!old) return old;
                 const copyOfOld = structuredClone(old);
-                copyOfOld[scheduleIndex].timeboxes.push({...timeboxData, recordedTimeBoxes: []});
+                copyOfOld[scheduleIndex].timeboxes.push({...timeboxData});
                 if(!(timeboxData.isTimeblock)) {
                     const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
-                    copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.push({...timeboxData, recordedTimeBoxes: []})
+                    copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.push({...timeboxData})
                 }
                 return copyOfOld;
             });

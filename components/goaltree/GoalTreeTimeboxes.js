@@ -59,8 +59,8 @@ export function GoalTreeTimeboxes(props) {
             </div>
             <div>
             {goal.timeboxes.map((timebox, index) => {
-                const isFailed = dayjs().isAfter(dayjs(timebox.endTime)) && timebox.recordedTimeBoxes.length == 0;
-                const isCompleted = timebox.recordedTimeBoxes.length > 0;
+                const isFailed = dayjs().isAfter(dayjs(timebox.endTime)) && timebox.recordedTimeBox == null;
+                const isCompleted = timebox.recordedTimeBox != null;
                 let minutesOverBy = 0;
                 let timeStartedAccuracyForTimebox = 0;
                 if(isCompleted) {

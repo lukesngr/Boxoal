@@ -8,7 +8,7 @@ import { convertToTimeAndDate } from "@/modules/formatters";
 export default function TimeboxAsListItem(props) {
     const [editTimeboxShown, setEditTimeboxShown] = useState(false);
     const [time, date] = convertToTimeAndDate(props.data.startTime);
-    const noPreviousRecording = thereIsNoRecording(props.data.recordedTimeBoxes, props.data.reoccuring, date, time);
+    const noPreviousRecording = thereIsNoRecording(props.data.recordedTimeBox, props.data.reoccuring, date, time);
     return (
         <>  
         {editTimeboxShown && <EditTimeboxForm back={() => setEditTimeboxShown(false)} data={props.data} previousRecording={!noPreviousRecording}></EditTimeboxForm>}

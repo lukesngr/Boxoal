@@ -23,13 +23,13 @@ export default function createRecordingMut(timeboxData, close) {
 
         //recordedTimeboxes in timeboxes
         const timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == timeboxData.objectUUID);
-        copyOfOld[scheduleIndex].timeboxes[timeboxIndex].recordedTimeBoxes.push(recordingDataCopy);
+        copyOfOld[scheduleIndex].timeboxes[timeboxIndex].recordedTimeBox = recordingDataCopy;
 
         //recordedTimeBoxes in goals
         const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(timeboxData.goalID));
         const timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == timeboxData.objectUUID);
                 
-        copyOfOld[scheduleIndex].goals[goalIndex].timeboxes[timeboxGoalIndex].recordedTimeBoxes.push(recordingDataCopy);
+        copyOfOld[scheduleIndex].goals[goalIndex].timeboxes[timeboxGoalIndex].recordedTimeBox = recordingDataCopy;
         return copyOfOld;
        }); 
             return { previousSchedule };

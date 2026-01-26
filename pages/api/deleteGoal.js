@@ -22,7 +22,7 @@ export default async function handler(req, res) {
       include: {
         timeboxes: {
           include: {
-            recordedTimeBoxes: true
+            recordedTimeBox: true
           }
         },
       }

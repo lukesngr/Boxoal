@@ -18,6 +18,7 @@ import TimelineRecording from '../timebox/TimelineRecording.js';
 import createRecordingMut from '@/hooks/createRecordingMut.js';
 import { reoccurringBoxOnOriginalDate } from '@/modules/dateCode.js';
 import useCreateBoxMut from '@/hooks/useCreateBoxMut.js';
+import dayjs from 'dayjs';
 
 export default function TimeboxActionsForm({ visible, data, date, time, closeModal, numberOfBoxes }) {
     const timeboxRecording = useSelector(state => state.timeboxRecording.value);
@@ -25,18 +26,19 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
     const dispatch = useDispatch();
     const [manualEntryModalShown, setManualEntryModalShown] = useState(false);
     const [showEditTimeboxForm, setShowEditTimeboxForm] = useState(false);
-    const noPreviousRecording = thereIsNoRecording(data.recordedTimeBoxes, data.reoccuring, date, time);
+    const noPreviousRecording = thereIsNoRecording(data.recordedTimeBox, data.reoccuring, date, time);
     const timeboxIsntRecording = timeboxRecording.timeboxID === -1;
     const timeboxIsRecording = timeboxRecording.timeboxID === data.objectUUID && timeboxRecording.timeboxDate === date;
     const createRecordingMutation = createRecordingMut(data, () => {}, dispatch);
-    const createTimeboxMutation = useCreateBoxMut(data.goalSelected);
-
+    const createTimeboxMutation = useCreateBoxMut(data.goalID);
+    console.log((new Date(data.endTime).getTime() - new Date(data.startTime).getTime()) / 60000);
     async function startRecording() {
         // Start recording logic for web version
+	let todaysDate = new Date();
         dispatch({ type: 'timeboxRecording/set', payload: {
             timeboxID: data.objectUUID,
             timeboxDate: date,
-            recordingStartTime: new Date().toISOString()
+            recordingStartTime: todaysDate.toISOString()
         }});
         dispatch(resetActiveOverlayInterval());
     }
@@ -65,7 +67,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
     async function stopRecording() {
         // Stop recording logic for web version
 	
-        const recordedStartTime = new Date(timeboxRecording.recordingStartTime);
+        const recordedStartTime = new Date(timeboxRecording.recordingStartTime).toISOString();
         dispatch({ type: 'timeboxRecording/set', payload: {
             timeboxID: -1,
             timeboxDate: 0,
@@ -73,24 +75,37 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
         }});
         dispatch(setActiveOverlayInterval());
 
-	let timeboxData = data;
+	let timeboxData;
 	if(!reoccurringBoxOnOriginalDate(data.startTime, date, time)) {
-		timeboxData.objectUUID = crypto.randomUUID();
-		timeboxData.startTime = dayjs(date+' '+time, 'D/M HH:mm').toISOString();
-		let differenceInMinutes = (data.endTime - data.startTime) / 60000;
-		timeboxData.endTime = dayjs(timeboxData.startTime).add(differenceInMinutes, 'm');
+	  	let differenceInMinutes = (new Date(data.endTime).getTime() - new Date(data.startTime).getTime()) / 60000;
+		let startTime = dayjs(date+' '+time, 'D/M HH:mm');
+		let endTime = dayjs(date+' '+time, 'D/M HH:mm');
+		endTime = endTime.add(differenceInMinutes, 'm')
+		timeboxData = {...data,
+		objectUUID: crypto.randomUUID(),
+		startTime: startTime.toISOString(),
+		endTime: endTime.toISOString(),
+		goal: {connect: {id: data.goalID}},
+                }
+		delete timeboxData.goalID;
+		delete timeboxData.reoccuring;
+		console.log(timeboxData)	
 		createTimeboxMutation.mutate(timeboxData);
+	}else{
+		timeboxData = data;
 	}
 
-        const recordingData = {
+        /*const recordingData = {
             recordedStartTime: recordedStartTime, 
-            recordedEndTime: new Date(), 
+            recordedEndTime: new Date().toISOString(), 
             timeBox: { connect: { objectUUID: timeboxData.objectUUID } }, 
             schedule: { connect: { id: scheduleID } },
             objectUUID: crypto.randomUUID(),
         };
         createRecordingMutation.mutate(recordingData);
-    }
+    */
+	}
+
     
     return (
         <>
@@ -114,8 +129,8 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                         </Typography>
                         {!noPreviousRecording && <TimelineRecording timeboxStart={data.startTime}
                             timeboxEnd={data.endTime}
-                            recordingStart={data.recordedTimeBoxes[0].recordedStartTime}
-                            recordingEnd={data.recordedTimeBoxes[0].recordedEndTime}></TimelineRecording>}
+                            recordingStart={data.recordedTimeBox.recordedStartTime}
+                            recordingEnd={data.recordedTimeBox.recordedEndTime}></TimelineRecording>}
                     </DialogContent>
                     <DialogActions>
                         

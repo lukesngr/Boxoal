@@ -9,19 +9,17 @@ export default async function handler(req, res) {
   try {
     const data = req.body;
 
-    const recordedTimeBoxes = await prisma.timeBox.findUnique({
-      where: { objectUUID: data.objectUUID, recordedTimeBoxes: { some: {} } },
-      select: { recordedTimeBoxes: { select: { id: true } } }
+    const recordedTimeBox = await prisma.timeBox.findUnique({
+      where: { objectUUID: data.objectUUID },
+      select: { recordedTimeBox: { select: { id: true } } }
     });
 
-    if (recordedTimeBoxes && recordedTimeBoxes.recordedTimeBoxes.length > 0) {
-      for (const recordedTimeBox of recordedTimeBoxes.recordedTimeBoxes) {
+    if (recordedTimeBox != null) {
         await prisma.recordedTimeBox.delete({
           where: {
             id: recordedTimeBox.id
           }
         });
-      }
     }
 
     res.status(200).json({ message: 'Recording cleared successfully' });

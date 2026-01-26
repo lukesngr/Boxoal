@@ -33,6 +33,7 @@ export default function TimeboxHeading({data}) {
     const settingsDialogOpen = useSelector(state => state.settingsDialogOpen.value);
     const selectedDate = useSelector(state => state.selectedDate.value);
     const expanded = useSelector(state => state.expanded.value);
+    let selectedDateAsDate = Date(selectedDate)
 
     return <><h1 className="viewHeading">Timeboxes
                 <IconButton onClick={() => setDatePickerVisible(!datePickerVisible)}>
@@ -44,8 +45,8 @@ export default function TimeboxHeading({data}) {
                 {datePickerVisible && <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <ThemeProvider theme={theme}>
                         <StaticDatePicker sx={{position: "absolute", zIndex: 1000, left: '50%'}} displayStaticWrapperAs="desktop"
-                        openTo="day" value={selectedDate} onChange={(newValue) => {
-                          dispatch({type: 'selectedDate/set', payload: newValue})
+                        openTo="day" value={selectedDateAsDate} onChange={(newValue) => {
+                          dispatch({type: 'selectedDate/set', payload: newValue.toISOString()})
                           setDatePickerVisible(false);
                         }}></StaticDatePicker>
                     </ThemeProvider>

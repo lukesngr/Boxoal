@@ -9,21 +9,9 @@ dayjs.extend(utc)
 
 
 
-export function thereIsNoRecording(recordedBoxes, reoccuring, date, time) {
-    if(recordedBoxes.length == 0) {
+export function thereIsNoRecording(recordedBox, reoccuring, date, time) {
+    if(recordedBox != null) {
         return true;
-    }else if(reoccuring != null) {
-        if(reoccuring.reoccurFrequency == "daily") {
-            let timeboxTime = convertToDayjs(time, date);
-            let result = true
-            recordedBoxes.forEach(element => {
-                if(timeboxTime.isSame(dayjs(element.recordedStartTime), 'date')) {
-                    result = false;
-                    
-                }
-            });
-            return result;
-        }
     }
     return false;
 }
@@ -39,7 +27,9 @@ export function generateTimeBoxGrid(schedule, selectedDate) {
              while(startOfDayRange <= endOfDayRange) {
                 let currentDate = dayjs(selectedDate).day(startOfDayRange).format('D/M');
                 if (!Object.hasOwn(timeBoxGrid, currentDate)) { timeBoxGrid[currentDate] = {}; } //if date key not in map than set empty map to date key
-                timeBoxGrid[currentDate][time] = element; //lookup date key and set the map inside it to key of time with value of the element itself
+		if(!Object.hasOwn(timeBoxGrid[currentDate], time)) {
+                	timeBoxGrid[currentDate][time] = element; //lookup date key and set the map inside it to key of time with value of the element itself
+		}
                 startOfDayRange++;
             }
         }else{
@@ -52,26 +42,6 @@ export function generateTimeBoxGrid(schedule, selectedDate) {
 }
 
 
-
-export function getProgressWithGoal(timeboxes) {
-    let percentage = 0.0;
-
-    if(timeboxes.length == 0) {
-        percentage = 100.0;
-    }
-
-    timeboxes.forEach(element => {
-        if(element.recordedTimeBoxes.length > 0) {
-            percentage += (1/timeboxes.length);
-        }
-    });
-
-    if(timeboxes.length != 0) {
-        percentage = percentage * 100;
-    }
-
-    return Math.round(percentage);
-}
 
 export function goToDay(dispatch, daySelected, direction) {
     if(direction == 'left') {

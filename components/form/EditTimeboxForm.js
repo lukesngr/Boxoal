@@ -55,11 +55,11 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
                 if (!old) return old;
                 const copyOfOld = structuredClone(old);
                 const timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
-                copyOfOld[scheduleIndex].timeboxes[timeboxIndex] = {...timeboxData, recordedTimeBoxes: []};
+                copyOfOld[scheduleIndex].timeboxes[timeboxIndex] = {...timeboxData};
                 if(!(timeboxData.isTimeblock)) {
                     const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
                     const timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
-                    copyOfOld[scheduleIndex].goals[goalIndex].timeboxes[timeboxGoalIndex] = {...timeboxData, recordedTimeBoxes: []};
+                    copyOfOld[scheduleIndex].goals[goalIndex].timeboxes[timeboxGoalIndex] = {...timeboxData};
                 }
                 return copyOfOld;
             });
