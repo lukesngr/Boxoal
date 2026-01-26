@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 export const selectedDate = createSlice({
   name: 'selectedDate',
   initialState: {
-    value: dayjs(),
+    value: dayjs().toISOString(),
   },
   reducers: {
     set: (state, action) => {
