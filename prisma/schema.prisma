@@ -54,7 +54,7 @@ model TimeBox {
   goalID            Int?
   schedule          Schedule?         @relation(fields: [scheduleID], references: [id])
   scheduleID        Int?
-  recordedTimeBoxes RecordedTimeBox[]
+  recordedTimeBox RecordedTimeBox?
   isTimeblock       Boolean?
   objectUUID String @unique @id
 }
