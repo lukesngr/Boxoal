@@ -49,12 +49,10 @@ export default async function handler(req, res) {
               }
             },
             timeboxes: {
-              orderBy: {
+              orderBy: [
+		{reoccuringID: {sort: 'asc', nulls: 'first'}}, {
                 startTime: 'asc'
-              },
-              where: {
-                OR: [{reoccuringID: null}, {NOT: {reoccuringID: null}}]
-              },
+              }],
               select: {
                 title: true,
                 description: true,
@@ -64,7 +62,7 @@ export default async function handler(req, res) {
                 color: true,
                 isTimeblock: true,
                 objectUUID: true,
-                recordedTimeBoxes: {
+                recordedTimeBox: {
                   select: {
                     id: true,
                     objectUUID: true,
@@ -104,7 +102,7 @@ export default async function handler(req, res) {
             color: true,
             isTimeblock: true,
             objectUUID: true,
-            recordedTimeBoxes: {
+            recordedTimeBox: {
               select: {
                 id: true,
                 recordedStartTime: true,
