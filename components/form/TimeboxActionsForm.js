@@ -86,10 +86,12 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
 		  endTime: endTime.toISOString(),
 		  goal: {connect: {id: data.goalID}},
 		  recordedTimeBox: {
-                    recordedStartTime: recordedStartTime, 
-                    recordedEndTime: new Date().toISOString(), 
-                    schedule: { connect: { id: scheduleID } },
-            	    objectUUID: crypto.randomUUID(),
+		    create: {
+                      recordedStartTime: recordedStartTime, 
+                      recordedEndTime: new Date().toISOString(), 
+                      schedule: { connect: { id: scheduleID } },
+            	      objectUUID: crypto.randomUUID(),
+		    }
                   }
                 }
 		delete timeboxData.goalID;
