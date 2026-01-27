@@ -101,18 +101,17 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
 		createTimeboxMutation.mutate(timeboxData);
 	}else{
 		timeboxData = data;
+	        const recordingData = {
+            	  recordedStartTime: recordedStartTime, 
+                  recordedEndTime: new Date().toISOString(), 
+                  timeBox: { connect: { objectUUID: timeboxData.objectUUID } }, 
+                  schedule: { connect: { id: scheduleID } },
+                  objectUUID: crypto.randomUUID(),
+        	};
+        	createRecordingMutation.mutate(recordingData);
 	}
 
-        /*const recordingData = {
-            recordedStartTime: recordedStartTime, 
-            recordedEndTime: new Date().toISOString(), 
-            timeBox: { connect: { objectUUID: timeboxData.objectUUID } }, 
-            schedule: { connect: { id: scheduleID } },
-            objectUUID: crypto.randomUUID(),
-        };
-        createRecordingMutation.mutate(recordingData);
-    */
-	}
+     }
 
     
     return (
