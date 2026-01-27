@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     if (recordedTimeBox != null) {
         await prisma.recordedTimeBox.delete({
           where: {
-            id: recordedTimeBox.id
+            id: recordedTimeBox.recordedTimeBox.id
           }
         });
     }
