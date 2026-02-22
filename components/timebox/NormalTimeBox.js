@@ -1,8 +1,7 @@
 import { useSelector } from "react-redux";
-import { addBoxesToTime, getPercentageOfBoxSizeFilled } from "@/modules/boxCalculations";
+import { getPercentageOfBoxSizeFilled } from "@/modules/boxCalculations";
 import TimeboxActionsForm from "../form/TimeboxActionsForm";
 import { useEffect, useState } from "react";
-import { convertToTimeAndDate, convertToDayjs } from "@/modules/formatters";
 import { QueryClientProvider } from "react-query";
 import { queryClient } from "@/modules/queryClient";
 
@@ -16,7 +15,7 @@ export default function NormalTimeBox(props) {
     
     useEffect(() => {
         setNumberOfBoxes(String(props.data.numberOfBoxes));
-    }, [data.numberOfBoxes]);
+    }, [data.numberOfBoxes, props.data.numberOfBoxes]);
     
     return (<>
     <QueryClientProvider client={queryClient}>

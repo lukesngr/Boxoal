@@ -14,10 +14,10 @@ export default async function handler(req, res) {
       select: { recordedTimeBox: { select: { id: true } } }
     });
 
-    if (recordedTimeBox) {
+    if (recordedTimeBox.recordedTimeBox) {
         await prisma.recordedTimeBox.delete({
           where: {
-            id: recordedTimeBox.id
+            id: recordedTimeBox.recordedTimeBox.id
           }
         });
     }

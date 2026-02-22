@@ -1,9 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
 import { useDispatch } from "react-redux";
-import { queryClient } from '../../modules/queryClient.js';
 import dayjs from 'dayjs';
-import { useMutation } from "react-query";
 import { useSelector } from "react-redux";
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -22,7 +19,6 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID 
     const dispatch = useDispatch();
     const [recordedStartTime, setRecordedStartTime] = useState(dayjs(data.startTime));
     const [recordedEndTime, setRecordedEndTime] = useState(dayjs(data.endTime));
-    const {scheduleIndex} = useSelector(state => state.profile.value);
     const createRecordingMutation = createRecordingMut(data, close, dispatch)
 
     function submitManualEntry() {

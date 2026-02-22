@@ -12,7 +12,6 @@ import EditTimeboxForm from "./EditTimeboxForm";
 import ManualEntryTimeModal from "./ManualEntryTimeModal";
 import Dialog from '@mui/material/Dialog';
 import styles from '@/styles/muiStyles.js';
-import { useMutation } from 'react-query';
 import { muiActionButton, muiNonActionButton } from '@/modules/muiStyles.js';
 import TimelineRecording from '../timebox/TimelineRecording.js';
 import createRecordingMut from '@/hooks/createRecordingMut.js';
@@ -33,7 +32,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
     const createTimeboxMutation = useCreateBoxMut(data.goalID);
     async function startRecording() {
         // Start recording logic for web version
-	let todaysDate = new Date();
+	const todaysDate = new Date();
         dispatch({ type: 'timeboxRecording/set', payload: {
             timeboxID: data.objectUUID,
             timeboxDate: date,
@@ -76,8 +75,8 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
 
 	let timeboxData;
 	if(!reoccurringBoxOnOriginalDate(data.startTime, date, time)) {
-	  	let differenceInMinutes = (new Date(data.endTime).getTime() - new Date(data.startTime).getTime()) / 60000;
-		let startTime = dayjs(date+' '+time, 'D/M HH:mm');
+	  	const differenceInMinutes = (new Date(data.endTime).getTime() - new Date(data.startTime).getTime()) / 60000;
+		const startTime = dayjs(date+' '+time, 'D/M HH:mm');
 		let endTime = dayjs(date+' '+time, 'D/M HH:mm');
 		endTime = endTime.add(differenceInMinutes, 'm')
 		timeboxData = {...data,
@@ -97,7 +96,6 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                 }
 		delete timeboxData.goalID;
 		delete timeboxData.reoccuring;
-		console.log(timeboxData)	
 		createTimeboxMutation.mutate(timeboxData);
 	}else{
 		timeboxData = data;

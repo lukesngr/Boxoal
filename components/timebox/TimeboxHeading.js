@@ -33,7 +33,7 @@ export default function TimeboxHeading({data}) {
     const settingsDialogOpen = useSelector(state => state.settingsDialogOpen.value);
     const selectedDate = useSelector(state => state.selectedDate.value);
     const expanded = useSelector(state => state.expanded.value);
-    let selectedDateAsDate = Date(selectedDate)
+    const selectedDateAsDate = Date(selectedDate)
 
     return <><h1 className="viewHeading">Timeboxes
                 <IconButton onClick={() => setDatePickerVisible(!datePickerVisible)}>

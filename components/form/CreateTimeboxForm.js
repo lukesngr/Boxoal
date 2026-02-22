@@ -1,11 +1,8 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
-import { queryClient } from '../../modules/queryClient.js';
 import { dayToName } from '../../modules/dateCode.js';
 import { convertToDayjs } from '../../modules/formatters.js';
 import { calculateMaxNumberOfBoxes, addBoxesToTime } from '@/modules/boxCalculations.js';
-import { useMutation } from 'react-query';
 import Stack from '@mui/material/Stack';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';

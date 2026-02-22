@@ -9,7 +9,6 @@ export default function Statistics({recordedTimeboxes, timeboxes}) {
     const {wakeupTime} = useSelector((state) => state.profile.value);
     const {goalsCompleted} = useSelector((state) => state.goalStatistics.value);
     const {averageTimeOverBy, 
-        averageTimeStartedOffBy, 
         percentagePredictedStart, 
         percentageCorrectTime, 
         percentageRescheduled, 
