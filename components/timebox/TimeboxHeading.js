@@ -9,6 +9,7 @@ import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import IconButton from '@mui/material/IconButton';
 import SettingsDialog from "../SettingsDialog";
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar';
+import dayjs from "dayjs";
 
 export default function TimeboxHeading({data}) {
 
@@ -33,7 +34,7 @@ export default function TimeboxHeading({data}) {
     const settingsDialogOpen = useSelector(state => state.settingsDialogOpen.value);
     const selectedDate = useSelector(state => state.selectedDate.value);
     const expanded = useSelector(state => state.expanded.value);
-    const selectedDateAsDate = Date(selectedDate)
+    const selectedDateAsDate = dayjs(selectedDate)
 
     return <><h1 className="viewHeading">Timeboxes
                 <IconButton onClick={() => setDatePickerVisible(!datePickerVisible)}>
