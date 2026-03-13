@@ -84,15 +84,10 @@ export default async function handler(req, res) {
           },
         },
         timeboxes: {
-          orderBy: {
-            startTime: 'asc'
-          },
-          where: {
-            startTime: {
-              gte: data.startOfWeek,
-              lte: data.endOfWeek
-            }
-          },
+          orderBy: [
+		{reoccuringID: {sort: 'asc', nulls: 'first'}}, {
+                startTime: 'asc'
+              }],
           select: {
             title: true,
             description: true,
