@@ -24,7 +24,7 @@ export default function useCreateBoxMut(goalSelected) {
                     copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.push({...timeboxData})
                 }
 		if(Object.hasOwn(timeboxData, 'recordedTimeBox')) {
-		  copyOfOld[scheduleIndex].recordedTimeBoxes.push(timeboxData.recordedTimeBox);
+		  copyOfOld[scheduleIndex].recordedTimeboxes.push({...timeboxData.recordedTimeBox, timeBox: timeboxData});
 		}
 
                 return copyOfOld;

@@ -13,23 +13,56 @@ import Stack from '@mui/material/Stack';
 import styles from "@/styles/muiStyles";
 import { muiActionButton, muiDatePicker, muiNonActionButton } from "@/modules/muiStyles";
 import createRecordingMut from "@/hooks/createRecordingMut.js"; 	
+import useCreateBoxMut from "@/hooks/useCreateBoxMut";
+import { convertToTimeAndDate } from "@/modules/formatters";
+import { reoccurringBoxOnOriginalDate } from "@/modules/dateCode";
 
 export default function ManualEntryTimeModal({ visible, close, data, scheduleID }) {
     const dispatch = useDispatch();
     const [recordedStartTime, setRecordedStartTime] = useState(dayjs(data.startTime));
     const [recordedEndTime, setRecordedEndTime] = useState(dayjs(data.endTime));
     const createRecordingMutation = createRecordingMut(data, close, dispatch)
+    const createTimeboxMutation = useCreateBoxMut(data.goalID);
 
     function submitManualEntry() {
-       const recordingData = {
-            recordedStartTime: recordedStartTime.toDate(), 
-            recordedEndTime: recordedEndTime.toDate(), 
-            timeBox: { connect: { objectUUID: data.objectUUID } }, 
-            schedule: { connect: { id: scheduleID } },
-            objectUUID: crypto.randomUUID(),
-        };
-        createRecordingMutation.mutate(recordingData);
-    }
+       let timeboxData; //alot of redundant code here but alas dont want to fix just yet
+	let [time, date] = convertToTimeAndDate(recordedStartTime);
+	if(!reoccurringBoxOnOriginalDate(data.startTime, date, time)) {
+		const startTimeAsDate = new Date(data.startTime)
+	  	const differenceInMinutes = (new Date(data.endTime).getTime() - startTimeAsDate.getTime()) / 60000;
+		const startTime = dayjs().hour(startTimeAsDate.getHours()).minute(startTimeAsDate.getMinutes())
+			.year(recordedStartTime.year()).month(recordedStartTime.month()).date(recordedStartTime.date());
+		let endTime = startTime;
+		endTime = endTime.add(differenceInMinutes, 'm')
+		timeboxData = {...data,
+		  objectUUID: crypto.randomUUID(),
+		  startTime: startTime.utc().format(),
+		  endTime: endTime.utc().format(),
+		  schedule: {connect: {id: scheduleID}},
+		  goal: {connect: {id: data.goalID}},
+		  recordedTimeBox: {
+		    create: {
+                      recordedStartTime: recordedStartTime.toISOString(), 
+                      recordedEndTime: recordedEndTime.toISOString(), 
+                      schedule: { connect: { id: scheduleID } },
+            	      objectUUID: crypto.randomUUID(),
+		    }
+                  }
+                }
+		delete timeboxData.goalID;
+		delete timeboxData.reoccuring;
+		createTimeboxMutation.mutate(timeboxData);
+	}else{
+		timeboxData = data;
+	        const recordingData = {
+            	  recordedStartTime: recordedStartTime.toISOString(), 
+                  recordedEndTime: recordedEndTime.toISOString(), 
+                  timeBox: { connect: { objectUUID: timeboxData.objectUUID } }, 
+                  schedule: { connect: { id: scheduleID } },
+                  objectUUID: crypto.randomUUID(),
+        	};
+        	createRecordingMutation.mutate(recordingData);
+	}    }
 
     return (
       <Dialog open={visible} onClose={close} PaperProps={styles.paperProps}>

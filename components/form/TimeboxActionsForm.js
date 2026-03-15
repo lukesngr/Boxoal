@@ -76,13 +76,13 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
 	let timeboxData;
 	if(!reoccurringBoxOnOriginalDate(data.startTime, date, time)) {
 	  	const differenceInMinutes = (new Date(data.endTime).getTime() - new Date(data.startTime).getTime()) / 60000;
-		const startTime = dayjs(date+' '+time, 'D/M HH:mm');
-		let endTime = dayjs(date+' '+time, 'D/M HH:mm');
+		const startTime = dayjs(`${date} ${time} ${dayjs().year()}`, 'D/M H:mm YYYY');
+		let endTime = startTime;
 		endTime = endTime.add(differenceInMinutes, 'm')
 		timeboxData = {...data,
 		  objectUUID: crypto.randomUUID(),
-		  startTime: startTime.toISOString(),
-		  endTime: endTime.toISOString(),
+		  startTime: startTime.utc.format(),
+		  endTime: endTime.utc.format(),
 		  schedule: {connect: {id: scheduleID}},
 		  goal: {connect: {id: data.goalID}},
 		  recordedTimeBox: {

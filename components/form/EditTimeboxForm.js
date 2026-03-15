@@ -84,7 +84,7 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
     });
 
     const deleteTimeboxMutation = useMutation({
-        mutationFn: (objectUUID) => axios.post('/api/deleteTimebox', {objectUUID: objectUUID}),
+		mutationFn: (objectUUID) => axios.post('/api/deleteTimebox', {objectUUID: objectUUID}),
         onMutate: async (objectUUID) => {
             await queryClient.cancelQueries(['schedule']); 
             
