@@ -27,7 +27,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     const timeboxGrid = useSelector(state => state.timeboxGrid.value);
     
     const activeGoals = useMemo(() => 
-        goals.filter(goal => goal.state === "active"), 
+        goals.getFromK1(scheduleID).filter(goal => goal.state === "active"), 
         [goals]
     );
     const [description, setDescription] = useState(""); 
@@ -43,7 +43,6 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             setGoalSelected(activeGoals[0].id);
         }
     }, [activeGoals]); //due to active goals not being a state 
-   
     const transformPercentages = ['35%', '45%', '55%', '65%', '40%', '50%', '55%'];
 
     const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
