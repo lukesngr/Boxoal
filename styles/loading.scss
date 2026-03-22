@@ -6,8 +6,11 @@
     align-items: center;
     height: 100vh;
     width: 100%;
-    background-color: white;
+    backdrop-filter: blur(6px);
     flex-direction: column;
+    position: fixed;
+    z-index: 999;
+    top: 0;
 }
 
 .loading p {

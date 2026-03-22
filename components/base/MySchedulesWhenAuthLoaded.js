@@ -27,18 +27,16 @@ export default function MySchedulesWhenAuthLoaded({user}) {
         enabled: true
     })
 
-    if(status === 'pending' || status === 'loading') { return <Loading />; }
     if(status === 'error') {
         Sentry.captureException(error);
         return <Erroring></Erroring>
     }
     if(status === 'success' && data.length == 0) return <Welcome></Welcome>
-
-    dataForSchedule = data;
+    if(status === 'success') dataForSchedule = data
 
     return (<>
         <SignedInNav username={username} />
-        <SchedulesView data={dataForSchedule}></SchedulesView>
+        <SchedulesView data={dataForSchedule} isLoading={status === 'pending' || status === 'loading'}></SchedulesView>
         <Alert></Alert>
     </>)
 }

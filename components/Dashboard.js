@@ -10,13 +10,14 @@ import Statistics from "./Statistics";
 import { GoalLineGraph } from "./dashboards/GoalLineGraph";
 import useGoalStatistics from "@/hooks/useGoalStatistics";
 import Welcome from "./base/Welcome";
+import { useScheduleSetter } from "@/hooks/useScheduleSetter";
 
 export default function Dashboard({user}) {
 
     const dispatch = useDispatch();
     const {scheduleIndex} = useSelector(state => state.profile.value);
     const {userId, username} = user;
-    let dataForSchedule = {timeboxes: [], recordedTimeboxes: []};
+    let dataForSchedule = {title: 'Life', timeboxes: [], recordedTimeboxes: [], goals: []};
     useProfile(userId, dispatch);
 
     const {status, data, error} = useQuery({
@@ -29,7 +30,8 @@ export default function Dashboard({user}) {
         },
         enabled: true
     })
-
+    
+    useScheduleSetter(data?.[scheduleIndex])
     useGoalStatistics(data?.length > 0 ? data[scheduleIndex] : null);
 
     if(status === 'loading' || status === 'pending') return <Loading />
