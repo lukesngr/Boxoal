@@ -8,15 +8,16 @@ import { useSelector } from "react-redux";
 export default function Statistics({recordedTimeboxes, timeboxes}) {
     const {wakeupTime} = useSelector((state) => state.profile.value);
     const {goalsCompleted} = useSelector((state) => state.goalStatistics.value);
+    const timeboxesMap = useSelector(state => state.scheduleData.value.timeboxes)
     const {averageTimeOverBy, 
         percentagePredictedStart, 
         percentageCorrectTime, 
         percentageRescheduled, 
-        hoursLeftThisWeek} = useMemo(() => getStatistics(recordedTimeboxes, timeboxes, wakeupTime), [recordedTimeboxes, timeboxes, wakeupTime]);
+        hoursLeftThisWeek} = useMemo(() => getStatistics(recordedTimeboxes, wakeupTime, timeboxesMap), [recordedTimeboxes, wakeupTime, timeboxesMap]);
     return (
         <div class="container" style={{paddingLeft: 0, paddingRight: 0}}>
-                <div class="row">
-                    <div class="col">
+                <div className="row">
+                    <div className="col">
                     <Paper sx={{backgroundColor: '#875F9A', marginTop: 2 }} className="statPaper" elevation={4} square>
                         <p className="statisticsHeading">Average Recordings Are {averageTimeOverBy > 0 ? "Over" : "Under"} By</p>
                         <div className="statisticsBackground">

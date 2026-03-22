@@ -40,6 +40,7 @@ export default async function handler(req, res) {
             active: true,
             partOfLine: true,
             objectUUID: true,
+	    scheduleID: true,
             metric: true,
             state: true,
             loggingsOfMetric: {
@@ -48,40 +49,7 @@ export default async function handler(req, res) {
                 metric: true,
               }
             },
-            timeboxes: {
-              orderBy: [
-		{reoccuringID: {sort: 'asc', nulls: 'first'}}, {
-                startTime: 'asc'
-              }],
-              select: {
-                title: true,
-                description: true,
-                startTime: true,
-                endTime: true,
-                numberOfBoxes: true,
-                color: true,
-                isTimeblock: true,
-                objectUUID: true,
-                recordedTimeBox: {
-                  select: {
-                    id: true,
-                    objectUUID: true,
-                    timeBox: { select: { title: true, description: true }},
-                    recordedStartTime: true,
-                    recordedEndTime: true
-                  }
-                },
-                reoccuring: {
-                  select: {
-                    id: true,
-                    startOfDayRange: true,
-                    endOfDayRange: true,
-                  }
-                },
-                goalID: true
-              },
-            }
-          },
+         },
         },
         timeboxes: {
           orderBy: [
@@ -97,15 +65,6 @@ export default async function handler(req, res) {
             color: true,
             isTimeblock: true,
             objectUUID: true,
-            recordedTimeBox: {
-              select: {
-                id: true,
-                recordedStartTime: true,
-                recordedEndTime: true,
-                objectUUID: true,
-                timeBox: { select: { title: true, description: true }}
-              }
-            },
             goalID: true,
             reoccuring: {
               select: {
@@ -131,14 +90,7 @@ export default async function handler(req, res) {
             recordedStartTime: true,
             recordedEndTime: true,
             objectUUID: true,
-            timeBox: {
-              select: { 
-                title: true, 
-                description: true,
-                startTime: true,
-                endTime: true,
-              }
-            }
+	    timeboxUUID: true,
           }
         }
       },

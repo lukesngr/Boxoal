@@ -5,8 +5,8 @@ import { filterRecordingBasedOnDay } from "../modules/formatters";
 
 export default function useRecordedBoxesForWeek(dayToName, recordedTimeboxes) {
     const {wakeupTime, boxSizeUnit, boxSizeNumber} = useSelector(state => state.profile.value);
+    const timeboxes = useSelector(state => state.scheduleData.value.timeboxes);
     const overlayDimensions = useSelector(state => state.overlayDimensions.value);
-
     let recordingBoxesForWeek = [];
 
     for(let day of dayToName) {
@@ -31,8 +31,9 @@ export default function useRecordedBoxesForWeek(dayToName, recordedTimeboxes) {
                 let eitherIsNotZero = !(marginToRecording == 0 || recordingBoxHeight == 0); //due to overlay dimensions not being set at right time
                 let notAlreadyInCache = !recordingBoxesForDay.some(item => item.objectUUID === element.objectUUID); //if not already in cache
 
-                if(eitherIsNotZero && notAlreadyInCache) { //if not already in malleableBoxes push it to it
-                    recordingBoxesForDay.push({timeBox: element.timeBox, objectUUID: element.objectUUID, recordingBoxHeight, marginToRecording, title: element.timeBox.title});
+                if(eitherIsNotZero && notAlreadyInCache) { //if not already in malleableBoxes push it to iti
+		    let timeboxForRecording = timeboxes.getFromK2(element.timeboxUUID);
+                    recordingBoxesForDay.push({timeBox: timeboxForRecording, objectUUID: element.objectUUID, recordingBoxHeight, marginToRecording, title: timeboxForRecording.title});
                 }
             });
         }
