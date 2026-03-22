@@ -4,12 +4,13 @@ import { Button } from "@mui/material";
 import { getAverageTimeOverAndOffBy } from "@/modules/boxCalculations";
 import { useMediaQuery } from 'react-responsive';
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-export function GoalTreeTimeboxes(props) {
-    const {goal} = props;
+export function GoalTreeTimeboxes({goal, goBack}) {
     const [widthOfConnector, setWidthOfConnector] = useState(150);
     const smallerThanLargeBreakpoint = useMediaQuery({query: '(max-width: 1222px)'});
     const smallerThanMediumBreakpoint = useMediaQuery({query: '(max-width: 1022px)'});
+    const {timeboxes, recordedTimeboxes} = useSelector(state => state.scheduleData.value);
 
     useEffect(() => {
         if(smallerThanLargeBreakpoint) {
@@ -23,6 +24,7 @@ export function GoalTreeTimeboxes(props) {
             setWidthOfConnector(150);
         }
     }, [smallerThanLargeBreakpoint, smallerThanMediumBreakpoint])
+
     return <>
     <Button className="goBackButtonGoalTree" sx={{
         backgroundColor: 'black',
@@ -34,7 +36,7 @@ export function GoalTreeTimeboxes(props) {
             backgroundColor: 'black',
             color: 'white'
         }}
-    } onClick={()=> props.goBack()}>
+    } onClick={()=> goBack()}>
         Go Back
     </Button>
     <div className="goalTreeTimeboxesContainer">
@@ -50,7 +52,7 @@ export function GoalTreeTimeboxes(props) {
                     <line x1={0} y1={50} x2={widthOfConnector-5} y2={50} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
                     <line x1={widthOfConnector-5} y1={50} x2={widthOfConnector-5} y2={100} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
                 </svg>
-                {goal.timeboxes.map((timebox, index) => (
+                {timeboxes.getFromK1(goal.id).map((timebox, index) => (
                 <svg className="timeboxToPipe" key={index} viewBox={`0 0 ${widthOfConnector} 50`}>
                     <line x1={widthOfConnector-5} y1={0} x2={widthOfConnector-5} y2={50} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
                     <line x1={widthOfConnector-8} y1={48} x2={250} y2={48} style={{stroke:  "#875F9A", strokeWidth: 5}}></line>
@@ -58,7 +60,7 @@ export function GoalTreeTimeboxes(props) {
                 ))}
             </div>
             <div>
-            {goal.timeboxes.map((timebox, index) => {
+            {timeboxes.getFromK1(goal.id).map((timebox, index) => {
                 const isFailed = dayjs().isAfter(dayjs(timebox.endTime)) && timebox.recordedTimeBox == null;
                 const isCompleted = timebox.recordedTimeBox != null;
                 let minutesOverBy = 0;

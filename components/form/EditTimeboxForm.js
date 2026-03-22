@@ -32,12 +32,12 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
     const [startOfDayRange, setStartOfDayRange] = useState(data.reoccuring != null ? (data.reoccuring.startOfDayRange) : 0);
     const [endOfDayRange, setEndOfDayRange] = useState(data.reoccuring != null ? data.reoccuring.endOfDayRange : 0);
     const timeboxGrid = useSelector(state => state.timeboxGrid.value);
-    const {wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
-    const { goals } = useSelector(state => state.scheduleData.value);
-    const {scheduleIndex} = useSelector(state => state.profile.value);
+    const {wakeupTime, boxSizeUnit, boxSizeNumber, scheduleID, scheduleIndex} = useSelector(state => state.profile.value);
+    const goals = useSelector(state => state.scheduleData.value.goals);
     const [time, date] = convertToTimeAndDate(data.startTime);
     const maxNumberOfBoxes = calculateMaxNumberOfBoxes(wakeupTime, boxSizeUnit, boxSizeNumber, timeboxGrid, time, date);
-   
+    const goalsList = goals.getFromK1(scheduleID);
+
     function closeModal() {
         setTitle('');
         setDescription('');
@@ -84,7 +84,7 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
     });
 
     const deleteTimeboxMutation = useMutation({
-		mutationFn: (objectUUID) => axios.post('/api/deleteTimebox', {objectUUID: objectUUID}),
+	mutationFn: (objectUUID) => axios.post('/api/deleteTimebox', {objectUUID: objectUUID}),
         onMutate: async (objectUUID) => {
             await queryClient.cancelQueries(['schedule']); 
             
@@ -209,7 +209,7 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
                             onChange={(e) => setGoalSelected(e.target.value)}
                             sx={muiInputStyle}
                         >
-                            {goals.map((goal) => {
+                            {goalsList.map((goal) => {
                                 if(goal.state == "active") {
                                     return (
                                     <MenuItem key={goal.id} value={goal.id}>

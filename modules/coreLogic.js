@@ -9,7 +9,7 @@ dayjs.extend(utc)
 
 
 
-export function thereIsNoRecording(recordedBox,) {
+export function thereIsNoRecording(recordedBox) {
     if(recordedBox == null) {
         return true;
     }else {

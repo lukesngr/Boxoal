@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 export default function RecordedTimeBoxOverlay(props) {
     const {headerWidth, timeboxColWidth} = useSelector(state => state.overlayDimensions.value);
     const {recordedTimeboxes} = useSelector(state => state.scheduleData.value);
-    const recordedBoxesForWeek = useRecordedBoxes(props.dayToName, recordedTimeboxes);
+    const recordedBoxesForWeek = useRecordedBoxes(props.dayToName, [...recordedTimeboxes.k2ToValue.values()]);
 
     return <div style={{position: 'absolute', zIndex: 999}}>{recordedBoxesForWeek.map((recordedBoxesForDay, index) => {
         const dayIndex = index;
@@ -20,4 +20,5 @@ export default function RecordedTimeBoxOverlay(props) {
         </div>
         )
     })}</div>
+    return <></>
 }

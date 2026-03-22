@@ -28,17 +28,15 @@ export default function GoalTreeWhenAuthLoaded({user}) {
     })
 
     if(status === 'pending' || status === 'loading') { return <Loading />; }
-    if(status === 'error') {
-        Sentry.captureException(error);
-        return <Erroring></Erroring>
-    }
-    if(status === 'success' && data.length == 0) return <Welcome></Welcome>
+    if(status === 'error') { Sentry.captureException(error); return <Erroring></Erroring>; }
+    if(status === 'success' && data.length == 0) { return <Welcome></Welcome> }
 
     dataForSchedule = data;
 
-    return (<>
-        <SignedInNav username={username} />
-        <GoalTreeView data={dataForSchedule}></GoalTreeView>
-        <Alert></Alert>
+    return (
+    <>
+      <SignedInNav username={username} />
+      <GoalTreeView data={dataForSchedule}></GoalTreeView>
+      <Alert></Alert>
     </>)
 }

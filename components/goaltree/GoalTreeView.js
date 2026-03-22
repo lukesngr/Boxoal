@@ -18,6 +18,7 @@ export default function GoalTreeView(props) {
     const schedule = props.data[profile.scheduleIndex];
     const [createGoalState, setCreateGoalState] = useState({visible: false, id: profile.scheduleID, line: -1});
     const [goalTreeGoalView, setGoalTreeGoalView] = useState({open: false, goal: {}});
+    const {timeboxes, recordedTimeboxes} = useSelector(state => state.scheduleData.value);
     useScheduleSetter(schedule);
     useGoalStatistics(schedule);
     useGoalLimits(schedule.goals);
@@ -26,40 +27,19 @@ export default function GoalTreeView(props) {
         const mapOfGoalsPutInLine = {};
         const activeGoalsInLine = new Array(25).fill(0);
         for(let i = 0; i < schedule.goals.length; i++) {
-            let percentageCompleted = 0;
-            if(schedule.goals[i].metric === null) {
-                    let numberOfTimeboxes = 0;
-                    let timeboxesHaveRecording = 0;
-                    for(const timebox in schedule.goals[i].timeboxes) {
-                        numberOfTimeboxes++;
-                        if(timebox.recordedTimeBox != null) {
-                            timeboxesHaveRecording++;
-                        }
-                    }
-
-                    if(numberOfTimeboxes != 0) {
-                        percentageCompleted = timeboxesHaveRecording / numberOfTimeboxes;
-                    }else{
-                        percentageCompleted = 0;
-                    }
-                    
-            }else if(schedule.goals[i].loggingsOfMetric.length > 0){
-                percentageCompleted = schedule.goals[i].loggingsOfMetric[schedule.goals[i].loggingsOfMetric.length - 1] / schedule.goals[i].metric;
-            }
-
             if(schedule.goals[i].state == "active") {
                 activeGoalsInLine[schedule.goals[i].partOfLine-1] = activeGoalsInLine[schedule.goals[i].partOfLine-1]+1;              
             }
 
             if (!Object.hasOwn(mapOfGoalsPutInLine, schedule.goals[i].partOfLine)) {
-                mapOfGoalsPutInLine[schedule.goals[i].partOfLine] = [{percentageCompleted, ...schedule.goals[i]}]; 
+                mapOfGoalsPutInLine[schedule.goals[i].partOfLine] = [{...schedule.goals[i]}]; 
             }else {
-                mapOfGoalsPutInLine[schedule.goals[i].partOfLine].push({percentageCompleted, ...schedule.goals[i]});
+                mapOfGoalsPutInLine[schedule.goals[i].partOfLine].push({...schedule.goals[i]});
             }
         }
         return {mapOfGoalsPutInLine, activeGoalsInLine}
     }, [schedule])
-
+    console.log(mapOfGoalsPutInLine)
     
     return <>
         {goalTreeGoalView.open ? (<GoalTreeTimeboxes goal={goalTreeGoalView.goal} goBack={() =>setGoalTreeGoalView({open: false, goal: {}})}></GoalTreeTimeboxes>) : (<>

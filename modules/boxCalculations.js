@@ -207,7 +207,7 @@ export function findSmallestTimeBoxLengthInSpace(timeboxGridFilteredByDate, time
     return smallestTimeboxLength;
 } 
 
-export function getStatistics(recordedTimeboxes, timeboxes, wakeupTime) {
+export function getStatistics(recordedTimeboxes, wakeupTime, timeboxesMap) {
     let reschedules = 0;
     let minutesOverBy = 0;
     let averageTimeStartedOffBy = 0;
@@ -223,9 +223,8 @@ export function getStatistics(recordedTimeboxes, timeboxes, wakeupTime) {
         let recordedTimebox = recordedTimeboxes[i];
         let recordedTimeboxStartTime = new Date(recordedTimebox.recordedStartTime);
         let recordedTimeboxEndTime = new Date(recordedTimebox.recordedEndTime);
-        let timeboxStartTime = new Date(recordedTimebox.timeBox.startTime);
-        let timeboxEndTime = new Date(recordedTimebox.timeBox.endTime);
-        
+        let timeboxStartTime = new Date(timeboxesMap.getFromK2(recordedTimebox.timeboxUUID)?.startTime);
+        let timeboxEndTime = new Date(timeboxesMap.getFromK2(recordedTimebox.timeboxUUID)?.endTime);
         //reschedule rate
         if(recordedTimeboxStartTime.getDate() != timeboxStartTime.getDate()) {
             reschedules++;
@@ -262,7 +261,7 @@ export function getStatistics(recordedTimeboxes, timeboxes, wakeupTime) {
         percentageRescheduled = 0;
     }
 
-    for(let timebox of timeboxes) {
+    for(let timebox of timeboxesMap.k2ToValue) {
 
         let isInWeek = dayjs(timebox.startTime).isSameOrAfter(startOfThisWeek, 'date') && dayjs(timebox.startTime).isBefore(endOfThisWeek);
         let isReoccuring = timebox.reoccuring != null;

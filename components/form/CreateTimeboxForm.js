@@ -23,7 +23,7 @@ const listOfColors = ["#606EFE", "#3AFFB0", "#DC5EFB", "#86FB80", "#AF79FB", "#7
 export default function CreateTimeboxForm({ visible, time, date, close, numberOfBoxes, setNumberOfBoxes, day, title, setTitle }) {
     const dispatch = useDispatch();
     const { scheduleID, wakeupTime, boxSizeUnit, boxSizeNumber } = useSelector(state => state.profile.value);
-    const { goals } = useSelector(state => state.scheduleData.value);
+    const goals = useSelector(state => state.scheduleData.value.goals);
     const timeboxGrid = useSelector(state => state.timeboxGrid.value);
     
     const activeGoals = useMemo(() => 
