@@ -9,6 +9,7 @@ import SignedInNav from "../nav/SignedInNav";
 import Erroring from "./Erroring";
 import * as Sentry from '@sentry/nextjs';
 import Loading from "../base/Loading";
+import { fetchAuthSession } from "@aws-amplify/auth";
 
 export default function MySchedulesWhenAuthLoaded({user}) {
     const dispatch = useDispatch();
@@ -19,10 +20,15 @@ export default function MySchedulesWhenAuthLoaded({user}) {
     const {status, data, error} = useQuery({
         queryKey: ["schedule"], 
         queryFn: async () => {
-            const response = await axios.get("/api/getSchedules", { params: {
-                userUUID: userId
-            }});
+            const session = await fetchAuthSession();
+            const accessToken = session.tokens?.accessToken.toString();
+            const response = await axios.get("/api/getSchedules",  {
+	      headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+              }});
             return response.data;
+
         },
         enabled: true
     })
