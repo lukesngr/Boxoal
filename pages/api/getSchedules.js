@@ -1,22 +1,24 @@
 import prisma from "@/modules/prismaClient";
+import { accessTokenVerifier } from "@/modules/cognitoVerifier";
 import * as Sentry from "@sentry/nextjs";
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
-
   try {
-    const data = req.query;
-
-    if (!data.userUUID || typeof data.userUUID !== 'string') {
-            return res.status(400).json({ 
-                error: 'userUUID is required' 
-             });
+    
+    const authHeader = req.headers.authorization;
+    const token = authHeader?.split("Bearer ")[1].trim();
+    if (!token) {
+      throw new Error('no token ')
     }
+
+    const payload = await accessTokenVerifier.verify(token);
+    // payload contains: sub, username, cognito:groups, exp, etc.
     const schedules = await prisma.schedule.findMany({
       where: {
-        userUUID: data.userUUID,
+        userUUID: payload.sub,
       },
       select: {
         id: true,
@@ -78,12 +80,6 @@ export default async function handler(req, res) {
         recordedTimeboxes: {
           orderBy: {
             recordedStartTime: 'asc'
-          },
-          where: {
-            recordedStartTime: {
-              gte: data.startOfWeek,
-              lte: data.endOfWeek
-            }
           },
           select: {
             id: true,
