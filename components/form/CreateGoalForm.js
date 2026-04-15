@@ -17,7 +17,7 @@ import styles from '@/styles/muiStyles';
 import { useMutation } from 'react-query';
 import { useSelector, useDispatch } from 'react-redux';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-
+import { fetchAuthSession } from '@aws-amplify/auth';
 export default function CreateGoalForm(props) {
     const dispatch = useDispatch();
     const [title, setTitle] = useState("");
@@ -30,8 +30,8 @@ export default function CreateGoalForm(props) {
     const {goalLimit, wakeupTime} = useSelector(state => state.profile.value);
 
     const createGoalMutation = useMutation({
-        mutationFn: (goalData) => axios.post('/api/createGoal', goalData),
-        onMutate: async (goalData) => {
+        mutationFn: ({goalData, headers}) => axios.post('/api/createGoal', goalData, headers),
+        onMutate: async ({goalData, headers}) => {
             await queryClient.cancelQueries(['schedule']); 
             
             const previousGoals = queryClient.getQueryData(['schedule']);
@@ -60,11 +60,17 @@ export default function CreateGoalForm(props) {
         }
     });
     
-    function createGoal() {
+    async function createGoal() {
         const isActiveOnInTree = props.active ? "active" : "waiting";
         const wakeupTimeSplitted = wakeupTime.split(':');
         const alteredDate = targetDate.hour(wakeupTimeSplitted[0]).minute(wakeupTimeSplitted[1]);
-
+        const session = await fetchAuthSession();
+        const accessToken = session.tokens?.accessToken.toString();
+	const headers = {
+	      headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+        }};
         const goalData = {
             title,
             targetDate: alteredDate.toISOString(),
@@ -85,7 +91,7 @@ export default function CreateGoalForm(props) {
             goalData.metric = Number(metric);
         }
         if (goalLimit > goalsNotCompleted || goalLimit == -1 || !props.active) {
-            createGoalMutation.mutate(goalData);
+            createGoalMutation.mutate({goalData, headers});
         } else {
             dispatch({type: 'alert/set', payload: { open: true, title: "Error", message: "Please complete more goals and we will unlock more goal slots for you!" }});
         }

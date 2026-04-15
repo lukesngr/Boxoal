@@ -17,7 +17,7 @@ import InputLabel from '@mui/material/InputLabel';
 import { muiActionButton, muiFormControlStyle, muiInputStyle, muiNonActionButton, muiToggleButtonStyle } from '@/modules/muiStyles.js';
 import { ToggleButton, ToggleButtonGroup, Slider, Typography } from '@mui/material';
 import useCreateBoxMut from '@/hooks/useCreateBoxMut.js';
-
+import { fetchAuthSession } from '@aws-amplify/auth';
 const listOfColors = ["#606EFE", "#3AFFB0", "#DC5EFB", "#86FB80", "#AF79FB", "#7BFF59", "#639D5E", "#4AF9FF"];
 
 export default function CreateTimeboxForm({ visible, time, date, close, numberOfBoxes, setNumberOfBoxes, day, title, setTitle }) {
@@ -64,7 +64,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
         }
     }
 
-    function handleSubmit() {
+    async function handleSubmit() {
         if (goalSelected == "" && !isTimeblock) {
             dispatch({type: 'alert/set', payload: {
                 open: true,
@@ -77,8 +77,14 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             const startTime = convertToDayjs(time, date).utc().format();
             const endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
             const color = isTimeblock ? ('black') : (listOfColors[Math.floor(Math.random() * listOfColors.length)]);
-
-            const data = {
+            const session = await fetchAuthSession();
+            const accessToken = session.tokens?.accessToken.toString();
+	    const headers = {
+	      headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }};
+	    const timeboxData = {
                 title,
                 description,
                 startTime,
@@ -91,14 +97,14 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
             };
 
             if (!isTimeblock) {
-                data["goal"] = { connect: { id: Number(goalSelected) } };
+                timeboxData["goal"] = { connect: { id: Number(goalSelected) } };
             }
 
             if (reoccuring) {
-                data["reoccuring"] = { create: { startOfDayRange, endOfDayRange } };
+                timeboxData["reoccuring"] = { create: { startOfDayRange, endOfDayRange } };
             } 
 
-            createTimeboxMutation.mutate(data);
+            createTimeboxMutation.mutate({timeboxData, headers});
         }
     }
 

@@ -18,6 +18,7 @@ import { useMutation } from 'react-query';
 import { useSelector, useDispatch } from 'react-redux';
 import { ToggleButtonGroup, ToggleButton } from '@mui/material';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { fetchAuthSession } from '@aws-amplify/auth';
 
 export default function EditGoalForm(props) {
     const dispatch = useDispatch();
@@ -26,11 +27,11 @@ export default function EditGoalForm(props) {
     const [hasMetric, setHasMetric] = useState(props.data.metric === null ? (false) : (true));
     const [targetDate, setTargetDate] = useState(dayjs(props.data.targetDate));
     const [completed, setCompleted] = useState(props.data.state == "completed");
-    const {scheduleIndex, wakeupTime} = useSelector(state => state.profile.value);
+    const {scheduleIndex, wakeupTime, scheduleID} = useSelector(state => state.profile.value);
     const [onLogMetricView, setOnLogMetricView] = useState(false);
 
     const updateGoalMutation = useMutation({
-        mutationFn: (goalData) => axios.put('/api/updateGoal', goalData),
+        mutationFn: ({goalData, headers}) => axios.put('/api/updateGoal', goalData, headers),
         onMutate: async (goalData) => {
             await queryClient.cancelQueries(['schedule']); 
             
@@ -80,11 +81,20 @@ export default function EditGoalForm(props) {
             state: completed ? "completed" : "active",
         }
 
+        const session = fetchAuthSession();
+        const accessToken = session.tokens?.accessToken.toString();
+	const headers = {
+	      headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+        }};
+	
+
         if(hasMetric) {
             goalData.metric = Number(metric);
         }
         
-        updateGoalMutation.mutate(goalData);
+        updateGoalMutation.mutate({goalData, headers});
 
         if(completed) {
             axios.get('/api/setNextGoalToActive', {line: props.data.partOfLine}).then(async () => {
@@ -95,9 +105,17 @@ export default function EditGoalForm(props) {
     }
     
     function deleteGoal() {
+        const session = fetchAuthSession();
+        const accessToken = session.tokens?.accessToken.toString();
+	const headers = {
+	      headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+        }};
         axios.post('/api/deleteGoal', {
-            id: props.data.id
-        })
+            id: props.data.id,
+	    scheduleID: scheduleID
+        }, headers)
         .then(async () => {   
             props.close();
             dispatch({type: 'alert/set', payload: { open: true, title: "Timebox", message: "Deleted goal!" }});
@@ -123,7 +141,7 @@ export default function EditGoalForm(props) {
         }
     }
 
-    function logMetric() {
+    async function logMetric() {
         if(onLogMetricView) {
             const data = {
                 date: new Date().toISOString(),
@@ -134,6 +152,14 @@ export default function EditGoalForm(props) {
                     }
                 }
             }
+            const session = await fetchAuthSession();
+            const accessToken = session.tokens?.accessToken.toString();
+	    const headers = {
+	      headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }};
+	
 
             if(metric >= props.data.metric) {
                 const wakeupTimeSplitted = wakeupTime.split(':');
@@ -149,15 +175,15 @@ export default function EditGoalForm(props) {
                     state: "completed",
                 }
                 
-                updateGoalMutation.mutate(goalData);
+                updateGoalMutation.mutate({goalData, headers});
 
                 axios.get('/api/setNextGoalToActive', {line: props.data.partOfLine}).then(async () => {
                     await queryClient.refetchQueries();
                 }).catch(function() {
                 })
             }else{
-
-                axios.post('/api/logMetric', data)
+                    
+                axios.post('/api/logMetric', data, headers)
                 .then(async () => {
                     close();
                     dispatch({type: 'alert/set', payload: { open: true, title: "Goal", message: "Logged metric!" }});

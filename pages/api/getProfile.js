@@ -1,5 +1,6 @@
 import prisma from "@/modules/prismaClient";
 import * as Sentry from "@sentry/nextjs";
+import { accessTokenVerifier } from "@/modules/cognitoVerifier";
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -8,12 +9,21 @@ export default async function handler(req, res) {
 
   try {
     const data = req.query;
-    const points = await prisma.profile.findUnique({
+    
+    const authHeader = req.headers.authorization;
+    const token = authHeader?.split("Bearer ")[1].trim();
+    if (!token) {
+      throw new Error('no token ')
+    }
+
+    const payload = await accessTokenVerifier.verify(token)
+
+    const profile = await prisma.profile.findUnique({
       where: {
-        userUUID: data.userUUID,
+        userUUID: payload.sub,
       }
     });
-    res.json(points);
+    res.json(profile);
   } catch (error) {
     Sentry.captureException(error);
     res.status(500).json({ error: 'Internal Server Error' });

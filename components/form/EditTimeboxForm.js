@@ -20,6 +20,7 @@ import InputLabel from '@mui/material/InputLabel';
 import { muiActionButton, muiFormControlStyle, muiInputStyle, muiToggleButtonStyle } from '@/modules/muiStyles.js';
 import styles from "@/styles/muiStyles";
 import { useMutation } from "react-query";
+import { fetchAuthSession } from "@aws-amplify/auth";
 
 export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGetter }) {
     const dispatch = useDispatch();
@@ -45,8 +46,8 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
     }
 
     const updateTimeboxMutation = useMutation({
-        mutationFn: (timeboxData) => axios.put('/api/updateTimeBox', timeboxData),
-        onMutate: async (timeboxData) => {
+        mutationFn: ({timeboxData, headers}) => axios.put('/api/updateTimeBox', timeboxData, headers),
+        onMutate: async ({timeboxData, headers}) => {
             await queryClient.cancelQueries(['schedule']); 
             
             const previousSchedule = queryClient.getQueryData(['schedule']);
@@ -56,11 +57,6 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
                 const copyOfOld = structuredClone(old);
                 const timeboxIndex = copyOfOld[scheduleIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
                 copyOfOld[scheduleIndex].timeboxes[timeboxIndex] = {...timeboxData};
-                if(!(timeboxData.isTimeblock)) {
-                    const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
-                    const timeboxGoalIndex = copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.findIndex(element => element.objectUUID == data.objectUUID);
-                    copyOfOld[scheduleIndex].goals[goalIndex].timeboxes[timeboxGoalIndex] = {...timeboxData};
-                }
                 return copyOfOld;
             });
             
@@ -84,8 +80,8 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
     });
 
     const deleteTimeboxMutation = useMutation({
-	mutationFn: (objectUUID) => axios.post('/api/deleteTimebox', {objectUUID: objectUUID}),
-        onMutate: async (objectUUID) => {
+	mutationFn: ({objectUUID, headers}) => axios.post('/api/deleteTimebox', {objectUUID: objectUUID}, headers),
+        onMutate: async ({objectUUID, headers}) => {
             await queryClient.cancelQueries(['schedule']); 
             
             const previousSchedule = queryClient.getQueryData(['schedule']);
@@ -122,10 +118,10 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
         }
     });
 
-    function updateTimeBox() {
+    async function updateTimeBox() {
         const endTime = convertToDayjs(...addBoxesToTime(boxSizeUnit, boxSizeNumber, time, numberOfBoxes, date)).utc().format();
 
-        const updateData = {
+        const timeboxData = {
             isTimeblock,
             title,
             color: data.color,
@@ -135,20 +131,35 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
             endTime,
             numberOfBoxes: parseInt(numberOfBoxes),
         };
+	const session = await fetchAuthSession();
+        const accessToken = session.tokens?.accessToken.toString();
+	const headers = {
+	      headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+        }};
 
         if(!isTimeblock) {
-            updateData["goal"] = { connect: { id: goalSelected } };
+            timeboxData["goal"] = { connect: { id: goalSelected } };
         }
 
         if(reoccuring) {
-            updateData["reoccuring"] = { create: { startOfDayRange, endOfDayRange } };
+            timeboxData["reoccuring"] = { create: { startOfDayRange, endOfDayRange } };
         } 
 
-        updateTimeboxMutation.mutate(updateData);
+        updateTimeboxMutation.mutate({timeboxData, headers});
     }
 
-    function deleteTimeBox() {
-        deleteTimeboxMutation.mutate(data.objectUUID);
+    async function deleteTimeBox() {
+	const session = await fetchAuthSession();
+        const accessToken = session.tokens?.accessToken.toString();
+	const headers = {
+	      headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+        }};
+	let objectUUID = data.objectUUID
+        deleteTimeboxMutation.mutate({objectUUID, headers});
     }
 
     return (<>

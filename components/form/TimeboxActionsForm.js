@@ -41,10 +41,17 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
         dispatch(resetActiveOverlayInterval());
     }
 
-     function clearRecording() {
+     async function clearRecording() {
+	const session = await fetchAuthSession();
+        const accessToken = session.tokens?.accessToken.toString();
+	const headers = {
+	      headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+        }};
             axios.post('/api/clearRecording', {
                 objectUUID: data.objectUUID
-            })
+            }, headers)
                 .then(async () => {
                     dispatch({type: 'alert/set', payload: {
                         open: true,
@@ -74,6 +81,13 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
         dispatch(setActiveOverlayInterval());
 
 	let timeboxData;
+	const session = await fetchAuthSession();
+        const accessToken = session.tokens?.accessToken.toString();
+	const headers = {
+	      headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+        }};
 	if(!reoccurringBoxOnOriginalDate(data.startTime, date, time)) {
 	  	const differenceInMinutes = (new Date(data.endTime).getTime() - new Date(data.startTime).getTime()) / 60000;
 		const startTime = dayjs(`${date} ${time} ${dayjs().year()}`, 'D/M H:mm YYYY');
@@ -96,7 +110,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                 }
 		delete timeboxData.goalID;
 		delete timeboxData.reoccuring;
-		createTimeboxMutation.mutate(timeboxData);
+		createTimeboxMutation.mutate({timeboxData, headers});
 	}else{
 		timeboxData = data;
 	        const recordingData = {
@@ -106,7 +120,7 @@ export default function TimeboxActionsForm({ visible, data, date, time, closeMod
                   schedule: { connect: { id: scheduleID } },
                   objectUUID: crypto.randomUUID(),
         	};
-        	createRecordingMutation.mutate(recordingData);
+        	createRecordingMutation.mutate({recordingData, headers});
 	}
 
      }

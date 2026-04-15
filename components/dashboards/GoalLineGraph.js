@@ -2,6 +2,7 @@ import { Paper } from '@mui/material';
 import '../../styles/statistics.scss';
 import dayjs from 'dayjs';
 import { useGoalToGetPoints } from '@/hooks/useGoalToGetPoints';
+import { Fragment } from 'react';
 
 export function GoalLineGraph({goalData}) {
     
@@ -33,7 +34,7 @@ export function GoalLineGraph({goalData}) {
                 
                 <rect width="572" height="303" x="51" y="0" fill="#000000d9" />
                 <text x="226" y="30" className="graphGoalTitle">{goalTitle}</text>
-                <line x1="51" y1="70" x2="622" y2="70" stroke-dasharray="5,5" stroke="#FF0000" strokeWidth="5"/>
+                <line x1="51" y1="70" x2="622" y2="70" strokeDasharray="5,5" stroke="#FF0000" strokeWidth="5"/>
                 <line x1="48" y1="0" x2="48" y2="306" stroke="white" strokeWidth="5"/>
                 <line x1="50" y1="303" x2="622" y2="303" stroke="white" strokeWidth="5"/>
                 <rect width="12" height="12" x="600" y="65" className='finishedGoalRectangle'></rect>
@@ -43,14 +44,14 @@ export function GoalLineGraph({goalData}) {
                 {linesArray.map((line, index) => (
                     <line key={"line"+index} x1={line.x1} y1={line.y1} x2={line.x2} y2={line.y2} stroke="#6FA9B3" strokeWidth="2" />
                 ))}
-                {yAxisLabels.map((label, index) => (<>
-                    <text key={"text"+index} x="25" y={label.y+20} className="yAxisLabels">{label.label}</text>
-                    <rect key={"axisPoint"+index} x="48" y={label.y+10} width="8" height="5" fill="white"></rect>
-                </>))}
-                {xAxisLabels.map((label, index) => (<>
-                    <rect key={"axisPoint"+index} x={label.x+9} y="295" width="5" height="8" fill="white"></rect>
-                    <text key={"axisText"+index} x={label.x-6} y="320" className="yAxisLabels">{label.label}</text>
-                </>))}
+                {yAxisLabels.map((label, index) => (<Fragment key={index}>
+                    <text x="25" y={label.y+20} className="yAxisLabels">{label.label}</text>
+                    <rect x="48" y={label.y+10} width="8" height="5" fill="white"></rect>
+                </Fragment>))}
+                {xAxisLabels.map((label, index) => (<Fragment key={index}>
+                    <rect x={label.x+9} y="295" width="5" height="8" fill="white"></rect>
+                    <text x={label.x-6} y="320" className="yAxisLabels">{label.label}</text>
+                </Fragment>))}
                 
             </svg>
         </div>

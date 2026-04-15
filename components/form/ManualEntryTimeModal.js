@@ -24,9 +24,16 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID 
     const createRecordingMutation = createRecordingMut(data, close, dispatch)
     const createTimeboxMutation = useCreateBoxMut(data.goalID);
 
-    function submitManualEntry() {
+    async function submitManualEntry() {
        let timeboxData; //alot of redundant code here but alas dont want to fix just yet
 	let [time, date] = convertToTimeAndDate(recordedStartTime);
+	const session = await fetchAuthSession();
+        const accessToken = session.tokens?.accessToken.toString();
+	const headers = {
+	      headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+        }};
 	if(!reoccurringBoxOnOriginalDate(data.startTime, date, time)) {
 		const startTimeAsDate = new Date(data.startTime)
 	  	const differenceInMinutes = (new Date(data.endTime).getTime() - startTimeAsDate.getTime()) / 60000;
@@ -51,7 +58,7 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID 
                 }
 		delete timeboxData.goalID;
 		delete timeboxData.reoccuring;
-		createTimeboxMutation.mutate(timeboxData);
+		createTimeboxMutation.mutate({timeboxData, headers});
 	}else{
 		timeboxData = data;
 	        const recordingData = {
@@ -61,7 +68,7 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID 
                   schedule: { connect: { id: scheduleID } },
                   objectUUID: crypto.randomUUID(),
         	};
-        	createRecordingMutation.mutate(recordingData);
+        	createRecordingMutation.mutate({recordingData, headers});
 	}    }
 
     return (

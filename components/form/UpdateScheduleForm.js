@@ -18,7 +18,6 @@ import { useEffect } from "react";
 export default function UpdateScheduleForm({ schedule, open, onClose }) {
     const dispatch = useDispatch();
     const [title, setTitle] = useState(schedule.title);
-    const { user } = useAuthenticator();
     const profile = useSelector(state => state.profile.value);
 
     useEffect(() => {
@@ -26,8 +25,8 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
     }, [schedule.title]);
 
     const updateScheduleMutation = useMutation({
-        mutationFn: (scheduleData) => axios.put('/api/updateSchedule', scheduleData),
-        onMutate: async (scheduleData) => {
+        mutationFn: ({scheduleData, headers}) => axios.put('/api/updateSchedule', scheduleData, headers),
+        onMutate: async ({scheduleData, headers}) => {
             await queryClient.cancelQueries(['schedule']); 
             
             const previousSchedule = queryClient.getQueryData(['schedule']);
@@ -61,7 +60,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
     });
 
     const deleteScheduleMutation = useMutation({
-        mutationFn: (scheduleData) => axios.post('/api/deleteSchedule', scheduleData),
+        mutationFn: ({scheduleData, headers}) => axios.post('/api/deleteSchedule', scheduleData, headers),
         onMutate: async () => {
             await queryClient.cancelQueries(['schedule']); 
             
@@ -100,19 +99,27 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
     });
     
     async function updateSchedule() {
-       updateScheduleMutation.mutate({
-                title,
-                userUUID: user.userId,
-                id: schedule.id
-        });
+        const session = await fetchAuthSession();
+        const accessToken = session.tokens?.accessToken.toString();
+	const headers = {
+	      headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }};
+        let scheduleID = schedule.id;
+       updateScheduleMutation.mutate({scheduleData: {title, id: scheduleID}, headers});
     }
 
     async function deleteSchedule() {
-        
-        deleteScheduleMutation.mutate({
-                userUUID: user.userId,
-                id: schedule.id
-        });
+        const session = await fetchAuthSession();
+        const accessToken = session.tokens?.accessToken.toString();
+	const headers = {
+	      headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+        }};
+	let scheduleID = schedule.id
+        deleteScheduleMutation.mutate({scheduleData: {id: scheduleID}, headers});
             
     }
 

@@ -9,6 +9,7 @@ import Erroring from "./Erroring";
 import * as Sentry from '@sentry/nextjs';
 import Loading from "./Loading";
 import GoalTreeView from "../goaltree/GoalTreeView";
+import { fetchAuthSession } from "@aws-amplify/auth";
 
 export default function GoalTreeWhenAuthLoaded({user}) {
     const dispatch = useDispatch();

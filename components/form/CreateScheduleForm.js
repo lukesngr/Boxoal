@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
 import { queryClient } from "@/modules/queryClient";
-import { useAuthenticator } from "@aws-amplify/ui-react";
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -11,17 +10,23 @@ import Button from '@mui/material/Button';
 import styles from "@/styles/muiStyles";
 import { muiActionButton, muiInputStyle, muiNonActionButton } from "@/modules/muiStyles";
 import { useDispatch } from 'react-redux';
+import { fetchAuthSession } from "@aws-amplify/auth";
 
 export default function CreateScheduleForm({ open, onClose }) {
     const dispatch = useDispatch();
     const [title, setTitle] = useState("");
-    const { user } = useAuthenticator();
     
     async function createSchedule() {
         try {
+	    const session = await fetchAuthSession();
+            const accessToken = session.tokens?.accessToken.toString();
+	    const headers = {
+	      headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }};
             await axios.post('/api/createSchedule', {
                 title,
-                userUUID: user.userId,
                 goalStatistics: {
                     create: [
                         {
@@ -30,7 +35,7 @@ export default function CreateScheduleForm({ open, onClose }) {
                         }
                     ]
                 }
-            });
+            }, headers);
             onClose();
             dispatch({type: 'alert/set', payload: {
                 open: true,
