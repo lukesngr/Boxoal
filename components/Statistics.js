@@ -14,8 +14,9 @@ export default function Statistics({recordedTimeboxes, timeboxes}) {
         percentageCorrectTime, 
         percentageRescheduled, 
         hoursLeftThisWeek} = useMemo(() => getStatistics(recordedTimeboxes, wakeupTime, timeboxesMap), [recordedTimeboxes, wakeupTime, timeboxesMap]);
+    console.log(averageTimeOverBy, percentagePredictedStart, percentageCorrectTime, percentageRescheduled, hoursLeftThisWeek)
     return (
-        <div class="container" style={{paddingLeft: 0, paddingRight: 0}}>
+        <div className="container" style={{paddingLeft: 0, paddingRight: 0}}>
                 <div className="row">
                     <div className="col">
                     <Paper sx={{backgroundColor: '#875F9A', marginTop: 2 }} className="statPaper" elevation={4} square>
@@ -27,7 +28,7 @@ export default function Statistics({recordedTimeboxes, timeboxes}) {
                         <p className="statisticsUnit">minutes</p>
                     </Paper>
                     </div>
-                    <div class="col">
+                    <div className="col">
                     <Paper sx={{backgroundColor: '#875F9A', marginTop: 2 }} className="statPaper" elevation={4} square>
                         <p className="statisticsHeading">Completed</p>
                         <div className="statisticsBackground">
@@ -36,7 +37,7 @@ export default function Statistics({recordedTimeboxes, timeboxes}) {
                         <p className="statisticsUnit">goals</p>
                     </Paper>
                     </div>
-                    <div class="col">
+                    <div className="col">
                     <Paper sx={{backgroundColor: '#875F9A', marginTop: 2 }} className="statPaper" elevation={4} square>
                         <p className="statisticsHeading">Hours Free To Focus</p>
                         <div className="statisticsBackground">
@@ -46,8 +47,8 @@ export default function Statistics({recordedTimeboxes, timeboxes}) {
                     </Paper>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col">
+                <div className="row">
+                    <div className="col">
                         <Paper sx={{backgroundColor: '#875F9A', marginTop: 2, width: '100%' }} elevation={4} square>
                             <Stack direction="column" flexGrow={1} display="flex" justifyContent="center" alignItems="center">
                             <p className="statisticsHeading">% of Timeboxes Matching Scheduled Start</p>
@@ -75,7 +76,7 @@ export default function Statistics({recordedTimeboxes, timeboxes}) {
                                 </Stack>
                         </Paper>
                     </div>
-                    <div class="col">
+                    <div className="col">
                         <Paper sx={{backgroundColor: '#875F9A', marginTop: 2, width: '100%'}} elevation={4} square>
                             <Stack direction="column" flexGrow={1} display="flex" justifyContent="center" alignItems="center">
                                 <p className="statisticsHeading">% of Timeboxes Matching Scheduled Time</p>
@@ -103,7 +104,7 @@ export default function Statistics({recordedTimeboxes, timeboxes}) {
                             </Stack>
                         </Paper>
                     </div>
-                    <div class="col">
+                    <div className="col">
                         <Paper sx={{backgroundColor: '#875F9A', marginTop: 2, width: '100%'}} elevation={4} square>
                             <Stack direction="column" flexGrow={1} display="flex" justifyContent="center" alignItems="center">
                                 <p className="statisticsHeading">% of Timeboxes Rescheduled</p>

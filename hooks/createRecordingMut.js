@@ -7,8 +7,8 @@ export default function createRecordingMut(timeboxData, close) {
   const dispatch = useDispatch();
   const {scheduleIndex} = useSelector(state => state.profile.value);
   return useMutation({
-    mutationFn: (recordingData) => axios.post('/api/createRecordedTimebox', recordingData),
-    onMutate: async (recordingData) => {
+    mutationFn: ({recordingData, headers}) => axios.post('/api/createRecordedTimebox', recordingData, headers),
+    onMutate: async ({recordingData, headers}) => {
       await queryClient.cancelQueries(['schedule']); 
             
       const previousSchedule = queryClient.getQueryData(['schedule']);

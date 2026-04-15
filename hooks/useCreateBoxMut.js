@@ -9,8 +9,8 @@ export default function useCreateBoxMut(goalSelected) {
   const {scheduleIndex} = useSelector(state => state.profile.value);
  
   return useMutation({
-        mutationFn: (timeboxData) => axios.post('/api/createTimebox', timeboxData),
-        onMutate: async (timeboxData) => {
+        mutationFn: ({ timeboxData, headers }) => axios.post('/api/createTimebox', timeboxData, headers),
+        onMutate: async ({ timeboxData, headers }) => {
             await queryClient.cancelQueries(['schedule']); 
             
             const previousSchedule = queryClient.getQueryData(['schedule']);
@@ -19,13 +19,7 @@ export default function useCreateBoxMut(goalSelected) {
                 if (!old) return old;
                 const copyOfOld = structuredClone(old);
                 copyOfOld[scheduleIndex].timeboxes.push({...timeboxData});
-                if(!(timeboxData.isTimeblock)) {
-                    const goalIndex = copyOfOld[scheduleIndex].goals.findIndex(element => element.id == Number(goalSelected));
-                    copyOfOld[scheduleIndex].goals[goalIndex].timeboxes.push({...timeboxData})
-                }
-		if(Object.hasOwn(timeboxData, 'recordedTimeBox')) {
-		  copyOfOld[scheduleIndex].recordedTimeboxes.push({...timeboxData.recordedTimeBox, timeBox: timeboxData});
-		}
+                
 
                 return copyOfOld;
             });
