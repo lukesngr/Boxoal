@@ -1,5 +1,6 @@
 import prisma from "@/modules/prismaClient";
 import * as Sentry from "@sentry/nextjs";
+import { accessTokenVerifier } from "@/modules/cognitoVerifier";
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -21,7 +22,7 @@ export default async function handler(req, res) {
       where: {
        id: data.id,
        schedule: {
-        userId: payload.sub
+        userUUID: payload.sub
        }
      }
     });
