@@ -8,7 +8,8 @@ import { getLinesBetweenPoints, getOverallSizeOfPoint } from "@/modules/coreLogi
 export function useGoalToGetPoints(goalData) {
     const {wakeupTime} = useSelector(state => state.profile.value);
     const {pointsArray, linesArray, xAxisLabels, yAxisLabels} = useMemo(() => {
-
+    const timeboxes = useSelector(state => state.scheduleData.value.timeboxes);
+    const timeboxesForGoalID = timeboxes.getFromK1(goalData.id)
         const initialLogX = 77;
         const initialLogY = 266;
         const goalX = 600;
@@ -22,9 +23,8 @@ export function useGoalToGetPoints(goalData) {
         let xDifference = goalX - initialLogX;
         let yDifference = initialLogY - endY;
         //logic too complicated need commenting
-        
-        
-        if(goalData.metric !== null && goalData.loggingsOfMetric.length != 0) {
+              
+        if(goalData.metric != null && goalData.loggingsOfMetric.length != 0) {
             //logic works by dviding vertical and horizontal spaces by difference in relevant metrics
             //thiry minutes before as target date set to wakeup time next day
             let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, goalData.loggingsOfMetric[0].date, wakeupTime);
@@ -80,10 +80,10 @@ export function useGoalToGetPoints(goalData) {
             }
 
             return {pointsArray, linesArray, yAxisLabels, xAxisLabels};
-        }else if(goalData.timeboxes !== null & goalData.timeboxes.length != 0) {
-            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, goalData.timeboxes[0].startTime, wakeupTime);
+        }else if(timeboxesForGoalID  != null && timeboxesForGoalID.timeboxes.length != 0) {
+            let dateDifferenceBetweenFirstLogAndGoal = differenceInDates(goalData.targetDate, timeboxesForGoalID[0].startTime, wakeupTime);
             let totalTime = 0;
-            goalData.timeboxes.forEach(function (element) {
+            timeboxesForGoalID.forEach(function (element) {
                 totalTime += ((new Date(element.endTime) - new Date(element.startTime)) / 60000)
             })
 
@@ -109,8 +109,8 @@ export function useGoalToGetPoints(goalData) {
             let overallSizeOfPoint = getOverallSizeOfPoint(xPerPoint, yPerPoint);
             let sumOfTime = 0;
             
-            pointsArray = goalData.timeboxes.reduce((arrayOfPoints, timebox) => {
-                let dayDifference = differenceInDates(timebox.startTime, goalData.timeboxes[0].startTime, wakeupTime);
+            pointsArray = timeboxesForGoalID.reduce((arrayOfPoints, timebox) => {
+                let dayDifference = differenceInDates(timebox.startTime, timeboxesForGoalID.startTime, wakeupTime);
                 if(timebox.recordedTimeBox != null) {
                     sumOfTime += ((new Date(timebox.endTime) - new Date(timebox.startTime)) / 60000);
                     let x = initialLogX + (xPerPoint * dayDifference);
@@ -129,8 +129,8 @@ export function useGoalToGetPoints(goalData) {
             }
             
             for(let i = 0; i < highestDenominatorForDayDifference+1; i++) {
-                if(dayjs(goalData.timeboxes[0].startTime).add(i*xAxisIncrements, 'day').date() <= dayjs(goalData.targetDate).date()) {
-                    xAxisLabels.push({label: dayjs(goalData.timeboxes[0].startTime).add(i*xAxisIncrements, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
+                if(dayjs(timeboxesForGoalID.startTime).add(i*xAxisIncrements, 'day').date() <= dayjs(goalData.targetDate).date()) {
+                    xAxisLabels.push({label: dayjs(timeboxesForGoalID.startTime).add(i*xAxisIncrements, 'day').format('D/M'), x: initialLogX + (xPerAxisLabel * i)});
                 }
             }
 

@@ -5,11 +5,14 @@ import { useState } from 'react';
 import EditGoalForm from '../goal/EditGoalForm';
 import TimeboxAsListItem from '../timebox/TimeboxAsListItem';
 import dayjs from 'dayjs';
+import { useSelector } from 'react-redux';
 
 export default function GoalAccordion(props) {
     const [timeboxesListShown, setTimeboxesListShown] = useState(false);
     const [goalShown, setGoalShown] = useState(false);
-    
+    const timeboxes = useSelector(state => state.scheduleData.value.timeboxes);
+    const timeboxesForGoalID = timeboxes.getFromK1(props.goal.id)
+  
     
     return (props.goal.state != "active" ? <></> : (
     <>  
@@ -26,6 +29,6 @@ export default function GoalAccordion(props) {
             
             
         </div>
-        {timeboxesListShown && props.goal.timeboxes.map((timebox, index) => <TimeboxAsListItem key={index} data={timebox}></TimeboxAsListItem>)}
+        {timeboxesListShown && timeboxesForGoalID.map((timebox, index) => <TimeboxAsListItem key={index} data={timebox}></TimeboxAsListItem>)}
     </>))
 }
