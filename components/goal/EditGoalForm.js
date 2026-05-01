@@ -66,7 +66,7 @@ export default function EditGoalForm(props) {
         }
     });
 
-    function updateGoal() {
+    async function updateGoal() {
 
         const wakeupTimeSplitted = wakeupTime.split(':');
         const alteredDate = targetDate.hour(wakeupTimeSplitted[0]).minute(wakeupTimeSplitted[1]);
@@ -81,7 +81,7 @@ export default function EditGoalForm(props) {
             state: completed ? "completed" : "active",
         }
 
-        const session = fetchAuthSession();
+        const session = await fetchAuthSession();
         const accessToken = session.tokens?.accessToken.toString();
 	const headers = {
 	      headers: {
@@ -104,8 +104,8 @@ export default function EditGoalForm(props) {
         };
     }
     
-    function deleteGoal() {
-        const session = fetchAuthSession();
+    async function deleteGoal() {
+        const session = await fetchAuthSession();
         const accessToken = session.tokens?.accessToken.toString();
 	const headers = {
 	      headers: {
