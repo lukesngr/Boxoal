@@ -1,5 +1,6 @@
 import { IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useState } from 'react';
 import EditGoalForm from '../goal/EditGoalForm';
@@ -24,7 +25,7 @@ export default function GoalAccordion(props) {
                 <SettingsIcon></SettingsIcon>
             </IconButton>
             <IconButton style={{padding: '5px', color: 'white'}} onClick={() => setTimeboxesListShown(!timeboxesListShown)}>
-                <ExpandMoreIcon></ExpandMoreIcon>
+                {timeboxesListShown ? (<ExpandLessIcon></ExpandLessIcon>) : (<ExpandMoreIcon></ExpandMoreIcon>)}
             </IconButton>
             
             
