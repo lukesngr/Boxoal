@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 export default function useOverlayDimensions(gridContainerRef, headerContainerRef, timeboxColumnRef) {
     const dispatch = useDispatch();
     const expanded = useSelector(state => state.expanded.value);
+    const {boxSizeNumber, boxSizeUnit} = useSelector(state => state.profile.value);    
 
     function calculateOverlayDimensions() {
         if (gridContainerRef.current && headerContainerRef.current && timeboxColumnRef.current) { //if ref working
@@ -12,9 +13,16 @@ export default function useOverlayDimensions(gridContainerRef, headerContainerRe
             const headerHeight = headerContainerRef.current.offsetHeight; //get height of headers
 
             const headerWidth = headerContainerRef.current.offsetWidth; //get width of headers
-            const overlayHeight = gridHeight - headerHeight; //overlay is under headers but goes till end of grid
+            
             const timeboxHeight = timeboxColumnRef.current.getBoundingClientRect().height; //decimal for a bit more accuracy as this for active overlay
             const timeboxColWidth = timeboxColumnRef.current.getBoundingClientRect().width; //decimal for a bit more accuracy as this for active overlay
+            let numberOfBoxesInDay = 24;
+            if(boxSizeUnit == 'hr') {
+               numberOfBoxesInDay = 24 / boxSizeNumber;
+            } else if(boxSizeUnit == 'min') {
+               numberOfBoxesInDay = 24*60 / boxSizeNumber;
+            }
+            const overlayHeight = timeboxHeight * numberOfBoxesInDay;
             dispatch({type: 'overlayDimensions/set', payload: {headerWidth, overlayHeight, timeboxHeight, headerHeight, timeboxColWidth}});
         }
     };
