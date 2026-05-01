@@ -20,6 +20,18 @@
     margin-bottom: 0;
 }
 
+.goalsUndertext {
+    font-size: 0.9em;
+    max-width: 100%; 
+    overflow-wrap: break-word; 
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    border-top: 1px solid black;
+    padding: 5px 0px 5px 10px;
+    margin-bottom: 0;
+}
+
 .schedule {
     font-size: 17px;
     font-family: 'Roboto', sans-serif;
@@ -176,8 +188,6 @@
 }
 
 .goalAccordion {
-    background-color: rgb(22, 145, 161);
-    border-top: 1px solid rgba(0, 0, 0, 0.54);
     min-height: 34px;
     display: flex;
     flex-direction: row;
@@ -196,7 +206,7 @@
 }
 
 .goalTitle {
-    margin-left: 10px;
+    margin-left: 5px;
     max-width: calc(100% - 78px);
     overflow-wrap: break-word; 
     display: inline-block;
@@ -204,8 +214,6 @@
 }
 
 .timeboxListItem {
-    background-color: rgb(34, 35, 119);
-    border-top: 1px solid rgba(0, 0, 0, 0.54);
     min-height: 34px;
 }
 

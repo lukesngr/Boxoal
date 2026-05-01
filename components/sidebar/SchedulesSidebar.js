@@ -58,7 +58,8 @@ export default function SchedulesSidebar(props) {
                             <SettingsIcon></SettingsIcon>
                         </IconButton>
                     </div>
-
+                    
+                    <p className='goalsUndertext'>Goals</p>
                     {schedule.goals.map((goal, index) => (<GoalAccordion key={index} goal={goal}></GoalAccordion>))}
                     <Button variant="contained"  disableElevation className="openCreateGoalForm"
                         sx={{backgroundColor: 'black', color: 'white', width: '100%', borderRadius: '0px'}} 
