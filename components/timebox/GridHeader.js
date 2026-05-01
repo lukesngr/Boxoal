@@ -13,7 +13,7 @@ export default function GridHeader({headerContainerRef, dayToName}) {
                     <RecordingOverlay day={day}></RecordingOverlay>
                     <span className='timeboxHeadingText'>{day.name}<br />{" ("+day.date+"/"+day.month+")"}</span>
                     {day.date == currentDate && <ActiveOverlay></ActiveOverlay>}
-                    {day.date < currentDate && day.month <= currentMonth && <Overlay></Overlay>}
+                    {(day.date < currentDate && day.month == currentMonth) || (day.month < currentMonth) && <Overlay></Overlay>}
                 </div>
             ))}
         </div>
