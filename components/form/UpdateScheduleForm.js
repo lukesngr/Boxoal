@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { queryClient } from "@/modules/queryClient";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+
 import { useMutation } from "react-query";
 
 import Dialog from '@mui/material/Dialog';
@@ -26,7 +26,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
 
     const updateScheduleMutation = useMutation({
         mutationFn: ({scheduleData, headers}) => axios.put('/api/updateSchedule', scheduleData, headers),
-        onMutate: async ({scheduleData, headers}) => {
+        onMutate: async ({scheduleData}) => {
             await queryClient.cancelQueries(['schedule']); 
             
             const previousSchedule = queryClient.getQueryData(['schedule']);
@@ -106,7 +106,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
                 'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': 'application/json'
             }};
-        let scheduleID = schedule.id;
+        const scheduleID = schedule.id;
        updateScheduleMutation.mutate({scheduleData: {title, id: scheduleID}, headers});
     }
 
@@ -118,7 +118,7 @@ export default function UpdateScheduleForm({ schedule, open, onClose }) {
                 'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': 'application/json'
         }};
-	let scheduleID = schedule.id
+	const scheduleID = schedule.id
         deleteScheduleMutation.mutate({scheduleData: {id: scheduleID}, headers});
             
     }

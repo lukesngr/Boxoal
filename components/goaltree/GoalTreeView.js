@@ -18,7 +18,7 @@ export default function GoalTreeView(props) {
     const schedule = props.data[profile.scheduleIndex];
     const [createGoalState, setCreateGoalState] = useState({visible: false, id: profile.scheduleID, line: -1});
     const [goalTreeGoalView, setGoalTreeGoalView] = useState({open: false, goal: {}});
-    const {timeboxes, recordedTimeboxes} = useSelector(state => state.scheduleData.value);
+    useSelector(state => state.scheduleData.value);
     useScheduleSetter(schedule);
     useGoalStatistics(schedule);
     useGoalLimits(schedule.goals);
@@ -39,7 +39,6 @@ export default function GoalTreeView(props) {
         }
         return {mapOfGoalsPutInLine, activeGoalsInLine}
     }, [schedule])
-    console.log(mapOfGoalsPutInLine)
     
     return <>
         {goalTreeGoalView.open ? (<GoalTreeTimeboxes goal={goalTreeGoalView.goal} goBack={() =>setGoalTreeGoalView({open: false, goal: {}})}></GoalTreeTimeboxes>) : (<>

@@ -31,7 +31,7 @@ export default function CreateGoalForm(props) {
 
     const createGoalMutation = useMutation({
         mutationFn: ({goalData, headers}) => axios.post('/api/createGoal', goalData, headers),
-        onMutate: async ({goalData, headers}) => {
+        onMutate: async ({goalData}) => {
             await queryClient.cancelQueries(['schedule']); 
             
             const previousGoals = queryClient.getQueryData(['schedule']);

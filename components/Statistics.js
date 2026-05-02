@@ -5,7 +5,7 @@ import '../styles/statistics.scss'
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 
-export default function Statistics({recordedTimeboxes, timeboxes}) {
+export default function Statistics({recordedTimeboxes}) {
     const {wakeupTime} = useSelector((state) => state.profile.value);
     const {goalsCompleted} = useSelector((state) => state.goalStatistics.value);
     const timeboxesMap = useSelector(state => state.scheduleData.value.timeboxes)
@@ -14,7 +14,6 @@ export default function Statistics({recordedTimeboxes, timeboxes}) {
         percentageCorrectTime, 
         percentageRescheduled, 
         hoursLeftThisWeek} = useMemo(() => getStatistics(recordedTimeboxes, wakeupTime, timeboxesMap), [recordedTimeboxes, wakeupTime, timeboxesMap]);
-    console.log(averageTimeOverBy, percentagePredictedStart, percentageCorrectTime, percentageRescheduled, hoursLeftThisWeek)
     return (
         <div className="container" style={{paddingLeft: 0, paddingRight: 0}}>
                 <div className="row">

@@ -10,7 +10,7 @@ export function GoalTreeTimeboxes({goal, goBack}) {
     const [widthOfConnector, setWidthOfConnector] = useState(150);
     const smallerThanLargeBreakpoint = useMediaQuery({query: '(max-width: 1222px)'});
     const smallerThanMediumBreakpoint = useMediaQuery({query: '(max-width: 1022px)'});
-    const {timeboxes, recordedTimeboxes} = useSelector(state => state.scheduleData.value);
+    const {timeboxes} = useSelector(state => state.scheduleData.value);
 
     useEffect(() => {
         if(smallerThanLargeBreakpoint) {

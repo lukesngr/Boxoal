@@ -26,7 +26,7 @@ export default function ManualEntryTimeModal({ visible, close, data, scheduleID 
 
     async function submitManualEntry() {
        let timeboxData; //alot of redundant code here but alas dont want to fix just yet
-	let [time, date] = convertToTimeAndDate(recordedStartTime);
+	const [time, date] = convertToTimeAndDate(recordedStartTime);
 	const session = await fetchAuthSession();
         const accessToken = session.tokens?.accessToken.toString();
 	const headers = {

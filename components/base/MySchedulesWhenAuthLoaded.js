@@ -8,7 +8,6 @@ import Welcome from "./Welcome";
 import SignedInNav from "../nav/SignedInNav";
 import Erroring from "./Erroring";
 import * as Sentry from '@sentry/nextjs';
-import Loading from "../base/Loading";
 import { fetchAuthSession } from "@aws-amplify/auth";
 
 export default function MySchedulesWhenAuthLoaded({user}) {

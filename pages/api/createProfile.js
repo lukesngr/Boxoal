@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    let data = req.body;
+    const data = req.body;
     
     const authHeader = req.headers.authorization;
     const token = authHeader?.split("Bearer ")[1].trim();

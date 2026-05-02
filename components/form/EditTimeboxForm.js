@@ -47,7 +47,7 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
 
     const updateTimeboxMutation = useMutation({
         mutationFn: ({timeboxData, headers}) => axios.put('/api/updateTimeBox', timeboxData, headers),
-        onMutate: async ({timeboxData, headers}) => {
+        onMutate: async ({timeboxData}) => {
             await queryClient.cancelQueries(['schedule']); 
             
             const previousSchedule = queryClient.getQueryData(['schedule']);
@@ -81,7 +81,7 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
 
     const deleteTimeboxMutation = useMutation({
 	mutationFn: ({objectUUID, headers}) => axios.post('/api/deleteTimebox', {objectUUID: objectUUID}, headers),
-        onMutate: async ({objectUUID, headers}) => {
+        onMutate: async ({objectUUID}) => {
             await queryClient.cancelQueries(['schedule']); 
             
             const previousSchedule = queryClient.getQueryData(['schedule']);
@@ -153,7 +153,7 @@ export default function EditTimeboxForm({ data, back, numberOfBoxesSetterAndGett
                 'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': 'application/json'
         }};
-	let objectUUID = data.objectUUID
+	const objectUUID = data.objectUUID
         deleteTimeboxMutation.mutate({objectUUID, headers});
     }
 

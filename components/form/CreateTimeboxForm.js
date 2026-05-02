@@ -28,7 +28,7 @@ export default function CreateTimeboxForm({ visible, time, date, close, numberOf
     
     const activeGoals = useMemo(() => 
         goals.getFromK1(scheduleID).filter(goal => goal.state === "active"), 
-        [goals]
+        [goals, scheduleID]
     );
     const [description, setDescription] = useState(""); 
     const [goalSelected, setGoalSelected] = useState("");

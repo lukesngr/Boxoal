@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
     const payload = await accessTokenVerifier.verify(token);
      
-    let data = req.body;
+    const data = req.body;
     data.userUUID = payload.sub
     await prisma.schedule.update({
       where: {
