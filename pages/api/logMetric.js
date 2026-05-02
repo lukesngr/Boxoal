@@ -19,7 +19,7 @@ export default async function handler(req, res) {
 
     const goal = await prisma.goal.findFirst({
      where: {
-      objectUUID: data.goalUUID,
+      id: data.goal.connect.id,
       schedule: {
         userUUID: payload.sub
       }
