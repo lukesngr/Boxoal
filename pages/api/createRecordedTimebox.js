@@ -18,7 +18,7 @@ export default async function handler(req, res) {
 
     const timebox = await prisma.timeBox.findFirst({
      where: {
-      objectUUID: data.timebox.connect.objectUUID,
+      objectUUID: data.timeBox.connect.objectUUID,
       schedule: {
         userUUID: payload.sub
       }
